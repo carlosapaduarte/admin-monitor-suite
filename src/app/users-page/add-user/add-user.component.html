@@ -1,0 +1,52 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-title">
+      {{ 'USERS_PAGE.ADD.title' | translate }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{ 'USERS_PAGE.ADD.subtitle' | translate }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content fxLayout="row" fxLayoutAlign="center start">
+    <form (submit)="createUser($event)" [formGroup]="userForm" fxLayout="row" fxLayoutAlign="space-around start" novalidate>
+      <div class="add-user-block" fxLayout="column">
+        <h3>{{ 'USERS_PAGE.ADD.user_data' | translate }}</h3>
+        <mat-form-field>
+          <input matInput placeholder="{{ 'USERS_PAGE.ADD.email_label' | translate }}" formControlName="email" required>
+          <mat-error *ngIf="userForm.controls.email.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="{{ 'USERS_PAGE.ADD.password_label' | translate }}" [type]="hide ? 'password' : 'text'" formControlName="password" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? "visibility" : "visibility_off"}}</mat-icon>
+          <mat-error *ngIf="userForm.controls.password.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="{{ 'USERS_PAGE.ADD.confirm_password_label' | translate }}" [type]="hide ? 'password' : 'text'" formControlName="confirmPassword" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? "visibility" : "visibility_off"}}</mat-icon>
+          <mat-error *ngIf="userForm.controls.confirmPassword.errors?.MatchPassword && !userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'USER.SETTINGS.change_password.password_match_error' | translate"></mat-error>
+          <mat-error *ngIf="userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="add-user-block">
+        <h3>{{ 'USERS_PAGE.ADD.choose_app' | translate }}</h3>
+        <mat-radio-group formControlName="app" fxLayout="column" required>
+          <mat-radio-button value="studies">Access Studies</mat-radio-button>
+          <br>
+          <mat-radio-button value="monitor">My Monitor</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="add-user-block" [hidden]="userForm.value.app !== 'monitor'">
+        <h3>{{ 'USERS_PAGE.ADD.choose_websites' | translate }}</h3>
+        <mat-form-field>
+          <mat-select placeholder="Websites" formControlName="websites" multiple>
+            <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="add-user-block add-user-last-block" fxLayout="column" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid">{{ 'USERS_PAGE.ADD.submit' | translate }}</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

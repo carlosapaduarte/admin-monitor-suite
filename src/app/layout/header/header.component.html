@@ -1,0 +1,7 @@
+<header class="drop_content">
+  <mat-toolbar color="primary">
+    <span fxFlex>Access Monitor - {{ "HEADER.name" | translate }}</span>
+    <button mat-button *ngIf="user.isUserLoggedIn()" (click)="user.logout()">Sair</button>
+  </mat-toolbar>
+</header>
+<br>

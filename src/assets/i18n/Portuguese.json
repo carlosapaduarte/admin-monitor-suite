@@ -1,0 +1,66 @@
+{
+  "HEADER": {
+    "name": "Consola de administração"
+  },
+  "LOGIN": {
+    "title": "Iniciar sessão",
+    "password_label": "Palavra-chave",
+    "email_error": "Introduza um email válido. <strong>Ex.: nome@serviço.com</strong>",
+    "submit": "Iniciar sessão",
+    "messages": {
+      "password_match": "A palavra-chave está incorreta",
+      "no_user": "O utilizador não existe",
+      "system_error": "Erro no sistema. Por favor tente mais tarde"
+    }
+  },
+  "MENU": {
+    "home": "Início",
+    "users": "Utilizadores",
+    "tags": "Tags",
+    "entities": "Entidades",
+    "websites": "Websites",
+    "domains": "Domínios",
+    "pages": "Páginas",
+    "settings": "Definições"
+  },
+  "USERS_PAGE": {
+    "ADD": {
+      "title": "Criar um utilizador",
+      "subtitle": "Crie um utilizador para o Access Studies ou para o My Monitor",
+      "user_data": "Dados do utilizador",
+      "email_label": "E-mail",
+      "password_label": "Palavra-chave",
+      "confirm_password_label": "Confirmar palavra-chave",
+      "choose_app": "Aplicação a que se destina",
+      "choose_websites": "Associar Websites",
+      "submit": "Criar"
+    }
+  },
+  "WEBSITES_PAGE": {
+    "ADD": {
+      "title": "Criar um website",
+      "subtitle": "Crie um website e associe a um utilizador e/ou entidade"
+    }
+  },
+  "FOOTER": {
+    "language": "Língua",
+    "link": "Unidade ACESSO",
+    "rights": "Todos os Direitos Reservados."
+  },
+  "MISC": {
+    "loading": "A carregar...",
+    "required_field": "Este campo é <strong>obrigatório</strong>",
+    "message_close": "Fechar",
+    "unexpected_error": "Ocorreu um erro inesperado. Por favor tente aceder mais tarde.",
+    "error_contact": "Se o problema persistir, contacte-nos...",
+    "go_to_top": "Ir para o topo",
+    "_404": {
+      "title": "Erro 404",
+      "description": "A página que tentou aceder não existe."
+    },
+    "messages": {
+      "data_error": "Ocorreu um erro ao obter os dados",
+      "data_table_error": "Ocorreu um erro ao tentar carregar a tabela de dados"
+    }
+  }
+}

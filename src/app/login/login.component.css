@@ -1,0 +1,18 @@
+main, section, mat-card, form, .content {
+	width: 100%;
+}
+
+.small-logo {
+	margin-top: 1em;
+	width: 80%;
+}
+
+.header-card-title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.header-card-subtitle {
+  font-size: 1rem;
+  text-align: center;
+}

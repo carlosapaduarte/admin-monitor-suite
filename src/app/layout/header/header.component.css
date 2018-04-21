@@ -1,0 +1,11 @@
+.sticky_toolbar {
+	position: fixed;
+  z-index: 100;
+}
+
+
+@media screen and (max-width: 959px) {
+  .drop_content {
+    margin-bottom: 60px;
+  }
+}
