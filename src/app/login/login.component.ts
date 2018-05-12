@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormControlName, Validators } from '@angular/forms';
 import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
 
 import { UserService } from '../services/user.service';
 import { ServerService } from '../services/server.service';
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private router: Router, private user: UserService,
-    private server: ServerService, private message: MessageService) {
+    private server: ServerService, private message: MessageService,
+    private http: HttpClient) {
 
     this.hide = true;
     this.loginLoading = false;
@@ -63,11 +65,12 @@ export class LoginComponent implements OnInit {
     formData.append('type', 'nimda');
 
     // confirms data
-    this.server.post(formData)
+    this.http.post('http://localhost:3000/users/login', {email, password})
       .subscribe((data: any) => {
+        console.log(data);
         switch (data['success']) {
           case 1: // success
-            this.user.login(data['results']);
+            this.user.login(data['result']);
             this.router.navigateByUrl('/console');
             break;
           case -3: // error, password doesn't match

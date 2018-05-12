@@ -66,16 +66,14 @@ export class AddUserComponent implements OnInit {
     const app = this.userForm.value.app;
     const websites = this.userForm.value.websites;
 
-    const formData = new FormData();
-    formData.append("service", "admin-create-user");
+    const formData = {
+      email,
+      password,
+      confirmPassword,
+      app
+    };
 
-    formData.append("user-email", email);
-    formData.append("user-password", password);
-    formData.append("user-confirm-password", confirmPassword);
-    formData.append("user-app", app);
-    formData.append("user-websites", websites);
-
-    this.server.userPost(formData)
+    this.server.userPost('/users/create', formData)
       .subscribe((data: any) => {
         console.log(data);
       }, (error: any) => {

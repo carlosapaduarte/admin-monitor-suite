@@ -32,13 +32,14 @@ export class ListOfUsersComponent implements OnInit {
   constructor(private server: ServerService, private message: MessageService) {
     this.loading = true;
 
-    const formData = new FormData();
-    formData.append('service', 'admin-list-of-users');
-
-    this.server.userPost(formData)
+    this.server.userPost('/users/all', {})
       .subscribe((data) => {
         console.log(data);
-        this.dataSource = new MatTableDataSource(data['results']);
+        switch (data['success']) {
+          case 1:
+            this.dataSource = new MatTableDataSource(data['result']);
+            break;
+        }
       }, (error) => {
         this.message.show('MISC.messages.data_error');
         console.log(error);

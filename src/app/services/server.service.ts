@@ -9,11 +9,11 @@ export class ServerService {
 
   constructor(private http: HttpClient, private user: UserService) { }
 
-  private getServer(): string {
+  private getServer(service: string): string {
     const host = location.host;
 
     if (_.startsWith(host, 'localhost')) {
-      return 'http://localhost/am_server/';
+      return 'http://localhost:3000' + service;
     } else if (_.startsWith(host, 'accessible-serv.lasige.di.fc.ul.pt')) {
       return 'http://accessible-serv.lasige.di.fc.ul.pt/~jvicente/am_server/';
     }
@@ -21,17 +21,12 @@ export class ServerService {
     return '';
   }
 
-  post(formData: FormData): any {
-    return this.http.post(this.getServer(), formData);
+  post(service: string, formData: any): any {
+    return this.http.post(this.getServer(service), formData);
   }
 
-  userPost(formData: FormData): any {
-    const ssid = this.user.getUserData();
-
-    formData.append('userId', ssid['UserId']);
-    formData.append('type', ssid['Type']);
-    formData.append('hash', ssid['Unique_Hash']);
-
-    return this.post(formData);
+  userPost(service: string, formData: any): any {
+    formData.cookie = this.user.getUserData();
+    return this.post(service, formData);
   }
 }
