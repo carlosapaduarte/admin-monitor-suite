@@ -1,0 +1,73 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-title">
+      Criar uma Tag
+    </mat-card-title>
+    <mat-card-subtitle>
+      Crie uma tag e associe-a ao observatorio, a uma entidade, websites, domínio ou página
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content>
+    <form (submit)="createWebsite($event)" [formGroup]="tagForm" fxLayout="row" fxLayoutAlign="space-around start" novalidate>
+      <div class="add-tag-block" fxLayout="column">
+        <h3>Dados do Website</h3>
+        <mat-form-field>
+          <input matInput placeholder="Nome" formControlName="name" required>
+          <mat-error *ngIf="tagForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="add-observatorio-block">
+        <h3>Observatorio</h3>
+        <mat-checkbox formControlName="observatorio">
+          Show in Observatrio
+        </mat-checkbox>
+      </div>
+      <div class="add-entities-block">
+        <h3>Entidades</h3>
+        <mat-form-field>
+          <mat-select placeholder="Entities" formControlName="entities" multiple>
+            <mat-option *ngFor="let ent of entities" [value]="ent.EntityId">
+              {{ ent.Long_Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="add-websites-block">
+        <h3>Websites</h3>
+        <mat-form-field>
+          <mat-select placeholder="Websites" formControlName="websites" multiple>
+            <mat-option *ngFor="let ws of websites" [value]="ws.WebsiteId">
+              {{ ws.Long_Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="add-domains-block">
+        <h3>Domains</h3>
+        <mat-form-field>
+          <mat-select placeholder="Domains" formControlName="domains" multiple>
+            <mat-option *ngFor="let dm of domains" [value]="dm.DomainId">
+              {{ dm.Url }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="add-pages-block">
+        <h3>Pages</h3>
+        <mat-form-field>
+          <mat-select placeholder="Pages" formControlName="pages" multiple>
+            <mat-option *ngFor="let page of pages" [value]="page.PageId">
+              {{ page.Uri }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="submit-block" fxLayout="column" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="tagForm.controls.name.invalid">
+          {{ 'USERS_PAGE.ADD.submit' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

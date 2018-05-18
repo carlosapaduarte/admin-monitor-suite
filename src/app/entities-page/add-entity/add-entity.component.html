@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-title">
+      Criar uma entidade
+    </mat-card-title>
+    <mat-card-subtitle>
+      Crie uma entidade e associe vários websites
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content>
+    <form (submit)="createEntity($event)" [formGroup]="entityForm" fxLayout="row" fxLayoutAlign="space-around start" novalidate>
+      <div class="add-entity-block" fxLayout="column">
+        <h3>Dados da entidaed</h3>
+        <mat-form-field>
+          <input matInput placeholder="Nome abreviado" formControlName="shortName" required>
+          <mat-error *ngIf="entityForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Nome da entidade" formControlName="longName" required>
+          <mat-error *ngIf="entityForm.controls.longName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="add-websites-block">
+        <h3>Websites</h3>
+        <mat-form-field>
+          <mat-select placeholder="Websites" formControlName="websites" multiple>
+            <mat-option *ngFor="let ws of websites" [value]="ws.WebsiteId">
+              {{ ws.Long_Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="submit-block" fxLayout="column" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid">
+          {{ 'USERS_PAGE.ADD.submit' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

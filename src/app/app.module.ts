@@ -38,13 +38,29 @@ import { AddWebsiteComponent } from './websites-page/add-website/add-website.com
 import { ListOfWebsitesComponent } from './websites-page/list-of-websites/list-of-websites.component';
 import { NotFound404Component } from './not-found-404/not-found-404.component';
 import { ConfirmAdditionDialogComponent } from './dialogs/confirm-addition-dialog/confirm-addition-dialog.component';
+import { EntitiesPageComponent } from './entities-page/entities-page.component';
+import { AddEntityComponent } from './entities-page/add-entity/add-entity.component';
+import { ListOfEntitiesComponent } from './entities-page/list-of-entities/list-of-entities.component';
+import { DomainsPageComponent } from './domains-page/domains-page.component';
+import { AddDomainComponent } from './domains-page/add-domain/add-domain.component';
+import { ListOfDomainsComponent } from './domains-page/list-of-domains/list-of-domains.component';
+import { PagesPageComponent } from './pages-page/pages-page.component';
+import { AddPageComponent } from './pages-page/add-page/add-page.component';
+import { ListOfPagesComponent } from './pages-page/list-of-pages/list-of-pages.component';
+import { TagsPageComponent } from './tags-page/tags-page.component';
+import { AddTagComponent } from './tags-page/add-tag/add-tag.component';
+import { ListOfTagsComponent } from './tags-page/list-of-tags/list-of-tags.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
   { path: 'console', component: AdminConsoleComponent, canActivate: [AdminAuthGuard], children: [
     { path: '', component: HomePageComponent },
     { path: 'users', component: UsersPageComponent },
-    { path: 'websites', component: WebsitesPageComponent }
+    { path: 'tags', component: TagsPageComponent },
+    { path: 'entities', component: EntitiesPageComponent },
+    { path: 'websites', component: WebsitesPageComponent },
+    { path: 'domains', component: DomainsPageComponent },
+    { path: 'pages', component: PagesPageComponent }
   ]}
 ];
 
@@ -76,7 +92,19 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddWebsiteComponent,
     ListOfWebsitesComponent,
     NotFound404Component,
-    ConfirmAdditionDialogComponent
+    ConfirmAdditionDialogComponent,
+    EntitiesPageComponent,
+    AddEntityComponent,
+    ListOfEntitiesComponent,
+    DomainsPageComponent,
+    AddDomainComponent,
+    ListOfDomainsComponent,
+    PagesPageComponent,
+    AddPageComponent,
+    ListOfPagesComponent,
+    TagsPageComponent,
+    AddTagComponent,
+    ListOfTagsComponent
   ],
   imports: [
     BrowserModule,

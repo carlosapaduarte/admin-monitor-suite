@@ -1,6 +1,6 @@
 import { OnInit, Component, Injectable, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { merge } from 'rxjs/observable/merge';
+import { merge } from 'rxjs';
 import * as _ from 'lodash';
 
 @Injectable()

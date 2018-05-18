@@ -9,5 +9,54 @@
   </mat-card-header>
   <mat-divider [inset]="true"></mat-divider>
   <mat-card-content>
+    <form (submit)="createWebsite($event)" [formGroup]="websiteForm" fxLayout="row" fxLayoutAlign="space-around start" novalidate>
+      <div class="add-website-block" fxLayout="column">
+        <h3>Dados do Website</h3>
+        <mat-form-field>
+          <input matInput placeholder="Nome abreviado" formControlName="shortName" required>
+          <mat-error *ngIf="websiteForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Nome do website" formControlName="longName" required>
+          <mat-error *ngIf="websiteForm.controls.longName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Domínio do website" formControlName="domain" required>
+          <mat-error *ngIf="websiteForm.controls.domain.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="add-entity-block">
+        <h3>Entidade</h3>
+        <mat-form-field>
+          <mat-select placeholder="Entidade" formControlName="entity">
+            <mat-option [value]="null">
+              -----
+            </mat-option>
+            <mat-option *ngFor="let ent of entities" [value]="ent.EntityId">
+              {{ ent.Long_Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="add-user-block">
+        <h3>Utilizador</h3>
+        <mat-form-field>
+          <mat-select placeholder="Utilizador" formControlName="user">
+            <mat-option [value]="null">
+              -----
+            </mat-option>
+            <mat-option *ngFor="let user of monitorUsers" [value]="user.UserId">
+              {{ user.Email }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="submit-block" fxLayout="column" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="websiteForm.controls.shortName.invalid || websiteForm.controls.longName.invalid || 
+        websiteForm.controls.domain.invalid || websiteForm.controls.user.invalid">
+          {{ 'USERS_PAGE.ADD.submit' | translate }}
+        </button>
+      </div>
+    </form>
   </mat-card-content>
 </mat-card>

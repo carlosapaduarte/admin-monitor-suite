@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-title">
+      Criar um domínio
+    </mat-card-title>
+    <mat-card-subtitle>
+      Crie um domínio e associe-o a um website
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content>
+    <form (submit)="createPage($event)" [formGroup]="pageForm" fxLayout="row" fxLayoutAlign="space-around start" novalidate>
+      <div class="add-domain-block" fxLayout="column">
+        <h3>Domains</h3>
+        <mat-form-field>
+          <mat-select placeholder="Domains" formControlName="domainId" required>
+            <mat-option *ngFor="let dm of domains" [value]="dm.DomainId">
+              {{ dm.Url }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="pageForm.controls.domainId.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="add-page-block">
+        <h3>Page</h3>
+        <mat-form-field>
+          <input matInput placeholder="Novo Uri" formControlName="uri" required>
+          <mat-error *ngIf="pageForm.controls.uri.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="submit-block" fxLayout="column" fxLayoutAlign="end center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domainId.invalid || pageForm.controls.uri.invalid">
+          {{ 'USERS_PAGE.ADD.submit' | translate }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -13,8 +13,10 @@ import { MessageService } from '../../services/message.service';
 export class AddWebsiteComponent implements OnInit {
 
 	websiteForm: FormGroup;
+  monitorUsers: any;
+  entities: any;
 
-  constructor() {
+  constructor(private server: ServerService, private message: MessageService) {
   	this.websiteForm = new FormGroup({
   		shortName: new FormControl('', [
   			Validators.required
@@ -22,12 +24,68 @@ export class AddWebsiteComponent implements OnInit {
   		longName: new FormControl('', [
   			Validators.required
   		]),
+      domain: new FormControl('', [
+        Validators.required
+      ]);
   		entity: new FormControl(),
   		user: new FormControl()
   	});
   }
 
   ngOnInit() {
+    this.server.userPost('/users/monitor', {})
+      .subscribe(data => {
+        switch (data.success) {
+          case 1:
+            this.monitorUsers = data.result;
+            break;
+        }
+      }, error => {
+        this.message.show('MISC.messages.data_error');
+        console.log(error);
+      }, () => {
+
+      });
+
+    this.server.userPost('/entities/all', {})
+      .subscribe(data => {
+        switch (data.success) {
+          case 1:
+            this.entities = data.result;
+            break;
+        }
+      }, error => {
+        this.message.show('MISC.messages.data_error');
+        console.log(error);
+      }, () => {
+
+      });
   }
 
+  createWebsite(e): void {
+    e.preventDefault();
+    
+    const shortName = this.websiteForm.value.shortName;
+    const longName = this.websiteForm.value.longName;
+    const domain = this.websiteForm.value.domain;
+    const entityId = this.websiteForm.value.entity;
+    const userId = this.websiteForm.value.user;
+
+    const formData = {
+      shortName,
+      longName,
+      domain,
+      entityId,
+      userId
+    };
+
+    this.server.userPost('/websites/create', formData)
+      .subscribe((data: any) => {
+        console.log(data);
+      }, (error: any) => {
+        console.log(error);
+      }, () => {
+
+      });
+  }
 }

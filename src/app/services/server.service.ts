@@ -26,7 +26,13 @@ export class ServerService {
   }
 
   userPost(service: string, formData: any): any {
-    formData.cookie = this.user.getUserData();
+    if (formData) {
+      formData.cookie = this.user.getUserData();
+    } else {
+      formData = {
+        cookie: this.user.getUserData()
+      };
+    }
     return this.post(service, formData);
   }
 }
