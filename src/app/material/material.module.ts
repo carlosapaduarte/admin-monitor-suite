@@ -22,7 +22,12 @@ import {
   MatPaginatorModule,
   MatExpansionModule,
   MatSnackBarModule,
-  MatRadioModule
+  MatRadioModule,
+  MatTreeModule,
+  MatProgressBarModule,
+  MatChipsModule,
+  MatAutocompleteModule,
+  MatBottomSheetModule
 } from '@angular/material';
 
 @NgModule({
@@ -48,7 +53,12 @@ import {
     MatPaginatorModule,
     MatExpansionModule,
     MatSnackBarModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTreeModule,
+    MatProgressBarModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatBottomSheetModule
   ],
   exports: [
   	MatButtonModule,
@@ -71,7 +81,12 @@ import {
     MatPaginatorModule,
     MatExpansionModule,
     MatSnackBarModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTreeModule,
+    MatProgressBarModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatBottomSheetModule
   ],
   declarations: []
 })

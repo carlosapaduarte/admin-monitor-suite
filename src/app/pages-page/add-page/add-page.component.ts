@@ -14,6 +14,7 @@ export class AddPageComponent implements OnInit {
 
   pageForm: FormGroup;
   domains: any;
+  tags: any;
 
   constructor(private server: ServerService, private message: MessageService) {
     this.pageForm = new FormGroup({
@@ -22,7 +23,8 @@ export class AddPageComponent implements OnInit {
       ]),
       uri: new FormControl('', [
         Validators.required
-      ])
+      ]),
+      tags: new FormControl()
     });
   }
 
@@ -41,6 +43,21 @@ export class AddPageComponent implements OnInit {
       }, () => {
 
       });
+
+    this.server.userPost('/tags/all', {})
+      .subscribe(data => {
+        console.log(data);
+        switch (data.success) {
+          case 1:
+            this.tags = data.result;
+            break;
+        }
+      }, error => {
+        this.message.show('MISC.messages.data_error');
+        console.log(error);
+      }, () => {
+
+      });
   }
 
   createPage(e): void {
@@ -48,10 +65,12 @@ export class AddPageComponent implements OnInit {
     
     const domainId = this.pageForm.value.domainId;
     const uri = this.pageForm.value.uri;
+    const tags = this.pageForm.value.tags;
     
     const formData = {
       domainId,
-      uri
+      uri,
+      tags
     };
 
     this.server.userPost('/pages/create', formData)

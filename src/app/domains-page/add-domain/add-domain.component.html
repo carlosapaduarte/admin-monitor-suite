@@ -11,7 +11,7 @@
   <mat-card-content>
     <form (submit)="createDomain($event)" [formGroup]="domainForm" fxLayout="row" fxLayoutAlign="space-around start" novalidate>
       <div class="add-website-block" fxLayout="column">
-        <h3>Websites</h3>
+        <h3>Website</h3>
         <mat-form-field>
           <mat-select placeholder="Websites" formControlName="websiteId" required>
             <mat-option *ngFor="let ws of websites" [value]="ws.WebsiteId">
@@ -26,6 +26,16 @@
         <mat-form-field>
           <input matInput placeholder="Novo Url" formControlName="url" required>
           <mat-error *ngIf="domainForm.controls.url.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="add-tags-block">
+        <h3>Tags</h3>
+        <mat-form-field>
+          <mat-select placeholder="Tags" formControlName="tags" multiple>
+            <mat-option *ngFor="let tag of tags" [value]="tag.TagId">
+              {{ tag.Name }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="submit-block" fxLayout="column" fxLayoutAlign="end center">

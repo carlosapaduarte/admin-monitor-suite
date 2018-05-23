@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Criar um novo Utilizador</h2>
+<mat-dialog-content>
+  <form (submit)="createUser($event)" [formGroup]="userForm" fxLayout="column" fxLayoutAlign="start stretch" novalidate>
+    <div class="add-user-block" fxLayout="column">
+      <h5>{{ 'USERS_PAGE.ADD.user_data' | translate }}</h5>
+      <mat-form-field>
+        <input matInput placeholder="{{ 'USERS_PAGE.ADD.email_label' | translate }}" formControlName="email" required>
+        <mat-error *ngIf="userForm.controls.email.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="{{ 'USERS_PAGE.ADD.password_label' | translate }}" [type]="hide ? 'password' : 'text'" formControlName="password" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? "visibility" : "visibility_off"}}</mat-icon>
+        <mat-error *ngIf="userForm.controls.password.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="{{ 'USERS_PAGE.ADD.confirm_password_label' | translate }}" [type]="hide ? 'password' : 'text'" formControlName="confirmPassword" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? "visibility" : "visibility_off"}}</mat-icon>
+        <mat-error *ngIf="userForm.controls.confirmPassword.errors?.MatchPassword && !userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'USER.SETTINGS.change_password.password_match_error' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-user-block">
+      <h5>{{ 'USERS_PAGE.ADD.choose_app' | translate }}</h5>
+      <br>
+      <mat-radio-group formControlName="app" fxLayout="row" (change)="changeApp()" required>
+        <mat-radio-button value="studies">Access Studies</mat-radio-button>
+        <span fxFlex="5"></span>
+        <mat-radio-button value="monitor">My Monitor</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #websitesChipList>
+          <mat-chip
+            *ngFor="let website of selectedWebsites"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeWebsite(website)">
+            {{website.Long_Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Websites"
+            #websiteInput
+            formControlName="websites"
+            [matAutocomplete]="auto2"
+            [matChipInputFor]="websitesChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
+          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
+            {{ website.Long_Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row">
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" (click)="createUser($event)" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid">
+      {{ 'USERS_PAGE.ADD.submit' | translate }}
+    </button>
+</mat-dialog-actions>

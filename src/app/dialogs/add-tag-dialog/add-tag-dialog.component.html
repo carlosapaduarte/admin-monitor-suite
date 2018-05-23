@@ -1,0 +1,132 @@
+<h2 mat-dialog-title>Criar uma nova Tag</h2>
+<mat-dialog-content>
+  <form (submit)="createWebsite($event)" [formGroup]="tagForm" fxLayout="column" fxLayoutAlign="start stretch" novalidate>
+    <div class="add-tag-block" fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="Nome" formControlName="name" required>
+        <mat-error *ngIf="tagForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-observatorio-block">
+      <mat-checkbox formControlName="observatorio">
+        Show in Observatorio
+      </mat-checkbox>
+    </div>
+    <div class="add-entities-block" *ngIf="!loadingEntities" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #entitiesChipList>
+          <mat-chip
+            *ngFor="let entity of selectedEntities"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeEntity(entity)">
+            {{entity.Long_Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar entidades"
+            #entityInput
+            formControlName="entities"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="entitiesChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedEntity($event)">
+          <mat-option *ngFor="let entity of filteredEntities | async" [value]="entity.Long_Name">
+            {{ entity.Long_Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #websitesChipList>
+          <mat-chip
+            *ngFor="let website of selectedWebsites"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeWebsite(website)">
+            {{website.Long_Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Websites"
+            #websiteInput
+            formControlName="websites"
+            [matAutocomplete]="auto2"
+            [matChipInputFor]="websitesChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
+          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
+            {{ website.Long_Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="add-domains-block" *ngIf="!loadingDomains" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #domainsChipList>
+          <mat-chip
+            *ngFor="let domain of selectedDomains"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeDomain(domain)">
+            {{domain.Url}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Domínios"
+            #domainInput
+            formControlName="domains"
+            [matAutocomplete]="auto3"
+            [matChipInputFor]="domainsChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedDomain($event)">
+          <mat-option *ngFor="let domain of filteredDomains | async" [value]="domain.Url">
+            {{ domain.Url }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="add-pages-block" *ngIf="!loadingPages" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #pagesChipList>
+          <mat-chip
+            *ngFor="let page of selectedPages"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removePage(page)">
+            {{page.Uri}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Páginas"
+            #pageInput
+            formControlName="pages"
+            [matAutocomplete]="auto4"
+            [matChipInputFor]="pagesChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto4="matAutocomplete" (optionSelected)="selectedPage($event)">
+          <mat-option *ngFor="let page of filteredPages | async" [value]="page.Uri">
+            {{ page.Uri }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row">
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" (click)="createTag($event)">Criar</button>
+</mat-dialog-actions>

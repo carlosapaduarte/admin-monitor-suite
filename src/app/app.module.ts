@@ -50,6 +50,13 @@ import { ListOfPagesComponent } from './pages-page/list-of-pages/list-of-pages.c
 import { TagsPageComponent } from './tags-page/tags-page.component';
 import { AddTagComponent } from './tags-page/add-tag/add-tag.component';
 import { ListOfTagsComponent } from './tags-page/list-of-tags/list-of-tags.component';
+import { AddTagDialogComponent } from './dialogs/add-tag-dialog/add-tag-dialog.component';
+import { BottomSheetComponent } from './dialogs/bottom-sheet/bottom-sheet.component';
+import { AddUserDialogComponent } from './dialogs/add-user-dialog/add-user-dialog.component';
+import { AddEntityDialogComponent } from './dialogs/add-entity-dialog/add-entity-dialog.component';
+import { AddWebsiteDialogComponent } from './dialogs/add-website-dialog/add-website-dialog.component';
+import { AddDomainDialogComponent } from './dialogs/add-domain-dialog/add-domain-dialog.component';
+import { AddPageDialogComponent } from './dialogs/add-page-dialog/add-page-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -104,7 +111,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     ListOfPagesComponent,
     TagsPageComponent,
     AddTagComponent,
-    ListOfTagsComponent
+    ListOfTagsComponent,
+    AddTagDialogComponent,
+    BottomSheetComponent,
+    AddUserDialogComponent,
+    AddEntityDialogComponent,
+    AddWebsiteDialogComponent,
+    AddDomainDialogComponent,
+    AddPageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +143,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     })
   ],
   entryComponents: [
-    UserAuthErrorDialogComponent
+    UserAuthErrorDialogComponent,
+    AddUserDialogComponent,
+    AddTagDialogComponent,
+    AddEntityDialogComponent,
+    AddWebsiteDialogComponent,
+    AddDomainDialogComponent,
+    AddPageDialogComponent,
+    BottomSheetComponent
   ],
   providers: [
     AdminAuthGuard,

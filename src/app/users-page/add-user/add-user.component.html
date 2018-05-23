@@ -30,19 +30,21 @@
       </div>
       <div class="add-user-block">
         <h3>{{ 'USERS_PAGE.ADD.choose_app' | translate }}</h3>
-        <mat-radio-group formControlName="app" fxLayout="column" required>
+        <mat-radio-group formControlName="app" fxLayout="column" (change)="changeApp()" required>
           <mat-radio-button value="studies">Access Studies</mat-radio-button>
           <br>
           <mat-radio-button value="monitor">My Monitor</mat-radio-button>
         </mat-radio-group>
       </div>
-      <div class="add-user-block" [hidden]="userForm.value.app !== 'monitor'">
+      <div class="add-user-block">
         <h3>{{ 'USERS_PAGE.ADD.choose_websites' | translate }}</h3>
-        <!--<mat-form-field>
+        <mat-form-field>
           <mat-select placeholder="Websites" formControlName="websites" multiple>
-            <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+            <mat-option *ngFor="let ws of websites" [value]="ws.WebsiteId">
+              {{ ws.Long_Name }}
+            </mat-option>
           </mat-select>
-        </mat-form-field>-->
+        </mat-form-field>
       </div>
       <div class="add-user-block add-user-last-block" fxLayout="column" fxLayoutAlign="end center">
         <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid">{{ 'USERS_PAGE.ADD.submit' | translate }}</button>

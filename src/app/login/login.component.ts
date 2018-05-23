@@ -56,18 +56,11 @@ export class LoginComponent implements OnInit {
 
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-
-    const formData = new FormData();
-    formData.append('service', 'login');
-
-    formData.append('email', _.toLower(email));
-    formData.append('password', password);
-    formData.append('type', 'nimda');
+    const app = 'nimda';
 
     // confirms data
-    this.http.post('http://localhost:3000/users/login', {email, password})
+    this.http.post('http://localhost:3000/users/login', {email, password, app})
       .subscribe((data: any) => {
-        console.log(data);
         switch (data['success']) {
           case 1: // success
             this.user.login(data['result']);

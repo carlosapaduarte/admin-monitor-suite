@@ -13,8 +13,9 @@ import { MessageService } from '../../services/message.service';
 export class AddWebsiteComponent implements OnInit {
 
 	websiteForm: FormGroup;
-  monitorUsers: any;
   entities: any;
+  monitorUsers: any;
+  tags: any;
 
   constructor(private server: ServerService, private message: MessageService) {
   	this.websiteForm = new FormGroup({
@@ -28,7 +29,8 @@ export class AddWebsiteComponent implements OnInit {
         Validators.required
       ]);
   		entity: new FormControl(),
-  		user: new FormControl()
+  		user: new FormControl(),
+      tags: new FormControl()
   	});
   }
 
@@ -60,6 +62,20 @@ export class AddWebsiteComponent implements OnInit {
       }, () => {
 
       });
+
+    this.server.userPost('/tags/all', {})
+      .subscribe(data => {
+        switch (data.success) {
+          case 1:
+            this.tags = data.result;
+            break;
+        }
+      }, error => {
+        this.message.show('MISC.messages.data_error');
+        console.log(error);
+      }, () => {
+
+      });
   }
 
   createWebsite(e): void {
@@ -70,13 +86,15 @@ export class AddWebsiteComponent implements OnInit {
     const domain = this.websiteForm.value.domain;
     const entityId = this.websiteForm.value.entity;
     const userId = this.websiteForm.value.user;
+    const tags = this.websiteForm.value.tags;
 
     const formData = {
       shortName,
       longName,
       domain,
       entityId,
-      userId
+      userId,
+      tags
     };
 
     this.server.userPost('/websites/create', formData)

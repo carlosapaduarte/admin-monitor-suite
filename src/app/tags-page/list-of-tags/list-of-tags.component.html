@@ -1,3 +1,75 @@
-<p>
-  list-of-tags works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-title">
+      Tags
+    </mat-card-title>
+    <mat-card-subtitle>
+      Lista de todas as tags
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content>
+    <br>
+    <button mat-raised-button color="warn" disabled="true">Eliminar</button>
+    <div class="table-filter">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" MatSort>
+
+      <ng-container matColumnDef="TagId">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.TagId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Show_in_Observatorio">
+        <mat-header-cell *matHeaderCellDef> Observatório </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Show_in_Observatorio}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Creation_Date">
+        <mat-header-cell *matHeaderCellDef> Data de criação </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Creation_Date | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Entities">
+        <mat-header-cell *matHeaderCellDef> Entities </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Entities}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Websites">
+        <mat-header-cell *matHeaderCellDef> Websites </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Websites}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Domains">
+        <mat-header-cell *matHeaderCellDef> Domains </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Domains}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Pages">
+        <mat-header-cell *matHeaderCellDef> Pages </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Pages}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'USER.PAGES.table.headers.see_tooltip' | translate }}" (click)="showPage(element.Uri)" fxFlex>
+            <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>

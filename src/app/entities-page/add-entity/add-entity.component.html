@@ -11,7 +11,7 @@
   <mat-card-content>
     <form (submit)="createEntity($event)" [formGroup]="entityForm" fxLayout="row" fxLayoutAlign="space-around start" novalidate>
       <div class="add-entity-block" fxLayout="column">
-        <h3>Dados da entidaed</h3>
+        <h3>Dados da entidade</h3>
         <mat-form-field>
           <input matInput placeholder="Nome abreviado" formControlName="shortName" required>
           <mat-error *ngIf="entityForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
@@ -27,6 +27,16 @@
           <mat-select placeholder="Websites" formControlName="websites" multiple>
             <mat-option *ngFor="let ws of websites" [value]="ws.WebsiteId">
               {{ ws.Long_Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="add-tags-block">
+        <h3>Tags</h3>
+        <mat-form-field>
+          <mat-select placeholder="Tags" formControlName="tags" multiple>
+            <mat-option *ngFor="let tag of tags" [value]="tag.TagId">
+              {{ tag.Name }}
             </mat-option>
           </mat-select>
         </mat-form-field>

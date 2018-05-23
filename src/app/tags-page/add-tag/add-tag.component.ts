@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
+
+import { AddTagDialogComponent } from '../../dialogs/add-tag-dialog/add-tag-dialog.component';
 
 @Component({
   selector: 'app-add-tag',
@@ -18,7 +21,7 @@ export class AddTagComponent implements OnInit {
   domains: any;
   pages: any;
 
-  constructor(private server: ServerService, private message: MessageService) {
+  constructor(private dialog: MatDialog, private server: ServerService, private message: MessageService) {
     this.tagForm = new FormGroup({
       name: new FormControl('', [
         Validators.required
@@ -116,5 +119,11 @@ export class AddTagComponent implements OnInit {
       }, () => {
 
       });
+  }
+
+  openDialog(): void {
+    this.dialog.open(AddTagDialogComponent, {
+      width: '80vw'
+    });
   }
 }

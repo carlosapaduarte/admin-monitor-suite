@@ -14,6 +14,7 @@ export class AddDomainComponent implements OnInit {
 
   domainForm: FormGroup;
   websites: any;
+  tags: any;
 
   constructor(private server: ServerService, private message: MessageService) {
     this.domainForm = new FormGroup({
@@ -22,7 +23,8 @@ export class AddDomainComponent implements OnInit {
       ]),
       url: new FormControl('', [
         Validators.required
-      ])
+      ]),
+      tags: new FormControl()
     });
   }
 
@@ -41,6 +43,21 @@ export class AddDomainComponent implements OnInit {
       }, () => {
 
       });
+
+    this.server.userPost('/tags/all', {})
+      .subscribe(data => {
+        console.log(data);
+        switch (data.success) {
+          case 1:
+            this.tags = data.result;
+            break;
+        }
+      }, error => {
+        this.message.show('MISC.messages.data_error');
+        console.log(error);
+      }, () => {
+
+      });
   }
 
   createDomain(e): void {
@@ -48,10 +65,12 @@ export class AddDomainComponent implements OnInit {
     
     const websiteId = this.domainForm.value.websiteId;
     const url = this.domainForm.value.url;
+    const tags = this.domainForm.value.tags;
     
     const formData = {
       websiteId,
-      url
+      url,
+      tags
     };
 
     this.server.userPost('/domains/create', formData)

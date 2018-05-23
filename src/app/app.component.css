@@ -32,16 +32,16 @@
 .go_to_top {
   display: block;
   position: fixed;
-  bottom: 50px;
-  right: 50px;
+  bottom: 5vh;
+  right: 5vw;
   z-index: 100;
 }
 
 .go_to_top_mini {
   display: block;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 2vh;
+  right: 2vw;
   z-index: 100;
 }
 

@@ -51,6 +51,16 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="add-tags-block">
+        <h3>Tags</h3>
+        <mat-form-field>
+          <mat-select placeholder="Tags" formControlName="tags" multiple>
+            <mat-option *ngFor="let tag of tags" [value]="tag.TagId">
+              {{ tag.Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <div class="submit-block" fxLayout="column" fxLayoutAlign="end center">
         <button mat-raised-button color="primary" type="submit" [disabled]="websiteForm.controls.shortName.invalid || websiteForm.controls.longName.invalid || 
         websiteForm.controls.domain.invalid || websiteForm.controls.user.invalid">
