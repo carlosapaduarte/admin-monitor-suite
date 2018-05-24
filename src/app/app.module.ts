@@ -122,8 +122,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     NoopAnimationsModule,
+    BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
     PerfectScrollbarModule,

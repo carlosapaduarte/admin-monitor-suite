@@ -1,3 +1,78 @@
-<p>
-  add-entity-dialog works!
-</p>
+<h1 mat-dialog-title>Criar uma nova Entidade</h1>
+<form (submit)="createEntity($event)" [formGroup]="entityForm" novalidate>  
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="add-entity-block" fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="Nome abreviado" formControlName="shortName" required>
+        <mat-error *ngIf="entityForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nome da entidade" formControlName="longName" required>
+        <mat-error *ngIf="entityForm.controls.longName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #websitesChipList>
+          <mat-chip
+            *ngFor="let website of selectedWebsites"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeWebsite(website)">
+            {{website.Long_Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Websites"
+            #websiteInput
+            formControlName="websites"
+            [matAutocomplete]="auto2"
+            [matChipInputFor]="websitesChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
+          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
+            {{ website.Long_Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #tagsChipList>
+          <mat-chip
+            *ngFor="let tag of selectedTags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeTag(tag)">
+            {{tag.Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Tags"
+            #tagInput
+            formControlName="tags"
+            [matAutocomplete]="auto3"
+            [matChipInputFor]="tagsChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
+            {{ tag.Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row">
+      <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid">
+        {{ 'USERS_PAGE.ADD.submit' | translate }}
+      </button>
+  </mat-dialog-actions>
+</form>

@@ -1,3 +1,81 @@
-<p>
-  add-website-dialog works!
-</p>
+<h1 mat-dialog-title>Criar um novo Website</h1>
+<form (submit)="createWebsite($event)" [formGroup]="websiteForm" novalidate>
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="add-website-block" fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="Nome abreviado" formControlName="shortName" required>
+        <mat-error *ngIf="websiteForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nome do website" formControlName="longName" required>
+        <mat-error *ngIf="websiteForm.controls.longName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Domínio do website" formControlName="domain" required>
+        <mat-error *ngIf="websiteForm.controls.domain.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
+      <div class="add-entity-block" *ngIf="!loadingEntities">
+        <mat-form-field>
+          <mat-select placeholder="Entidade" formControlName="entity">
+            <mat-option [value]="null">
+              -----
+            </mat-option>
+            <mat-option *ngFor="let ent of entities" [value]="ent.EntityId">
+              {{ ent.Long_Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <span fxFlex="5"></span>
+      <div class="add-user-block" *ngIf="!loadingUsers">
+        <mat-form-field>
+          <mat-select placeholder="Utilizador" formControlName="user">
+            <mat-option [value]="null">
+              -----
+            </mat-option>
+            <mat-option *ngFor="let user of monitorUsers" [value]="user.UserId">
+              {{ user.Email }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #tagsChipList>
+          <mat-chip
+            *ngFor="let tag of selectedTags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeTag(tag)">
+            {{tag.Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Tags"
+            #tagInput
+            formControlName="tags"
+            [matAutocomplete]="auto3"
+            [matChipInputFor]="tagsChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
+            {{ tag.Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row">
+      <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit" [disabled]="websiteForm.controls.shortName.invalid || websiteForm.controls.longName.invalid || websiteForm.controls.domain.invalid || websiteForm.controls.user.invalid">
+        {{ 'USERS_PAGE.ADD.submit' | translate }}
+      </button>
+  </mat-dialog-actions>
+</form>

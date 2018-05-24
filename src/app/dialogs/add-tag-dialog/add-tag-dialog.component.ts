@@ -55,7 +55,7 @@ export class AddTagDialogComponent implements OnInit {
       ]),
       observatorio: new FormControl(),
       entities: new FormControl(),
-      websites: new FormControl();
+      websites: new FormControl(),
       domains: new FormControl(),
       pages: new FormControl()
     });
@@ -139,6 +139,14 @@ export class AddTagDialogComponent implements OnInit {
       }, () => {
         this.loadingPages = false;
       });
+  }
+
+  resetForm(): void {
+    this.tagForm.reset();
+    this.selectedEntities = [];
+    this.selectedWebsites = [];
+    this.selectedDomains = [];
+    this.selectedPages = []
   }
 
   createTag(e): void {

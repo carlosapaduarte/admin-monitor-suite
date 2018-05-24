@@ -106,6 +106,11 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
+  resetForm(): void {
+    this.userForm.reset();
+    this.selectedWebsites = [];
+  }
+
   createUser(e): void {
     e.preventDefault();
     

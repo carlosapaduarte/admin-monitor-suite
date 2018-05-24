@@ -1,3 +1,15 @@
-<p>
-  breadcrumbs works!
-</p>
+<nav>
+  <a routerLink="/console">Console</a>
+
+  <mat-icon *ngIf="users">arrow_forward</mat-icon>
+  <a *ngIf="users" routerLink="/console/users" routerLinkActive="active">Users</a>
+
+  <mat-icon *ngIf="tags">arrow_forward</mat-icon>
+  <a *ngIf="tags" routerLink="/console/tags" routerLinkActive="active">Tags</a>
+
+  <mat-icon *ngIf="entities">arrow_forward</mat-icon>
+  <a *ngIf="entities" routerLink="/console/entities" routerLinkActive="active">Entities</a>
+
+  <mat-icon *ngIf="websites">arrow_forward</mat-icon>
+  <a *ngIf="websites" routerLink="/console/websites" routerLinkActive="active">Websites</a>
+</nav>

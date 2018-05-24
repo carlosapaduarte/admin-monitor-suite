@@ -1,8 +1,7 @@
-<h2 mat-dialog-title>Criar um novo Utilizador</h2>
-<mat-dialog-content>
-  <form (submit)="createUser($event)" [formGroup]="userForm" fxLayout="column" fxLayoutAlign="start stretch" novalidate>
+<h1 class="mat-display-1" mat-dialog-title>Criar um novo Utilizador</h1>
+<form (submit)="createUser($event)" [formGroup]="userForm" novalidate>
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-user-block" fxLayout="column">
-      <h5>{{ 'USERS_PAGE.ADD.user_data' | translate }}</h5>
       <mat-form-field>
         <input matInput placeholder="{{ 'USERS_PAGE.ADD.email_label' | translate }}" formControlName="email" required>
         <mat-error *ngIf="userForm.controls.email.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
@@ -19,15 +18,15 @@
         <mat-error *ngIf="userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
       </mat-form-field>
     </div>
-    <div class="add-user-block">
-      <h5>{{ 'USERS_PAGE.ADD.choose_app' | translate }}</h5>
-      <br>
+    <br>
+    <div class="add-type-block">
       <mat-radio-group formControlName="app" fxLayout="row" (change)="changeApp()" required>
         <mat-radio-button value="studies">Access Studies</mat-radio-button>
         <span fxFlex="5"></span>
         <mat-radio-button value="monitor">My Monitor</mat-radio-button>
       </mat-radio-group>
     </div>
+    <br>
     <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
         <mat-chip-list #websitesChipList>
@@ -56,11 +55,12 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions fxLayout="row">
-    <span fxFlex></span>
-    <button mat-raised-button color="primary" (click)="createUser($event)" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid">
-      {{ 'USERS_PAGE.ADD.submit' | translate }}
-    </button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row">
+      <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid">
+        {{ 'USERS_PAGE.ADD.submit' | translate }}
+      </button>
+  </mat-dialog-actions>
+</form>

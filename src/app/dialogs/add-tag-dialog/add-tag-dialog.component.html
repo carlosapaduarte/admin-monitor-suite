@@ -1,9 +1,12 @@
-<h2 mat-dialog-title>Criar uma nova Tag</h2>
+<h1 class="mat-display-1" mat-dialog-title>Criar uma nova Tag</h1>
 <mat-dialog-content>
   <form (submit)="createWebsite($event)" [formGroup]="tagForm" fxLayout="column" fxLayoutAlign="start stretch" novalidate>
     <div class="add-tag-block" fxLayout="column">
       <mat-form-field>
         <input matInput placeholder="Nome" formControlName="name" required>
+        <button mat-button *ngIf="tagForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="tagForm.controls.name.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-error *ngIf="tagForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
       </mat-form-field>
     </div>
@@ -127,6 +130,7 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row">
+    <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
     <span fxFlex></span>
     <button mat-raised-button color="primary" (click)="createTag($event)">Criar</button>
 </mat-dialog-actions>

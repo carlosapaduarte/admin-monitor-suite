@@ -27,7 +27,7 @@ export class AddWebsiteComponent implements OnInit {
   		]),
       domain: new FormControl('', [
         Validators.required
-      ]);
+      ]),
   		entity: new FormControl(),
   		user: new FormControl(),
       tags: new FormControl()

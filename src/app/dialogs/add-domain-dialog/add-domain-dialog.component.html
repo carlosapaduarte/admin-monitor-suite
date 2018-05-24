@@ -1,3 +1,57 @@
-<p>
-  add-domain-dialog works!
-</p>
+<h1 mat-dialog-title>Criar um novo Domínio</h1>
+<form (submit)="createDomain($event)" [formGroup]="domainForm" novalidate>  
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="add-website-block" fxLayout="column" *ngIf="!loadingWebsites">
+      <mat-form-field>
+        <input type="text" placeholder="Website" aria-label="Website Name" matInput formControlName="website" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let ws of websites" [value]="ws.Long_Name">
+            {{ ws.Long_Name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="domainForm.controls.website.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-domain-block" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <input matInput placeholder="Novo Url" formControlName="url" required>
+        <mat-error *ngIf="domainForm.controls.url.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #tagsChipList>
+          <mat-chip
+            *ngFor="let tag of selectedTags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeTag(tag)">
+            {{tag.Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Tags"
+            #tagInput
+            formControlName="tags"
+            [matAutocomplete]="auto3"
+            [matChipInputFor]="tagsChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
+            {{ tag.Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row">
+      <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit" [disabled]="domainForm.controls.website.invalid || domainForm.controls.url.invalid">
+        {{ 'USERS_PAGE.ADD.submit' | translate }}
+      </button>
+  </mat-dialog-actions>
+</form>

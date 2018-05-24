@@ -14,7 +14,7 @@ export class ListOfUsersComponent implements OnInit {
 
   loading: boolean;
 
-  displayedColumns = ['UserId', 'Email', 'Type', 'websites', 'Register_Date', 'Last_Login', 'edit'];
+  displayedColumns = ['UserId', 'Email', 'Type', 'Websites', 'Register_Date', 'Last_Login', 'edit'];
 
   // data source of domains
   dataSource: any;
@@ -38,6 +38,8 @@ export class ListOfUsersComponent implements OnInit {
         switch (data['success']) {
           case 1:
             this.dataSource = new MatTableDataSource(data['result']);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
             break;
         }
       }, (error) => {

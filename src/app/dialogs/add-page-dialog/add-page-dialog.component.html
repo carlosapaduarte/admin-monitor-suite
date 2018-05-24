@@ -1,3 +1,56 @@
-<p>
-  add-page-dialog works!
-</p>
+<h1 mat-dialog-title>Adicionar Páginas</h1>
+<form (submit)="createPage($event)" [formGroup]="pageForm" novalidate>  
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="add-domain-block" fxLayout="column" *ngIf="!loadingDomains">
+      <mat-form-field>
+        <mat-select placeholder="Domain" formControlName="domainId" required>
+          <mat-option *ngFor="let dm of domains" [value]="dm.DomainId">
+            {{ dm.Url }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="pageForm.controls.domainId.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-page-block" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <textarea matInput placeholder="Novos Uri" formControlName="uri" required></textarea>
+        <mat-error *ngIf="pageForm.controls.uri.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <mat-chip-list #tagsChipList>
+          <mat-chip
+            *ngFor="let tag of selectedTags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeTag(tag)">
+            {{tag.Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Associar Tags"
+            #tagInput
+            formControlName="tags"
+            [matAutocomplete]="auto3"
+            [matChipInputFor]="tagsChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
+            {{ tag.Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row">
+      <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domainId.invalid || pageForm.controls.uri.invalid">
+        {{ 'USERS_PAGE.ADD.submit' | translate }}
+      </button>
+  </mat-dialog-actions>
+</form>

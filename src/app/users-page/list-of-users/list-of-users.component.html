@@ -1,51 +1,49 @@
-<mat-card>
+<mat-card class="mat-typography">
   <mat-card-header>
-    <mat-card-title class="card-title">
-      Utilizadores
+    <mat-card-title>
+      <h1>Utilizadores</h1>
     </mat-card-title>
     <mat-card-subtitle>
-      Lista de todos os utilizadores das aplicações Access Studies e My Monitor
+      <h2>Lista de todos os utilizadores das aplicações Access Studies e My Monitor</h2>
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-divider [inset]="true"></mat-divider>
+  
   <mat-card-content>
-    <br>
-    <button mat-raised-button color="warn" disabled="true">Eliminar</button>
     <div class="table-filter">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
     </div>
 
-    <mat-table #table [dataSource]="dataSource" MatSort>
+    <mat-table #table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="UserId">
-        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.UserId}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Email">
-        <mat-header-cell *matHeaderCellDef> E-mail </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Email}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Type">
-        <mat-header-cell *matHeaderCellDef> Aplicação </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Aplicação </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Type == "studies" ? "Access Studies":"My Monitor"}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="websites">
-        <mat-header-cell *matHeaderCellDef> Websites </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.websites}} </mat-cell>
+      <ng-container matColumnDef="Websites">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Websites </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Websites}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Register_Date">
-        <mat-header-cell *matHeaderCellDef> Data de registo </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Data de registo </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Register_Date | date}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Last_Login">
-        <mat-header-cell *matHeaderCellDef> Última sessão </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Última sessão </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Last_Login | date}} </mat-cell>
       </ng-container>
 
@@ -61,5 +59,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>

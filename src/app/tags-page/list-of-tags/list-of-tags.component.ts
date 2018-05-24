@@ -38,6 +38,8 @@ export class ListOfTagsComponent implements OnInit {
         switch (data['success']) {
           case 1:
             this.dataSource = new MatTableDataSource(data['result']);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
             break;
         }
       }, (error) => {
@@ -48,7 +50,7 @@ export class ListOfTagsComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   applyFilter(filterValue: string): void {

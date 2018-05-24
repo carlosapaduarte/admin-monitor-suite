@@ -28,7 +28,7 @@ export class AddTagComponent implements OnInit {
       ]),
       observatorio: new FormControl(),
       entities: new FormControl(),
-      websites: new FormControl();
+      websites: new FormControl(),
       domains: new FormControl(),
       pages: new FormControl()
     });
