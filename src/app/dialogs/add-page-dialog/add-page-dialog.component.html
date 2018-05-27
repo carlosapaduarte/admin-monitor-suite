@@ -3,18 +3,27 @@
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-domain-block" fxLayout="column" *ngIf="!loadingDomains">
       <mat-form-field>
-        <mat-select placeholder="Domain" formControlName="domainId" required>
-          <mat-option *ngFor="let dm of domains" [value]="dm.DomainId">
-            {{ dm.Url }}
+        <input type="text" placeholder="Domain" aria-label="Domain Name" matInput formControlName="domain" [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let domain of filteredDomains | async" [value]="domain.Url">
+            {{ domain.Url }}
           </mat-option>
-        </mat-select>
-        <mat-error *ngIf="pageForm.controls.domainId.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        </mat-autocomplete>
+        <button mat-button *ngIf="pageForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.domain.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="pageForm.controls.domain.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="pageForm.controls.domain.hasError('validDomain')">Domínio inválido</mat-error>
       </mat-form-field>
     </div>
     <div class="add-page-block" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
-        <textarea matInput placeholder="Novos Uri" formControlName="uri" required></textarea>
-        <mat-error *ngIf="pageForm.controls.uri.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <textarea matInput placeholder="Novos Uri" formControlName="uris" [errorStateMatcher]="matcher" required></textarea>
+        <button mat-button *ngIf="pageForm.value.uris" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.uris.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="pageForm.controls.uris.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="pageForm.controls.uris.hasError('invalidUri')">Um dos uris é invalido</mat-error>
       </mat-form-field>
     </div>
     <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
@@ -37,6 +46,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
           <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
@@ -49,7 +61,7 @@
   <mat-dialog-actions fxLayout="row">
       <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domainId.invalid || pageForm.controls.uri.invalid">
+      <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.controls.uris.invalid">
         {{ 'USERS_PAGE.ADD.submit' | translate }}
       </button>
   </mat-dialog-actions>

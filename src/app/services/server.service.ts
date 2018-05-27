@@ -21,6 +21,10 @@ export class ServerService {
     return '';
   }
 
+  get(service: string): any {
+    return this.http.get(this.getServer(service));
+  }
+
   post(service: string, formData: any): any {
     return this.http.post(this.getServer(service), formData);
   }

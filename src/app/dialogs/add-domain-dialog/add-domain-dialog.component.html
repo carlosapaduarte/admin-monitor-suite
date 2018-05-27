@@ -3,19 +3,28 @@
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-website-block" fxLayout="column" *ngIf="!loadingWebsites">
       <mat-form-field>
-        <input type="text" placeholder="Website" aria-label="Website Name" matInput formControlName="website" [matAutocomplete]="auto">
+        <input type="text" placeholder="Website" aria-label="Website Name" matInput formControlName="website" [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let ws of websites" [value]="ws.Long_Name">
+          <mat-option *ngFor="let ws of filteredWebsites | async" [value]="ws.Long_Name">
             {{ ws.Long_Name }}
           </mat-option>
         </mat-autocomplete>
+        <button mat-button *ngIf="domainForm.value.website" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.website.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-error *ngIf="domainForm.controls.website.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="domainForm.controls.website.hasError('validWebsite')">Website inválido</mat-error>
       </mat-form-field>
     </div>
     <div class="add-domain-block" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
-        <input matInput placeholder="Novo Url" formControlName="url" required>
+        <input matInput placeholder="Novo Url" formControlName="url" [errorStateMatcher]="matcher" required>
+        <button mat-button *ngIf="domainForm.value.url" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.url.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-error *ngIf="domainForm.controls.url.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="domainForm.controls.url.hasError('url')">Url inválido</mat-error>
+        <mat-error *ngIf="domainForm.controls.url.hasError('notTakenDomain')">Domínio já existe</mat-error>
       </mat-form-field>
     </div>
     <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
@@ -38,6 +47,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
           <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">

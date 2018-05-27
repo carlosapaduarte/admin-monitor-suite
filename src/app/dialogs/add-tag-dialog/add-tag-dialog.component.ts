@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -9,12 +10,22 @@ import * as _ from 'lodash';
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 @Component({
   selector: 'app-add-tag-dialog',
   templateUrl: './add-tag-dialog.component.html',
   styleUrls: ['./add-tag-dialog.component.css']
 })
 export class AddTagDialogComponent implements OnInit {
+
+  matcher: ErrorStateMatcher;
 
   loadingEntities: boolean;
   loadingWebsites: boolean;
@@ -49,10 +60,13 @@ export class AddTagDialogComponent implements OnInit {
   selectedPages: any;
 
   constructor(private server: ServerService, private message: MessageService) {
+
+    this.matcher = new MyErrorStateMatcher();
+
     this.tagForm = new FormGroup({
       name: new FormControl('', [
         Validators.required
-      ]),
+      ], this.nameValidator.bind(this)),
       observatorio: new FormControl(),
       entities: new FormControl(),
       websites: new FormControl(),
@@ -263,6 +277,32 @@ export class AddTagDialogComponent implements OnInit {
       this.selectedPages.push(this.pages[index]);
       this.pageInput.nativeElement.value = '';
       this.tagForm.controls.pages.setValue(null);
+    }
+  }
+
+  nameValidator(control: AbstractControl): Promise<any> {
+    const name = control.value;
+    
+    if (name != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/tags/existsOfficial/' + name)
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenName': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
     }
   }
 }

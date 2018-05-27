@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -8,6 +9,14 @@ import * as _ from 'lodash';
 
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 export class PasswordValidation {
 
@@ -32,6 +41,8 @@ export class AddUserDialogComponent implements OnInit {
 
   loadingWebsites: boolean;
 
+  matcher: ErrorStateMatcher;
+
   visible: boolean = true;
   selectable: boolean = false;
   removable: boolean = true;
@@ -45,20 +56,24 @@ export class AddUserDialogComponent implements OnInit {
   selectedWebsites: any;
 
   hide: boolean;
+  hide2: boolean;
   userForm: FormGroup;
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, private server: ServerService, 
+  constructor(private formBuilder: FormBuilder, public server: ServerService, 
     private message: MessageService) { 
 
     this.hide = true;
+    this.hide2 = true;
+
+    this.matcher = new MyErrorStateMatcher();
 
     this.userForm = this.formBuilder.group({
       email: new FormControl('', [
         Validators.required,
         Validators.email
-      ]),
+      ], this.emailValidator.bind(this)),
       password: new FormControl('', [
         Validators.required
       ]),
@@ -157,6 +172,32 @@ export class AddUserDialogComponent implements OnInit {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';
       this.userForm.controls.websites.setValue(null);
+    }
+  }
+
+  emailValidator(control: AbstractControl): Promise<any> {
+    const email = control.value;
+    
+    if (email != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/users/exists/' + email)
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenEmail': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -9,12 +10,22 @@ import * as _ from 'lodash';
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 @Component({
   selector: 'app-add-entity-dialog',
   templateUrl: './add-entity-dialog.component.html',
   styleUrls: ['./add-entity-dialog.component.css']
 })
 export class AddEntityDialogComponent implements OnInit {
+
+  matcher: ErrorStateMatcher;
 
   loadingWebsites: boolean;
   loadingTags: boolean;
@@ -40,13 +51,16 @@ export class AddEntityDialogComponent implements OnInit {
   @ViewChild('tagInput') tagInput: ElementRef;
 
   constructor(private server: ServerService, private message: MessageService) {
+
+    this.matcher = new MyErrorStateMatcher();
+
     this.entityForm = new FormGroup({
       shortName: new FormControl('', [
         Validators.required
-      ]),
+      ], this.shortNameValidator.bind(this)),
       longName: new FormControl('', [
         Validators.required
-      ]),
+      ], this.longNameValidator.bind(this)),
       websites: new FormControl(),
       tags: new FormControl()
     });
@@ -166,6 +180,58 @@ export class AddEntityDialogComponent implements OnInit {
       this.selectedTags.push(this.tags[index]);
       this.tagInput.nativeElement.value = '';
       this.entityForm.controls.tags.setValue(null);
+    }
+  }
+
+  shortNameValidator(control: AbstractControl): Promise<any> {
+    const name = control.value;
+    
+    if (name != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/entities/existsShortName/' + name)
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenName': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
+    }
+  }
+
+  longNameValidator(control: AbstractControl): Promise<any> {
+    const name = control.value;
+    
+    if (name != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/entities/existsLongName/' + name)
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenName': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
     }
   }
 }

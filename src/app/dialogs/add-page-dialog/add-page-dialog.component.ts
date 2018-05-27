@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -9,12 +10,51 @@ import * as _ from 'lodash';
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
+export class UriValidation {
+
+  static validUris(AC: AbstractControl) {
+    const domain = AC.get('domain').value;
+    let uris = AC.get('uris').value;
+    
+    if (_.trim(domain) === '') {
+      return null;
+    }
+
+    if (_.trim(uris) !== '') {
+      uris = _.without(_.uniq(_.split(uris, '\n')), '');
+      const size = _.size(uris);
+      let hasError = false;
+      for (let i = 0 ; i < size ; i++) {
+        if (!_.startsWith(uris[i], domain)) {
+          AC.get('uris').setErrors({ 'invalidUri' : true });
+          hasError = true;
+        }
+      }
+      if (!hasError) {
+        return null;
+      } 
+    } else { 
+      return null;
+    }
+  }
+}
+
 @Component({
   selector: 'app-add-page-dialog',
   templateUrl: './add-page-dialog.component.html',
   styleUrls: ['./add-page-dialog.component.css']
 })
 export class AddPageDialogComponent implements OnInit {
+
+  matcher: ErrorStateMatcher;
 
   loadingDomains: boolean;
   loadingTags: boolean;
@@ -26,6 +66,7 @@ export class AddPageDialogComponent implements OnInit {
 
   separatorKeysCodes = [ENTER, COMMA];
 
+  filteredDomains: Observable<string[]>;
   filteredTags: Observable<any[]>;
 
   domains: any;
@@ -36,15 +77,23 @@ export class AddPageDialogComponent implements OnInit {
 
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(private server: ServerService, private message: MessageService) {
-    this.pageForm = new FormGroup({
-      domainId: new FormControl('', [
-        Validators.required
+  constructor(private formBuilder: FormBuilder, private server: ServerService, 
+    private message: MessageService) {
+    
+    this.matcher = new MyErrorStateMatcher();
+
+    this.pageForm = this.formBuilder.group({
+      domain: new FormControl('', [
+        Validators.required,
+        this.domainValidator.bind(this)
       ]),
-      uri: new FormControl('', [
+      uris: new FormControl('', [
         Validators.required
       ]),
       tags: new FormControl()
+    },
+    {
+      validator: UriValidation.validUris
     });
 
     this.loadingDomains = true;
@@ -60,6 +109,11 @@ export class AddPageDialogComponent implements OnInit {
         switch (data.success) {
           case 1:
             this.domains = data.result;
+            this.filteredDomains = this.pageForm.controls.domain.valueChanges
+              .pipe(
+                startWith(null),
+                map(val => this.filterDomain(val))
+              );
             break;
         }
       }, error => {
@@ -96,13 +150,13 @@ export class AddPageDialogComponent implements OnInit {
   createPage(e): void {
     e.preventDefault();
     
-    const domainId = this.pageForm.value.domainId;
-    const uri = this.pageForm.value.uri;
+    const domainId = _.find(this.domains, ['url', this.pageForm.value.domain]).DomainId;
+    const uris = this.pageForm.value.uris;
     const tags = _.map(this.selectedTags, 'TagId');
     
     const formData = {
       domainId,
-      uri,
+      uris,
       tags
     };
 
@@ -136,5 +190,18 @@ export class AddPageDialogComponent implements OnInit {
       this.tagInput.nativeElement.value = '';
       this.pageForm.controls.tags.setValue(null);
     }
+  }
+
+  filterDomain(val: any): string[] {
+    return this.domains.filter(domain =>
+      _.includes(_.toLower(domain.Url), _.toLower(val)));
+  }
+
+  domainValidator(control: AbstractControl): any {
+    const val = control.value;
+    if (val !== '' && val !== null)
+      return _.includes(_.map(this.domains, 'Url'), val) ? null : { 'validDomain': true }
+    else
+      return null;
   }
 }

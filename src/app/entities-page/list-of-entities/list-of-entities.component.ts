@@ -58,5 +58,4 @@ export class ListOfEntitiesComponent implements OnInit {
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
   }
-
 }

@@ -1,13 +1,14 @@
 <h1 class="mat-display-1" mat-dialog-title>Criar uma nova Tag</h1>
-<mat-dialog-content>
-  <form (submit)="createWebsite($event)" [formGroup]="tagForm" fxLayout="column" fxLayoutAlign="start stretch" novalidate>
+<form (submit)="createWebsite($event)" [formGroup]="tagForm" novalidate>
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-tag-block" fxLayout="column">
       <mat-form-field>
-        <input matInput placeholder="Nome" formControlName="name" required>
+        <input matInput placeholder="Nome" formControlName="name" [errorStateMatcher]="matcher" required>
         <button mat-button *ngIf="tagForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="tagForm.controls.name.reset()">
           <mat-icon>close</mat-icon>
         </button>
         <mat-error *ngIf="tagForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="tagForm.controls.name.hasError('notTakenName')">Nome já existe</mat-error>
       </mat-form-field>
     </div>
     <div class="add-observatorio-block">
@@ -27,7 +28,7 @@
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
           <input
-            placeholder="Associar entidades"
+            placeholder="Associar Entidades"
             #entityInput
             formControlName="entities"
             [matAutocomplete]="auto"
@@ -35,6 +36,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedEntities.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedEntities = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedEntity($event)">
           <mat-option *ngFor="let entity of filteredEntities | async" [value]="entity.Long_Name">
@@ -63,6 +67,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
           <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
@@ -91,6 +98,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedDomains.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedDomains = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedDomain($event)">
           <mat-option *ngFor="let domain of filteredDomains | async" [value]="domain.Url">
@@ -119,6 +129,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedPages.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedPages = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto4="matAutocomplete" (optionSelected)="selectedPage($event)">
           <mat-option *ngFor="let page of filteredPages | async" [value]="page.Uri">
@@ -127,10 +140,12 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions fxLayout="row">
-    <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
-    <span fxFlex></span>
-    <button mat-raised-button color="primary" (click)="createTag($event)">Criar</button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row">
+      <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" (click)="createTag($event)" [disabled]="tagForm.controls.name.invalid">
+        Criar
+      </button>
+  </mat-dialog-actions>
+</form>

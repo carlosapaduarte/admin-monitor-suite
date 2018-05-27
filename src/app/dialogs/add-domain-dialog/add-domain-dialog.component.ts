@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -9,12 +10,22 @@ import * as _ from 'lodash';
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 @Component({
   selector: 'app-add-domain-dialog',
   templateUrl: './add-domain-dialog.component.html',
   styleUrls: ['./add-domain-dialog.component.css']
 })
 export class AddDomainDialogComponent implements OnInit {
+
+  matcher: ErrorStateMatcher;
 
   loadingWebsites: boolean;
   loadingTags: boolean;
@@ -26,6 +37,7 @@ export class AddDomainDialogComponent implements OnInit {
 
   separatorKeysCodes = [ENTER, COMMA];
 
+  filteredWebsites: Observable<string[]>;
   filteredTags: Observable<any[]>;
 
   websites: any;
@@ -37,13 +49,18 @@ export class AddDomainDialogComponent implements OnInit {
   @ViewChild('tagInput') tagInput: ElementRef;
 
   constructor(private server: ServerService, private message: MessageService) {
+
+    this.matcher = new MyErrorStateMatcher();
+
     this.domainForm = new FormGroup({
       website: new FormControl('', [
-        Validators.required
+        Validators.required,
+        this.websiteValidator.bind(this)
       ]),
       url: new FormControl('', [
-        Validators.required
-      ]),
+        Validators.required,
+        this.urlValidator.bind(this)
+      ], this.domainValidator.bind(this)),
       tags: new FormControl()
     });
 
@@ -59,6 +76,11 @@ export class AddDomainDialogComponent implements OnInit {
         switch (data.success) {
           case 1:
             this.websites = data.result;
+            this.filteredWebsites = this.domainForm.controls.website.valueChanges
+              .pipe(
+                startWith(null),
+                map(val => this.filterWebsite(val))
+              );
             break;
         }
       }, error => {
@@ -84,6 +106,11 @@ export class AddDomainDialogComponent implements OnInit {
       }, () => {
         this.loadingTags = false;
       });
+  }
+
+  resetForm(): void {
+    this.domainForm.reset();
+    this.selectedTags = [];
   }
 
   createDomain(e): void {
@@ -128,6 +155,83 @@ export class AddDomainDialogComponent implements OnInit {
       this.selectedTags.push(this.tags[index]);
       this.tagInput.nativeElement.value = '';
       this.domainForm.controls.tags.setValue(null);
+    }
+  }
+
+  filterWebsite(val: any): string[] {
+    return this.websites.filter(website =>
+      _.includes(_.toLower(website.Long_Name), _.toLower(val)));
+  }
+
+  websiteValidator(control: AbstractControl): any {
+    const val = control.value;
+    if (val !== '' && val !== null)
+      return _.includes(_.map(this.websites, 'Long_Name'), val) ? null : { 'validWebsite': true }
+    else
+      return null;
+  }
+
+  urlValidator(control: AbstractControl): any {
+    let url = control.value;
+
+    if (url === '' || url === null)
+      return null;
+
+    if (!_.startsWith(url, 'http://') && !_.startsWith(url, 'https://') && !_.startsWith(url, 'www.')) {
+      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
+        if (!_.includes(url, '/')) {
+          return null;
+        }
+      }
+    } else if (_.startsWith(url, 'http://')) {
+      url = _.replace(url, 'http://', '');
+      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
+        if (!_.includes(url, '/')) {
+          return null;
+        }
+      }
+    } else if (_.startsWith(url, 'https://')) {
+      url = _.replace(url, 'https://', '');
+      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
+        if (!_.includes(url, '/')) {
+          return null;
+        }
+      }
+    } else if (_.startsWith(url, 'www.')) {
+      url = _.replace(url, 'www.', '');
+      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
+        if (!_.includes(url, '/')) {
+          return null;
+        }
+      }
+    }
+
+    return { 'url': true };
+  }
+
+  domainValidator(control: AbstractControl): Promise<any> {
+    const domain = control.value;
+    
+    if (domain != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/domains/exists/' + encodeURIComponent(domain))
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenDomain': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
     }
   }
 }

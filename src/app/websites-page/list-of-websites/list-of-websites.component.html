@@ -1,3 +1,85 @@
-<p>
-  list-of-websites works!
-</p>
+<mat-card class="mat-typography">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Websites</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h2>Lista de todos os Websites</h2>
+    </mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div class="table-filter">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="WebsiteId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.WebsiteId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Short_Name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome Abreviado </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Short_Name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Long_Name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Long_Name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Entity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Entidade </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Entity}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="User">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Utilizador </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.User}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Current_Domain">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Domínio atual </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Current_Domain}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Domains">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Domínios </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Domains}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Pages">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Páginas </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Pages}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Tags">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Tags </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Tags}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Creation_Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Data de criação </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Creation_Date | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'USER.PAGES.table.headers.see_tooltip' | translate }}" (click)="showPage(element.Uri)" fxFlex>
+            <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

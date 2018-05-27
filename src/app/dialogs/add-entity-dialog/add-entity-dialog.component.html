@@ -3,12 +3,20 @@
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-entity-block" fxLayout="column">
       <mat-form-field>
-        <input matInput placeholder="Nome abreviado" formControlName="shortName" required>
+        <input matInput placeholder="Nome abreviado" formControlName="shortName" [errorStateMatcher]="matcher" required>
+        <button mat-button *ngIf="entityForm.value.shortName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.shortName.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-error *ngIf="entityForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="entityForm.controls.shortName.hasError('notTakenName')">Nome já existe</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Nome da entidade" formControlName="longName" required>
+        <input matInput placeholder="Nome da entidade" formControlName="longName" [errorStateMatcher]="matcher" required>
+        <button mat-button *ngIf="entityForm.value.longName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.longName.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-error *ngIf="entityForm.controls.longName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="entityForm.controls.longName.hasError('notTakenName')">Nome já existe</mat-error>
       </mat-form-field>
     </div>
     <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
@@ -31,6 +39,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
           <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
@@ -59,6 +70,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
+          <button mat-button *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-chip-list>
         <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
           <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">

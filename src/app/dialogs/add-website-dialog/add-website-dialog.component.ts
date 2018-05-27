@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -9,12 +10,22 @@ import * as _ from 'lodash';
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 @Component({
   selector: 'app-add-website-dialog',
   templateUrl: './add-website-dialog.component.html',
   styleUrls: ['./add-website-dialog.component.css']
 })
 export class AddWebsiteDialogComponent implements OnInit {
+
+  matcher: ErrorStateMatcher;
 
   loadingEntities: boolean;
   loadingUsers: boolean;
@@ -27,6 +38,8 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   separatorKeysCodes = [ENTER, COMMA];
 
+  filteredEntities: Observable<string[]>;
+  filteredUsers: Observable<string[]>;
   filteredTags: Observable<any[]>;
 
   entities: any;
@@ -39,18 +52,25 @@ export class AddWebsiteDialogComponent implements OnInit {
   @ViewChild('tagInput') tagInput: ElementRef;
 
   constructor(private server: ServerService, private message: MessageService) {
+
+    this.matcher = new MyErrorStateMatcher();
+
     this.websiteForm = new FormGroup({
       shortName: new FormControl('', [
         Validators.required
-      ]),
+      ], this.shortNameValidator.bind(this)),
       longName: new FormControl('', [
         Validators.required
-      ]),
+      ], this.longNameValidator.bind(this)),
       domain: new FormControl('', [
         Validators.required
+      ], this.domainValidator.bind(this)),
+      entity: new FormControl('', [
+        this.entityValidator.bind(this)
       ]),
-      entity: new FormControl(),
-      user: new FormControl(),
+      user: new FormControl('', [
+        this.userValidator.bind(this)
+      ]),
       tags: new FormControl()
     });
 
@@ -67,6 +87,11 @@ export class AddWebsiteDialogComponent implements OnInit {
         switch (data.success) {
           case 1:
             this.monitorUsers = data.result;
+            this.filteredUsers = this.websiteForm.controls.user.valueChanges
+              .pipe(
+                startWith(null),
+                map(val => this.filterUser(val))
+              );
             break;
         }
       }, error => {
@@ -81,6 +106,11 @@ export class AddWebsiteDialogComponent implements OnInit {
         switch (data.success) {
           case 1:
             this.entities = data.result;
+            this.filteredEntities = this.websiteForm.controls.entity.valueChanges
+              .pipe(
+                startWith(null),
+                map(val => this.filterEntity(val))
+              );
             break;
         }
       }, error => {
@@ -119,9 +149,11 @@ export class AddWebsiteDialogComponent implements OnInit {
     const shortName = this.websiteForm.value.shortName;
     const longName = this.websiteForm.value.longName;
     const domain = this.websiteForm.value.domain;
-    const entityId = this.websiteForm.value.entity;
-    const userId = this.websiteForm.value.user;
-    const tags = _.map(this.websiteForm.value.tags, 'TagId');
+    const entityId = this.websiteForm.value.entity ? 
+      _.find(this.entities, ['Long_Name', this.websiteForm.value.entity]).EntityId : null;
+    const userId = this.websiteForm.value.user ? 
+      _.find(this.monitorUsers, ['Email', this.websiteForm.value.user]).UserId : null;
+    const tags = _.map(this.selectedTags, 'TagId');
 
     const formData = {
       shortName,
@@ -152,7 +184,7 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   filterTags(name: string) {
     return this.tags.filter(tag =>
-        _.includes(tag.Name.toLowerCase(), name.toLowerCase()));
+        _.includes(_.toLower(tag.Name), _.toLower(name)));
   }
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
@@ -162,5 +194,109 @@ export class AddWebsiteDialogComponent implements OnInit {
       this.tagInput.nativeElement.value = '';
       this.websiteForm.controls.tags.setValue(null);
     }
+  }
+
+  filterEntity(val: any): string[] {
+    return this.entities.filter(entity =>
+      _.includes(_.toLower(entity.Long_Name), _.toLower(val)));
+  }
+
+  filterUser(val: any): string[] {
+    return this.monitorUsers.filter(user =>
+      _.includes(_.toLower(user.Email), _.toLower(val)));
+  }
+
+  shortNameValidator(control: AbstractControl): Promise<any> {
+    const name = control.value;
+    
+    if (name != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/websites/existsShortName/' + name)
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenName': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
+    }
+  }
+
+  longNameValidator(control: AbstractControl): Promise<any> {
+    const name = control.value;
+    
+    if (name != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/websites/existsLongName/' + name)
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenName': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
+    }
+  }
+
+  domainValidator(control: AbstractControl): Promise<any> {
+    const domain = control.value;
+    
+    if (domain != '') {
+      return new Promise<any>((resolve, reject) => {
+        this.server.get('/domains/exists/' + encodeURIComponent(domain))
+          .subscribe(data => {
+            switch (data.success) {
+              case 1:
+                resolve(data.result ? { 'notTakenDomain': true } : null);
+                break;
+              
+              default:
+                reject(null);
+                break;
+            }
+          }, error => {
+            console.log(error);
+            reject(null);
+          });
+      });
+    } else {
+      return null;
+    }
+  }
+
+  entityValidator(control: AbstractControl): any {
+    const val = control.value;
+    if (val !== '' && val !== null)
+      return _.includes(_.map(this.entities, 'Long_Name'), val) ? null : { 'validEntity': true }
+    else
+      return null;
+  }
+
+  userValidator(control: AbstractControl): any {
+    const val = control.value;
+    if (val !== '' && val !== null)
+      return _.includes(_.map(this.monitorUsers, 'Email'), val) ? null : { 'validUser': true }
+    else
+      return null;
   }
 }
