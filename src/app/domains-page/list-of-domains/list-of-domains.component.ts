@@ -15,9 +15,9 @@ export class ListOfDomainsComponent implements OnInit {
   loading: boolean;
 
   displayedColumns = [
-    'DomainId', 
-    'Website', 
-    'Url', 
+    'DomainId',
+    'Url',
+    'Website',  
     'Active', 
     'Pages',
     'Tags',

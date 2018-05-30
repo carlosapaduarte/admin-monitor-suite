@@ -16,12 +16,10 @@ export class ListOfWebsitesComponent implements OnInit {
 
   displayedColumns = [
     'WebsiteId', 
-    'Short_Name', 
-    'Long_Name',
+    'Name',
     'Entity',
     'User', 
     'Current_Domain',
-    'Domains',
     'Pages',
     'Tags', 
     'Creation_Date',  

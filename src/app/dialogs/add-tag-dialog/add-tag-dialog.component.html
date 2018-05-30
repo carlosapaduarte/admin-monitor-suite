@@ -7,6 +7,9 @@
         <button mat-button *ngIf="tagForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="tagForm.controls.name.reset()">
           <mat-icon>close</mat-icon>
         </button>
+        <mat-error *ngIf="tagForm.controls.name.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
         <mat-error *ngIf="tagForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="tagForm.controls.name.hasError('notTakenName')">Nome já existe</mat-error>
       </mat-form-field>
@@ -55,7 +58,7 @@
             [selectable]="selectable"
             [removable]="removable"
             (removed)="removeWebsite(website)">
-            {{website.Long_Name}}
+            {{website.Name}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
           <input
@@ -72,8 +75,8 @@
           </button>
         </mat-chip-list>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
-          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
-            {{ website.Long_Name }}
+          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Name">
+            {{ website.Name }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -144,8 +147,9 @@
   <mat-dialog-actions fxLayout="row">
       <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" (click)="createTag($event)" [disabled]="tagForm.controls.name.invalid">
+      <button mat-raised-button color="primary" (click)="createTag($event)" [disabled]="tagForm.controls.name.invalid" *ngIf="!loadingCreate">
         Criar
       </button>
+      <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 </form>

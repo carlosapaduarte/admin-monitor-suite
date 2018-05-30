@@ -7,6 +7,9 @@
         <button mat-button *ngIf="entityForm.value.shortName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.shortName.reset()">
           <mat-icon>close</mat-icon>
         </button>
+        <mat-error *ngIf="entityForm.controls.shortName.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
         <mat-error *ngIf="entityForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="entityForm.controls.shortName.hasError('notTakenName')">Nome já existe</mat-error>
       </mat-form-field>
@@ -15,6 +18,9 @@
         <button mat-button *ngIf="entityForm.value.longName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.longName.reset()">
           <mat-icon>close</mat-icon>
         </button>
+        <mat-error *ngIf="entityForm.controls.longName.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
         <mat-error *ngIf="entityForm.controls.longName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="entityForm.controls.longName.hasError('notTakenName')">Nome já existe</mat-error>
       </mat-form-field>
@@ -27,7 +33,7 @@
             [selectable]="selectable"
             [removable]="removable"
             (removed)="removeWebsite(website)">
-            {{website.Long_Name}}
+            {{website.Name}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
           <input
@@ -44,8 +50,8 @@
           </button>
         </mat-chip-list>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
-          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
-            {{ website.Long_Name }}
+          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Name">
+            {{ website.Name }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -85,8 +91,9 @@
   <mat-dialog-actions fxLayout="row">
       <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid">
+      <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid" *ngIf="!loadingCreate">
         {{ 'USERS_PAGE.ADD.submit' | translate }}
       </button>
+      <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 </form>

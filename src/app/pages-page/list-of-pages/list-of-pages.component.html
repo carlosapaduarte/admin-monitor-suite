@@ -1,3 +1,80 @@
-<p>
-  list-of-pages works!
-</p>
+<mat-card class="mat-typography">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Páginas</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h2>Lista de todas as Páginas</h2>
+    </mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div class="table-filter">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="PageId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.PageId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Uri">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Uri </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Uri}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Website">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Website </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Website}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Score">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Pontuação </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Score}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="A">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Erros A </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.A}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="AA">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Erros AA </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.AA}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="AAA">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Erros AAA </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.AAA}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Evaluation_Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Última avaliação </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Evaluation_Date | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Tags">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Tags </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Tags}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'USER.PAGES.table.headers.see_tooltip' | translate }}" (click)="showPage(element.Uri)" fxFlex>
+            <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

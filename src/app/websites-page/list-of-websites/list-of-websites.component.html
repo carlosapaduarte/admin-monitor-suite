@@ -22,14 +22,9 @@
         <mat-cell *matCellDef="let element"> {{element.WebsiteId}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Short_Name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome Abreviado </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Short_Name}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="Long_Name">
+      <ng-container matColumnDef="Name">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Long_Name}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Entity">
@@ -45,11 +40,6 @@
       <ng-container matColumnDef="Current_Domain">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Domínio atual </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Current_Domain}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="Domains">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Domínios </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Domains}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Pages">

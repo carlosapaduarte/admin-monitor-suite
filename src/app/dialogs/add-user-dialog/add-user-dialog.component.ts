@@ -163,11 +163,11 @@ export class AddUserDialogComponent implements OnInit {
 
   filterWebsite(name: string) {
     return this.websites.filter(website =>
-        _.includes(website.Long_Name.toLowerCase(), name.toLowerCase()));
+        _.includes(website.Name.toLowerCase(), name.toLowerCase()));
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.websites, w => { return w.Long_Name === event.option.viewValue});
+    let index = _.findIndex(this.websites, w => { return w.Name === event.option.viewValue});
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';

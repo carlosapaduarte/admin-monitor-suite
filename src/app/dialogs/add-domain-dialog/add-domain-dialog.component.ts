@@ -29,6 +29,8 @@ export class AddDomainDialogComponent implements OnInit {
 
   loadingWebsites: boolean;
   loadingTags: boolean;
+  loadingCreate: boolean;
+  showCurrentDomain: boolean;
 
   visible: boolean = true;
   selectable: boolean = false;
@@ -57,6 +59,7 @@ export class AddDomainDialogComponent implements OnInit {
         Validators.required,
         this.websiteValidator.bind(this)
       ]),
+      current_domain: new FormControl({value: '', disabled: true}),
       url: new FormControl('', [
         Validators.required,
         this.urlValidator.bind(this)
@@ -66,6 +69,8 @@ export class AddDomainDialogComponent implements OnInit {
 
     this.loadingWebsites = true;
     this.loadingTags = true;
+    this.loadingCreate = false;
+    this.showCurrentDomain = false;
 
     this.selectedTags = [];
   }
@@ -113,10 +118,29 @@ export class AddDomainDialogComponent implements OnInit {
     this.selectedTags = [];
   }
 
+  getCurrentDomain(): void {
+    const websiteId = _.find(this.websites, ['Name', this.domainForm.value.website]).WebsiteId;
+
+    this.server.get('/websites/activeDomain/' + websiteId)
+      .subscribe((data: any) => {
+        console.log(data);
+        switch (data.success) {
+          case 1:
+            this.domainForm.controls.current_domain.setValue(data.result[0].Url);
+            this.showCurrentDomain = true;
+            break;
+        }
+      }, (error: any) => {
+        console.log(error);
+      }, () => {
+
+      });
+  }
+
   createDomain(e): void {
     e.preventDefault();
     
-    const websiteId = _.find(this.websites, ['Long_Name', this.domainForm.value.website]).WebsiteId;
+    const websiteId = _.find(this.websites, ['Name', this.domainForm.value.website]).WebsiteId;
     const url = this.domainForm.value.url;
     const tags = _.map(this.selectedTags, 'TagId');
     
@@ -126,13 +150,27 @@ export class AddDomainDialogComponent implements OnInit {
       tags
     };
 
-    this.server.userPost('/domains/create', formData)
-      .subscribe((data: any) => {
-        console.log(data);
-      }, (error: any) => {
-        console.log(error);
-      }, () => {
+    this.loadingCreate = true;
 
+    this.server.userPost('/domains/create', formData)
+      .subscribe(data => {
+        switch (data.success) {
+          case 1:
+            this.domainForm.reset();
+            this.selectedTags = [];
+            this.message.show('MISC.success');
+            break;
+          
+          default:
+            this.message.show('MISC.unexpected_error');
+            break;
+        }
+      }, error => {
+        console.log(error);
+        this.loadingCreate = false;
+        this.message.show('MISC.unexpected_error');
+      }, () => {
+        this.loadingCreate = false;
       });
   }
 
@@ -160,13 +198,13 @@ export class AddDomainDialogComponent implements OnInit {
 
   filterWebsite(val: any): string[] {
     return this.websites.filter(website =>
-      _.includes(_.toLower(website.Long_Name), _.toLower(val)));
+      _.includes(_.toLower(website.Name), _.toLower(val)));
   }
 
   websiteValidator(control: AbstractControl): any {
     const val = control.value;
     if (val !== '' && val !== null)
-      return _.includes(_.map(this.websites, 'Long_Name'), val) ? null : { 'validWebsite': true }
+      return _.includes(_.map(this.websites, 'Name'), val) ? null : { 'validWebsite': true }
     else
       return null;
   }

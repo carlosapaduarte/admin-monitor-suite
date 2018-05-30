@@ -51,6 +51,7 @@
     "loading": "A carregar...",
     "required_field": "Este campo é <strong>obrigatório</strong>",
     "message_close": "Fechar",
+    "success": "Sucesso",
     "unexpected_error": "Ocorreu um erro inesperado. Por favor tente aceder mais tarde.",
     "error_contact": "Se o problema persistir, contacte-nos...",
     "go_to_top": "Ir para o topo",

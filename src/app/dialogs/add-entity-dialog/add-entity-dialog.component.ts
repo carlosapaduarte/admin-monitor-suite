@@ -29,6 +29,7 @@ export class AddEntityDialogComponent implements OnInit {
 
   loadingWebsites: boolean;
   loadingTags: boolean;
+  loadingCreate: boolean;
 
   visible: boolean = true;
   selectable: boolean = false;
@@ -67,6 +68,7 @@ export class AddEntityDialogComponent implements OnInit {
 
     this.loadingWebsites = true;
     this.loadingTags = true;
+    this.loadingCreate = false;
 
     this.selectedWebsites = [];
     this.selectedTags = [];
@@ -129,13 +131,28 @@ export class AddEntityDialogComponent implements OnInit {
       tags
     };
 
+    this.loadingCreate = true;
+
     this.server.userPost('/entities/create', formData)
-      .subscribe((data: any) => {
-        console.log(data);
-      }, (error: any) => {
+      .subscribe(data => {
+         switch (data.success) {
+           case 1:
+             this.entityForm.reset();
+             this.selectedTags = [];
+             this.selectedWebsites = [];
+             this.message.show('MISC.success');
+             break;
+           
+           default:
+             this.message.show('MISC.unexpected_error');
+             break;
+         }
+      }, error => {
+        this.loadingCreate = false;
+        this.message.show('MISC.unexpected_error');
         console.log(error);
       }, () => {
-
+        this.loadingCreate = false;
       });
   }
 
@@ -149,11 +166,11 @@ export class AddEntityDialogComponent implements OnInit {
 
   filterWebsite(name: string) {
     return this.websites.filter(website =>
-        _.includes(website.Long_Name.toLowerCase(), name.toLowerCase()));
+        _.includes(website.Name.toLowerCase(), name.toLowerCase()));
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.websites, w => { return w.Long_Name === event.option.viewValue});
+    let index = _.findIndex(this.websites, w => { return w.Name === event.option.viewValue});
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';

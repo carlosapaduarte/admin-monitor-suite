@@ -32,6 +32,7 @@
     "loading": "Loading...",
     "required_field": "This field is <strong>required</strong>",
     "message_close": "Close",
+    "success": "Success",
     "unexpected_error": "An unexpected error has ocurred. Please try again later.",
     "error_contact": "If te problem persists, please contact us...",
     "go_to_top": "Go to top",

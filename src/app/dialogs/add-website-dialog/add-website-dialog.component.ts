@@ -30,6 +30,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   loadingEntities: boolean;
   loadingUsers: boolean;
   loadingTags: boolean;
+  loadingCreate: boolean;
 
   visible: boolean = true;
   selectable: boolean = false;
@@ -56,12 +57,9 @@ export class AddWebsiteDialogComponent implements OnInit {
     this.matcher = new MyErrorStateMatcher();
 
     this.websiteForm = new FormGroup({
-      shortName: new FormControl('', [
+      name: new FormControl('', [
         Validators.required
-      ], this.shortNameValidator.bind(this)),
-      longName: new FormControl('', [
-        Validators.required
-      ], this.longNameValidator.bind(this)),
+      ], this.nameValidator.bind(this)),
       domain: new FormControl('', [
         Validators.required
       ], this.domainValidator.bind(this)),
@@ -77,6 +75,7 @@ export class AddWebsiteDialogComponent implements OnInit {
     this.loadingEntities = true;
     this.loadingUsers = true;
     this.loadingTags = true;
+    this.loadingCreate = false;
 
     this.selectedTags = [];
   }
@@ -146,8 +145,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   createWebsite(e): void {
     e.preventDefault();
     
-    const shortName = this.websiteForm.value.shortName;
-    const longName = this.websiteForm.value.longName;
+    const name = this.websiteForm.value.name;
     const domain = this.websiteForm.value.domain;
     const entityId = this.websiteForm.value.entity ? 
       _.find(this.entities, ['Long_Name', this.websiteForm.value.entity]).EntityId : null;
@@ -156,21 +154,34 @@ export class AddWebsiteDialogComponent implements OnInit {
     const tags = _.map(this.selectedTags, 'TagId');
 
     const formData = {
-      shortName,
-      longName,
+      name,
       domain,
       entityId,
       userId,
       tags
     };
 
+    this.loadingCreate = true;
+
     this.server.userPost('/websites/create', formData)
       .subscribe((data: any) => {
-        console.log(data);
+        switch (data.success) {
+          case 1:
+            this.websiteForm.reset();
+            this.selectedTags = [];
+            this.message.show('MISC.success');
+            break;
+          
+          default:
+            this.message.show('MISC.unexpected_error');
+            break;
+        }
       }, (error: any) => {
         console.log(error);
+        this.loadingCreate = false;
+        this.message.show('MISC.unexpected_error');
       }, () => {
-
+        this.loadingCreate = false;
       });
   }
 
@@ -206,38 +217,12 @@ export class AddWebsiteDialogComponent implements OnInit {
       _.includes(_.toLower(user.Email), _.toLower(val)));
   }
 
-  shortNameValidator(control: AbstractControl): Promise<any> {
+  nameValidator(control: AbstractControl): Promise<any> {
     const name = control.value;
     
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/websites/existsShortName/' + name)
-          .subscribe(data => {
-            switch (data.success) {
-              case 1:
-                resolve(data.result ? { 'notTakenName': true } : null);
-                break;
-              
-              default:
-                reject(null);
-                break;
-            }
-          }, error => {
-            console.log(error);
-            reject(null);
-          });
-      });
-    } else {
-      return null;
-    }
-  }
-
-  longNameValidator(control: AbstractControl): Promise<any> {
-    const name = control.value;
-    
-    if (name != '') {
-      return new Promise<any>((resolve, reject) => {
-        this.server.get('/websites/existsLongName/' + name)
+        this.server.get('/websites/existsName/' + name)
           .subscribe(data => {
             switch (data.success) {
               case 1:

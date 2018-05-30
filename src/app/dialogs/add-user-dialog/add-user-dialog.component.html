@@ -7,6 +7,9 @@
         <button mat-button *ngIf="userForm.value.email" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls.email.reset()">
           <mat-icon>close</mat-icon>
         </button>
+        <mat-error *ngIf="userForm.controls.email.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
         <mat-error *ngIf="userForm.controls.email.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="userForm.controls.email.hasError('email')">Insira um e-mail valido</mat-error>
         <mat-error *ngIf="userForm.controls.email.hasError('notTakenEmail')">Email já existe</mat-error>
@@ -40,7 +43,7 @@
             [selectable]="selectable"
             [removable]="removable"
             (removed)="removeWebsite(website)">
-            {{website.Long_Name}}
+            {{website.Name}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
           <input
@@ -57,8 +60,8 @@
           </button>
         </mat-chip-list>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
-          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Long_Name">
-            {{ website.Long_Name }}
+          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Name">
+            {{ website.Name }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

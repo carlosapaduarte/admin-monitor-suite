@@ -1,10 +1,10 @@
 <mat-card class="mat-typography">
   <mat-card-header>
     <mat-card-title>
-      <h1>Endidades</h1>
+      <h1>Domínios</h1>
     </mat-card-title>
     <mat-card-subtitle>
-      <h2>Lista de todas as Entidades</h2>
+      <h2>Lista de todos os Domínios</h2>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -21,14 +21,14 @@
         <mat-cell *matCellDef="let element"> {{element.DomainId}} </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="Url">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Domínio </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Url}} </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="Website">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Website </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Website}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="Url">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Url </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Url}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Active">

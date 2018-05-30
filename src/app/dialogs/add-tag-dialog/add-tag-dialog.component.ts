@@ -31,6 +31,7 @@ export class AddTagDialogComponent implements OnInit {
   loadingWebsites: boolean;
   loadingDomains: boolean;
   loadingPages: boolean;
+  loadinfCreate: boolean;
 
   visible: boolean = true;
   selectable: boolean = false;
@@ -83,6 +84,7 @@ export class AddTagDialogComponent implements OnInit {
     this.loadingWebsites = true;
     this.loadingDomains = true;
     this.loadingPages = true;
+    this.loadinfCreate = false;
   }
 
   ngOnInit() {
@@ -182,13 +184,30 @@ export class AddTagDialogComponent implements OnInit {
       pages
     };
 
-    this.server.userPost('/tags/create', formData)
-      .subscribe((data: any) => {
-        console.log(data);
-      }, (error: any) => {
-        console.log(error);
-      }, () => {
+    this.loadinfCreate = true;
 
+    this.server.userPost('/tags/create', formData)
+      .subscribe(data => {
+        switch (data.success) {
+          case 1:
+            this.tagForm.reset();
+            this.selectedEntities = [];
+            this.selectedWebsites = [];
+            this.selectedDomains = [];
+            this.selectedPages = [];
+            this.message.show('MISC.success');
+            break;
+          
+          default:
+            this.message.show('MISC.unexpected_error');
+            break;
+        }
+      }, error => {
+        console.log(error);
+        this.loadinfCreate = false;
+        this.message.show('MISC.unexpected_error');
+      }, () => {
+        this.loadinfCreate = false;
       });
   }
 
@@ -224,11 +243,11 @@ export class AddTagDialogComponent implements OnInit {
 
   filterWebsite(name: string) {
     return this.websites.filter(website =>
-        _.includes(website.Long_Name.toLowerCase(), name.toLowerCase()));
+        _.includes(website.Name.toLowerCase(), name.toLowerCase()));
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.websites, w => { return w.Long_Name === event.option.viewValue});
+    let index = _.findIndex(this.websites, w => { return w.Name === event.option.viewValue});
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';

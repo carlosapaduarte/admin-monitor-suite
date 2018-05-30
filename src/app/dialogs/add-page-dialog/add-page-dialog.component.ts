@@ -58,6 +58,7 @@ export class AddPageDialogComponent implements OnInit {
 
   loadingDomains: boolean;
   loadingTags: boolean;
+  loadingCreate: boolean;
 
   visible: boolean = true;
   selectable: boolean = false;
@@ -98,6 +99,7 @@ export class AddPageDialogComponent implements OnInit {
 
     this.loadingDomains = true;
     this.loadingTags = true;
+    this.loadingCreate = false;
 
     this.selectedTags = [];
   }
@@ -150,7 +152,7 @@ export class AddPageDialogComponent implements OnInit {
   createPage(e): void {
     e.preventDefault();
     
-    const domainId = _.find(this.domains, ['url', this.pageForm.value.domain]).DomainId;
+    const domainId = _.find(this.domains, ['Url', this.pageForm.value.domain]).DomainId;
     const uris = this.pageForm.value.uris;
     const tags = _.map(this.selectedTags, 'TagId');
     
@@ -160,13 +162,27 @@ export class AddPageDialogComponent implements OnInit {
       tags
     };
 
+    this.loadingCreate = true;
+
     this.server.userPost('/pages/create', formData)
-      .subscribe((data: any) => {
-        console.log(data);
+      .subscribe(data => {
+        switch (data.success) {
+          case 1:
+            this.pageForm.reset();
+            this.selectedTags = [];
+            this.message.show('MISC.success');
+            break;
+          
+          default:
+            this.message.show('MISC.unexpected_error');
+            break;
+        }
       }, (error: any) => {
         console.log(error);
+        this.loadingCreate = false;
+        this.message.show('MISC.unexpected_error');
       }, () => {
-
+        this.loadingCreate = false;
       });
   }
 
