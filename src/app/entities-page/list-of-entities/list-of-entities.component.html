@@ -49,7 +49,7 @@
       <ng-container matColumnDef="edit">
         <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'USER.PAGES.table.headers.see_tooltip' | translate }}" (click)="showPage(element.Uri)" fxFlex>
+          <button mat-icon-button matTooltip="Edit entity" (click)="edit(element.EntityId)">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
           </button>
         </mat-cell>

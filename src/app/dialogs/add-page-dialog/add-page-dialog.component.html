@@ -64,7 +64,7 @@
   <mat-dialog-actions fxLayout="row">
       <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.controls.uris.invalid" *ngIf="loadingCreate">
+      <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.controls.uris.invalid" *ngIf="!loadingCreate">
         {{ 'USERS_PAGE.ADD.submit' | translate }}
       </button>
       <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>

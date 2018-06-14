@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
+
+import { EditEntityDialogComponent } from '../../dialogs/edit-entity-dialog/edit-entity-dialog.component';
 
 @Component({
   selector: 'app-list-of-entities',
@@ -29,7 +32,9 @@ export class ListOfEntitiesComponent implements OnInit {
   // table paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private server: ServerService, private message: MessageService) {
+  constructor(private dialog: MatDialog, private server: ServerService, 
+    private message: MessageService) {
+    
     this.loading = true;
 
     this.server.userPost('/entities/allInfo', {})
@@ -57,5 +62,14 @@ export class ListOfEntitiesComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  edit(id: number): void {
+    this.dialog.open(EditEntityDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true,
+      data: { id }
+    });
   }
 }

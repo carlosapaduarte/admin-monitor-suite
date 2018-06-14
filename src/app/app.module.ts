@@ -57,6 +57,7 @@ import { AddEntityDialogComponent } from './dialogs/add-entity-dialog/add-entity
 import { AddWebsiteDialogComponent } from './dialogs/add-website-dialog/add-website-dialog.component';
 import { AddDomainDialogComponent } from './dialogs/add-domain-dialog/add-domain-dialog.component';
 import { AddPageDialogComponent } from './dialogs/add-page-dialog/add-page-dialog.component';
+import { EditEntityDialogComponent } from './dialogs/edit-entity-dialog/edit-entity-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -118,7 +119,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddEntityDialogComponent,
     AddWebsiteDialogComponent,
     AddDomainDialogComponent,
-    AddPageDialogComponent
+    AddPageDialogComponent,
+    EditEntityDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -150,6 +152,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddWebsiteDialogComponent,
     AddDomainDialogComponent,
     AddPageDialogComponent,
+    EditEntityDialogComponent,
     BottomSheetComponent
   ],
   providers: [
