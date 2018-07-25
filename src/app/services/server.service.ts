@@ -15,7 +15,7 @@ export class ServerService {
     if (_.startsWith(host, 'localhost')) {
       return 'http://localhost:3000' + service;
     } else if (_.startsWith(host, 'accessible-serv.lasige.di.fc.ul.pt')) {
-      return 'http://accessible-serv.lasige.di.fc.ul.pt/~jvicente/am_server/';
+      return 'http://accessible-serv.lasige.di.fc.ul.pt:3001' + service;
     }
 
     return '';

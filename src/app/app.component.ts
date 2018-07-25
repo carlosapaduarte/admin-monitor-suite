@@ -19,9 +19,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     'en': 'English'
   };
 
+  langCodes: any = {
+    'English': 'en',
+    'Portuguese': 'pt'
+  };
+
   showGoToTop: boolean;
 
-  constructor(public translate: TranslateService) {
+  constructor(
+    public el: ElementRef,
+    public translate: TranslateService
+  ) {
 
     this.translate.addLangs(_.values(this.langs));
     this.translate.setDefaultLang('Portuguese');
@@ -43,7 +51,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showGoToTop = false;
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.translate.onLangChange.subscribe(() => {
+      this.updateLanguage();
+    });
+  }
 
   ngAfterViewInit(): void {
     merge(this.scrollRef.directiveRef.PS_SCROLL_DOWN, this.scrollRef.directiveRef.PS_SCROLL_UP)
@@ -58,9 +70,19 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
 
+  /**
+   * Update the language in the lang attribute of the html element.
+   */
+  updateLanguage(): void {
+    const lang = document.createAttribute('lang');
+    lang.value = this.langCodes[this.translate.currentLang];
+    this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
+  }
+
   changeLanguage(): void {
     this.translate.use(this.selectedLang);
     localStorage.setItem('language', this.selectedLang);
+    this.updateLanguage();
   }
 
   goToTop(): void {

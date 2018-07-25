@@ -6,8 +6,11 @@ import { MatSnackBar } from '@angular/material';
 @Injectable()
 export class MessageService {
 
-  constructor(private translate: TranslateService, private snackBar: MatSnackBar,
-    private router: Router) { }
+  constructor(
+    private translate: TranslateService, 
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) { }
 
   // show messages to the user
   show(message: string, duration: number = 5000, button: any = null): void {

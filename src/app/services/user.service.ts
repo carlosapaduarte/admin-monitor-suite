@@ -29,9 +29,13 @@ export class UserService {
     const host = this.getEnv();
     const tomorrow = new Date();
 
+    const user = _.split(data, '.');
+    const email = atob(user[0]);
+    const cookie = user[1];
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    this.cookieService.set('SSID', btoa(JSON.stringify(data)), tomorrow, '/', host, false);
+    sessionStorage.setItem('email', email);
+    this.cookieService.set('SSID', btoa(cookie), tomorrow, '/', host, false);
   }
 
   isUserLoggedIn(): boolean {
@@ -39,7 +43,7 @@ export class UserService {
   }
 
   getUserData(): {} {
-    return JSON.parse(atob(this.cookieService.get('SSID')));
+    return atob(this.cookieService.get('SSID'));
   }
 
   logout(location: string = '/'): void {

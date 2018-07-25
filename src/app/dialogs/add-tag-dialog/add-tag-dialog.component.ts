@@ -31,7 +31,7 @@ export class AddTagDialogComponent implements OnInit {
   loadingWebsites: boolean;
   loadingDomains: boolean;
   loadingPages: boolean;
-  loadinfCreate: boolean;
+  loadingCreate: boolean;
 
   visible: boolean = true;
   selectable: boolean = false;
@@ -84,7 +84,7 @@ export class AddTagDialogComponent implements OnInit {
     this.loadingWebsites = true;
     this.loadingDomains = true;
     this.loadingPages = true;
-    this.loadinfCreate = false;
+    this.loadingCreate = false;
   }
 
   ngOnInit() {
@@ -184,7 +184,7 @@ export class AddTagDialogComponent implements OnInit {
       pages
     };
 
-    this.loadinfCreate = true;
+    this.loadingCreate = true;
 
     this.server.userPost('/tags/create', formData)
       .subscribe(data => {
@@ -204,10 +204,10 @@ export class AddTagDialogComponent implements OnInit {
         }
       }, error => {
         console.log(error);
-        this.loadinfCreate = false;
+        this.loadingCreate = false;
         this.message.show('MISC.unexpected_error');
       }, () => {
-        this.loadinfCreate = false;
+        this.loadingCreate = false;
       });
   }
 

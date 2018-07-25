@@ -166,6 +166,7 @@ export class AddPageDialogComponent implements OnInit {
 
     this.server.userPost('/pages/create', formData)
       .subscribe(data => {
+        console.log(data);
         switch (data.success) {
           case 1:
             this.pageForm.reset();

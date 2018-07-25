@@ -21,35 +21,26 @@ import { MaterialModule } from './material/material.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { LoginComponent } from './login/login.component';
-import { AdminConsoleComponent } from './admin-console/admin-console.component';
-
-import { AdminAuthGuard } from './guards/admin-auth.guard';
-import { NoAuthGuard } from './guards/no-auth.guard';
+import { LoginComponent } from './pages/login/login.component';
+import { AdminConsoleComponent } from './pages/admin-console/admin-console.component';
 import { UserAuthErrorDialogComponent } from './dialogs/user-auth-error-dialog/user-auth-error-dialog.component';
-import { BreadcrumbsComponent } from './admin-console/breadcrumbs/breadcrumbs.component';
-import { NavbarComponent } from './admin-console/navbar/navbar.component';
-import { UsersPageComponent } from './users-page/users-page.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { AddUserComponent } from './users-page/add-user/add-user.component';
-import { ListOfUsersComponent } from './users-page/list-of-users/list-of-users.component';
-import { WebsitesPageComponent } from './websites-page/websites-page.component';
-import { AddWebsiteComponent } from './websites-page/add-website/add-website.component';
-import { ListOfWebsitesComponent } from './websites-page/list-of-websites/list-of-websites.component';
-import { NotFound404Component } from './not-found-404/not-found-404.component';
+import { BreadcrumbsComponent } from './pages/admin-console/breadcrumbs/breadcrumbs.component';
+import { NavbarComponent } from './pages/admin-console/navbar/navbar.component';
+import { UsersComponent } from './pages/users/users.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ListOfUsersComponent } from './pages/users/list-of-users/list-of-users.component';
+import { WebsitesComponent } from './pages/websites/websites.component';
+import { ListOfWebsitesComponent } from './pages/websites/list-of-websites/list-of-websites.component';
+import { NotFound404Component } from './pages/not-found-404/not-found-404.component';
 import { ConfirmAdditionDialogComponent } from './dialogs/confirm-addition-dialog/confirm-addition-dialog.component';
-import { EntitiesPageComponent } from './entities-page/entities-page.component';
-import { AddEntityComponent } from './entities-page/add-entity/add-entity.component';
-import { ListOfEntitiesComponent } from './entities-page/list-of-entities/list-of-entities.component';
-import { DomainsPageComponent } from './domains-page/domains-page.component';
-import { AddDomainComponent } from './domains-page/add-domain/add-domain.component';
-import { ListOfDomainsComponent } from './domains-page/list-of-domains/list-of-domains.component';
-import { PagesPageComponent } from './pages-page/pages-page.component';
-import { AddPageComponent } from './pages-page/add-page/add-page.component';
-import { ListOfPagesComponent } from './pages-page/list-of-pages/list-of-pages.component';
-import { TagsPageComponent } from './tags-page/tags-page.component';
-import { AddTagComponent } from './tags-page/add-tag/add-tag.component';
-import { ListOfTagsComponent } from './tags-page/list-of-tags/list-of-tags.component';
+import { EntitiesComponent } from './pages/entities/entities.component';
+import { ListOfEntitiesComponent } from './pages/entities/list-of-entities/list-of-entities.component';
+import { DomainsComponent } from './pages/domains/domains.component';
+import { ListOfDomainsComponent } from './pages/domains/list-of-domains/list-of-domains.component';
+import { PagesComponent } from './pages/pages/pages.component';
+import { ListOfPagesComponent } from './pages/pages/list-of-pages/list-of-pages.component';
+import { TagsComponent } from './pages/tags/tags.component';
+import { ListOfTagsComponent } from './pages/tags/list-of-tags/list-of-tags.component';
 import { AddTagDialogComponent } from './dialogs/add-tag-dialog/add-tag-dialog.component';
 import { BottomSheetComponent } from './dialogs/bottom-sheet/bottom-sheet.component';
 import { AddUserDialogComponent } from './dialogs/add-user-dialog/add-user-dialog.component';
@@ -58,17 +49,25 @@ import { AddWebsiteDialogComponent } from './dialogs/add-website-dialog/add-webs
 import { AddDomainDialogComponent } from './dialogs/add-domain-dialog/add-domain-dialog.component';
 import { AddPageDialogComponent } from './dialogs/add-page-dialog/add-page-dialog.component';
 import { EditEntityDialogComponent } from './dialogs/edit-entity-dialog/edit-entity-dialog.component';
+import { LoadingComponent } from './global/loading/loading.component';
+import { ErrorComponent } from './global/error/error.component';
+
+import { AdminAuthGuard } from './guards/admin-auth.guard';
+import { NoAuthGuard } from './guards/no-auth.guard';
+
+import { HtmlPipe } from './pipes/html.pipe';
+import { ToFixedPipe } from './pipes/to-fixed.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
   { path: 'console', component: AdminConsoleComponent, canActivate: [AdminAuthGuard], children: [
-    { path: '', component: HomePageComponent },
-    { path: 'users', component: UsersPageComponent },
-    { path: 'tags', component: TagsPageComponent },
-    { path: 'entities', component: EntitiesPageComponent },
-    { path: 'websites', component: WebsitesPageComponent },
-    { path: 'domains', component: DomainsPageComponent },
-    { path: 'pages', component: PagesPageComponent }
+    { path: '', component: HomeComponent },
+    { path: 'users', component: UsersComponent },
+    { path: 'tags', component: TagsComponent },
+    { path: 'entities', component: EntitiesComponent },
+    { path: 'websites', component: WebsitesComponent },
+    { path: 'domains', component: DomainsComponent },
+    { path: 'pages', component: PagesComponent }
   ]}
 ];
 
@@ -92,26 +91,20 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserAuthErrorDialogComponent,
     BreadcrumbsComponent,
     NavbarComponent,
-    UsersPageComponent,
-    HomePageComponent,
-    AddUserComponent,
+    UsersComponent,
+    HomeComponent,
     ListOfUsersComponent,
-    WebsitesPageComponent,
-    AddWebsiteComponent,
+    WebsitesComponent,
     ListOfWebsitesComponent,
     NotFound404Component,
     ConfirmAdditionDialogComponent,
-    EntitiesPageComponent,
-    AddEntityComponent,
+    EntitiesComponent,
     ListOfEntitiesComponent,
-    DomainsPageComponent,
-    AddDomainComponent,
+    DomainsComponent,
     ListOfDomainsComponent,
-    PagesPageComponent,
-    AddPageComponent,
+    PagesComponent,
     ListOfPagesComponent,
-    TagsPageComponent,
-    AddTagComponent,
+    TagsComponent,
     ListOfTagsComponent,
     AddTagDialogComponent,
     BottomSheetComponent,
@@ -120,7 +113,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddWebsiteDialogComponent,
     AddDomainDialogComponent,
     AddPageDialogComponent,
-    EditEntityDialogComponent
+    EditEntityDialogComponent,
+    LoadingComponent,
+    ErrorComponent,
+    HtmlPipe,
+    ToFixedPipe
   ],
   imports: [
     BrowserModule,

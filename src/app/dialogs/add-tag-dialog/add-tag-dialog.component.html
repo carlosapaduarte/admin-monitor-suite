@@ -1,5 +1,5 @@
 <h1 class="mat-display-1" mat-dialog-title>Criar uma nova Tag</h1>
-<form (submit)="createWebsite($event)" [formGroup]="tagForm" novalidate>
+<form (submit)="createTag($event)" [formGroup]="tagForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-tag-block" fxLayout="column">
       <mat-form-field>
@@ -147,7 +147,7 @@
   <mat-dialog-actions fxLayout="row">
       <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" (click)="createTag($event)" [disabled]="tagForm.controls.name.invalid" *ngIf="!loadingCreate">
+      <button mat-raised-button color="primary" type="submit" [disabled]="tagForm.controls.name.invalid" *ngIf="!loadingCreate">
         Criar
       </button>
       <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
