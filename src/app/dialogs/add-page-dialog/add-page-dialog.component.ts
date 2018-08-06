@@ -7,7 +7,6 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -78,7 +77,7 @@ export class AddPageDialogComponent implements OnInit {
 
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, private server: ServerService, 
+  constructor(private formBuilder: FormBuilder, 
     private message: MessageService) {
     
     this.matcher = new MyErrorStateMatcher();
@@ -105,7 +104,7 @@ export class AddPageDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.server.userPost('/domains/all', {})
+    /*this.server.userPost('/domains/all', {})
       .subscribe(data => {
         console.log(data);
         switch (data.success) {
@@ -141,7 +140,7 @@ export class AddPageDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingTags = false;
-      });
+      });*/
   }
 
   resetForm(): void {
@@ -164,7 +163,7 @@ export class AddPageDialogComponent implements OnInit {
 
     this.loadingCreate = true;
 
-    this.server.userPost('/pages/create', formData)
+    /*this.server.userPost('/pages/create', formData)
       .subscribe(data => {
         console.log(data);
         switch (data.success) {
@@ -184,7 +183,7 @@ export class AddPageDialogComponent implements OnInit {
         this.message.show('MISC.unexpected_error');
       }, () => {
         this.loadingCreate = false;
-      });
+      });*/
   }
 
   removeTag(tag: any): void {

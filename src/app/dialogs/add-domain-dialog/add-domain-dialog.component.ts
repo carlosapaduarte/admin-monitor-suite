@@ -7,7 +7,6 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -50,7 +49,7 @@ export class AddDomainDialogComponent implements OnInit {
 
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(private server: ServerService, private message: MessageService) {
+  constructor(private message: MessageService) {
 
     this.matcher = new MyErrorStateMatcher();
 
@@ -76,7 +75,7 @@ export class AddDomainDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.server.userPost('/websites/all', {})
+    /*this.server.userPost('/websites/all', {})
       .subscribe(data => {
         switch (data.success) {
           case 1:
@@ -110,7 +109,7 @@ export class AddDomainDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingTags = false;
-      });
+      });*/
   }
 
   resetForm(): void {
@@ -121,7 +120,7 @@ export class AddDomainDialogComponent implements OnInit {
   getCurrentDomain(): void {
     const websiteId = _.find(this.websites, ['Name', this.domainForm.value.website]).WebsiteId;
 
-    this.server.get('/websites/activeDomain/' + websiteId)
+    /*this.server.get('/websites/activeDomain/' + websiteId)
       .subscribe((data: any) => {
         console.log(data);
         switch (data.success) {
@@ -134,7 +133,7 @@ export class AddDomainDialogComponent implements OnInit {
         console.log(error);
       }, () => {
 
-      });
+      });*/
   }
 
   createDomain(e): void {
@@ -152,7 +151,7 @@ export class AddDomainDialogComponent implements OnInit {
 
     this.loadingCreate = true;
 
-    this.server.userPost('/domains/create', formData)
+    /*this.server.userPost('/domains/create', formData)
       .subscribe(data => {
         switch (data.success) {
           case 1:
@@ -171,7 +170,7 @@ export class AddDomainDialogComponent implements OnInit {
         this.message.show('MISC.unexpected_error');
       }, () => {
         this.loadingCreate = false;
-      });
+      });*/
   }
 
   removeTag(tag: any): void {
@@ -252,7 +251,7 @@ export class AddDomainDialogComponent implements OnInit {
     
     if (domain != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/domains/exists/' + encodeURIComponent(domain))
+        /*this.server.get('/domains/exists/' + encodeURIComponent(domain))
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -266,7 +265,7 @@ export class AddDomainDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;

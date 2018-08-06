@@ -7,7 +7,6 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -52,7 +51,7 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(private server: ServerService, private message: MessageService) {
+  constructor(private message: MessageService) {
 
     this.matcher = new MyErrorStateMatcher();
 
@@ -81,7 +80,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.server.userPost('/users/monitor', {})
+    /*this.server.userPost('/users/monitor', {})
       .subscribe(data => {
         switch (data.success) {
           case 1:
@@ -134,7 +133,7 @@ export class AddWebsiteDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingTags = false;
-      });
+      });*/
   }
 
   resetForm(): void {
@@ -163,7 +162,7 @@ export class AddWebsiteDialogComponent implements OnInit {
 
     this.loadingCreate = true;
 
-    this.server.userPost('/websites/create', formData)
+    /*this.server.userPost('/websites/create', formData)
       .subscribe((data: any) => {
         switch (data.success) {
           case 1:
@@ -182,7 +181,7 @@ export class AddWebsiteDialogComponent implements OnInit {
         this.message.show('MISC.unexpected_error');
       }, () => {
         this.loadingCreate = false;
-      });
+      });*/
   }
 
   removeTag(tag: any): void {
@@ -222,7 +221,7 @@ export class AddWebsiteDialogComponent implements OnInit {
     
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/websites/existsName/' + name)
+        /*this.server.get('/websites/existsName/' + name)
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -236,7 +235,7 @@ export class AddWebsiteDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;
@@ -248,7 +247,7 @@ export class AddWebsiteDialogComponent implements OnInit {
     
     if (domain != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/domains/exists/' + encodeURIComponent(domain))
+        /*this.server.get('/domains/exists/' + encodeURIComponent(domain))
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -262,7 +261,7 @@ export class AddWebsiteDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;

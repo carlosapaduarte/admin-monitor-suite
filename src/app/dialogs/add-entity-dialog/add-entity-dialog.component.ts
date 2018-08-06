@@ -7,7 +7,6 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -51,7 +50,7 @@ export class AddEntityDialogComponent implements OnInit {
   @ViewChild('websiteInput') websiteInput: ElementRef;
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(private server: ServerService, private message: MessageService) {
+  constructor(private message: MessageService) {
 
     this.matcher = new MyErrorStateMatcher();
 
@@ -75,7 +74,7 @@ export class AddEntityDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.server.userPost('/websites/withoutEntity', {})
+    /*this.server.userPost('/websites/withoutEntity', {})
       .subscribe(data => {
         switch (data.success) {
           case 1:
@@ -107,7 +106,7 @@ export class AddEntityDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingTags = false;
-      });
+      });*/
   }
 
   resetForm(): void {
@@ -133,7 +132,7 @@ export class AddEntityDialogComponent implements OnInit {
 
     this.loadingCreate = true;
 
-    this.server.userPost('/entities/create', formData)
+    /*this.server.userPost('/entities/create', formData)
       .subscribe(data => {
          switch (data.success) {
            case 1:
@@ -153,7 +152,7 @@ export class AddEntityDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingCreate = false;
-      });
+      });*/
   }
 
   removeWebsite(website: any): void {
@@ -205,7 +204,7 @@ export class AddEntityDialogComponent implements OnInit {
     
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/entities/existsShortName/' + name)
+        /*this.server.get('/entities/existsShortName/' + name)
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -219,7 +218,7 @@ export class AddEntityDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;
@@ -231,7 +230,7 @@ export class AddEntityDialogComponent implements OnInit {
     
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/entities/existsLongName/' + name)
+        /*this.server.get('/entities/existsLongName/' + name)
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -245,7 +244,7 @@ export class AddEntityDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;

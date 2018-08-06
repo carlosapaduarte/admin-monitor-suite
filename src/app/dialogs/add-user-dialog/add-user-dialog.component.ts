@@ -7,7 +7,6 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -61,7 +60,7 @@ export class AddUserDialogComponent implements OnInit {
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, public server: ServerService, 
+  constructor(private formBuilder: FormBuilder, 
     private message: MessageService) { 
 
     this.hide = true;
@@ -93,7 +92,7 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.server.userPost('/websites/withoutUser', {})
+    /*this.server.userPost('/websites/withoutUser', {})
       .subscribe(data => {
         console.log(data);
         switch (data.success) {
@@ -109,7 +108,7 @@ export class AddUserDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingWebsites = false;
-      });
+      });*/
   }
 
   changeApp(): void {
@@ -143,14 +142,14 @@ export class AddUserDialogComponent implements OnInit {
       websites
     };
 
-    this.server.userPost('/users/create', formData)
+    /*this.server.userPost('/users/create', formData)
       .subscribe((data: any) => {
         console.log(data);
       }, (error: any) => {
         console.log(error);
       }, () => {
 
-      });
+      });*/
   }
 
   removeWebsite(website: any): void {
@@ -180,7 +179,7 @@ export class AddUserDialogComponent implements OnInit {
     
     if (email != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/users/exists/' + email)
+        /*this.server.get('/users/exists/' + email)
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -194,7 +193,7 @@ export class AddUserDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;

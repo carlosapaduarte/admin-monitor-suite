@@ -12,9 +12,6 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CookieService } from 'ngx-cookie-service';
-import { UserService } from './services/user.service';
-import { ServerService } from './services/server.service';
-import { MessageService } from './services/message.service';
 
 import { MaterialModule } from './material/material.module';
 
@@ -156,9 +153,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminAuthGuard,
     NoAuthGuard,
     CookieService,
-    UserService,
-    ServerService,
-    MessageService,
   	{
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

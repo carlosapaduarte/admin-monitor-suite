@@ -8,7 +8,6 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -52,7 +51,7 @@ export class EditEntityDialogComponent implements OnInit {
   @ViewChild('websiteInput') websiteInput: ElementRef;
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private server: ServerService, 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, 
     private message: MessageService) {
 
     this.matcher = new MyErrorStateMatcher();
@@ -142,7 +141,7 @@ export class EditEntityDialogComponent implements OnInit {
 
     this.loadingCreate = true;
 
-    this.server.userPost('/entities/create', formData)
+    /*this.server.userPost('/entities/create', formData)
       .subscribe(data => {
          switch (data.success) {
            case 1:
@@ -162,7 +161,7 @@ export class EditEntityDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingCreate = false;
-      });
+      });*/
   }
 
   removeWebsite(website: any): void {
@@ -214,7 +213,7 @@ export class EditEntityDialogComponent implements OnInit {
     
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/entities/existsShortName/' + name)
+        /*this.server.get('/entities/existsShortName/' + name)
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -228,7 +227,7 @@ export class EditEntityDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;
@@ -240,7 +239,7 @@ export class EditEntityDialogComponent implements OnInit {
     
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/entities/existsLongName/' + name)
+        /*this.server.get('/entities/existsLongName/' + name)
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -254,7 +253,7 @@ export class EditEntityDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;

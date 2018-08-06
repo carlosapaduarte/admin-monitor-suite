@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../../services/server.service';
+import { GetService } from '../../../services/get.service';
 import { MessageService } from '../../../services/message.service';
 
 @Component({
@@ -13,6 +13,7 @@ import { MessageService } from '../../../services/message.service';
 export class ListOfUsersComponent implements OnInit {
 
   loading: boolean;
+  error: boolean;
 
   displayedColumns = ['UserId', 'Email', 'Type', 'Websites', 'Register_Date', 'Last_Login', 'edit'];
 
@@ -29,28 +30,27 @@ export class ListOfUsersComponent implements OnInit {
   // table paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private server: ServerService, private message: MessageService) {
+  constructor(
+    private get: GetService, 
+    private message: MessageService
+  ) {
     this.loading = true;
-
-    this.server.userPost('/users/all', {})
-      .subscribe((data) => {
-        console.log(data);
-        switch (data['success']) {
-          case 1:
-            this.dataSource = new MatTableDataSource(data['result']);
-            this.dataSource.sort = this.sort;
-            this.dataSource.paginator = this.paginator;
-            break;
-        }
-      }, (error) => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
-        this.loading = false;
-      });
+    this.error = false;
   }
 
   ngOnInit(): void {
+    this.get.listOfUsers()
+      .subscribe(users => {
+        if (users !== null) {
+          this.dataSource = new MatTableDataSource(users);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
   }
 
   applyFilter(filterValue: string): void {

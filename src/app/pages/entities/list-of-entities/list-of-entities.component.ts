@@ -3,7 +3,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../../services/server.service';
+import { GetService } from '../../../services/get.service';
 import { MessageService } from '../../../services/message.service';
 
 import { EditEntityDialogComponent } from '../../../dialogs/edit-entity-dialog/edit-entity-dialog.component';
@@ -16,6 +16,7 @@ import { EditEntityDialogComponent } from '../../../dialogs/edit-entity-dialog/e
 export class ListOfEntitiesComponent implements OnInit {
 
   loading: boolean;
+  error: boolean;
 
   displayedColumns = ['EntityId', 'Short_Name', 'Long_Name', 'Creation_Date', 'Websites', 'Tags', 'edit'];
 
@@ -32,30 +33,28 @@ export class ListOfEntitiesComponent implements OnInit {
   // table paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private dialog: MatDialog, private server: ServerService, 
-    private message: MessageService) {
-    
+  constructor(
+    private dialog: MatDialog,
+    private get: GetService, 
+    private message: MessageService
+  ) {
     this.loading = true;
-
-    this.server.userPost('/entities/allInfo', {})
-      .subscribe((data) => {
-        console.log(data);
-        switch (data['success']) {
-          case 1:
-            this.dataSource = new MatTableDataSource(data['result']);
-            this.dataSource.sort = this.sort;
-            this.dataSource.paginator = this.paginator;
-            break;
-        }
-      }, (error) => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
-        this.loading = false;
-      });
+    this.error = false;
   }
 
   ngOnInit(): void {
+    this.get.listOfEntities()
+      .subscribe(entities => {
+        if (entities !== null) {
+          this.dataSource = new MatTableDataSource(entities);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
   }
 
   applyFilter(filterValue: string): void {

@@ -7,7 +7,6 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
-import { ServerService } from '../../services/server.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -60,7 +59,7 @@ export class AddTagDialogComponent implements OnInit {
   pages: any;
   selectedPages: any;
 
-  constructor(private server: ServerService, private message: MessageService) {
+  constructor(private message: MessageService) {
 
     this.matcher = new MyErrorStateMatcher();
 
@@ -88,7 +87,7 @@ export class AddTagDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.server.userPost('/entities/all', {})
+    /*this.server.userPost('/entities/all', {})
       .subscribe(data => {
         switch (data.success) {
           case 1:
@@ -154,7 +153,7 @@ export class AddTagDialogComponent implements OnInit {
         console.log(error);
       }, () => {
         this.loadingPages = false;
-      });
+      });*/
   }
 
   resetForm(): void {
@@ -186,7 +185,7 @@ export class AddTagDialogComponent implements OnInit {
 
     this.loadingCreate = true;
 
-    this.server.userPost('/tags/create', formData)
+    /*this.server.userPost('/tags/create', formData)
       .subscribe(data => {
         switch (data.success) {
           case 1:
@@ -208,7 +207,7 @@ export class AddTagDialogComponent implements OnInit {
         this.message.show('MISC.unexpected_error');
       }, () => {
         this.loadingCreate = false;
-      });
+      });*/
   }
 
   removeEntity(entity: any): void {
@@ -304,7 +303,7 @@ export class AddTagDialogComponent implements OnInit {
     
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
-        this.server.get('/tags/existsOfficial/' + name)
+        /*this.server.get('/tags/existsOfficial/' + name)
           .subscribe(data => {
             switch (data.success) {
               case 1:
@@ -318,7 +317,7 @@ export class AddTagDialogComponent implements OnInit {
           }, error => {
             console.log(error);
             reject(null);
-          });
+          });*/
       });
     } else {
       return null;

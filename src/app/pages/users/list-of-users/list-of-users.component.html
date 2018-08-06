@@ -1,4 +1,4 @@
-<mat-card class="mat-typography">
+<mat-card class="mat-typography" *ngIf="!loading && !error">
   <mat-card-header>
     <mat-card-title>
       <h1>Utilizadores</h1>
@@ -29,7 +29,7 @@
 
       <ng-container matColumnDef="Type">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Aplicação </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Type == "studies" ? "Access Studies":"My Monitor"}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.Type == "studies" ? "Access Studies" : "My Monitor"}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Websites">
@@ -63,3 +63,5 @@
     <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>
+<app-loading *ngIf="loading"></app-loading>
+<app-error *ngIf="error"></app-error>
