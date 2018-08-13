@@ -1,67 +1,74 @@
 <mat-card class="mat-typography" *ngIf="!loading && !error">
   <mat-card-header>
     <mat-card-title>
-      <h1>Websites</h1>
+      <h1>{{ "WEBSITES_PAGE.LIST.title" | translate }}</h1>
     </mat-card-title>
     <mat-card-subtitle>
-      <h2>Lista de todos os Websites</h2>
+      <h2>{{ "WEBSITES_PAGE.LIST.subtitle" | translate }}</h2>
     </mat-card-subtitle>
   </mat-card-header>
   
   <mat-card-content>
     <div class="table-filter">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <label for="website_table_filter">{{ "WEBSITES_PAGE.LIST.table.filter" | translate }}</label>
+        <input id="website_table_filter" matInput (keyup)="applyFilter($event.target.value)">
       </mat-form-field>
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="WebsiteId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "WEBSITES_PAGE.LIST.table.id_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.WebsiteId}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "WEBSITES_PAGE.LIST.table.name_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Entity">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Entidade </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "WEBSITES_PAGE.LIST.table.entity_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Entity}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="User">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Utilizador </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "WEBSITES_PAGE.LIST.table.user_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.User}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Current_Domain">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Domínio atual </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Current_Domain}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="Pages">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Páginas </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Pages}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="Tags">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Tags </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Tags}} </mat-cell>
-      </ng-container>
-
       <ng-container matColumnDef="Creation_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Data de criação </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "WEBSITES_PAGE.LIST.table.creation_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Creation_Date | date}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>
+          {{ "WEBSITES_PAGE.LIST.table.edit_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'USER.PAGES.table.headers.see_tooltip' | translate }}" (click)="showPage(element.Uri)" fxFlex>
+          <button mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="showPage(element.Uri)">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="see">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}" (click)="showPage(element.Uri)">
+            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

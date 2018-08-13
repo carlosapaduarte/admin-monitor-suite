@@ -8,6 +8,9 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
+import { CreateService } from '../../services/create.service';
+import { GetService } from '../../services/get.service';
+import { VerifyService } from '../../services/verify.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -28,7 +31,6 @@ export class EditEntityDialogComponent implements OnInit {
   matcher: ErrorStateMatcher;
 
   loadingWebsites: boolean;
-  loadingTags: boolean;
   loadingCreate: boolean;
 
   visible: boolean = true;
@@ -39,20 +41,22 @@ export class EditEntityDialogComponent implements OnInit {
   separatorKeysCodes = [ENTER, COMMA];
 
   filteredWebsites: Observable<any[]>;
-  filteredTags: Observable<any[]>;
 
   websites: any;
   selectedWebsites: any;
-  tags: any;
-  selectedTags: any;
 
   entityForm: FormGroup;
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, 
-    private message: MessageService) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private create: CreateService,
+    private get: GetService,
+    private verify: VerifyService,
+    private message: MessageService
+  ) {
 
     this.matcher = new MyErrorStateMatcher();
 
@@ -63,16 +67,13 @@ export class EditEntityDialogComponent implements OnInit {
       longName: new FormControl('', [
         Validators.required
       ], this.longNameValidator.bind(this)),
-      websites: new FormControl(),
-      tags: new FormControl()
+      websites: new FormControl()
     });
 
     this.loadingWebsites = true;
-    this.loadingTags = true;
     this.loadingCreate = false;
 
     this.selectedWebsites = [];
-    this.selectedTags = [];
   }
 
   ngOnInit(): void {
@@ -120,7 +121,6 @@ export class EditEntityDialogComponent implements OnInit {
 
   resetForm(): void {
     this.entityForm.reset();
-    this.selectedTags = [];
     this.selectedWebsites = [];
   }
 
@@ -130,13 +130,11 @@ export class EditEntityDialogComponent implements OnInit {
     const shortName = this.entityForm.value.shortName;
     const longName = this.entityForm.value.longName;
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
-    const tags = _.map(this.selectedTags, 'TagId');
 
     const formData = {
       shortName,
       longName,
-      websites,
-      tags
+      websites
     };
 
     this.loadingCreate = true;
@@ -183,28 +181,6 @@ export class EditEntityDialogComponent implements OnInit {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';
       this.entityForm.controls.websites.setValue(null);
-    }
-  }
-
-  removeTag(tag: any): void {
-    const index = _.findIndex(this.selectedTags, tag);
-
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-    }
-  }
-
-  filterTags(name: string) {
-    return this.tags.filter(tag =>
-        _.includes(tag.Name.toLowerCase(), name.toLowerCase()));
-  }
-
-  selectedTag(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.tags, t => { return t.Name === event.option.viewValue});
-    if (!_.includes(this.selectedTags, this.tags[index])) {
-      this.selectedTags.push(this.tags[index]);
-      this.tagInput.nativeElement.value = '';
-      this.entityForm.controls.tags.setValue(null);
     }
   }
 

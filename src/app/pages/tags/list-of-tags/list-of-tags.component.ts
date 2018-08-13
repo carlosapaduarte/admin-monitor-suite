@@ -15,19 +15,22 @@ export class ListOfTagsComponent implements OnInit {
   loading: boolean;
   error: boolean;
 
-  displayedColumns = ['TagId', 'Name', 'Show_in_Observatorio', 'Creation_Date', 'Entities', 'Websites', 'Domains', 'Pages', 'edit'];
+  displayedColumns = [
+    'TagId', 
+    'Name', 
+    'Show_in_Observatorio',
+    'User',
+    'Creation_Date',  
+    'Websites',
+    'edit',
+    'see'
+  ];
 
-  // data source of domains
   dataSource: any;
   selection: any;
 
-  // table filter
   @ViewChild('input') input: ElementRef;
-
-  // column sorter
   @ViewChild(MatSort) sort: MatSort;
-
-  // table paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(

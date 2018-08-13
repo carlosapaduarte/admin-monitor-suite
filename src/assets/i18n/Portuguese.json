@@ -13,6 +13,35 @@
       "system_error": "Erro no sistema. Por favor tente mais tarde"
     }
   },
+  "ADMIN_CONSOLE": {
+    "add_button": "Adicinar conteúdo",
+    "bottom_sheet": {
+      "user": {
+        "title": "Utilizador",
+        "subtitle": "Criar um novo utilizador"
+      },
+      "tag": {
+        "title": "Tag",
+        "subtitle": "Criar uma nova tag"
+      },
+      "entity": {
+        "title": "Entidade",
+        "subtitle": "Criar uma nova entidade"
+      },
+      "website": {
+        "title": "Website",
+        "subtitle": "Criar um novo website"
+      },
+      "domain": {
+        "title": "Domínio",
+        "subtitle": "Criar um novo domínio"
+      },
+      "page": {
+        "title": "Pagina",
+        "subtitle": "Criar uma nova página"
+      }
+    }
+  },
   "MENU": {
     "home": "Início",
     "users": "Utilizadores",
@@ -24,22 +53,198 @@
     "settings": "Definições"
   },
   "USERS_PAGE": {
+    "LIST": {
+      "title": "Utilizadores",
+      "subtitle": "Lista de todos os utilizadores das aplicações Access Studies e My Monitor",
+      "table": {
+        "filter": "Filtro",
+        "id_label": "ID",
+        "email_label": "E-mail",
+        "app_label": "Aplicação",
+        "websites_label": "Nº Websites",
+        "register_label": "Data de registo",
+        "last_login_label": "Última sessão",
+        "edit_label": "Editar",
+        "edit_tooltip": "Editar este utilizador",
+        "see_tooltip": "Ver utilizador"
+      }
+    },
     "ADD": {
       "title": "Criar um utilizador",
       "subtitle": "Crie um utilizador para o Access Studies ou para o My Monitor",
       "user_data": "Dados do utilizador",
       "email_label": "E-mail",
+      "email_invalid": "Insira um e-mail válido",
+      "email_exists": "O e-mail inserido já existe",
       "password_label": "Palavra-chave",
       "confirm_password_label": "Confirmar palavra-chave",
       "choose_app": "Aplicação a que se destina",
       "choose_websites": "Associar Websites",
-      "submit": "Criar"
+      "reset": "Redefinir",
+      "submit": "Criar",
+      "messages": {
+        "success": "Utilizador criado com sucesso",
+        "error": "Erro ao criar utilizador"
+      }
+    }
+  },
+  "TAGS_PAGE": {
+    "LIST": {
+      "title": "Tags",
+      "subtitle": "Lista de todas as Tags",
+      "table": {
+        "filter": "Filtro",
+        "id_label": "ID",
+        "name_label": "Nome",
+        "observatorio_label": "Observatório",
+        "user_label": "Utilizador",
+        "creation_label": "Data de criação",
+        "websites_label": "Nº Websites",
+        "edit_label": "Editar",
+        "edit_tooltip": "Editar esta tag",
+        "see_tooltip": "Ver tag"
+      }
+    },
+    "ADD": {
+      "title": "Criar uma nova Tag",
+      "name_label": "Nome",
+      "name_exists": "O nome inserido já existe",
+      "observatorio_label": "Mostrar esta Tag no Observatório",
+      "websites_label": "Associar Websites",
+      "reset": "Redefinir",
+      "submit": "Criar",
+      "messages": {
+        "success": "Tag criada com sucesso",
+        "error": "Erro ao criar a tag"
+      }
+    }
+  },
+  "ENTITIES_PAGE": {
+    "LIST": {
+      "title": "Entidades",
+      "subtitle": "Lista de todas as Entidades",
+      "table": {
+        "filter": "Filtro",
+        "id_label": "ID",
+        "short_name_label": "Nome abreviado",
+        "long_name_label": "Nome completo",
+        "creation_label": "Data de criação",
+        "websites_label": "Nº Websites",
+        "edit_label": "Editar",
+        "edit_tooltip": "Editar esta entidade",
+        "see_tooltip": "Ver entidade"
+      }
+    },
+    "ADD": {
+      "title": "Criar uma nova Entidade",
+      "short_name_label": "Nome abreviado",
+      "short_name_exists": "O nome inserido já existe",
+      "long_name_label": "Nome completo",
+      "long_name_exists": "O nome inserido já existe",
+      "websites_label": "Associar Websites",
+      "reset": "Redefinir",
+      "submit": "Criar",
+      "messages": {
+        "success": "Entidade criada com sucesso",
+        "error": "Erro ao criar a entidade"
+      }
     }
   },
   "WEBSITES_PAGE": {
+    "LIST": {
+      "title": "Websites",
+      "subtitle": "Lista de todos os websites",
+      "table": {
+        "filter": "Filtro",
+        "id_label": "ID",
+        "name_label": "Nome",
+        "entity_label": "Entidade",
+        "user_label": "Utilizador",
+        "creation_label": "Data de criação",
+        "edit_label": "Editar",
+        "edit_tooltip": "Editar este website",
+        "see_tooltip": "Ver website"
+      }
+    },
     "ADD": {
-      "title": "Criar um website",
-      "subtitle": "Crie um website e associe a um utilizador e/ou entidade"
+      "title": "Criar um novo website",
+      "name_label": "Nome",
+      "name_exists": "O nome inserido já existe",
+      "domain_label": "Domínio",
+      "domain_exists": "O domínio inserido já existe",
+      "entity_label": "Entidade",
+      "entity_invalid": "A entidade inserida é inválida",
+      "user_label": "Utilizador",
+      "user_invalid": "O utilizador inserido é inválido",
+      "tags_label": "Associar tags",
+      "reset": "Redefinir",
+      "submit": "Criar",
+      "messages": {
+        "success": "Website criado com sucesso",
+        "error": "Erro ao criar o website"
+      }
+    }
+  },
+  "DOMAINS_PAGE": {
+    "LIST": {
+      "title": "Domínios",
+      "subtitle": "Lista de todos os domínios",
+      "table": {
+        "filter": "Filtro",
+        "id_label": "ID",
+        "domain_label": "Domínio",
+        "active_label": "Activo",
+        "pages_label": "Nº páginas",
+        "start_date_label": "Data de início",
+        "end_date_label": "Data de fim",
+        "edit_label": "Editar",
+        "edit_tooltip": "Editar este domínio",
+        "see_tooltip": "Ver domínio"
+      }
+    },
+    "ADD": {
+      "title": "Criar um novo domínio",
+      "website_label": "Website",
+      "website_invalid": "Website inválido",
+      "current_domain_label": "Domínio atual",
+      "domain_label": "Novo domínio",
+      "domain_exists": "O domínio inserido já existe",
+      "domain_invalid": "Domínio inválido",
+      "reset": "Redefinir",
+      "submit": "Criar",
+      "messages": {
+        "success": "Domínio criado com sucesso",
+        "error": "Erro ao criar o domínio"
+      }
+    }
+  },
+  "PAGES_PAGE": {
+    "LIST": {
+      "title": "Páginas",
+      "subtitle": "Lista de todas as páginas",
+      "table": {
+        "filter": "Filtro",
+        "id_label": "ID",
+        "uri_label": "Uri",
+        "score_label": "Pontuação",
+        "last_updated_label": "Última avaliação",
+        "edit_label": "Editar",
+        "edit_tooltip": "Editar esta página",
+        "see_tooltip": "Ver página"
+      }
+    },
+    "ADD": {
+      "title": "Criar novas páginas",
+      "domain_label": "Domínio",
+      "domain_invalid": "Domínio inválido",
+      "uris_label": "Novos uris",
+      "uris_invalid": "Um dos uris inseridos é inválido",
+      "reset": "Redefinir",
+      "submit": "Criar",
+      "messages": {
+        "success": "Páginas criaddas com sucesso",
+        "error": "Erro ao criar as páginas"
+      }
     }
   },
   "RESULTS": {

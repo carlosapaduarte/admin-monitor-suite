@@ -7,6 +7,9 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
+import { CreateService } from '../../services/create.service';
+import { GetService } from '../../services/get.service';
+import { VerifyService } from '../../services/verify.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -51,8 +54,12 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(private message: MessageService) {
-
+  constructor(
+    private create: CreateService,
+    private get: GetService,
+    private verify: VerifyService,
+    private message: MessageService
+  ) {
     this.matcher = new MyErrorStateMatcher();
 
     this.websiteForm = new FormGroup({
@@ -80,60 +87,44 @@ export class AddWebsiteDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.server.userPost('/users/monitor', {})
-      .subscribe(data => {
-        switch (data.success) {
-          case 1:
-            this.monitorUsers = data.result;
-            this.filteredUsers = this.websiteForm.controls.user.valueChanges
-              .pipe(
-                startWith(null),
-                map(val => this.filterUser(val))
-              );
-            break;
+    this.get.listOfMyMonitorUsers()
+      .subscribe(users => {
+        if (users !== null) {
+          this.monitorUsers = users;
+          this.filteredUsers = this.websiteForm.controls.user.valueChanges
+            .pipe(
+              startWith(null),
+              map(val => this.filterUser(val))
+            );
         }
-      }, error => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
         this.loadingUsers = false;
       });
 
-    this.server.userPost('/entities/all', {})
-      .subscribe(data => {
-        switch (data.success) {
-          case 1:
-            this.entities = data.result;
-            this.filteredEntities = this.websiteForm.controls.entity.valueChanges
-              .pipe(
-                startWith(null),
-                map(val => this.filterEntity(val))
-              );
-            break;
+    this.get.listOfEntities()
+      .subscribe(entities => {
+        if (entities !== null) {
+          this.entities = entities;
+          this.filteredEntities = this.websiteForm.controls.entity.valueChanges
+            .pipe(
+              startWith(null),
+              map(val => this.filterEntity(val))
+            );
         }
-      }, error => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
+
         this.loadingEntities = false;
       });
 
-    this.server.userPost('/tags/all', {})
-      .subscribe(data => {
-        switch (data.success) {
-          case 1:
-            this.tags = data.result;
-            this.filteredTags = this.websiteForm.controls.tags.valueChanges.pipe(
-              startWith(null),
-              map((tag: any | null) => tag ? this.filterTags(tag) : this.tags.slice()));
-            break;
+    this.get.listOfTags()
+      .subscribe(tags => {
+        if (tags !== null) {
+          this.tags = tags;
+          this.filteredTags = this.websiteForm.controls.tags.valueChanges.pipe(
+            startWith(null),
+            map((tag: any | null) => tag ? this.filterTags(tag) : this.tags.slice()));
         }
-      }, error => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
+
         this.loadingTags = false;
-      });*/
+      });
   }
 
   resetForm(): void {
@@ -144,13 +135,13 @@ export class AddWebsiteDialogComponent implements OnInit {
   createWebsite(e): void {
     e.preventDefault();
     
-    const name = this.websiteForm.value.name;
-    const domain = this.websiteForm.value.domain;
+    const name = _.trim(this.websiteForm.value.name);
+    const domain = encodeURIComponent(_.trim(this.websiteForm.value.domain));
     const entityId = this.websiteForm.value.entity ? 
       _.find(this.entities, ['Long_Name', this.websiteForm.value.entity]).EntityId : null;
     const userId = this.websiteForm.value.user ? 
       _.find(this.monitorUsers, ['Email', this.websiteForm.value.user]).UserId : null;
-    const tags = _.map(this.selectedTags, 'TagId');
+    const tags = JSON.stringify(_.map(this.selectedTags, 'TagId'));
 
     const formData = {
       name,
@@ -162,26 +153,18 @@ export class AddWebsiteDialogComponent implements OnInit {
 
     this.loadingCreate = true;
 
-    /*this.server.userPost('/websites/create', formData)
-      .subscribe((data: any) => {
-        switch (data.success) {
-          case 1:
+    this.create.newWebsite(formData)
+      .subscribe(success => {
+        if (success !== null) {
+          if (success) {
             this.websiteForm.reset();
             this.selectedTags = [];
-            this.message.show('MISC.success');
-            break;
-          
-          default:
-            this.message.show('MISC.unexpected_error');
-            break;
+            this.message.show('WEBSITES_PAGE.ADD.messages.success');
+          }
         }
-      }, (error: any) => {
-        console.log(error);
+
         this.loadingCreate = false;
-        this.message.show('MISC.unexpected_error');
-      }, () => {
-        this.loadingCreate = false;
-      });*/
+      });
   }
 
   removeTag(tag: any): void {
@@ -193,8 +176,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   }
 
   filterTags(name: string) {
-    return this.tags.filter(tag =>
-        _.includes(_.toLower(tag.Name), _.toLower(name)));
+    return this.tags.filter(tag => _.includes(_.toLower(tag.Name), _.toLower(name)));
   }
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
@@ -216,71 +198,41 @@ export class AddWebsiteDialogComponent implements OnInit {
       _.includes(_.toLower(user.Email), _.toLower(val)));
   }
 
-  nameValidator(control: AbstractControl): Promise<any> {
-    const name = control.value;
+  nameValidator(control: AbstractControl): Observable<any> {
+    const name = _.trim(control.value);
     
-    if (name != '') {
-      return new Promise<any>((resolve, reject) => {
-        /*this.server.get('/websites/existsName/' + name)
-          .subscribe(data => {
-            switch (data.success) {
-              case 1:
-                resolve(data.result ? { 'notTakenName': true } : null);
-                break;
-              
-              default:
-                reject(null);
-                break;
-            }
-          }, error => {
-            console.log(error);
-            reject(null);
-          });*/
-      });
+    if (name !== '') {
+      return this.verify.websiteNameExists(name);
     } else {
       return null;
     }
   }
 
-  domainValidator(control: AbstractControl): Promise<any> {
-    const domain = control.value;
+  domainValidator(control: AbstractControl): Observable<any> {
+    const domain = _.trim(control.value);
     
-    if (domain != '') {
-      return new Promise<any>((resolve, reject) => {
-        /*this.server.get('/domains/exists/' + encodeURIComponent(domain))
-          .subscribe(data => {
-            switch (data.success) {
-              case 1:
-                resolve(data.result ? { 'notTakenDomain': true } : null);
-                break;
-              
-              default:
-                reject(null);
-                break;
-            }
-          }, error => {
-            console.log(error);
-            reject(null);
-          });*/
-      });
+    if (domain !== '') {
+      return this.verify.domainExists(domain);
     } else {
       return null;
     }
   }
 
   entityValidator(control: AbstractControl): any {
-    const val = control.value;
-    if (val !== '' && val !== null)
+    const val = _.trim(control.value);
+    if (val !== '' && val !== null) {
       return _.includes(_.map(this.entities, 'Long_Name'), val) ? null : { 'validEntity': true }
-    else
+    } else {
       return null;
+    }
   }
 
   userValidator(control: AbstractControl): any {
-    const val = control.value;
-    if (val !== '' && val !== null)
+    const val = _.trim(control.value);
+    if (val !== '' && val !== null) {
       return _.includes(_.map(this.monitorUsers, 'Email'), val) ? null : { 'validUser': true }
-    else
+    } else {
       return null;
+    }
   }
 }

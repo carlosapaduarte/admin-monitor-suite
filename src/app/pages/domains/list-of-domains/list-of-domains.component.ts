@@ -18,13 +18,12 @@ export class ListOfDomainsComponent implements OnInit {
   displayedColumns = [
     'DomainId',
     'Url',
-    'Website',  
     'Active', 
     'Pages',
-    'Tags',
     'Start_Date', 
     'End_Date', 
-    'edit'
+    'edit',
+    'see'
   ];
 
   // data source of domains

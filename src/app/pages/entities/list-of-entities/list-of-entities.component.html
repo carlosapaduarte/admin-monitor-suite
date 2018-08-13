@@ -1,56 +1,73 @@
 <mat-card class="mat-typography" *ngIf="!loading && !error">
   <mat-card-header>
     <mat-card-title>
-      <h1>Endidades</h1>
+      <h1>{{ "ENTITIES_PAGE.LIST.title" | translate }}</h1>
     </mat-card-title>
     <mat-card-subtitle>
-      <h2>Lista de todas as Entidades</h2>
+      <h2>{{ "ENTITIES_PAGE.LIST.subtitle" | translate }}</h2>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="table-filter">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <label for="entity_table_filter">{{ "ENTITIES_PAGE.LIST.table.filter" | translate }}</label>
+        <input id="entity_table_filter" matInput (keyup)="applyFilter($event.target.value)">
       </mat-form-field>
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="EntityId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "ENTITIES_PAGE.LIST.table.id_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.EntityId}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Short_Name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome abreviado </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "ENTITIES_PAGE.LIST.table.short_name_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Short_Name}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Long_Name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "ENTITIES_PAGE.LIST.table.long_name_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Long_Name}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Creation_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-headerf> Data de criação </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-headerf>
+          {{ "ENTITIES_PAGE.LIST.table.creation_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Creation_Date | date}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Websites">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Websites </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "ENTITIES_PAGE.LIST.table.websites_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.Websites}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Tags">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Tags </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Tags}} </mat-cell>
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "ENTITIES_PAGE.LIST.table.edit_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'ENTITIES_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="edit(element.EntityId)">
+            <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+      <ng-container matColumnDef="see">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="Edit entity" (click)="edit(element.EntityId)">
-            <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          <button mat-icon-button matTooltip="{{ 'ENTITIES_PAGE.LIST.table.see_tooltip' | translate }}" (click)="showPage(element.Uri)">
+            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

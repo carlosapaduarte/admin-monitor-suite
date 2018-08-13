@@ -1,57 +1,93 @@
 <mat-card class="mat-typography" *ngIf="!loading && !error">
   <mat-card-header>
     <mat-card-title>
-      <h1>Utilizadores</h1>
+      <h1>{{ "USERS_PAGE.LIST.title" | translate }}</h1>
     </mat-card-title>
     <mat-card-subtitle>
-      <h2>Lista de todos os utilizadores das aplicações Access Studies e My Monitor</h2>
+      <h2>{{ "USERS_PAGE.LIST.subtitle" | translate }}</h2>
     </mat-card-subtitle>
   </mat-card-header>
   
   <mat-card-content>
     <div class="table-filter">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <label id="user_list_filter">{{ "USERS_PAGE.LIST.table.filter" | translate }}</label>
+        <input id="user_list_filter" matInput (keyup)="applyFilter($event.target.value)">
       </mat-form-field>
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="UserId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.UserId}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "USERS_PAGE.LIST.table.id_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.UserId}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Email">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Email}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "USERS_PAGE.LIST.table.email_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Email}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Type">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Aplicação </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Type == "studies" ? "Access Studies" : "My Monitor"}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "USERS_PAGE.LIST.table.app_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Type == "studies" ? "Access Studies" : "My Monitor"}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Websites">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Websites </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Websites}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "USERS_PAGE.LIST.table.websites_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Websites}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Register_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Data de registo </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Register_Date | date}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "USERS_PAGE.LIST.table.register_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Register_Date | date}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Last_Login">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Última sessão </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Last_Login | date}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "USERS_PAGE.LIST.table.last_login_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Last_Login | date}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>
+          {{ "USERS_PAGE.LIST.table.edit_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'USER.PAGES.table.headers.see_tooltip' | translate }}" (click)="showPage(element.Uri)" fxFlex>
+          <button mat-icon-button matTooltip="{{ 'USERS_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="showPage(element.Uri)">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="see">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'USERS_PAGE.LIST.table.see_tooltip' | translate }}" (click)="showPage(element.Uri)">
+            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

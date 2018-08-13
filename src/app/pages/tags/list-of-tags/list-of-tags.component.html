@@ -1,69 +1,93 @@
 <mat-card class="mat-typography" *ngIf="!loading && !error">
   <mat-card-header>
     <mat-card-title>
-      <h1>Tags</h1>
+      <h1>{{ "TAGS_PAGE.LIST.title" | translate }}</h1>
     </mat-card-title>
     <mat-card-subtitle>
-      <h2>Lista de todas as Tags</h2>
+      <h2>{{ "TAGS_PAGE.LIST.subtitle" | translate }}</h2>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="table-filter">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <label for="tag_table_filter">{{ "TAGS_PAGE.LIST.table.filter" | translate }}</label>
+        <input id="tag_table_filter" matInput (keyup)="applyFilter($event.target.value)">
       </mat-form-field>
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="TagId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.TagId}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "TAGS_PAGE.LIST.table.id_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.TagId}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "TAGS_PAGE.LIST.table.name_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Name}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Show_in_Observatorio">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Observatório </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "TAGS_PAGE.LIST.table.observatorio_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <mat-icon *ngIf="element.Show_in_Observatorio" class="md-24" aria-label="">check</mat-icon>
           <mat-icon *ngIf="!element.Show_in_Observatorio" class="md-24" aria-label="">clear</mat-icon>
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Creation_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-headerf> Data de criação </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Creation_Date | date}} </mat-cell>
+      <ng-container matColumnDef="User">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "TAGS_PAGE.LIST.table.user_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.User ? element.User : "Admin"}}
+        </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Entities">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Entities </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Entities}} </mat-cell>
+      <ng-container matColumnDef="Creation_Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-headerf>
+          {{ "TAGS_PAGE.LIST.table.creation_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Creation_Date | date}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Websites">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Websites </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Websites}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="Domains">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Domains </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Domains}} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="Pages">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Nº Pages </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.Pages}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "TAGS_PAGE.LIST.table.websites_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Websites}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef> Editar </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>
+          {{ "TAGS_PAGE.LIST.table.edit_label" | translate }}
+        </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'USER.PAGES.table.headers.see_tooltip' | translate }}" (click)="showPage(element.Uri)" fxFlex>
+          <button mat-icon-button matTooltip="{{ 'TAGS_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="showPage(element.Uri)">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="see">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'TAGS_PAGE.LIST.table.see_tooltip' | translate }}" (click)="showPage(element.Uri)">
+            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

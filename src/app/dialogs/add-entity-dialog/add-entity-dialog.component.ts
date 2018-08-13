@@ -7,6 +7,9 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
+import { CreateService } from '../../services/create.service';
+import { GetService } from '../../services/get.service';
+import { VerifyService } from '../../services/verify.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -27,7 +30,6 @@ export class AddEntityDialogComponent implements OnInit {
   matcher: ErrorStateMatcher;
 
   loadingWebsites: boolean;
-  loadingTags: boolean;
   loadingCreate: boolean;
 
   visible: boolean = true;
@@ -38,20 +40,20 @@ export class AddEntityDialogComponent implements OnInit {
   separatorKeysCodes = [ENTER, COMMA];
 
   filteredWebsites: Observable<any[]>;
-  filteredTags: Observable<any[]>;
 
   websites: any;
   selectedWebsites: any;
-  tags: any;
-  selectedTags: any;
 
   entityForm: FormGroup;
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
-  @ViewChild('tagInput') tagInput: ElementRef;
 
-  constructor(private message: MessageService) {
-
+  constructor(
+    private create: CreateService,
+    private get: GetService,
+    private verify: VerifyService,
+    private message: MessageService
+  ) {
     this.matcher = new MyErrorStateMatcher();
 
     this.entityForm = new FormGroup({
@@ -61,57 +63,31 @@ export class AddEntityDialogComponent implements OnInit {
       longName: new FormControl('', [
         Validators.required
       ], this.longNameValidator.bind(this)),
-      websites: new FormControl(),
-      tags: new FormControl()
+      websites: new FormControl()
     });
 
     this.loadingWebsites = true;
-    this.loadingTags = true;
     this.loadingCreate = false;
 
     this.selectedWebsites = [];
-    this.selectedTags = [];
   }
 
   ngOnInit(): void {
-    /*this.server.userPost('/websites/withoutEntity', {})
-      .subscribe(data => {
-        switch (data.success) {
-          case 1:
-            this.websites = data.result;
-            this.filteredWebsites = this.entityForm.controls.websites.valueChanges.pipe(
-              startWith(null),
-              map((website: any | null) => website ? this.filterWebsite(website) : this.websites.slice()));
-            break;
+    this.get.websitesWithoutEntity()
+      .subscribe(websites => {
+        if (websites !== null) {
+          this.websites = websites;
+          this.filteredWebsites = this.entityForm.controls.websites.valueChanges.pipe(
+            startWith(null),
+            map((website: any | null) => website ? this.filterWebsite(website) : this.websites.slice()));
         }
-      }, error => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
-        this.loadingWebsites = false;
-      });
 
-    this.server.userPost('/tags/all', {})
-      .subscribe(data => {
-        switch (data.success) {
-          case 1:
-            this.tags = data.result;
-            this.filteredTags = this.entityForm.controls.tags.valueChanges.pipe(
-              startWith(null),
-              map((tag: any | null) => tag ? this.filterTags(tag) : this.tags.slice()));
-            break;
-        }
-      }, error => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
-        this.loadingTags = false;
-      });*/
+        this.loadingWebsites = false;
+      })
   }
 
   resetForm(): void {
     this.entityForm.reset();
-    this.selectedTags = [];
     this.selectedWebsites = [];
   }
 
@@ -120,39 +96,28 @@ export class AddEntityDialogComponent implements OnInit {
     
     const shortName = this.entityForm.value.shortName;
     const longName = this.entityForm.value.longName;
-    const websites = _.map(this.selectedWebsites, 'WebsiteId');
-    const tags = _.map(this.selectedTags, 'TagId');
+    const websites = JSON.stringify(_.map(this.selectedWebsites, 'WebsiteId'));
 
     const formData = {
       shortName,
       longName,
-      websites,
-      tags
+      websites
     };
 
     this.loadingCreate = true;
 
-    /*this.server.userPost('/entities/create', formData)
-      .subscribe(data => {
-         switch (data.success) {
-           case 1:
-             this.entityForm.reset();
-             this.selectedTags = [];
-             this.selectedWebsites = [];
-             this.message.show('MISC.success');
-             break;
-           
-           default:
-             this.message.show('MISC.unexpected_error');
-             break;
-         }
-      }, error => {
+    this.create.newEntity(formData)
+      .subscribe(success => {
+        if (success !== null) {
+          if (success) {
+            this.entityForm.reset();
+            this.selectedWebsites = [];
+            this.message.show('ENTITIES_PAGE.ADD.messages.success');
+          }
+        }
+
         this.loadingCreate = false;
-        this.message.show('MISC.unexpected_error');
-        console.log(error);
-      }, () => {
-        this.loadingCreate = false;
-      });*/
+      });
   }
 
   removeWebsite(website: any): void {
@@ -165,7 +130,7 @@ export class AddEntityDialogComponent implements OnInit {
 
   filterWebsite(name: string) {
     return this.websites.filter(website =>
-        _.includes(website.Name.toLowerCase(), name.toLowerCase()));
+      _.includes(website.Name.toLowerCase(), name.toLowerCase()));
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
@@ -177,75 +142,21 @@ export class AddEntityDialogComponent implements OnInit {
     }
   }
 
-  removeTag(tag: any): void {
-    const index = _.findIndex(this.selectedTags, tag);
-
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-    }
-  }
-
-  filterTags(name: string) {
-    return this.tags.filter(tag =>
-        _.includes(tag.Name.toLowerCase(), name.toLowerCase()));
-  }
-
-  selectedTag(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.tags, t => { return t.Name === event.option.viewValue});
-    if (!_.includes(this.selectedTags, this.tags[index])) {
-      this.selectedTags.push(this.tags[index]);
-      this.tagInput.nativeElement.value = '';
-      this.entityForm.controls.tags.setValue(null);
-    }
-  }
-
-  shortNameValidator(control: AbstractControl): Promise<any> {
-    const name = control.value;
+  shortNameValidator(control: AbstractControl): Observable<any> {
+    const name = _.trim(control.value);
     
-    if (name != '') {
-      return new Promise<any>((resolve, reject) => {
-        /*this.server.get('/entities/existsShortName/' + name)
-          .subscribe(data => {
-            switch (data.success) {
-              case 1:
-                resolve(data.result ? { 'notTakenName': true } : null);
-                break;
-              
-              default:
-                reject(null);
-                break;
-            }
-          }, error => {
-            console.log(error);
-            reject(null);
-          });*/
-      });
+    if (name !== '') {
+      return this.verify.entityShortNameExists(name);
     } else {
       return null;
     }
   }
 
-  longNameValidator(control: AbstractControl): Promise<any> {
-    const name = control.value;
+  longNameValidator(control: AbstractControl): Observable<any> {
+    const name = _.trim(control.value);
     
-    if (name != '') {
-      return new Promise<any>((resolve, reject) => {
-        /*this.server.get('/entities/existsLongName/' + name)
-          .subscribe(data => {
-            switch (data.success) {
-              case 1:
-                resolve(data.result ? { 'notTakenName': true } : null);
-                break;
-              
-              default:
-                reject(null);
-                break;
-            }
-          }, error => {
-            console.log(error);
-            reject(null);
-          });*/
-      });
+    if (name !== '') {
+      return this.verify.entityLongNameExists(name);
     } else {
       return null;
     }

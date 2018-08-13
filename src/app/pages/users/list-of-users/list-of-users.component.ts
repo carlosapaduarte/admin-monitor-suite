@@ -12,23 +12,27 @@ import { MessageService } from '../../../services/message.service';
 })
 export class ListOfUsersComponent implements OnInit {
 
+  @ViewChild('input') input: ElementRef;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   loading: boolean;
   error: boolean;
 
-  displayedColumns = ['UserId', 'Email', 'Type', 'Websites', 'Register_Date', 'Last_Login', 'edit'];
+  displayedColumns = [
+    'UserId', 
+    'Email', 
+    'Type', 
+    'Websites', 
+    'Register_Date', 
+    'Last_Login', 
+    'edit',
+    'see'
+  ];
 
   // data source of domains
   dataSource: any;
   selection: any;
-
-  // table filter
-  @ViewChild('input') input: ElementRef;
-
-  // column sorter
-  @ViewChild(MatSort) sort: MatSort;
-
-  // table paginator
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private get: GetService, 

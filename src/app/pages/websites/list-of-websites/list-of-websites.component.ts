@@ -19,25 +19,18 @@ export class ListOfWebsitesComponent implements OnInit {
     'WebsiteId', 
     'Name',
     'Entity',
-    'User', 
-    'Current_Domain',
-    'Pages',
-    'Tags', 
+    'User',
     'Creation_Date',  
-    'edit'
+    'edit',
+    'see'
   ];
 
   // data source of domains
   dataSource: any;
   selection: any;
-
-  // table filter
+  
   @ViewChild('input') input: ElementRef;
-
-  // column sorter
   @ViewChild(MatSort) sort: MatSort;
-
-  // table paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(

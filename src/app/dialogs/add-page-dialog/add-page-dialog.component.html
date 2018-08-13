@@ -1,9 +1,12 @@
-<h1 mat-dialog-title>Adicionar Páginas</h1>
+<h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.title" | translate }}</h1>
 <form (submit)="createPage($event)" [formGroup]="pageForm" novalidate>  
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-domain-block" fxLayout="column" *ngIf="!loadingDomains">
       <mat-form-field>
-        <input type="text" placeholder="Domain" aria-label="Domain Name" matInput formControlName="domain" [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
+        <label for="pages_domain_input">
+          {{ "PAGES_PAGE.ADD.domain_label" | translate }}
+        </label>
+        <input id="pages_domain_input" type="text" aria-label="Domain Name" matInput formControlName="domain" [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let domain of filteredDomains | async" [value]="domain.Url">
             {{ domain.Url }}
@@ -13,12 +16,17 @@
           <mat-icon>close</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.domain.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
-        <mat-error *ngIf="pageForm.controls.domain.hasError('validDomain')">Domínio inválido</mat-error>
+        <mat-error *ngIf="pageForm.controls.domain.hasError('validDomain')">
+          {{ "PAGES_PAGE.ADD.domain_invalid" | translate }}
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="add-page-block" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
-        <textarea matInput placeholder="Novos Uri" matTextareaAutosize matAutosizeMinRows="3" formControlName="uris" [errorStateMatcher]="matcher" required></textarea>
+        <label label="pages_uris_input">
+          {{ "PAGES_PAGE.ADD.uris_label" | translate }}
+        </label>
+        <textarea id="pages_uris_input" matInput matTextareaAutosize matAutosizeMinRows="3" formControlName="uris" [errorStateMatcher]="matcher" required></textarea>
         <button mat-button *ngIf="pageForm.value.uris" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.uris.reset()">
           <mat-icon>close</mat-icon>
         </button>
@@ -26,47 +34,20 @@
           <mat-progress-bar mode="buffer"></mat-progress-bar>
         </mat-error>
         <mat-error *ngIf="pageForm.controls.uris.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
-        <mat-error *ngIf="pageForm.controls.uris.hasError('invalidUri')">Um dos uris é invalido</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
-      <mat-form-field>
-        <mat-chip-list #tagsChipList>
-          <mat-chip
-            *ngFor="let tag of selectedTags"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="removeTag(tag)">
-            {{tag.Name}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input
-            placeholder="Associar Tags"
-            #tagInput
-            formControlName="tags"
-            [matAutocomplete]="auto3"
-            [matChipInputFor]="tagsChipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
-          />
-          <button mat-button *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-chip-list>
-        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
-          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
-            {{ tag.Name }}
-          </mat-option>
-        </mat-autocomplete>
+        <mat-error *ngIf="pageForm.controls.uris.hasError('invalidUri')">
+          {{ "PAGES_PAGE.ADD.uris_invalid" | translate }}
+        </mat-error>
       </mat-form-field>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row">
-      <button mat-raised-button color="warn" type="button" (click)="resetForm()">Reset</button>
-      <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.controls.uris.invalid" *ngIf="!loadingCreate">
-        {{ 'USERS_PAGE.ADD.submit' | translate }}
-      </button>
-      <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
+    <button mat-raised-button color="warn" type="button" (click)="resetForm()">
+      {{ "PAGES_PAGE.ADD.reset" | translate }}
+    </button>
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.controls.uris.invalid" *ngIf="!loadingCreate">
+      {{ "PAGES_PAGE.ADD.submit" | translate }}
+    </button>
+    <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 </form>

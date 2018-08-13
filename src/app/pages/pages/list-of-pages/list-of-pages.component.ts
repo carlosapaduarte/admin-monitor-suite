@@ -18,14 +18,10 @@ export class ListOfPagesComponent implements OnInit {
   displayedColumns = [
     'PageId', 
     'Uri',
-    'Website',
     'Score',
-    'A',
-    'AA',
-    'AAA', 
     'Evaluation_Date',
-    'Tags',  
-    'edit'
+    'edit',
+    'see'
   ];
 
   // data source of domains

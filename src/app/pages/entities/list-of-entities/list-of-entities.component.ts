@@ -18,7 +18,15 @@ export class ListOfEntitiesComponent implements OnInit {
   loading: boolean;
   error: boolean;
 
-  displayedColumns = ['EntityId', 'Short_Name', 'Long_Name', 'Creation_Date', 'Websites', 'Tags', 'edit'];
+  displayedColumns = [
+    'EntityId', 
+    'Short_Name', 
+    'Long_Name', 
+    'Creation_Date', 
+    'Websites', 
+    'edit',
+    'see'
+  ];
 
   // data source of domains
   dataSource: any;

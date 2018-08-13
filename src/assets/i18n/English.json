@@ -13,6 +13,35 @@
       "system_error": "There was a system error. Please try later"
     }
   },
+  "ADMIN_CONSOLE": {
+    "add_button": "Add content",
+    "bottom_sheet": {
+      "user": {
+        "title": "User",
+        "subtitle": "Create a new user"
+      },
+      "tag": {
+        "title": "Tag",
+        "subtitle": "Create a new tag"
+      },
+      "entity": {
+        "title": "Entity",
+        "subtitle": "Create a new entity"
+      },
+      "website": {
+        "title": "Website",
+        "subtitle": "Create a new website"
+      },
+      "domain": {
+        "title": "Domain",
+        "subtitle": "Create a new domain"
+      },
+      "page": {
+        "title": "Page",
+        "subtitle": "Create a new page"
+      }
+    }
+  },
   "MENU": {
     "home": "Home",
     "users": "Users",
@@ -22,6 +51,201 @@
     "domains": "Domains",
     "pages": "Pages",
     "settings": "Settings"
+  },
+  "USERS_PAGE": {
+    "LIST": {
+      "title": "Users",
+      "subtitle": "List of all users from the applications Access Studies and My Monitor",
+      "table": {
+        "filter": "Filter",
+        "id_label": "ID",
+        "email_label": "E-mail",
+        "app_label": "App",
+        "websites_label": "Nº Websites",
+        "register_label": "Register date",
+        "last_login_label": "Last login",
+        "edit_label": "Edit",
+        "edit_tooltip": "Edit this user",
+        "see_tooltip": "See user"
+      }
+    },
+    "ADD": {
+      "title": "Create a new user",
+      "subtitle": "Create a new use for one og the following applications: Access Studies or My Monitor",
+      "user_data": "User data",
+      "email_label": "E-mail",
+      "email_invalid": "Insert a valid e-mail",
+      "email_exists": "The inserted e-mail already exists",
+      "password_label": "Password",
+      "confirm_password_label": "Confirm password",
+      "choose_app": "Application",
+      "websites_label": "Choose websites",
+      "reset": "Reset",
+      "submit": "Create",
+      "messages": {
+        "success": "User created successfully",
+        "error": "Error creating user"
+      }
+    }
+  },
+  "TAGS_PAGE": {
+    "LIST": {
+      "title": "Tags",
+      "subtitle": "List of all tags",
+      "table": {
+        "filter": "Filter",
+        "id_label": "ID",
+        "name_label": "Name",
+        "observatorio_label": "Observatory",
+        "user_label": "User",
+        "creation_label": "Creation date",
+        "websites_label": "Nº Websites",
+        "edit_label": "Edit",
+        "edit_tooltip": "Edit this tag",
+        "see_tooltip": "See tag"
+      }
+    },
+    "ADD": {
+      "title": "Create a new Tag",
+      "name_label": "Name",
+      "name_exists": "The inserted name already exists",
+      "observatorio_label": "Show this Tag in the Observatory",
+      "websites_label": "Associate Websites",
+      "reset": "Reset",
+      "submit": "Create",
+      "messages": {
+        "success": "Tag successfully created",
+        "error": "Error creating tag"
+      }
+    }
+  },
+  "ENTITIES_PAGE": {
+    "LIST": {
+      "title": "Entities",
+      "subtitle": "List of all Entities",
+      "table": {
+        "filter": "Filter",
+        "id_label": "ID",
+        "short_name_label": "Short name",
+        "long_name_label": "Long name",
+        "creation_label": "Creation date",
+        "websites_label": "Nº Websites",
+        "edit_label": "Edit",
+        "edit_tooltip": "Edit this entity",
+        "see_tooltip": "See entity"
+      }
+    },
+    "ADD": {
+      "title": "Create a new Entity",
+      "short_name_label": "Short name",
+      "short_name_exists": "The inserted name already exists",
+      "long_name_label": "Long name",
+      "long_name_exists": "The inserted name already exists",
+      "websites_label": "Associate Websites",
+      "reset": "Reset",
+      "submit": "Create",
+      "messages": {
+        "success": "Entity created successfully",
+        "error": "Error creating entity"
+      }
+    }
+  },
+  "WEBSITES_PAGE": {
+    "LIST": {
+      "title": "Websites",
+      "subtitle": "List of all websites",
+      "table": {
+        "filter": "Filter",
+        "id_label": "ID",
+        "name_label": "Name",
+        "entity_label": "Entity",
+        "user_label": "User",
+        "creation_label": "Creation date",
+        "edit_label": "Edit",
+        "edit_tooltip": "Edit this website",
+        "see_tooltip": "See website"
+      }
+    },
+    "ADD": {
+      "title": "Create a new website",
+      "name_label": "Name",
+      "name_exists": "The inserted name already exists",
+      "domain_label": "Domain",
+      "domain_exists": "The inserted domain already exists",
+      "entity_label": "Entity",
+      "entity_invalid": "The inserted entity is invalid",
+      "user_label": "User",
+      "user_invalid": "The inserted user is invalid",
+      "tags_label": "Associate tags",
+      "reset": "Reset",
+      "submit": "Create",
+      "messages": {
+        "success": "Website created successfully",
+        "error": "Error creating website"
+      }
+    }
+  },
+  "DOMAINS_PAGE": {
+    "LIST": {
+      "title": "Domains",
+      "subtitle": "List of all domains",
+      "table": {
+        "filter": "Filter",
+        "id_label": "ID",
+        "domain_label": "Domain",
+        "active_label": "Active",
+        "pages_label": "Nº pages",
+        "start_date_label": "Start date",
+        "end_date_label": "End date",
+        "edit_label": "Edit",
+        "edit_tooltip": "Edit this domain",
+        "see_tooltip": "See domain"
+      }
+    },
+    "ADD": {
+      "title": "Create a new domain",
+      "website_label": "Website",
+      "website_invalid": "Invalid website",
+      "current_domain_label": "Current domain",
+      "domain_label": "New domain",
+      "domain_exists": "The inserted domains already exists",
+      "domain_invalid": "Invalid domain",
+      "reset": "Reset",
+      "submit": "Create",
+      "messages": {
+        "success": "Domain successfully created",
+        "error": "Error creating domain"
+      }
+    }
+  },
+  "PAGES_PAGE": {
+    "LIST": {
+      "title": "Pages",
+      "subtitle": "List of all pages",
+      "table": {
+        "filter": "Filter",
+        "id_label": "ID",
+        "uri_label": "Uri",
+        "score_label": "Score",
+        "last_updated_label": "Last evaluation",
+        "edit_label": "Edit",
+        "edit_tooltip": "Edit this page",
+        "see_tooltip": "See page"
+      }
+    },
+    "ADD": {
+      "title": "Create new pages",
+      "domain_label": "Domain",
+      "domain_invalid": "Invalid domain",
+      "uris_label": "New uris",
+      "uris_invalid": "One of the inserted uri is invalid",
+      "reset": "Reset",
+      "submit": "Create",
+      "messages": {
+        "success": "Pages created successfully",
+        "error": "Error creating the pages"
+      }
+    }
   },
   "RESULTS": {
     "title": "Web accessibility practices report (W3C WCAG 2.0)",

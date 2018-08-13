@@ -7,6 +7,9 @@ import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
+import { GetService } from '../../services/get.service';
+import { CreateService } from '../../services/create.service';
+import { VerifyService } from '../../services/verify.service';
 import { MessageService } from '../../services/message.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -60,9 +63,13 @@ export class AddUserDialogComponent implements OnInit {
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
 
-  constructor(private formBuilder: FormBuilder, 
-    private message: MessageService) { 
-
+  constructor(
+    private formBuilder: FormBuilder,
+    private get: GetService,
+    private create: CreateService,
+    private verify: VerifyService,
+    private message: MessageService
+  ) { 
     this.hide = true;
     this.hide2 = true;
 
@@ -92,23 +99,17 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.server.userPost('/websites/withoutUser', {})
-      .subscribe(data => {
-        console.log(data);
-        switch (data.success) {
-          case 1:
-            this.websites = data.result;
-            this.filteredWebsites = this.userForm.controls.websites.valueChanges.pipe(
-              startWith(null),
-              map((website: any | null) => website ? this.filterWebsite(website) : this.websites.slice()));
-            break;
+    this.get.websitesWithoutUser()
+      .subscribe(websites => {
+        if (websites !== null) {
+          this.websites = websites;
+          this.filteredWebsites = this.userForm.controls.websites.valueChanges.pipe(
+            startWith(null),
+            map((website: any | null) => website ? this.filterWebsite(website) : this.websites.slice()));
         }
-      }, error => {
-        this.message.show('MISC.messages.data_error');
-        console.log(error);
-      }, () => {
+
         this.loadingWebsites = false;
-      });*/
+      });
   }
 
   changeApp(): void {
@@ -142,14 +143,14 @@ export class AddUserDialogComponent implements OnInit {
       websites
     };
 
-    /*this.server.userPost('/users/create', formData)
-      .subscribe((data: any) => {
-        console.log(data);
-      }, (error: any) => {
-        console.log(error);
-      }, () => {
-
-      });*/
+    this.create.newUser(formData)
+      .subscribe(success => {
+        if (success !== null) {
+          if (success) {
+            this.message.show('USERS_PAGE.ADD.message.success');
+          }
+        }
+      });
   }
 
   removeWebsite(website: any): void {
@@ -174,27 +175,11 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
-  emailValidator(control: AbstractControl): Promise<any> {
-    const email = control.value;
+  emailValidator(control: AbstractControl): Observable<any> {
+    const email = _.trim(control.value);
     
-    if (email != '') {
-      return new Promise<any>((resolve, reject) => {
-        /*this.server.get('/users/exists/' + email)
-          .subscribe(data => {
-            switch (data.success) {
-              case 1:
-                resolve(data.result ? { 'notTakenEmail': true } : null);
-                break;
-              
-              default:
-                reject(null);
-                break;
-            }
-          }, error => {
-            console.log(error);
-            reject(null);
-          });*/
-      });
+    if (email !== '') {
+      return this.verify.userExists(email);
     } else {
       return null;
     }
