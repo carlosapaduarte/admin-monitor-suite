@@ -1,4 +1,4 @@
-<mat-card class="mat-typography" *ngIf="!loading && !error">
+<mat-card class="mat-typography">
   <mat-card-header>
     <mat-card-title>
       <h1>{{ "WEBSITES_PAGE.LIST.title" | translate }}</h1>
@@ -43,7 +43,7 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "WEBSITES_PAGE.LIST.table.user_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.User}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.User ? element.User : 'Admin'}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Creation_Date">
@@ -67,7 +67,10 @@
       <ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}" (click)="showPage(element.Uri)">
+          <button *ngIf="element.User" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'website', element.User, element.Name]">
+            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
+          </button>
+          <button *ngIf="!element.User" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'website', 'admin', element.Name]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>
@@ -80,5 +83,3 @@
     <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>
-<app-loading *ngIf="loading"></app-loading>
-<app-error *ngIf="error"></app-error>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { GetService } from '../../services/get.service';
+import { MessageService } from '../../services/message.service';
+
 @Component({
   selector: 'app-domains',
   templateUrl: './domains.component.html',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DomainsComponent implements OnInit {
 
-  constructor() { }
+  loading: boolean;
+  error: boolean;
 
-  ngOnInit() {
+  domains: Array<any>;
+
+  constructor(
+    private get: GetService,
+    private message: MessageService
+  ) {
+    this.loading = true;
+    this.error = false;
   }
 
+  ngOnInit(): void {
+    this.get.listOfDomains()
+      .subscribe(domains => {
+        if (domains !== null) {
+          this.domains = domains;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
+  }
 }

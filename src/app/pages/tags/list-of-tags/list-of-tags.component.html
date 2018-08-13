@@ -86,7 +86,10 @@
       <ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'TAGS_PAGE.LIST.table.see_tooltip' | translate }}" (click)="showPage(element.Uri)">
+          <button *ngIf="element.User" mat-icon-button matTooltip="{{ 'TAGS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'tag', element.User, element.Name]">
+            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
+          </button>
+          <button *ngIf="!element.User" mat-icon-button matTooltip="{{ 'TAGS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'tag', 'admin', element.Name]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>

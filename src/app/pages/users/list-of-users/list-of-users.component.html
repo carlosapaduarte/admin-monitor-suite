@@ -86,7 +86,7 @@
       <ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'USERS_PAGE.LIST.table.see_tooltip' | translate }}" (click)="showPage(element.Uri)">
+          <button mat-icon-button matTooltip="{{ 'USERS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'user', element.Email]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>

@@ -1,9 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import * as _ from 'lodash';
-
-import { GetService } from '../../../services/get.service';
-import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-list-of-websites',
@@ -12,8 +9,7 @@ import { MessageService } from '../../../services/message.service';
 })
 export class ListOfWebsitesComponent implements OnInit {
 
-  loading: boolean;
-  error: boolean;
+  @Input('websites') websites: any;
 
   displayedColumns = [
     'WebsiteId', 
@@ -33,27 +29,12 @@ export class ListOfWebsitesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(
-    private get: GetService,
-    private message: MessageService
-  ) {
-    this.loading = true;
-    this.error = false;
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    this.get.listOfWebsites()
-      .subscribe(websites => {
-        if (websites !== null) {
-          this.dataSource = new MatTableDataSource(websites);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        } else {
-          this.error = true;
-        }
-
-        this.loading = false;
-      });
+    this.dataSource = new MatTableDataSource(this.websites);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(filterValue: string): void {

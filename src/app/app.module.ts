@@ -54,17 +54,29 @@ import { NoAuthGuard } from './guards/no-auth.guard';
 
 import { HtmlPipe } from './pipes/html.pipe';
 import { ToFixedPipe } from './pipes/to-fixed.pipe';
+import { EntityComponent } from './pages/entity/entity.component';
+import { TagComponent } from './pages/tag/tag.component';
+import { UserComponent } from './pages/user/user.component';
+import { WebsiteComponent } from './pages/website/website.component';
+import { DomainComponent } from './pages/domain/domain.component';
+import { PageComponent } from './pages/page/page.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
   { path: 'console', component: AdminConsoleComponent, canActivate: [AdminAuthGuard], children: [
     { path: '', component: HomeComponent },
     { path: 'users', component: UsersComponent },
+    { path: 'user/:user', component: UserComponent },
     { path: 'tags', component: TagsComponent },
+    { path: 'tag/:user/:tag', component: TagComponent },
     { path: 'entities', component: EntitiesComponent },
+    { path: 'entity/:entity', component: EntityComponent },
     { path: 'websites', component: WebsitesComponent },
+    { path: 'website/:user/:website', component: WebsiteComponent },
     { path: 'domains', component: DomainsComponent },
-    { path: 'pages', component: PagesComponent }
+    { path: 'domain/:user/:domain', component: DomainComponent },
+    { path: 'pages', component: PagesComponent },
+    { path: 'page/:page', component: PageComponent }
   ]}
 ];
 
@@ -114,7 +126,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoadingComponent,
     ErrorComponent,
     HtmlPipe,
-    ToFixedPipe
+    ToFixedPipe,
+    EntityComponent,
+    TagComponent,
+    UserComponent,
+    WebsiteComponent,
+    DomainComponent,
+    PageComponent
   ],
   imports: [
     BrowserModule,

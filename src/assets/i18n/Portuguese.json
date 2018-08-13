@@ -53,6 +53,7 @@
     "settings": "Definições"
   },
   "USERS_PAGE": {
+    "title": "Utilizador:",
     "LIST": {
       "title": "Utilizadores",
       "subtitle": "Lista de todos os utilizadores das aplicações Access Studies e My Monitor",
@@ -89,6 +90,8 @@
     }
   },
   "TAGS_PAGE": {
+    "title": "Tag:",
+    "subtitle": "Utilizador:",
     "LIST": {
       "title": "Tags",
       "subtitle": "Lista de todas as Tags",
@@ -120,6 +123,7 @@
     }
   },
   "ENTITIES_PAGE": {
+    "title": "Entidade:",
     "LIST": {
       "title": "Entidades",
       "subtitle": "Lista de todas as Entidades",
@@ -151,6 +155,8 @@
     }
   },
   "WEBSITES_PAGE": {
+    "title": "Website:",
+    "subtitle": "Utilizador:",
     "LIST": {
       "title": "Websites",
       "subtitle": "Lista de todos os websites",
@@ -186,6 +192,8 @@
     }
   },
   "DOMAINS_PAGE": {
+    "title": "Domínio:",
+    "subtitle": "Utilizador:",
     "LIST": {
       "title": "Domínios",
       "subtitle": "Lista de todos os domínios",
@@ -194,6 +202,7 @@
         "id_label": "ID",
         "domain_label": "Domínio",
         "active_label": "Activo",
+        "user_label": "Utilizador",
         "pages_label": "Nº páginas",
         "start_date_label": "Data de início",
         "end_date_label": "Data de fim",
@@ -219,6 +228,8 @@
     }
   },
   "PAGES_PAGE": {
+    "title": "Página:",
+    "subtitle": "Utilizador:",
     "LIST": {
       "title": "Páginas",
       "subtitle": "Lista de todas as páginas",

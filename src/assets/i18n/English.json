@@ -53,6 +53,7 @@
     "settings": "Settings"
   },
   "USERS_PAGE": {
+    "title": "User:",
     "LIST": {
       "title": "Users",
       "subtitle": "List of all users from the applications Access Studies and My Monitor",
@@ -89,6 +90,8 @@
     }
   },
   "TAGS_PAGE": {
+    "title": "Tag:",
+    "subtitle": "User:",
     "LIST": {
       "title": "Tags",
       "subtitle": "List of all tags",
@@ -120,6 +123,7 @@
     }
   },
   "ENTITIES_PAGE": {
+    "title": "Entity:",
     "LIST": {
       "title": "Entities",
       "subtitle": "List of all Entities",
@@ -151,6 +155,8 @@
     }
   },
   "WEBSITES_PAGE": {
+    "title": "Website:",
+    "subtitle": "User:",
     "LIST": {
       "title": "Websites",
       "subtitle": "List of all websites",
@@ -186,6 +192,8 @@
     }
   },
   "DOMAINS_PAGE": {
+    "title": "Domain:",
+    "subtitle": "User:",
     "LIST": {
       "title": "Domains",
       "subtitle": "List of all domains",
@@ -194,6 +202,7 @@
         "id_label": "ID",
         "domain_label": "Domain",
         "active_label": "Active",
+        "user_label": "User",
         "pages_label": "Nº pages",
         "start_date_label": "Start date",
         "end_date_label": "End date",
@@ -219,6 +228,8 @@
     }
   },
   "PAGES_PAGE": {
+    "title": "Page:",
+    "subtitle": "User:",
     "LIST": {
       "title": "Pages",
       "subtitle": "List of all pages",

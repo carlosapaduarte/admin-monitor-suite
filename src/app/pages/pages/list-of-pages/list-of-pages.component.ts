@@ -1,9 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import * as _ from 'lodash';
-
-import { GetService } from '../../../services/get.service';
-import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-list-of-pages',
@@ -12,8 +9,7 @@ import { MessageService } from '../../../services/message.service';
 })
 export class ListOfPagesComponent implements OnInit {
 
-  loading: boolean;
-  error: boolean;
+  @Input('pages') pages: Array<any>;
 
   displayedColumns = [
     'PageId', 
@@ -24,40 +20,19 @@ export class ListOfPagesComponent implements OnInit {
     'see'
   ];
 
-  // data source of domains
   dataSource: any;
   selection: any;
 
-  // table filter
   @ViewChild('input') input: ElementRef;
-
-  // column sorter
   @ViewChild(MatSort) sort: MatSort;
-
-  // table paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(
-    private get: GetService,
-    private message: MessageService
-  ) {
-    this.loading = true;
-    this.error = false;
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    this.get.listOfPages()
-      .subscribe(pages => {
-        if (pages !== null) {
-          this.dataSource = new MatTableDataSource(pages);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-        } else {
-          this.error = true;
-        }
-
-        this.loading = false;
-      });
+    this.dataSource = new MatTableDataSource(this.pages);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(filterValue: string): void {
