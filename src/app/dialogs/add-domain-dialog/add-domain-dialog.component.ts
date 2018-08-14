@@ -33,10 +33,10 @@ export class AddDomainDialogComponent implements OnInit {
   loadingCreate: boolean;
   showCurrentDomain: boolean;
 
-  visible: boolean = true;
-  selectable: boolean = false;
-  removable: boolean = true;
-  addOnBlur: boolean = false;
+  visible = true;
+  selectable = false;
+  removable = true;
+  addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
@@ -106,15 +106,15 @@ export class AddDomainDialogComponent implements OnInit {
 
   createDomain(e): void {
     e.preventDefault();
-    
+
     const websiteId = _.find(this.websites, ['Name', this.domainForm.value.website]).WebsiteId;
     const url = encodeURIComponent(_.trim(this.domainForm.value.url));
-    
+
     const formData = {
       websiteId,
       url
     };
-    
+
     this.loadingCreate = true;
 
     this.create.newDomain(formData)
@@ -137,17 +137,19 @@ export class AddDomainDialogComponent implements OnInit {
 
   websiteValidator(control: AbstractControl): any {
     const val = control.value;
-    if (val !== '' && val !== null)
-      return _.includes(_.map(this.websites, 'Name'), val) ? null : { 'validWebsite': true }
-    else
+    if (val !== '' && val !== null) {
+      return _.includes(_.map(this.websites, 'Name'), val) ? null : { 'validWebsite': true };
+    } else {
       return null;
+    }
   }
 
   urlValidator(control: AbstractControl): any {
     let url = control.value;
 
-    if (url === '' || url === null)
+    if (url === '' || url === null) {
       return null;
+    }
 
     if (!_.startsWith(url, 'http://') && !_.startsWith(url, 'https://') && !_.startsWith(url, 'www.')) {
       if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
@@ -183,7 +185,7 @@ export class AddDomainDialogComponent implements OnInit {
 
   domainValidator(control: AbstractControl): Observable<any> {
     const domain = _.trim(control.value);
-    
+
     if (domain !== '') {
       return this.verify.domainExists(domain);
     } else {

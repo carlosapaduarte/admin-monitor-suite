@@ -25,7 +25,7 @@ export class PasswordValidation {
   static MatchPassword(AC: AbstractControl) {
     const password = AC.get('password').value;
     const confirmPassword = AC.get('confirmPassword').value;
-    
+
     if (!_.isEqual(password, confirmPassword)) {
       AC.get('confirmPassword').setErrors({ MatchPassword: true });
     } else {
@@ -45,10 +45,10 @@ export class AddUserDialogComponent implements OnInit {
 
   matcher: ErrorStateMatcher;
 
-  visible: boolean = true;
-  selectable: boolean = false;
-  removable: boolean = true;
-  addOnBlur: boolean = false;
+  visible = true;
+  selectable = false;
+  removable = true;
+  addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
@@ -69,7 +69,7 @@ export class AddUserDialogComponent implements OnInit {
     private create: CreateService,
     private verify: VerifyService,
     private message: MessageService
-  ) { 
+  ) {
     this.hide = true;
     this.hide2 = true;
 
@@ -90,12 +90,12 @@ export class AddUserDialogComponent implements OnInit {
         Validators.required
       ]),
       websites: new FormControl({value: '', disabled: true})
-    }, 
+    },
     {
       validator: PasswordValidation.MatchPassword
     });
 
-    this.selectedWebsites= [];
+    this.selectedWebsites = [];
   }
 
   ngOnInit(): void {
@@ -113,9 +113,9 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   changeApp(): void {
-    if (_.isEqual(this.userForm.value.app, 'monitor'))
+    if (_.isEqual(this.userForm.value.app, 'monitor')) {
       this.userForm.controls.websites.enable();
-    else {
+    } else {
       this.userForm.controls.websites.reset();
       this.userForm.controls.websites.disable();
     }
@@ -128,7 +128,7 @@ export class AddUserDialogComponent implements OnInit {
 
   createUser(e): void {
     e.preventDefault();
-    
+
     const email = this.userForm.value.email;
     const password = this.userForm.value.password;
     const confirmPassword = this.userForm.value.confirmPassword;
@@ -167,7 +167,7 @@ export class AddUserDialogComponent implements OnInit {
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.websites, w => { return w.Name === event.option.viewValue});
+    const index = _.findIndex(this.websites, w => w.Name === event.option.viewValue);
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';
@@ -177,7 +177,7 @@ export class AddUserDialogComponent implements OnInit {
 
   emailValidator(control: AbstractControl): Observable<any> {
     const email = _.trim(control.value);
-    
+
     if (email !== '') {
       return this.verify.userExists(email);
     } else {

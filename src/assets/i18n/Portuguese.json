@@ -53,6 +53,8 @@
     "settings": "Definições"
   },
   "HOME_PAGE": {
+    "title": "Bem vindo",
+    "subtitle": "Sumário das aplicações",
     "users_label": "Utilizadores",
     "tags_label": "Tags",
     "websites_label": "Websites",
@@ -85,8 +87,9 @@
       "email_exists": "O e-mail inserido já existe",
       "password_label": "Palavra-chave",
       "confirm_password_label": "Confirmar palavra-chave",
+      "confirm_password_error": "As palavras-chave não coincidem",
       "choose_app": "Aplicação a que se destina",
-      "choose_websites": "Associar Websites",
+      "websites_label": "Associar Websites",
       "reset": "Redefinir",
       "submit": "Criar",
       "messages": {

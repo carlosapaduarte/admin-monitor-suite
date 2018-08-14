@@ -38,7 +38,7 @@ export class EvaluationService {
   ) { }
 
   getEvaluation(url: string, evaluation_date: string): Observable<Evaluation> {
-    if (this.url && this.evaluation_date && _.isEqual(this.url, url) && 
+    if (this.url && this.evaluation_date && _.isEqual(this.url, url) &&
         _.isEqual(evaluation_date, this.evaluation_date) && this.evaluation) {
       return of(this.evaluation.processed);
     } else {
@@ -71,7 +71,7 @@ export class EvaluationService {
             sessionStorage.setItem('url', url);
             sessionStorage.setItem('evaluation_date', evaluation_date);
             sessionStorage.setItem('evaluation', JSON.stringify(this.evaluation));
-            
+
             return this.evaluation.processed;
           }),
           catchError(err => {

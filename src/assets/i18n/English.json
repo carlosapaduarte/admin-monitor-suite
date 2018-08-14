@@ -53,6 +53,8 @@
     "settings": "Settings"
   },
   "HOME_PAGE": {
+    "title": "Welcome",
+    "subtitle": "Applications summary",
     "users_label": "Users",
     "tags_label": "Tags",
     "websites_label": "Websites",
@@ -85,6 +87,7 @@
       "email_exists": "The inserted e-mail already exists",
       "password_label": "Password",
       "confirm_password_label": "Confirm password",
+      "confirm_password_error": "Passwords don't match",
       "choose_app": "Application",
       "websites_label": "Choose websites",
       "reset": "Reset",

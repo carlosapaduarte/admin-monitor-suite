@@ -32,10 +32,10 @@ export class AddEntityDialogComponent implements OnInit {
   loadingWebsites: boolean;
   loadingCreate: boolean;
 
-  visible: boolean = true;
-  selectable: boolean = false;
-  removable: boolean = true;
-  addOnBlur: boolean = false;
+  visible = true;
+  selectable = false;
+  removable = true;
+  addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
@@ -83,7 +83,7 @@ export class AddEntityDialogComponent implements OnInit {
         }
 
         this.loadingWebsites = false;
-      })
+      });
   }
 
   resetForm(): void {
@@ -93,7 +93,7 @@ export class AddEntityDialogComponent implements OnInit {
 
   createEntity(e): void {
     e.preventDefault();
-    
+
     const shortName = this.entityForm.value.shortName;
     const longName = this.entityForm.value.longName;
     const websites = JSON.stringify(_.map(this.selectedWebsites, 'WebsiteId'));
@@ -134,7 +134,7 @@ export class AddEntityDialogComponent implements OnInit {
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.websites, w => { return w.Name === event.option.viewValue});
+    const index = _.findIndex(this.websites, w => w.Name === event.option.viewValue);
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';
@@ -144,7 +144,7 @@ export class AddEntityDialogComponent implements OnInit {
 
   shortNameValidator(control: AbstractControl): Observable<any> {
     const name = _.trim(control.value);
-    
+
     if (name !== '') {
       return this.verify.entityShortNameExists(name);
     } else {
@@ -154,7 +154,7 @@ export class AddEntityDialogComponent implements OnInit {
 
   longNameValidator(control: AbstractControl): Observable<any> {
     const name = _.trim(control.value);
-    
+
     if (name !== '') {
       return this.verify.entityLongNameExists(name);
     } else {

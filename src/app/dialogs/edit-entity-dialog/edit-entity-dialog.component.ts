@@ -33,10 +33,10 @@ export class EditEntityDialogComponent implements OnInit {
   loadingWebsites: boolean;
   loadingCreate: boolean;
 
-  visible: boolean = true;
-  selectable: boolean = false;
-  removable: boolean = true;
-  addOnBlur: boolean = false;
+  visible = true;
+  selectable = false;
+  removable = true;
+  addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
@@ -126,7 +126,7 @@ export class EditEntityDialogComponent implements OnInit {
 
   createEntity(e): void {
     e.preventDefault();
-    
+
     const shortName = this.entityForm.value.shortName;
     const longName = this.entityForm.value.longName;
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
@@ -148,7 +148,7 @@ export class EditEntityDialogComponent implements OnInit {
              this.selectedWebsites = [];
              this.message.show('MISC.success');
              break;
-           
+
            default:
              this.message.show('MISC.unexpected_error');
              break;
@@ -176,7 +176,7 @@ export class EditEntityDialogComponent implements OnInit {
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.websites, w => { return w.Name === event.option.viewValue});
+    const index = _.findIndex(this.websites, w => w.Name === event.option.viewValue);
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';
@@ -186,7 +186,7 @@ export class EditEntityDialogComponent implements OnInit {
 
   shortNameValidator(control: AbstractControl): Promise<any> {
     const name = control.value;
-    
+
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
         /*this.server.get('/entities/existsShortName/' + name)
@@ -195,7 +195,7 @@ export class EditEntityDialogComponent implements OnInit {
               case 1:
                 resolve(data.result ? { 'notTakenName': true } : null);
                 break;
-              
+
               default:
                 reject(null);
                 break;
@@ -212,7 +212,7 @@ export class EditEntityDialogComponent implements OnInit {
 
   longNameValidator(control: AbstractControl): Promise<any> {
     const name = control.value;
-    
+
     if (name != '') {
       return new Promise<any>((resolve, reject) => {
         /*this.server.get('/entities/existsLongName/' + name)
@@ -221,7 +221,7 @@ export class EditEntityDialogComponent implements OnInit {
               case 1:
                 resolve(data.result ? { 'notTakenName': true } : null);
                 break;
-              
+
               default:
                 reject(null);
                 break;

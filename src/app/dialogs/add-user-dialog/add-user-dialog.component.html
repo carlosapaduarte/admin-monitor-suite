@@ -3,7 +3,10 @@
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-user-block" fxLayout="column">
       <mat-form-field>
-        <input matInput placeholder="{{ 'USERS_PAGE.ADD.email_label' | translate }}" [errorStateMatcher]="matcher"   formControlName="email" required>
+        <label for="user_email_input">
+          {{ "USERS_PAGE.ADD.email_label" | translate }}
+        </label>
+        <input id="user_email_input" matInput [errorStateMatcher]="matcher" formControlName="email" required>
         <button mat-button *ngIf="userForm.value.email" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls.email.reset()">
           <mat-icon>close</mat-icon>
         </button>
@@ -19,14 +22,22 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="{{ 'USERS_PAGE.ADD.password_label' | translate }}" [type]="hide ? 'password' : 'text'" formControlName="password" required>
+        <label for="user_password_input">
+          {{ "USERS_PAGE.ADD.password_label" | translate }}
+        </label>
+        <input id="user_password_input" matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
         <mat-icon matSuffix (click)="hide = !hide">{{hide ? "visibility" : "visibility_off"}}</mat-icon>
         <mat-error *ngIf="userForm.controls.password.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="{{ 'USERS_PAGE.ADD.confirm_password_label' | translate }}" [type]="hide ? 'password' : 'text'" formControlName="confirmPassword" required>
+        <label for="user_confirm_password_input">
+          {{ "USERS_PAGE.ADD.confirm_password_label" | translate }}
+        </label>
+        <input id="user_confirm_password_input" matInput [type]="hide2 ? 'password' : 'text'" formControlName="confirmPassword" required>
         <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? "visibility" : "visibility_off"}}</mat-icon>
-        <mat-error *ngIf="userForm.controls.confirmPassword.errors?.MatchPassword && !userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'USER.SETTINGS.change_password.password_match_error' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.confirmPassword.errors?.MatchPassword && !userForm.controls.confirmPassword.hasError('required')">
+          {{ "USERS_PAGE.ADD.confirm_password_error" | translate }}
+        </mat-error>
         <mat-error *ngIf="userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
       </mat-form-field>
     </div>

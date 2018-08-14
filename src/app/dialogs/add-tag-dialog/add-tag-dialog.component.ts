@@ -32,10 +32,10 @@ export class AddTagDialogComponent implements OnInit {
   loadingWebsites: boolean;
   loadingCreate: boolean;
 
-  visible: boolean = true;
-  selectable: boolean = false;
-  removable: boolean = true;
-  addOnBlur: boolean = false;
+  visible = true;
+  selectable = false;
+  removable = true;
+  addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
@@ -89,7 +89,7 @@ export class AddTagDialogComponent implements OnInit {
 
   createTag(e): void {
     e.preventDefault();
-    
+
     const name = this.tagForm.value.name;
     const observatorio = this.tagForm.value.observatorio ? 1 : 0;
     const websites = JSON.stringify(_.map(this.selectedWebsites, 'WebsiteId'));
@@ -99,7 +99,7 @@ export class AddTagDialogComponent implements OnInit {
       observatorio,
       websites
     };
-    
+
     this.loadingCreate = true;
 
     this.create.newTag(formData)
@@ -129,7 +129,7 @@ export class AddTagDialogComponent implements OnInit {
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.websites, w => { return w.Name === event.option.viewValue});
+    const index = _.findIndex(this.websites, w => w.Name === event.option.viewValue);
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';
@@ -139,7 +139,7 @@ export class AddTagDialogComponent implements OnInit {
 
   nameValidator(control: AbstractControl): Observable<any> {
     const name = _.trim(control.value);
-    
+
     if (name !== '') {
       return this.verify.tagNameExists(name);
     } else {

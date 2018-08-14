@@ -19,11 +19,11 @@ export class ListOfEntitiesComponent implements OnInit {
   error: boolean;
 
   displayedColumns = [
-    'EntityId', 
-    'Short_Name', 
-    'Long_Name', 
-    'Creation_Date', 
-    'Websites', 
+    'EntityId',
+    'Short_Name',
+    'Long_Name',
+    'Creation_Date',
+    'Websites',
     'edit',
     'see'
   ];
@@ -37,7 +37,7 @@ export class ListOfEntitiesComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private get: GetService, 
+    private get: GetService,
     private message: MessageService
   ) {
     this.loading = true;

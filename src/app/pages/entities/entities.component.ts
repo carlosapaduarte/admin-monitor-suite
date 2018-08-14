@@ -24,6 +24,6 @@ export class EntitiesComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 }

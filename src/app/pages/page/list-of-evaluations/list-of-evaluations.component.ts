@@ -13,12 +13,12 @@ export class ListOfEvaluationsComponent implements OnInit {
   @Input('evaluations') evaluations: Array<any>;
 
   displayedColumns = [
-    'EvaluationId', 
-    'Score', 
-    'A', 
-    'AA', 
+    'EvaluationId',
+    'Score',
+    'A',
+    'AA',
     'AAA',
-    'Evaluation_Date', 
+    'Evaluation_Date',
     'see'
   ];
 

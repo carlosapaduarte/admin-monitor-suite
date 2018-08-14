@@ -292,7 +292,7 @@ export class GetService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <Array<Website>> response.result;
       }),
       catchError(err => {
@@ -315,7 +315,7 @@ export class GetService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <Array<Website>> response.result;
       }),
       catchError(err => {
@@ -338,7 +338,7 @@ export class GetService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <Array<Website>> response.result;
       }),
       catchError(err => {
@@ -361,7 +361,7 @@ export class GetService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <Array<Website>> response.result;
       }),
       catchError(err => {

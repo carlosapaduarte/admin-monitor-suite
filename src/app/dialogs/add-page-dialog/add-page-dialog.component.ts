@@ -25,7 +25,7 @@ export class UriValidation {
   static validUris(AC: AbstractControl) {
     const domain = AC.get('domain').value;
     let uris = AC.get('uris').value;
-    
+
     if (_.trim(domain) === '') {
       return null;
     }
@@ -42,8 +42,8 @@ export class UriValidation {
       }
       if (!hasError) {
         return null;
-      } 
-    } else { 
+      }
+    } else {
       return null;
     }
   }
@@ -61,10 +61,10 @@ export class AddPageDialogComponent implements OnInit {
   loadingDomains: boolean;
   loadingCreate: boolean;
 
-  visible: boolean = true;
-  selectable: boolean = false;
-  removable: boolean = true;
-  addOnBlur: boolean = false;
+  visible = true;
+  selectable = false;
+  removable = true;
+  addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
@@ -124,10 +124,10 @@ export class AddPageDialogComponent implements OnInit {
 
   createPage(e): void {
     e.preventDefault();
-    
+
     const domainId = _.find(this.domains, ['Url', this.pageForm.value.domain]).DomainId;
     const uris = JSON.stringify(_.without(_.uniq(_.split(this.pageForm.value.uris, '\n')), ''));
-    
+
     const formData = {
       domainId,
       uris
@@ -155,9 +155,10 @@ export class AddPageDialogComponent implements OnInit {
 
   domainValidator(control: AbstractControl): any {
     const val = control.value;
-    if (val !== '' && val !== null)
-      return _.includes(_.map(this.domains, 'Url'), val) ? null : { 'validDomain': true }
-    else
+    if (val !== '' && val !== null) {
+      return _.includes(_.map(this.domains, 'Url'), val) ? null : { 'validDomain': true };
+    } else {
       return null;
+    }
   }
 }

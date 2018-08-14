@@ -20,12 +20,12 @@ export class ListOfUsersComponent implements OnInit {
   error: boolean;
 
   displayedColumns = [
-    'UserId', 
-    'Email', 
-    'Type', 
-    'Websites', 
-    'Register_Date', 
-    'Last_Login', 
+    'UserId',
+    'Email',
+    'Type',
+    'Websites',
+    'Register_Date',
+    'Last_Login',
     'edit',
     'see'
   ];
@@ -35,7 +35,7 @@ export class ListOfUsersComponent implements OnInit {
   selection: any;
 
   constructor(
-    private get: GetService, 
+    private get: GetService,
     private message: MessageService
   ) {
     this.loading = true;

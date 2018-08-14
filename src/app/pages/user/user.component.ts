@@ -44,7 +44,7 @@ loading: boolean;
 
           this.loading = false;
         });
-    })
+    });
   }
 
   ngOnDestroy(): void {

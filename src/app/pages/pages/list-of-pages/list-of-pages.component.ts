@@ -12,7 +12,7 @@ export class ListOfPagesComponent implements OnInit {
   @Input('pages') pages: Array<any>;
 
   displayedColumns = [
-    'PageId', 
+    'PageId',
     'Uri',
     'Score',
     'Evaluation_Date',

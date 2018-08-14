@@ -1,7 +1,7 @@
 interface IUser {
   UserId: number;
   Email: string;
-  Type: string; 
+  Type: string;
   Register_Date: Date;
   Last_Login: Date;
 }

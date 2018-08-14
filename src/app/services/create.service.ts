@@ -34,7 +34,7 @@ export class CreateService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <boolean> response.result;
       }),
       catchError(err => {
@@ -59,7 +59,7 @@ export class CreateService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <boolean> response.result;
       }),
       catchError(err => {
@@ -84,7 +84,7 @@ export class CreateService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <boolean> response.result;
       }),
       catchError(err => {
@@ -109,7 +109,7 @@ export class CreateService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <boolean> response.result;
       }),
       catchError(err => {
@@ -134,7 +134,7 @@ export class CreateService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <boolean> response.result;
       }),
       catchError(err => {
@@ -159,7 +159,7 @@ export class CreateService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-        
+
         return <boolean> response.result;
       }),
       catchError(err => {

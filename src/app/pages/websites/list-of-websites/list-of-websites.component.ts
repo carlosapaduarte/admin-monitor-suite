@@ -12,11 +12,11 @@ export class ListOfWebsitesComponent implements OnInit {
   @Input('websites') websites: any;
 
   displayedColumns = [
-    'WebsiteId', 
+    'WebsiteId',
     'Name',
     'Entity',
     'User',
-    'Creation_Date',  
+    'Creation_Date',
     'edit',
     'see'
   ];
@@ -24,7 +24,7 @@ export class ListOfWebsitesComponent implements OnInit {
   // data source of domains
   dataSource: any;
   selection: any;
-  
+
   @ViewChild('input') input: ElementRef;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;

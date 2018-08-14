@@ -16,11 +16,11 @@ export class ListOfTagsComponent implements OnInit {
   error: boolean;
 
   displayedColumns = [
-    'TagId', 
-    'Name', 
+    'TagId',
+    'Name',
     'Show_in_Observatorio',
     'User',
-    'Creation_Date',  
+    'Creation_Date',
     'Websites',
     'edit',
     'see'

@@ -43,7 +43,7 @@ export class EntityComponent implements OnInit, OnDestroy {
 
           this.loading = false;
         });
-    })
+    });
   }
 
   ngOnDestroy(): void {

@@ -34,5 +34,5 @@ export class WebsitesComponent implements OnInit {
 
         this.loading = false;
       });
-  } 
+  }
 }

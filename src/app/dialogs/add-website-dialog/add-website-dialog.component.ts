@@ -34,10 +34,10 @@ export class AddWebsiteDialogComponent implements OnInit {
   loadingTags: boolean;
   loadingCreate: boolean;
 
-  visible: boolean = true;
-  selectable: boolean = false;
-  removable: boolean = true;
-  addOnBlur: boolean = false;
+  visible = true;
+  selectable = false;
+  removable = true;
+  addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
@@ -134,12 +134,12 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   createWebsite(e): void {
     e.preventDefault();
-    
+
     const name = _.trim(this.websiteForm.value.name);
     const domain = encodeURIComponent(_.trim(this.websiteForm.value.domain));
-    const entityId = this.websiteForm.value.entity ? 
+    const entityId = this.websiteForm.value.entity ?
       _.find(this.entities, ['Long_Name', this.websiteForm.value.entity]).EntityId : null;
-    const userId = this.websiteForm.value.user ? 
+    const userId = this.websiteForm.value.user ?
       _.find(this.monitorUsers, ['Email', this.websiteForm.value.user]).UserId : null;
     const tags = JSON.stringify(_.map(this.selectedTags, 'TagId'));
 
@@ -180,7 +180,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   }
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
-    let index = _.findIndex(this.tags, t => { return t.Name === event.option.viewValue});
+    const index = _.findIndex(this.tags, t => t.Name === event.option.viewValue);
     if (!_.includes(this.selectedTags, this.tags[index])) {
       this.selectedTags.push(this.tags[index]);
       this.tagInput.nativeElement.value = '';
@@ -200,7 +200,7 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   nameValidator(control: AbstractControl): Observable<any> {
     const name = _.trim(control.value);
-    
+
     if (name !== '') {
       return this.verify.websiteNameExists(name);
     } else {
@@ -210,7 +210,7 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   domainValidator(control: AbstractControl): Observable<any> {
     const domain = _.trim(control.value);
-    
+
     if (domain !== '') {
       return this.verify.domainExists(domain);
     } else {
@@ -221,7 +221,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   entityValidator(control: AbstractControl): any {
     const val = _.trim(control.value);
     if (val !== '' && val !== null) {
-      return _.includes(_.map(this.entities, 'Long_Name'), val) ? null : { 'validEntity': true }
+      return _.includes(_.map(this.entities, 'Long_Name'), val) ? null : { 'validEntity': true };
     } else {
       return null;
     }
@@ -230,7 +230,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   userValidator(control: AbstractControl): any {
     const val = _.trim(control.value);
     if (val !== '' && val !== null) {
-      return _.includes(_.map(this.monitorUsers, 'Email'), val) ? null : { 'validUser': true }
+      return _.includes(_.map(this.monitorUsers, 'Email'), val) ? null : { 'validUser': true };
     } else {
       return null;
     }

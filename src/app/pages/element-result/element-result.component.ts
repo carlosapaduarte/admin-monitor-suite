@@ -57,13 +57,13 @@ export class ElementResultComponent implements OnInit, OnDestroy {
   }
 
   goBack(): Array<string> {
-    let path = this.location.path();
+    const path = this.location.path();
     let segments = _.split(path, '/');
     segments[0] = '/console';
     segments.splice(1, 1);
-    segments.splice(_.size(segments)-1, 1);
+    segments.splice(_.size(segments) - 1, 1);
     segments = _.map(segments, s => decodeURIComponent(s));
-    
+
     return segments;
   }
 }
