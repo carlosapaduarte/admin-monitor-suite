@@ -1,3 +1,37 @@
-<p>
-  home-page works!
-</p>
+<mat-card class="mat-typography">
+  <mat-card-header fxLayout="column" fxLayoutAlign="center center">
+    <mat-card-title>
+      <h1>Bem vindo</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h2>Sumário das aplicações</h2>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider [inset]="true"></mat-divider>
+  <mat-card-content>
+    <br>
+    <div>
+      <h3>Access Monitor</h3>
+      <div fxLayout="row" fxLayoutAlign="none center">
+        <app-item [icon]="'person'" [title]="'users_label'" [value]="access_studies_users"></app-item>
+        <app-item [icon]="'category'" [title]="'tags_label'" [value]="access_studies_tags"></app-item>
+        <app-item [icon]="'web'" [title]="'websites_label'" [value]="access_studies_websites"></app-item>
+      </div>
+      <br>
+      <h3>My Monitor</h3>
+      <div fxLayout="row" fxLayoutAlign="none center">
+        <app-item [icon]="'person'" [title]="'users_label'" [value]="my_monitor_users"></app-item>
+        <app-item [icon]="'web'" [title]="'websites_label'" [value]="my_monitor_websites"></app-item>
+      </div>
+      <br>
+      <h3>Observatório</h3>
+      <div fxLayout="row" fxLayoutAlign="none center">
+        <app-item [icon]="'category'" [title]="'tags_label'" [value]="observatorio_tags"></app-item>
+        <app-item [icon]="'web'" [title]="'websites_label'" [value]="observatorio_websites"></app-item>
+      </div>
+    </div>
+    <br>
+  </mat-card-content>
+  <mat-card-actions>
+  </mat-card-actions>
+</mat-card>

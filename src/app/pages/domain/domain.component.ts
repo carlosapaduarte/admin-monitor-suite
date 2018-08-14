@@ -11,7 +11,7 @@ import { MessageService } from '../../services/message.service';
   templateUrl: './domain.component.html',
   styleUrls: ['./domain.component.css']
 })
-export class DomainComponent implements OnInit {
+export class DomainComponent implements OnInit, OnDestroy {
 
   loading: boolean;
   error: boolean;

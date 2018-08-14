@@ -52,6 +52,12 @@
     "pages": "Pages",
     "settings": "Settings"
   },
+  "HOME_PAGE": {
+    "users_label": "Users",
+    "tags_label": "Tags",
+    "websites_label": "Websites",
+    "setence": "Total of {{value}}"
+  },
   "USERS_PAGE": {
     "title": "User:",
     "LIST": {
@@ -255,6 +261,22 @@
       "messages": {
         "success": "Pages created successfully",
         "error": "Error creating the pages"
+      }
+    }
+  },
+  "EVALUATIONS_PAGE": {
+    "LIST": {
+      "title": "Evaluations",
+      "subtitle": "List of all page evaluations",
+      "table": {
+        "filter": "Filter",
+        "id_label": "ID",
+        "score_label": "Score",
+        "a_label": "Nº errors A",
+        "aa_label": "Nº errors AA",
+        "aaa_label": "Nº errors AAA",
+        "evaluation_date_label": "Evaluation date",
+        "see_tooltip": "See evaluation"
       }
     }
   },

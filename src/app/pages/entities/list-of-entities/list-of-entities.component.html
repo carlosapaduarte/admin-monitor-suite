@@ -79,3 +79,5 @@
     <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>
+<app-loading *ngIf="loading"></app-loading>
+<app-error *ngIf="error"></app-error>

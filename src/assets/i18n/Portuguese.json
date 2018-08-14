@@ -52,6 +52,12 @@
     "pages": "Páginas",
     "settings": "Definições"
   },
+  "HOME_PAGE": {
+    "users_label": "Utilizadores",
+    "tags_label": "Tags",
+    "websites_label": "Websites",
+    "setence": "Total de {{value}}"
+  },
   "USERS_PAGE": {
     "title": "Utilizador:",
     "LIST": {
@@ -255,6 +261,22 @@
       "messages": {
         "success": "Páginas criaddas com sucesso",
         "error": "Erro ao criar as páginas"
+      }
+    }
+  },
+  "EVALUATIONS_PAGE": {
+    "LIST": {
+      "title": "Avaliações",
+      "subtitle": "Lista de todas as avaliações da página",
+      "table": {
+        "filter": "Filtro",
+        "id_label": "ID",
+        "score_label": "Pontuação",
+        "a_label": "Nº erros A",
+        "aa_label": "Nº erros AA",
+        "aaa_label": "Nº erros AAA",
+        "evaluation_date_label": "Data de avaliação",
+        "see_tooltip": "Ver avaliação"
       }
     }
   },

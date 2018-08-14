@@ -1,0 +1,8 @@
+mat-card-header {
+  text-align: center;
+}
+
+h3 {
+  font-weight: bold;
+  color: rgba(0,0,0,.54);
+}

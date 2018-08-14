@@ -1,0 +1,89 @@
+<mat-card class="mat-typography" *ngIf="!loading && !error">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>{{ "EVALUATIONS_PAGE.LIST.title" | translate }}</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h2>{{ "EVALUATIONS_PAGE.LIST.subtitle" | translate }}</h2>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table-filter">
+      <mat-form-field>
+        <label for="evaluation_table_filter">{{ "EVALUATIONS_PAGE.LIST.table.filter" | translate }}</label>
+        <input id="evaluation_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="EvaluationId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "EVALUATIONS_PAGE.LIST.table.id_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.EvaluationId}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Score">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "EVALUATIONS_PAGE.LIST.table.score_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Score}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="A">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "EVALUATIONS_PAGE.LIST.table.a_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.A}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="AA">
+        <mat-header-cell *matHeaderCellDef mat-sort-headerf>
+          {{ "EVALUATIONS_PAGE.LIST.table.aa_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.AA}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="AAA">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "EVALUATIONS_PAGE.LIST.table.aaa_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.AAA}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Evaluation_Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "EVALUATIONS_PAGE.LIST.table.evaluation_date_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.Evaluation_Date | date}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="see">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'EVALUATIONS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="[element.Evaluation_Date]">
+            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

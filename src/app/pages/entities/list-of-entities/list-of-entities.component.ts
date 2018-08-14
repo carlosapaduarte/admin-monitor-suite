@@ -28,17 +28,11 @@ export class ListOfEntitiesComponent implements OnInit {
     'see'
   ];
 
-  // data source of domains
   dataSource: any;
   selection: any;
 
-  // table filter
   @ViewChild('input') input: ElementRef;
-
-  // column sorter
   @ViewChild(MatSort) sort: MatSort;
-
-  // table paginator
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(

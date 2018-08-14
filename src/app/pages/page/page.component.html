@@ -1,3 +1,11 @@
-<p>
-  page works!
-</p>
+<mat-card class="mat-typography">
+  <mat-card-header fxLayout="row" fxLayoutAlign="center center">
+    <mat-card-title>
+      <h1>{{ "PAGES_PAGE.title" | translate }} {{ page }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+</mat-card>
+<br>
+<app-list-of-evaluations *ngIf="!loading && !error" [evaluations]="evaluations"></app-list-of-evaluations>
+<app-loading *ngIf="loading"></app-loading>
+<app-error *ngIf="error"></app-error>

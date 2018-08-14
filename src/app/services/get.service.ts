@@ -26,6 +26,167 @@ export class GetService {
     private message: MessageService
   ) { }
 
+  numberOfAcessStudiesUsers(): Observable<number> {
+    return ajax.post(this.getServer('/admin/users/studies/total'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<number>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  numberOfMyMonitorUsers(): Observable<number> {
+    return ajax.post(this.getServer('/admin/users/monitor/total'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<number>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  numberOfAccessStudiesTags(): Observable<number> {
+    return ajax.post(this.getServer('/admin/tags/studies/total'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<number>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  numberOfObservatorioTags(): Observable<number> {
+    return ajax.post(this.getServer('/admin/tags/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<number>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  numberOfAccessStudiesWebsites(): Observable<number> {
+    return ajax.post(this.getServer('/admin/websites/studies/total'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<number>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  numberOfMyMonitorWebsites(): Observable<number> {
+    return ajax.post(this.getServer('/admin/websites/monitor/total'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<number>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  numberOfObservatorioWebsites(): Observable<number> {
+    return ajax.post(this.getServer('/admin/websites/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<number>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   listOfUsers(): Observable<Array<User>> {
     return ajax.post(this.getServer('/admin/users/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
@@ -317,6 +478,29 @@ export class GetService {
         }
 
         return <Array<Page>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  listOfPageEvaluations(page: string): Observable<Array<any>> {
+    return ajax.post(this.getServer('/admin/evaluations/page'), {page, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<any>> response.result;
       }),
       catchError(err => {
         console.log(err);

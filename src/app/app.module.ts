@@ -10,6 +10,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxGaugeModule } from 'ngx-gauge';
+import { HighlightModule } from 'ngx-highlightjs';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -60,6 +62,11 @@ import { UserComponent } from './pages/user/user.component';
 import { WebsiteComponent } from './pages/website/website.component';
 import { DomainComponent } from './pages/domain/domain.component';
 import { PageComponent } from './pages/page/page.component';
+import { ListOfEvaluationsComponent } from './pages/page/list-of-evaluations/list-of-evaluations.component';
+import { EvaluationResultsComponent } from './pages/evaluation-results/evaluation-results.component';
+import { ElementResultComponent } from './pages/element-result/element-result.component';
+import { WebpageCodeComponent } from './pages/webpage-code/webpage-code.component';
+import { ItemComponent } from './pages/home/item/item.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -76,7 +83,10 @@ const appRoutes: Routes = [
     { path: 'domains', component: DomainsComponent },
     { path: 'domain/:user/:domain', component: DomainComponent },
     { path: 'pages', component: PagesComponent },
-    { path: 'page/:page', component: PageComponent }
+    { path: 'page/:page', component: PageComponent },
+    { path: 'page/:page/:evaluation_date', component: EvaluationResultsComponent },
+    { path: 'page/:page/:evaluation_date/code', component: WebpageCodeComponent },
+    { path: 'page/:page/:evaluation_date/:ele', component: ElementResultComponent }
   ]}
 ];
 
@@ -132,7 +142,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserComponent,
     WebsiteComponent,
     DomainComponent,
-    PageComponent
+    PageComponent,
+    ListOfEvaluationsComponent,
+    EvaluationResultsComponent,
+    ElementResultComponent,
+    WebpageCodeComponent,
+    ItemComponent
   ],
   imports: [
     BrowserModule,
@@ -154,7 +169,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgxGaugeModule,
+    HighlightModule.forRoot()
   ],
   entryComponents: [
     UserAuthErrorDialogComponent,
