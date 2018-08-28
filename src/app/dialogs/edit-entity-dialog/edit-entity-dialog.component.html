@@ -1,32 +1,65 @@
-<h1 mat-dialog-title>Criar uma nova Entidade</h1>
-<form (submit)="createEntity($event)" [formGroup]="entityForm" novalidate>  
+<h1 mat-dialog-title>
+  {{ "ENTITIES_PAGE.UPDATE.title" | translate }}
+</h1>
+<form (submit)="updateEntity($event)" [formGroup]="entityForm" novalidate>  
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
-    <div class="add-entity-block" fxLayout="column">
+    <div class="edit-entity-block" *ngIf="!loadingInfo" fxLayout="column">
       <mat-form-field>
-        <input matInput placeholder="Nome abreviado" formControlName="shortName" [errorStateMatcher]="matcher" required>
-        <button mat-button *ngIf="entityForm.value.shortName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.shortName.reset()">
+        <label for="entity_short_name_input">
+          {{ "ENTITIES_PAGE.ADD.short_name_label" | translate }}
+        </label>
+        <input 
+          id="entity_short_name_input" 
+          matInput 
+          formControlName="shortName" 
+          [errorStateMatcher]="matcher" 
+          required>
+        <button
+          *ngIf="entityForm.value.shortName" 
+          matSuffix 
+          mat-icon-button 
+          aria-label="Clear" 
+          (click)="entityForm.controls.shortName.reset()">
           <mat-icon>close</mat-icon>
         </button>
         <mat-error *ngIf="entityForm.controls.shortName.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
         </mat-error>
         <mat-error *ngIf="entityForm.controls.shortName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
-        <mat-error *ngIf="entityForm.controls.shortName.hasError('notTakenName')">Nome já existe</mat-error>
+        <mat-error *ngIf="entityForm.controls.shortName.hasError('notTakenName')">
+          {{ "ENTITIES_PAGE.ADD.short_name_exists" | translate }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Nome da entidade" formControlName="longName" [errorStateMatcher]="matcher" required>
-        <button mat-button *ngIf="entityForm.value.longName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.longName.reset()">
+        <label for="entity_long_name_input">
+          {{ "ENTITIES_PAGE.ADD.long_name_label" | translate }}
+        </label>
+        <input 
+          id="entity_long_name_input" 
+          matInput 
+          formControlName="longName" 
+          [errorStateMatcher]="matcher" 
+          required>
+        <button 
+          *ngIf="entityForm.value.longName" 
+          matSuffix 
+          mat-icon-button 
+          aria-label="Clear" 
+          (click)="entityForm.controls.longName.reset()">
           <mat-icon>close</mat-icon>
         </button>
         <mat-error *ngIf="entityForm.controls.longName.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
         </mat-error>
         <mat-error *ngIf="entityForm.controls.longName.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
-        <mat-error *ngIf="entityForm.controls.longName.hasError('notTakenName')">Nome já existe</mat-error>
+        <mat-error *ngIf="entityForm.controls.longName.hasError('notTakenName')">
+          {{ "ENTITIES_PAGE.ADD.long_name_exists" | translate }}
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
+        <label for="entity_websites_input">{{ "ENTITIES_PAGE.ADD.websites_label" | translate }}</label>
         <mat-chip-list #websitesChipList>
           <mat-chip
             *ngFor="let website of selectedWebsites"
@@ -37,7 +70,7 @@
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
           <input
-            placeholder="Associar Websites"
+            id="entity_websites_input"
             #websiteInput
             formControlName="websites"
             [matAutocomplete]="auto2"
@@ -56,43 +89,41 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-    <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
-      <mat-form-field>
-        <mat-chip-list #tagsChipList>
-          <mat-chip
-            *ngFor="let tag of selectedTags"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="removeTag(tag)">
-            {{tag.Name}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input
-            placeholder="Associar Tags"
-            #tagInput
-            formControlName="tags"
-            [matAutocomplete]="auto3"
-            [matChipInputFor]="tagsChipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
-          />
-          <button mat-button *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-chip-list>
-        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
-          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
-            {{ tag.Name }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </div>
   </mat-dialog-content>
-  <mat-dialog-actions fxLayout="row">
-      <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid" *ngIf="!loadingCreate">
-        Atualizar
+  <mat-dialog-actions fxLayout="column">
+    <div fxLayout="row">
+      <button mat-raised-button color="warn" type="button" (click)="setDefault()">
+        {{ "ENTITIES_PAGE.ADD.reset" | translate }}
       </button>
-      <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid" *ngIf="!loadingUpdate">
+        {{ "ENTITIES_PAGE.UPDATE.submit" | translate }}
+      </button>
+      <mat-spinner *ngIf="loadingUpdate" [diameter]="40"></mat-spinner>
+    </div>
+    <br>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ "ENTITIES_PAGE.UPDATE.delete.title" | translate }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ "ENTITIES_PAGE.UPDATE.delete.description" | translate }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <p><strong>{{ "ENTITIES_PAGE.UPDATE.delete.list.title" | translate }}</strong></p>
+        <ul>
+          <li>{{ "ENTITIES_PAGE.UPDATE.delete.list.item1" | translate }}</li>
+          <li>{{ "ENTITIES_PAGE.UPDATE.delete.list.item2" | translate }}</li>
+          <li>{{ "ENTITIES_PAGE.UPDATE.delete.list.item3" | translate }}</li>
+        </ul>
+        <button mat-button color="warn" type="button" (click)="deleteEntity()">
+          {{ "ENTITIES_PAGE.UPDATE.delete.submit" | translate }}
+        </button>
+      </ng-template>
+
+    </mat-expansion-panel>
   </mat-dialog-actions>
 </form>

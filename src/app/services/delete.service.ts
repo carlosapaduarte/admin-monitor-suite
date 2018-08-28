@@ -9,11 +9,10 @@ import { MessageService } from './message.service';
 
 import { Response } from '../models/response';
 import { AdminError } from '../models/error';
-
 @Injectable({
   providedIn: 'root'
 })
-export class UpdateService {
+export class DeleteService {
 
   constructor(
     private user: UserService,
@@ -22,7 +21,7 @@ export class UpdateService {
 
   entity(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
-    return ajax.post(this.getServer('/admin/entities/update'), data).pipe(
+    return ajax.post(this.getServer('/admin/entities/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -38,7 +37,7 @@ export class UpdateService {
         return <boolean> response.result;
       }),
       catchError(err => {
-        this.message.show('ENTITIES_PAGE.UPDATE.messages.error');
+        this.message.show('ENTITIES_PAGE.DELETE.messages.error');
         console.log(err);
         return of(null);
       })

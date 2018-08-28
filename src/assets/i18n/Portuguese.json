@@ -161,6 +161,31 @@
         "success": "Entidade criada com sucesso",
         "error": "Erro ao criar a entidade"
       }
+    },
+    "UPDATE": {
+      "title": "Editar esta entidade",
+      "submit": "Atualizar",
+      "delete": {
+        "title": "Apagar",
+        "description": "Apagar esta entidade",
+        "list": {
+          "title": "Importante:",
+          "item1": "Apenas esta entidade será apagada",
+          "item2": "Os websites que pertencem a esta entidade ficarão sem entidade",
+          "item3": "Esta acção não pode ser revertida"
+        },
+        "submit": "Apagar entidade"
+      },
+      "messages": {
+        "success": "Entidade atualizada com sucesso",
+        "error": "Erro ao atualizar entidade"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "Entidade apagada com sucesso",
+        "error": "Erro ao apagar entidade"
+      }
     }
   },
   "WEBSITES_PAGE": {

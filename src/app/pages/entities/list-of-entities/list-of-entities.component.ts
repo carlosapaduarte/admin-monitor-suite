@@ -45,6 +45,10 @@ export class ListOfEntitiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getListOfEntities();
+  }
+
+  private getListOfEntities(): void {
     this.get.listOfEntities()
       .subscribe(entities => {
         if (entities !== null) {
@@ -66,11 +70,19 @@ export class ListOfEntitiesComponent implements OnInit {
   }
 
   edit(id: number): void {
-    this.dialog.open(EditEntityDialogComponent, {
+    let editDialog = this.dialog.open(EditEntityDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,
       data: { id }
     });
+
+    editDialog.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.getListOfEntities();
+        }
+      });
   }
 }

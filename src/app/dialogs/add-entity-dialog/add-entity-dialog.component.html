@@ -89,13 +89,13 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row">
-      <button mat-raised-button color="warn" type="button" (click)="resetForm()">
-        {{ "ENTITIES_PAGE.ADD.reset" | translate }}
-      </button>
-      <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid" *ngIf="!loadingCreate">
-        {{ "ENTITIES_PAGE.ADD.submit" | translate }}
-      </button>
-      <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
+    <button mat-raised-button color="warn" type="button" (click)="resetForm()">
+      {{ "ENTITIES_PAGE.ADD.reset" | translate }}
+    </button>
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" type="submit" [disabled]="entityForm.controls.shortName.invalid || entityForm.controls.longName.invalid" *ngIf="!loadingCreate">
+      {{ "ENTITIES_PAGE.ADD.submit" | translate }}
+    </button>
+    <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 </form>

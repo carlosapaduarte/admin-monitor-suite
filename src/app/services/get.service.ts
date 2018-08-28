@@ -601,6 +601,29 @@ export class GetService {
     );
   }
 
+  entityInfo(entityId: number): Observable<any> {
+    return ajax.post(this.getServer('/admin/entities/info/'), { entityId, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <any> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   private getServer(service: string): string {
     const host = location.host;
     return 'http://' + _.split(host, ':')[0] + ':3000' + service;

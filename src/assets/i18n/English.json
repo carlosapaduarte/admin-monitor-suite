@@ -161,6 +161,31 @@
         "success": "Entity created successfully",
         "error": "Error creating entity"
       }
+    },
+    "UPDATE": {
+      "title": "Edit this entity",
+      "submit": "Update",
+      "delete": {
+        "title": "Delete",
+        "description": "Delete this entity",
+        "list": {
+          "title": "Important:",
+          "item1": "Only this entity will be deleted",
+          "item2": "Websites that belong to this entity will be without entity",
+          "item3": "This action can't be undone"
+        },
+        "submit": "Delete entity"
+      },
+      "messages": {
+        "success": "Entity updated successfully",
+        "error": "Error updating entity"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "Entity deleted successfully",
+        "error": "Error deleting entity"
+      }
     }
   },
   "WEBSITES_PAGE": {
