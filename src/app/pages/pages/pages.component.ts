@@ -35,6 +35,7 @@ export class PagesComponent implements OnInit {
         if (success !== null) {
           this.loading = true;
           this.getListOfPages();
+          this.message.show('PAGES_PAGE.DELETE.messages.success');
         }
       });
   }

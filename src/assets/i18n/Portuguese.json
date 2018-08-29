@@ -290,8 +290,8 @@
         "pages_label": "Nº páginas",
         "start_date_label": "Data de início",
         "end_date_label": "Data de fim",
-        "edit_label": "Editar",
-        "edit_tooltip": "Editar este domínio",
+        "delete_label": "Apagar",
+        "delete_tooltip": "Apagar domínio",
         "see_tooltip": "Ver domínio"
       }
     },
@@ -308,6 +308,22 @@
       "messages": {
         "success": "Domínio criado com sucesso",
         "error": "Erro ao criar o domínio"
+      }
+    },
+    "DELETE": {
+      "title": "Apagar este domínio",
+      "list": {
+        "title": "Importante:",
+        "item1": "O domínio selecionado será apagado",
+        "item2": "O website do domínio não será apagado",
+        "item3": "As paginas deste domínio não serão apagadas",
+        "item4": "Se este é o único domínio do website, ou se for o domínio activo, poderão ocrrer erros durante o cálculo de alguns dados",
+        "item5": "Esta acção não pode ser revertida"
+      },
+      "submit": "Apagar domínio",
+      "messages": {
+        "success": "Domínio apagado com sucesso",
+        "error": "Erro ao apagar domínio"
       }
     }
   },

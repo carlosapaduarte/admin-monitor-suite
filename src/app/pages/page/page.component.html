@@ -4,6 +4,15 @@
       <h1>{{ "PAGES_PAGE.title" | translate }} {{ page }}</h1>
     </mat-card-title>
   </mat-card-header>
+  <mat-card-actions>
+    <a mat-icon-button class="tools" [routerLink]="['/console', 'pages']" matTooltip="{{ 'RESULTS.actions.back' | translate }}">
+       <mat-icon aria-label="'RESULTS.actions.back' | translate">arrow_back</mat-icon>
+    </a>
+    <span fxFlex></span>
+    <button mat-icon-button class="tools" (click)="evaluate()" matTooltip="{{ 'RESULTS.actions.re_evaluate' | translate }}">
+      <mat-icon aria-label="'RESULTS.actions.re_evaluate' | translate">autorenew</mat-icon>
+    </button>
+  </mat-card-actions>
 </mat-card>
 <br>
 <app-list-of-evaluations *ngIf="!loading && !error" [evaluations]="evaluations" (deleteEvaluation)="deleteEvaluation($event)"></app-list-of-evaluations>

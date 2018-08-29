@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { GetService } from '../../services/get.service';
+import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class DomainsComponent implements OnInit {
 
   constructor(
     private get: GetService,
+    private deleteService: DeleteService,
     private message: MessageService
   ) {
     this.loading = true;
@@ -24,6 +26,10 @@ export class DomainsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getListOfDomains();
+  }
+
+  private getListOfDomains(): void {
     this.get.listOfDomains()
       .subscribe(domains => {
         if (domains !== null) {
@@ -33,6 +39,17 @@ export class DomainsComponent implements OnInit {
         }
 
         this.loading = false;
+      });
+  }
+
+  deleteDomain(domain): void {
+    this.deleteService.domain({domainId: domain})
+      .subscribe(success => {
+        if (success !== null) {
+          this.loading = true;
+          this.getListOfDomains();
+          this.message.show('DOMAINS_PAGE.DELETE.messages.success');
+        }
       });
   }
 }

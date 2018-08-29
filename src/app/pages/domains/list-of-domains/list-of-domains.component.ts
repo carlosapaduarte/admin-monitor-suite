@@ -1,6 +1,9 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
+
+import { DeleteDomainDialogComponent } from '../../../dialogs/delete-domain-dialog/delete-domain-dialog.component';
 
 @Component({
   selector: 'app-list-of-domains',
@@ -9,6 +12,7 @@ import * as _ from 'lodash';
 })
 export class ListOfDomainsComponent implements OnInit {
 
+  @Output('deleteDomain') deleteDomain = new EventEmitter<number>();
   @Input('domains') domains: Array<any>;
 
   displayedColumns = [
@@ -19,7 +23,7 @@ export class ListOfDomainsComponent implements OnInit {
     'Pages',
     'Start_Date',
     'End_Date',
-    'edit',
+    'delete',
     'see'
   ];
 
@@ -30,7 +34,7 @@ export class ListOfDomainsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.domains);
@@ -42,5 +46,20 @@ export class ListOfDomainsComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  openDeleteDomainDialog(domainId: number): void {
+    let deleteDialog = this.dialog.open(DeleteDomainDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true
+    });
+
+    deleteDialog.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.deleteDomain.next(domainId);
+        }
+      });
   }
 }

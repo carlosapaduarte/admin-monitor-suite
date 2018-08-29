@@ -7,6 +7,12 @@
       <h2>{{ "TAGS_PAGE.subtitle" | translate }} {{ user }}</h2>
     </mat-card-subtitle>
   </mat-card-header>
+  <mat-card-actions>
+    <a mat-icon-button class="tools" [routerLink]="['/console', 'tags']" matTooltip="{{ 'RESULTS.actions.back' | translate }}">
+       <mat-icon aria-label="'RESULTS.actions.back' | translate">arrow_back</mat-icon>
+    </a>
+    <span fxFlex></span>
+  </mat-card-actions>
 </mat-card>
 <br>
 <app-list-of-websites *ngIf="!loading && !error" [websites]="websites"></app-list-of-websites>

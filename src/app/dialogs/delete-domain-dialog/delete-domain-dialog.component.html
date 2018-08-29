@@ -1,3 +1,16 @@
-<p>
-  delete-domain-dialog works!
-</p>
+<h1 class="mat-display-1" mat-dialog-title>{{ "DOMAINS_PAGE.DELETE.title" | translate }}</h1>
+<mat-dialog-content>
+  <p><strong>{{ "DOMAINS_PAGE.DELETE.list.title" | translate }}</strong></p>
+  <ul>
+    <li>{{ "DOMAINS_PAGE.DELETE.list.item1" | translate }}</li>
+    <li>{{ "DOMAINS_PAGE.DELETE.list.item2" | translate }}</li>
+    <li>{{ "DOMAINS_PAGE.DELETE.list.item3" | translate }}</li>
+    <li>{{ "DOMAINS_PAGE.DELETE.list.item4" | translate }}</li>
+    <li>{{ "DOMAINS_PAGE.DELETE.list.item5" | translate }}</li>
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-raised-button color="warn" [mat-dialog-close]="true">
+    {{ "DOMAINS_PAGE.DELETE.submit" | translate }}
+  </button>
+</mat-dialog-actions>

@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
 import * as _ from 'lodash';
 
+import { EvaluationService } from '../../services/evaluation.service';
 import { GetService } from '../../services/get.service';
 import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
@@ -25,6 +27,8 @@ export class PageComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private location: Location,
+    private evaluation: EvaluationService,
     private get: GetService,
     private deleteService: DeleteService,
     private message: MessageService
@@ -57,12 +61,26 @@ export class PageComponent implements OnInit, OnDestroy {
       });
   }
 
+  evaluate(): void {
+    this.loading = true;
+
+    this.evaluation.evaluateUrl(this.page)
+      .subscribe(data => {
+        if (!data) {
+          this.error = true;
+        } else {
+          this.getListOfPageEvaluations();
+        }
+      });
+  }
+
   deleteEvaluation(evaluation): void {
     this.deleteService.evaluation({evaluationId: evaluation})
       .subscribe(success => {
         if (success !== null) {
           this.loading = true;
           this.getListOfPageEvaluations();
+          this.message.show('EVALUATIONS_PAGE.DELETE.messages.success');
         }
       });
   }

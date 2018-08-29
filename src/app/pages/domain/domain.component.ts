@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
+import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class DomainComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private get: GetService,
+    private deleteService: DeleteService,
     private message: MessageService
   ) {
     this.loading = true;
@@ -36,20 +38,34 @@ export class DomainComponent implements OnInit, OnDestroy {
       this.user = _.trim(params.user);
       this.domain = params.domain;
 
-      this.get.listOfDomainPages(this.user, encodeURIComponent(this.domain))
-        .subscribe(pages => {
-          if (pages !== null) {
-            this.pages = pages;
-          } else {
-            this.error = true;
-          }
-
-          this.loading = false;
-        });
+      this.getListOfDomainPages();
     });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  private getListOfDomainPages(): void {
+    this.get.listOfDomainPages(this.user, encodeURIComponent(this.domain))
+      .subscribe(pages => {
+        if (pages !== null) {
+          this.pages = pages;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
+  }
+
+  deletePage(page): void {
+    this.deleteService.page({pageId: page})
+      .subscribe(success => {
+        if (success !== null) {
+          this.loading = true;
+          this.getListOfDomainPages();
+        }
+      });
   }
 }

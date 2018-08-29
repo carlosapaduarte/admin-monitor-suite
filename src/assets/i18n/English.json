@@ -290,8 +290,8 @@
         "pages_label": "Nº pages",
         "start_date_label": "Start date",
         "end_date_label": "End date",
-        "edit_label": "Edit",
-        "edit_tooltip": "Edit this domain",
+        "delete_label": "Delete",
+        "delete_tooltip": "Delete domain",
         "see_tooltip": "See domain"
       }
     },
@@ -308,6 +308,22 @@
       "messages": {
         "success": "Domain successfully created",
         "error": "Error creating domain"
+      }
+    },
+    "DELETE": {
+      "title": "Delete this domain",
+      "list": {
+        "title": "Important:",
+        "item1": "The selected domain will be deleted",
+        "item2": "The domain's website won't be deleted",
+        "item3": "All domain pages won't be deleted",
+        "item4": "If this is the only domain of the website, or if it's the active one, errors may occur during the calculation of some data",
+        "item5": "This action can't be undone"
+      },
+      "submit": "Delete domain",
+      "messages": {
+        "success": "Domain deleted successfully",
+        "error": "Error deleting domain"
       }
     }
   },

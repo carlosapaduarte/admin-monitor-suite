@@ -4,6 +4,12 @@
       <h1>{{ "ENTITIES_PAGE.title" | translate }} {{ entity }}</h1>
     </mat-card-title>
   </mat-card-header>
+  <mat-card-actions>
+    <a mat-icon-button class="tools" [routerLink]="['/console', 'entities']" matTooltip="{{ 'RESULTS.actions.back' | translate }}">
+       <mat-icon aria-label="'RESULTS.actions.back' | translate">arrow_back</mat-icon>
+    </a>
+    <span fxFlex></span>
+  </mat-card-actions>
 </mat-card>
 <br>
 <app-list-of-websites *ngIf="!loading && !error" [websites]="websites"></app-list-of-websites>
