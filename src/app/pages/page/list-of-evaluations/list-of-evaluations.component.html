@@ -71,6 +71,17 @@
         </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "EVALUATIONS_PAGE.LIST.table.delete_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button matTooltip="{{ 'EVALUATIONS_PAGE.LIST.table.delete_tooltip' | translate }}" (click)="openDeleteEvaluationDialog(element.EvaluationId)">
+            <mat-icon class="md-24" aria-label="">clear</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element">

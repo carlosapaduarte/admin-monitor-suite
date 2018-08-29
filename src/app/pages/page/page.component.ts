@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
+import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class PageComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private get: GetService,
+    private deleteService: DeleteService,
     private message: MessageService
   ) {
     this.loading = true;
@@ -34,21 +36,34 @@ export class PageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.page = params.page;
-
-      this.get.listOfPageEvaluations(encodeURIComponent(this.page))
-        .subscribe(evaluations => {
-          if (evaluations !== null) {
-            this.evaluations = evaluations;
-          } else {
-            this.error = true;
-          }
-
-          this.loading = false;
-        });
+      this.getListOfPageEvaluations();
     });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  private getListOfPageEvaluations(): void {
+    this.get.listOfPageEvaluations(encodeURIComponent(this.page))
+      .subscribe(evaluations => {
+        if (evaluations !== null) {
+          this.evaluations = evaluations;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
+  }
+
+  deleteEvaluation(evaluation): void {
+    this.deleteService.evaluation({evaluationId: evaluation})
+      .subscribe(success => {
+        if (success !== null) {
+          this.loading = true;
+          this.getListOfPageEvaluations();
+        }
+      });
   }
 }

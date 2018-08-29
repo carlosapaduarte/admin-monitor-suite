@@ -323,8 +323,8 @@
         "uri_label": "Uri",
         "score_label": "Pontuação",
         "last_updated_label": "Última avaliação",
-        "edit_label": "Editar",
-        "edit_tooltip": "Editar esta página",
+        "delete_label": "Apagar",
+        "delete_tooltip": "Apagar esta página",
         "see_tooltip": "Ver página"
       }
     },
@@ -340,6 +340,22 @@
         "success": "Páginas criaddas com sucesso",
         "error": "Erro ao criar as páginas"
       }
+    },
+    "DELETE": {
+      "title": "Apagar esta página",
+      "list": {
+        "title": "Importante:",
+        "item1": "A página selecionada será apagada",
+        "item2": "O website e domínio da página não serão apagados",
+        "item3": "Todo o histórico de avaliações da página será apagado",
+        "item4": "A remoção poderá afetar os dados das aplicações Observatório, My Monitor e Access Studies",
+        "item5": "Esta acção não pode ser revertida"
+      },
+      "submit": "Apagar página",
+      "messages": {
+        "success": "Página apagada com sucesso",
+        "error": "Erro ao apagar página"
+      }
     }
   },
   "EVALUATIONS_PAGE": {
@@ -354,7 +370,23 @@
         "aa_label": "Nº erros AA",
         "aaa_label": "Nº erros AAA",
         "evaluation_date_label": "Data de avaliação",
+        "delete_label": "Apagar",
+        "delete_tooltip": "Apagar avaliação",
         "see_tooltip": "Ver avaliação"
+      }
+    },
+    "DELETE": {
+      "title": "Apagar esta avaliação",
+      "list": {
+        "title": "Importante:",
+        "item1": "A avaliação selecionada será apagada",
+        "item2": "Se esta for a única avaliação da página, poderão ocorrer erros durante o cálculo de alguns dados",
+        "item3": "Esta acção não pode ser revertida"
+      },
+      "submit": "Apagar avaliação",
+      "messages": {
+        "success": "Avaliação apagada com sucesso",
+        "error": "Erro ao apagar avaliação"
       }
     }
   },

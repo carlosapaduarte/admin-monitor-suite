@@ -69,6 +69,9 @@ import { WebpageCodeComponent } from './pages/webpage-code/webpage-code.componen
 import { ItemComponent } from './pages/home/item/item.component';
 import { EditTagDialogComponent } from './dialogs/edit-tag-dialog/edit-tag-dialog.component';
 import { EditUserDialogComponent } from './dialogs/edit-user-dialog/edit-user-dialog.component';
+import { DeletePageDialogComponent } from './dialogs/delete-page-dialog/delete-page-dialog.component';
+import { DeleteDomainDialogComponent } from './dialogs/delete-domain-dialog/delete-domain-dialog.component';
+import { DeleteEvaluationDialogComponent } from './dialogs/delete-evaluation-dialog/delete-evaluation-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -151,7 +154,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     WebpageCodeComponent,
     ItemComponent,
     EditTagDialogComponent,
-    EditUserDialogComponent
+    EditUserDialogComponent,
+    DeletePageDialogComponent,
+    DeleteDomainDialogComponent,
+    DeleteEvaluationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -188,6 +194,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditEntityDialogComponent,
     EditUserDialogComponent,
     EditTagDialogComponent,
+    DeleteDomainDialogComponent,
+    DeletePageDialogComponent,
+    DeleteEvaluationDialogComponent,
     BottomSheetComponent
   ],
   providers: [

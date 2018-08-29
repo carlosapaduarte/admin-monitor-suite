@@ -1,6 +1,9 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
+
+import { DeletePageDialogComponent } from '../../../dialogs/delete-page-dialog/delete-page-dialog.component';
 
 @Component({
   selector: 'app-list-of-pages',
@@ -9,6 +12,7 @@ import * as _ from 'lodash';
 })
 export class ListOfPagesComponent implements OnInit {
 
+  @Output('deletePage') deletePage = new EventEmitter<number>();
   @Input('pages') pages: Array<any>;
 
   displayedColumns = [
@@ -16,7 +20,7 @@ export class ListOfPagesComponent implements OnInit {
     'Uri',
     'Score',
     'Evaluation_Date',
-    'edit',
+    'delete',
     'see'
   ];
 
@@ -27,7 +31,7 @@ export class ListOfPagesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.pages);
@@ -39,5 +43,20 @@ export class ListOfPagesComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  openDeletePageDialog(pageId: number): void {
+    let deleteDialog = this.dialog.open(DeletePageDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true
+    });
+
+    deleteDialog.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.deletePage.next(pageId);
+        }
+      });
   }
 }

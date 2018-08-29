@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { GetService } from '../../services/get.service';
+import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class PagesComponent implements OnInit {
 
   constructor(
     private get: GetService,
+    private deleteService: DeleteService,
     private message: MessageService
   ) {
     this.loading = true;
@@ -24,6 +26,20 @@ export class PagesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getListOfPages();
+  }
+
+  deletePage(page): void {
+    this.deleteService.page({pageId: page})
+      .subscribe(success => {
+        if (success !== null) {
+          this.loading = true;
+          this.getListOfPages();
+        }
+      });
+  }
+
+  private getListOfPages(): void {
     this.get.listOfPages()
       .subscribe(pages => {
         if (pages !== null) {

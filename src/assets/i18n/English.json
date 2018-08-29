@@ -323,8 +323,8 @@
         "uri_label": "Uri",
         "score_label": "Score",
         "last_updated_label": "Last evaluation",
-        "edit_label": "Edit",
-        "edit_tooltip": "Edit this page",
+        "delete_label": "Delete",
+        "delete_tooltip": "Delete this page",
         "see_tooltip": "See page"
       }
     },
@@ -340,6 +340,22 @@
         "success": "Pages created successfully",
         "error": "Error creating the pages"
       }
+    },
+    "DELETE": {
+      "title": "Delete this page",
+      "list": {
+        "title": "Important:",
+        "item1": "The selected page will be deleted",
+        "item2": "The page's domain and website won't be deleted",
+        "item3": "All page evaluation history will be deleted",
+        "item4": "Removing this page may affect data from the Observatory, My Monitor and Access Studies applications",
+        "item5": "This action can't be undone"
+      },
+      "submit": "Delete page",
+      "messages": {
+        "success": "Page deleted successfully",
+        "error": "Error deleting page"
+      }
     }
   },
   "EVALUATIONS_PAGE": {
@@ -354,7 +370,23 @@
         "aa_label": "Nº errors AA",
         "aaa_label": "Nº errors AAA",
         "evaluation_date_label": "Evaluation date",
+        "delete_label": "Delete",
+        "delete_tooltip": "Delete evaluation",
         "see_tooltip": "See evaluation"
+      }
+    },
+    "DELETE": {
+      "title": "Delete this evaluation",
+      "list": {
+        "title": "Important:",
+        "item1": "The selected evaluation will be deleted",
+        "item2": "If this is the only evaluation of the page, errors may occur during the calculation of some data",
+        "item3": "This action can't be undone"
+      },
+      "submit": "Delete evaluation",
+      "messages": {
+        "success": "Evaluation deleted successfully",
+        "error": "Error deleting evaluation"
       }
     }
   },

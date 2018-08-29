@@ -6,6 +6,6 @@
   </mat-card-header>
 </mat-card>
 <br>
-<app-list-of-evaluations *ngIf="!loading && !error" [evaluations]="evaluations"></app-list-of-evaluations>
+<app-list-of-evaluations *ngIf="!loading && !error" [evaluations]="evaluations" (deleteEvaluation)="deleteEvaluation($event)"></app-list-of-evaluations>
 <app-loading *ngIf="loading"></app-loading>
 <app-error *ngIf="error"></app-error>

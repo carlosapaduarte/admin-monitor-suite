@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
+
+import { DeleteEvaluationDialogComponent } from '../../../dialogs/delete-evaluation-dialog/delete-evaluation-dialog.component';
 
 @Component({
   selector: 'app-list-of-evaluations',
@@ -10,6 +12,7 @@ import * as _ from 'lodash';
 })
 export class ListOfEvaluationsComponent implements OnInit {
 
+  @Output('deleteEvaluation') deleteEvaluation = new EventEmitter<number>();
   @Input('evaluations') evaluations: Array<any>;
 
   displayedColumns = [
@@ -19,6 +22,7 @@ export class ListOfEvaluationsComponent implements OnInit {
     'AA',
     'AAA',
     'Evaluation_Date',
+    'delete',
     'see'
   ];
 
@@ -29,7 +33,7 @@ export class ListOfEvaluationsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.evaluations);
@@ -41,5 +45,20 @@ export class ListOfEvaluationsComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  openDeleteEvaluationDialog(evaluationId: number): void {
+    let deleteDialog = this.dialog.open(DeleteEvaluationDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true
+    });
+
+    deleteDialog.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.deleteEvaluation.next(evaluationId);
+        }
+      });
   }
 }
