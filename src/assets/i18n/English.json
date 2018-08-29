@@ -96,6 +96,31 @@
         "success": "User created successfully",
         "error": "Error creating user"
       }
+    },
+    "UPDATE": {
+      "title": "Edit this user",
+      "submit": "Update",
+      "delete": {
+        "title": "Delete",
+        "description": "Delete this user",
+        "list": {
+          "title": "Important:",
+          "item1": "The user and all it's data will be deleted",
+          "item2": "If the user belongs to the Access Studies application, all it's websites and tags will be deleted",
+          "item3": "This action can't be undone"
+        },
+        "submit": "Delete user"
+      },
+      "messages": {
+        "success": "User updated successfully",
+        "error": "Error updating user"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "User deleted successfully",
+        "error": "Error deleting user"
+      }
     }
   },
   "TAGS_PAGE": {

@@ -67,6 +67,8 @@ import { EvaluationResultsComponent } from './pages/evaluation-results/evaluatio
 import { ElementResultComponent } from './pages/element-result/element-result.component';
 import { WebpageCodeComponent } from './pages/webpage-code/webpage-code.component';
 import { ItemComponent } from './pages/home/item/item.component';
+import { EditTagDialogComponent } from './dialogs/edit-tag-dialog/edit-tag-dialog.component';
+import { EditUserDialogComponent } from './dialogs/edit-user-dialog/edit-user-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -147,7 +149,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     EvaluationResultsComponent,
     ElementResultComponent,
     WebpageCodeComponent,
-    ItemComponent
+    ItemComponent,
+    EditTagDialogComponent,
+    EditUserDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -182,6 +186,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddDomainDialogComponent,
     AddPageDialogComponent,
     EditEntityDialogComponent,
+    EditUserDialogComponent,
+    EditTagDialogComponent,
     BottomSheetComponent
   ],
   providers: [

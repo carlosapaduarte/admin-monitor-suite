@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { GetService } from '../../../services/get.service';
 import { MessageService } from '../../../services/message.service';
+
+import { EditUserDialogComponent } from '../../../dialogs/edit-user-dialog/edit-user-dialog.component';
 
 @Component({
   selector: 'app-list-of-users',
@@ -35,6 +38,7 @@ export class ListOfUsersComponent implements OnInit {
   selection: any;
 
   constructor(
+    private dialog: MatDialog,
     private get: GetService,
     private message: MessageService
   ) {
@@ -43,6 +47,10 @@ export class ListOfUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getListOfUsers();
+  }
+
+  private getListOfUsers(): void {
     this.get.listOfUsers()
       .subscribe(users => {
         if (users !== null) {
@@ -61,5 +69,22 @@ export class ListOfUsersComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  edit(id: number): void {
+    let editDialog = this.dialog.open(EditUserDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true,
+      data: { id }
+    });
+
+    editDialog.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.getListOfUsers();
+        }
+      });
   }
 }

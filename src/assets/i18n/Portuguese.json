@@ -96,6 +96,31 @@
         "success": "Utilizador criado com sucesso",
         "error": "Erro ao criar utilizador"
       }
+    },
+    "UPDATE": {
+      "title": "Editar este utilizador",
+      "submit": "Atualizar",
+      "delete": {
+        "title": "Apagar",
+        "description": "Apagar este utilizador",
+        "list": {
+          "title": "Importante:",
+          "item1": "O utilizador e toda a sua informação serão apagados",
+          "item2": "Se o utilizador pertencer à aplicação Access Studies, os seus websites e tags serão apagados",
+          "item3": "Esta acção não pode ser revertida"
+        },
+        "submit": "Apagar utilizador"
+      },
+      "messages": {
+        "success": "Utilizador atualizado com sucesso",
+        "error": "Erro ao atualizar utilizador"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "Utilizador apagado com sucesso",
+        "error": "Erro ao apagar utilizador"
+      }
     }
   },
   "TAGS_PAGE": {
