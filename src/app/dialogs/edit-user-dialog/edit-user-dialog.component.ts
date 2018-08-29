@@ -69,7 +69,6 @@ export class EditUserDialogComponent implements OnInit {
   defaultUser: any;
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
-  @ViewChild('tagInput') tagInput: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

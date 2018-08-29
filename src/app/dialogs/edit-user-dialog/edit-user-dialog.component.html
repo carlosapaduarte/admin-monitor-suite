@@ -75,9 +75,10 @@
         {{ "USERS_PAGE.ADD.reset" | translate }}
       </button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid">
+      <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid" *ngIf="!loadingUpdate">
         {{ 'USERS_PAGE.UPDATE.submit' | translate }}
       </button>
+      <mat-spinner *ngIf="loadingUpdate" [diameter]="40"></mat-spinner>
     </div>
     <br>
     <mat-expansion-panel>

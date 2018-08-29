@@ -88,8 +88,9 @@
         {{ "USERS_PAGE.ADD.reset" | translate }}
       </button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid">
+      <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid" *ngIf="!loadingCreate">
         {{ 'USERS_PAGE.ADD.submit' | translate }}
       </button>
+      <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 </form>

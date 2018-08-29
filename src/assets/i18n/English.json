@@ -154,6 +154,31 @@
         "success": "Tag successfully created",
         "error": "Error creating tag"
       }
+    },
+    "UPDATE": {
+      "title": "Edit this tag",
+      "submit": "Update",
+      "delete": {
+        "title": "Delete",
+        "description": "Delete this tag",
+        "list": {
+          "title": "Important:",
+          "item1": "Only this tag will be deleted",
+          "item2": "Websites that belong to this tag will be without tag",
+          "item3": "This action can't be undone"
+        },
+        "submit": "Delete tag"
+      },
+      "messages": {
+        "success": "Tag updated successfully",
+        "error": "Error updating tag"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "Tag deleted successfully",
+        "error": "Error deleting tag"
+      }
     }
   },
   "ENTITIES_PAGE": {

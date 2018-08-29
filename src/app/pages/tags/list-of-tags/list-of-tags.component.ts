@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { GetService } from '../../../services/get.service';
 import { MessageService } from '../../../services/message.service';
+
+import { EditTagDialogComponent } from '../../../dialogs/edit-tag-dialog/edit-tag-dialog.component';
 
 @Component({
   selector: 'app-list-of-tags',
@@ -34,6 +37,7 @@ export class ListOfTagsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
+    private dialog: MatDialog,
     private get: GetService,
     private message: MessageService
   ) {
@@ -42,6 +46,10 @@ export class ListOfTagsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getListOfTags();
+  }
+
+  private getListOfTags(): void {
     this.get.listOfTags()
       .subscribe(tags => {
         if (tags !== null) {
@@ -60,5 +68,22 @@ export class ListOfTagsComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  edit(id: number): void {
+    let editDialog = this.dialog.open(EditTagDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true,
+      data: { id }
+    });
+
+    editDialog.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.loading = true;
+          this.getListOfTags();
+        }
+      });
   }
 }

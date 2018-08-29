@@ -154,6 +154,31 @@
         "success": "Tag criada com sucesso",
         "error": "Erro ao criar a tag"
       }
+    },
+    "UPDATE": {
+      "title": "Editar esta tag",
+      "submit": "Atualizar",
+      "delete": {
+        "title": "Apagar",
+        "description": "Apagar esta tag",
+        "list": {
+          "title": "Importante:",
+          "item1": "Apenas esta tag será apagada",
+          "item2": "Os websites que pertencem a esta tag ficarão sem tag",
+          "item3": "Esta acção não pode ser revertida"
+        },
+        "submit": "Apagar tag"
+      },
+      "messages": {
+        "success": "Tag atualizada com sucesso",
+        "error": "Erro ao atualizar tag"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "Tag apagada com sucesso",
+        "error": "Erro ao apagar a tag"
+      }
     }
   },
   "ENTITIES_PAGE": {

@@ -44,6 +44,31 @@ export class DeleteService {
     );
   }
 
+  tag(data: any): Observable<boolean> {
+    data.cookie = this.userService.getUserData();
+    return ajax.post(this.getServer('/admin/tags/delete'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('TAGS_PAGE.DELETE.messages.error');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   entity(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
     return ajax.post(this.getServer('/admin/entities/delete'), data).pipe(

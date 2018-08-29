@@ -1,3 +1,92 @@
-<p>
-  edit-tag-dialog works!
-</p>
+<h1 class="mat-display-1" mat-dialog-title>{{ "TAGS_PAGE.UPDATE.title" | translate }}</h1>
+<form (submit)="updateTag($event)" [formGroup]="tagForm" novalidate>
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="add-tag-block" fxLayout="column">
+      <mat-form-field>
+        <label for="tag_name_input">{{ "TAGS_PAGE.ADD.name_label" | translate }}</label>
+        <input id="tag_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" required>
+        <button mat-button *ngIf="tagForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="tagForm.controls.name.reset()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="tagForm.controls.name.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
+        <mat-error *ngIf="tagForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="tagForm.controls.name.hasError('notTakenName')">{{ "TAGS_PAGE.ADD.name_exists" | translate }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-observatorio-block">
+      <mat-checkbox formControlName="observatorio">
+        {{ "TAGS_PAGE.ADD.observatorio_label" | translate }}
+      </mat-checkbox>
+    </div>
+    <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <label for="tag_websites_input">{{ "TAGS_PAGE.ADD.websites_label" | translate }}</label>
+        <mat-chip-list #websitesChipList>
+          <mat-chip
+            *ngFor="let website of selectedWebsites"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="removeWebsite(website)">
+            {{website.Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            id="tag_websites_input"
+            #websiteInput
+            formControlName="websites"
+            [matAutocomplete]="auto2"
+            [matChipInputFor]="websitesChipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+          <button mat-button *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-chip-list>
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">
+          <mat-option *ngFor="let website of filteredWebsites | async" [value]="website.Name">
+            {{ website.Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="column">
+    <div>
+      <button mat-raised-button color="warn" type="button" (click)="setDefault()">
+        {{ "TAGS_PAGE.ADD.reset" | translate }}
+      </button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit" [disabled]="tagForm.controls.name.invalid" *ngIf="!loadingUpdate">
+        {{ "TAGS_PAGE.UPDATE.submit" | translate }}
+      </button>
+      <mat-spinner *ngIf="loadingUpdate" [diameter]="40"></mat-spinner>
+    </div>
+    <br>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ "TAGS_PAGE.UPDATE.delete.title" | translate }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ "TAGS_PAGE.UPDATE.delete.description" | translate }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+        <p><strong>{{ "TAGS_PAGE.UPDATE.delete.list.title" | translate }}</strong></p>
+        <ul>
+          <li>{{ "TAGS_PAGE.UPDATE.delete.list.item1" | translate }}</li>
+          <li>{{ "TAGS_PAGE.UPDATE.delete.list.item2" | translate }}</li>
+          <li>{{ "TAGS_PAGE.UPDATE.delete.list.item3" | translate }}</li>
+        </ul>
+        <button mat-button color="warn" type="button" (click)="deleteTag()">
+          {{ "TAGS_PAGE.UPDATE.delete.submit" | translate }}
+        </button>
+      </ng-template>
+
+    </mat-expansion-panel>
+  </mat-dialog-actions>
+</form>

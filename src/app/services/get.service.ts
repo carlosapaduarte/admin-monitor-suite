@@ -624,6 +624,29 @@ export class GetService {
     );
   }
 
+  tagInfo(tagId: number): Observable<any> {
+    return ajax.post(this.getServer('/admin/tags/info'), { tagId, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <any> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   entityInfo(entityId: number): Observable<any> {
     return ajax.post(this.getServer('/admin/entities/info'), { entityId, cookie: this.user.getUserData()}).pipe(
       retry(3),
