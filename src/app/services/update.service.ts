@@ -95,6 +95,31 @@ export class UpdateService {
     );
   }
 
+  website(data: any): Observable<boolean> {
+    data.cookie = this.userService.getUserData();
+    return ajax.post(this.getServer('/admin/websites/update'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('WEBSITES_PAGE.UPDATE.messages.error');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   private getServer(service: string): string {
     const host = location.host;
     return 'http://' + _.split(host, ':')[0] + ':3000' + service;

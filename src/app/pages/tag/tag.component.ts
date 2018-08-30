@@ -36,20 +36,29 @@ export class TagComponent implements OnInit, OnDestroy {
       this.user = _.trim(params.user);
       this.tag = params.tag;
 
-      this.get.listOfTagWebsites(this.user, this.tag)
-        .subscribe(websites => {
-          if (websites !== null) {
-            this.websites = websites;
-          } else {
-            this.error = true;
-          }
-
-          this.loading = false;
-        });
+      this.getListOfTagWebsites();
     });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  refreshWebsites(): void {
+    this.loading = true;
+    this.getListOfTagWebsites();
+  }
+
+  private getListOfTagWebsites(): void {
+    this.get.listOfTagWebsites(this.user, this.tag)
+      .subscribe(websites => {
+        if (websites !== null) {
+          this.websites = websites;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
   }
 }

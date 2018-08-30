@@ -53,7 +53,6 @@ export class EditEntityDialogComponent implements OnInit {
   defaultEntity: any;
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
-  @ViewChild('tagInput') tagInput: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

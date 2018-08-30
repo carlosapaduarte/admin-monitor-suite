@@ -273,6 +273,32 @@
         "success": "Website criado com sucesso",
         "error": "Erro ao criar o website"
       }
+    },
+    "UPDATE": {
+      "title": "Editar este website",
+      "submit": "Atualizar",
+      "delete": {
+        "title": "Apagar",
+        "description": "Apagar este website",
+        "list": {
+          "title": "Importante:",
+          "item1": "Este website será apagado",
+          "item2": "Todos os domínios que pertencem a este website serão apagados",
+          "item3": "As páginas deste website não serão apagadas",
+          "item4": "Esta acção não pode ser revertida"
+        },
+        "submit": "Apagar website"
+      },
+      "messages": {
+        "success": "Website atualizado com sucesso",
+        "error": "Erro ao atualizar website"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "Website apagado com sucesso",
+        "error": "Erro ao apagar website"
+      }
     }
   },
   "DOMAINS_PAGE": {

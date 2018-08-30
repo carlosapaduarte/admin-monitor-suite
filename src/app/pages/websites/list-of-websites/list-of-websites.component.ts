@@ -1,6 +1,9 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
+
+import { EditWebsiteDialogComponent } from '../../../dialogs/edit-website-dialog/edit-website-dialog.component';
 
 @Component({
   selector: 'app-list-of-websites',
@@ -9,6 +12,7 @@ import * as _ from 'lodash';
 })
 export class ListOfWebsitesComponent implements OnInit {
 
+  @Output('refreshWebsites') refreshWebsites = new EventEmitter<boolean>();
   @Input('websites') websites: any;
 
   displayedColumns = [
@@ -29,7 +33,7 @@ export class ListOfWebsitesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.websites);
@@ -41,5 +45,21 @@ export class ListOfWebsitesComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  edit(id: number): void {
+    let editDialog = this.dialog.open(EditWebsiteDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true,
+      data: { id }
+    });
+
+    editDialog.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.refreshWebsites.next(true);
+        }
+      });
   }
 }

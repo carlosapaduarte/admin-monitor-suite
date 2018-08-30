@@ -23,7 +23,16 @@ export class WebsitesComponent implements OnInit {
     this.error = false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getListOfWebsites();
+  }
+
+  refreshWebsites(): void {
+    this.loading = true;
+    this.getListOfWebsites();
+  }
+
+  private getListOfWebsites(): void {
     this.get.listOfWebsites()
       .subscribe(websites => {
         if (websites !== null) {

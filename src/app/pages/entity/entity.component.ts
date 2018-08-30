@@ -33,20 +33,29 @@ export class EntityComponent implements OnInit, OnDestroy {
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.entity = params.entity;
 
-      this.get.listOfEntityWebsites(this.entity)
-        .subscribe(websites => {
-          if (websites !== null) {
-            this.websites = websites;
-          } else {
-            this.error = true;
-          }
-
-          this.loading = false;
-        });
+      this.getListOfEntityWebsites();
     });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  refreshWebsites(): void {
+    this.loading = true;
+    this.getListOfEntityWebsites();
+  }
+
+  private getListOfEntityWebsites(): void {
+    this.get.listOfEntityWebsites(this.entity)
+      .subscribe(websites => {
+        if (websites !== null) {
+          this.websites = websites;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
   }
 }

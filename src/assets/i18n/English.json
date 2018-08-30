@@ -273,6 +273,32 @@
         "success": "Website created successfully",
         "error": "Error creating website"
       }
+    },
+    "UPDATE": {
+      "title": "Edit this website",
+      "submit": "Update",
+      "delete": {
+        "title": "Delete",
+        "description": "Delete this website",
+        "list": {
+          "title": "Important:",
+          "item1": "This website will be deleted",
+          "item2": "All domains belonging to this website will be deleted",
+          "item3": "Pages from this website won't be deleted",
+          "item4": "This action can't be undone"
+        },
+        "submit": "Delete website"
+      },
+      "messages": {
+        "success": "Website updated successfully",
+        "error": "Error updating website"
+      }
+    },
+    "DELETE": {
+      "messages": {
+        "success": "Website deleted successfully",
+        "error": "Error deleting website"
+      }
     }
   },
   "DOMAINS_PAGE": {

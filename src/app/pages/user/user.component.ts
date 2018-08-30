@@ -34,20 +34,29 @@ loading: boolean;
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.user = _.trim(params.user);
 
-      this.get.listOfUserWebsites(this.user)
-        .subscribe(websites => {
-          if (websites !== null) {
-            this.websites = websites;
-          } else {
-            this.error = true;
-          }
-
-          this.loading = false;
-        });
+      this.getListOfUserWebsites();
     });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  refreshWebsites(): void {
+    this.loading = true;
+    this.getListOfUserWebsites();
+  }
+
+  private getListOfUserWebsites(): void {
+    this.get.listOfUserWebsites(this.user)
+      .subscribe(websites => {
+        if (websites !== null) {
+          this.websites = websites;
+        } else {
+          this.error = true;
+        }
+
+        this.loading = false;
+      });
   }
 }

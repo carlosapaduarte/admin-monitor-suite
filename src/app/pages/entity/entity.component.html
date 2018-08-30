@@ -12,6 +12,6 @@
   </mat-card-actions>
 </mat-card>
 <br>
-<app-list-of-websites *ngIf="!loading && !error" [websites]="websites"></app-list-of-websites>
+<app-list-of-websites *ngIf="!loading && !error" [websites]="websites" (refreshWebsites)="refreshWebsites($event)"></app-list-of-websites>
 <app-loading *ngIf="loading"></app-loading>
 <app-error *ngIf="error"></app-error>
