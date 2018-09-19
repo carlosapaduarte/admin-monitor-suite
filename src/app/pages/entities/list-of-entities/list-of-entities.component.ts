@@ -70,7 +70,7 @@ export class ListOfEntitiesComponent implements OnInit {
   }
 
   edit(id: number): void {
-    let editDialog = this.dialog.open(EditEntityDialogComponent, {
+    const editDialog = this.dialog.open(EditEntityDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,

@@ -41,6 +41,7 @@ export class PasswordValidation {
 })
 export class AddUserDialogComponent implements OnInit {
 
+  loadingCreate: boolean;
   loadingWebsites: boolean;
 
   matcher: ErrorStateMatcher;
@@ -70,6 +71,7 @@ export class AddUserDialogComponent implements OnInit {
     private verify: VerifyService,
     private message: MessageService
   ) {
+    this.loadingCreate = false;
     this.hide = true;
     this.hide2 = true;
 
@@ -129,6 +131,8 @@ export class AddUserDialogComponent implements OnInit {
   createUser(e): void {
     e.preventDefault();
 
+    this.loadingCreate = true;
+
     const email = this.userForm.value.email;
     const password = this.userForm.value.password;
     const confirmPassword = this.userForm.value.confirmPassword;
@@ -147,9 +151,11 @@ export class AddUserDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           if (success) {
-            this.message.show('USERS_PAGE.ADD.message.success');
+            this.message.show('USERS_PAGE.ADD.messages.success');
           }
         }
+
+        this.loadingCreate = false;
       });
   }
 

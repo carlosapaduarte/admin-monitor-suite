@@ -172,7 +172,8 @@ export class EditTagDialogComponent implements OnInit {
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
     const index = _.findIndex(this.websites, w => w.Name === event.option.viewValue);
-    if (!_.includes(this.selectedWebsites, this.websites[index])) {
+    const index2 = _.findIndex(this.selectedWebsites, w => w.Name === event.option.viewValue);
+    if (index2 < 0) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';
       this.tagForm.controls.websites.setValue(null);

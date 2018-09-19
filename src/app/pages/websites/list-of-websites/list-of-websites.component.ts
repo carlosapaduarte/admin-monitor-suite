@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { MatDialog } from '@angular/material';
+import { Overlay } from '@angular/cdk/overlay';
 import * as _ from 'lodash';
 
 import { EditWebsiteDialogComponent } from '../../../dialogs/edit-website-dialog/edit-website-dialog.component';
@@ -33,7 +34,10 @@ export class ListOfWebsitesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private overlay: Overlay
+  ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.websites);
@@ -48,10 +52,11 @@ export class ListOfWebsitesComponent implements OnInit {
   }
 
   edit(id: number): void {
-    let editDialog = this.dialog.open(EditWebsiteDialogComponent, {
+    const editDialog = this.dialog.open(EditWebsiteDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
       data: { id }
     });
 

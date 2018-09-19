@@ -10,6 +10,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ObserversModule } from '@angular/cdk/observers';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { HighlightModule } from 'ngx-highlightjs';
 
@@ -171,6 +172,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    ObserversModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false }

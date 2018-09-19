@@ -71,7 +71,7 @@ export class ListOfTagsComponent implements OnInit {
   }
 
   edit(id: number): void {
-    let editDialog = this.dialog.open(EditTagDialogComponent, {
+    const editDialog = this.dialog.open(EditTagDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,

@@ -46,7 +46,7 @@ export class ListOfPagesComponent implements OnInit {
   }
 
   openDeletePageDialog(pageId: number): void {
-    let deleteDialog = this.dialog.open(DeletePageDialogComponent, {
+    const deleteDialog = this.dialog.open(DeletePageDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true

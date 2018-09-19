@@ -99,7 +99,7 @@ export class EditEntityDialogComponent implements OnInit {
 
         this.loadingInfo = false;
       });
-    
+
     this.get.websitesWithoutEntity()
       .subscribe(websites => {
         if (websites !== null) {
@@ -134,7 +134,7 @@ export class EditEntityDialogComponent implements OnInit {
 
     const shortName = this.entityForm.value.shortName;
     const longName = this.entityForm.value.longName;
-    
+
     const defaultWebsites = JSON.stringify(_.map(this.defaultEntity.websites, 'WebsiteId'));
     const websites = JSON.stringify(_.map(this.selectedWebsites, 'WebsiteId'));
 
@@ -155,7 +155,7 @@ export class EditEntityDialogComponent implements OnInit {
         }
 
         this.loadingUpdate = false;
-      })
+      });
   }
 
   removeWebsite(website: any): void {

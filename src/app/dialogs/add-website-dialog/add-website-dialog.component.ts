@@ -114,7 +114,7 @@ export class AddWebsiteDialogComponent implements OnInit {
         this.loadingEntities = false;
       });
 
-    this.get.listOfTags()
+    this.get.listOfOfficialTags()
       .subscribe(tags => {
         if (tags !== null) {
           this.tags = tags;

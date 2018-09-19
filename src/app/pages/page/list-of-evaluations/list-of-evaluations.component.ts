@@ -48,7 +48,7 @@ export class ListOfEvaluationsComponent implements OnInit {
   }
 
   openDeleteEvaluationDialog(evaluationId: number): void {
-    let deleteDialog = this.dialog.open(DeleteEvaluationDialogComponent, {
+    const deleteDialog = this.dialog.open(DeleteEvaluationDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true

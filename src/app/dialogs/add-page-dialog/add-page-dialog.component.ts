@@ -126,7 +126,17 @@ export class AddPageDialogComponent implements OnInit {
     e.preventDefault();
 
     const domainId = _.find(this.domains, ['Url', this.pageForm.value.domain]).DomainId;
-    const uris = JSON.stringify(_.without(_.uniq(_.split(this.pageForm.value.uris, '\n')), ''));
+    const uris = JSON.stringify(_.without(_.uniq(_.map(_.split(this.pageForm.value.uris, '\n'), p => {
+      p = _.replace(p, 'http://', '');
+      p = _.replace(p, 'https://', '');
+      p = _.replace(p, 'www.', '');
+
+      if (p[_.size(p)-1] === '/') {
+        p[_.size(p)-1] = '';
+      }
+
+      return _.trim(p);
+    })), ''));
 
     const formData = {
       domainId,

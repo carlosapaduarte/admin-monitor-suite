@@ -72,7 +72,7 @@ export class ListOfUsersComponent implements OnInit {
   }
 
   edit(id: number): void {
-    let editDialog = this.dialog.open(EditUserDialogComponent, {
+    const editDialog = this.dialog.open(EditUserDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,

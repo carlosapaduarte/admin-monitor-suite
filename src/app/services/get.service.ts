@@ -233,6 +233,29 @@ export class GetService {
     );
   }
 
+  listOfOfficialTags(): Observable<Array<Tag>> {
+    return ajax.post(this.getServer('/admin/tags/allOfficial'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<Tag>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   listOfEntities(): Observable<Array<Entity>> {
     return ajax.post(this.getServer('/admin/entities/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
@@ -695,6 +718,6 @@ export class GetService {
 
   private getServer(service: string): string {
     const host = location.host;
-    return 'http://' + _.split(host, ':')[0] + ':3000' + service;
+    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 }

@@ -450,6 +450,15 @@
         "n_elements_label": "Nº de elementos (x)HTML",
         "page_size_label": "Tamanho da página",
         "last_update_label": "Última actualização"
+      },
+      "table": {
+        "title": "Nº práticas encontradas",
+        "labels": {
+          "p": "P",
+          "ok": "Aceitáveis",
+          "err": "Não aceitáveis",
+          "warn": "Para ver manualmente"
+        }
       }
     },
     "results": {
@@ -466,7 +475,9 @@
         "score_table": "Quadro de pontuações"
       },
       "sc": "Critério de sucesso",
+      "practice": "Prática encontrada",
       "lvl": "Nível",
+      "details": "Detalhes",
       "understanding": "Compreensível"
     },
     "scoreboard": {

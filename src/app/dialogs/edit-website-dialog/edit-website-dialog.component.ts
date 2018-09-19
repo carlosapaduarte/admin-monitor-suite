@@ -91,7 +91,6 @@ export class EditWebsiteDialogComponent implements OnInit {
   ngOnInit(): void {
     this.get.websiteInfo(this.data.id)
       .subscribe(website => {
-        console.log(website);
         if (website !== null) {
           this.defaultWebsite = _.cloneDeep(website);
 
@@ -134,7 +133,7 @@ export class EditWebsiteDialogComponent implements OnInit {
         this.loadingEntities = false;
       });
 
-    this.get.listOfTags()
+    this.get.listOfOfficialTags()
       .subscribe(tags => {
         if (tags !== null) {
           this.tags = tags;
@@ -214,7 +213,8 @@ export class EditWebsiteDialogComponent implements OnInit {
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
     const index = _.findIndex(this.tags, t => t.Name === event.option.viewValue);
-    if (!_.includes(this.selectedTags, this.tags[index])) {
+    const index2 = _.findIndex(this.selectedTags, t => t.Name === event.option.viewValue);
+    if (index2 === -1) {
       this.selectedTags.push(this.tags[index]);
       this.tagInput.nativeElement.value = '';
       this.websiteForm.controls.tags.setValue(null);

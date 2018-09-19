@@ -172,6 +172,6 @@ export class CreateService {
 
   private getServer(service: string): string {
     const host = location.host;
-    return 'http://' + _.split(host, ':')[0] + ':3000' + service;
+    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 }

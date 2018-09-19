@@ -49,7 +49,7 @@ export class ListOfDomainsComponent implements OnInit {
   }
 
   openDeleteDomainDialog(domainId: number): void {
-    let deleteDialog = this.dialog.open(DeleteDomainDialogComponent, {
+    const deleteDialog = this.dialog.open(DeleteDomainDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true
