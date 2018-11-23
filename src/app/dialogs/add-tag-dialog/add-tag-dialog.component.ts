@@ -2,7 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
-import { Observable } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
@@ -51,7 +54,10 @@ export class AddTagDialogComponent implements OnInit {
     private create: CreateService,
     private get: GetService,
     private verify: VerifyService,
-    private message: MessageService
+    private message: MessageService,
+    private router: Router,
+    private location: Location,
+    private dialogRef: MatDialogRef<AddTagDialogComponent>
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -106,9 +112,15 @@ export class AddTagDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           if (success) {
-            this.tagForm.reset();
-            this.selectedWebsites = [];
             this.message.show('TAGS_PAGE.ADD.messages.success');
+
+            if (this.location.path() !== '/console/tags') {
+              this.router.navigateByUrl('/console/tags');
+            } else {
+              window.location.reload();
+            }
+
+            this.dialogRef.close();
           }
         }
         this.loadingCreate = false;
@@ -143,7 +155,7 @@ export class AddTagDialogComponent implements OnInit {
     if (name !== '') {
       return this.verify.tagNameExists(name);
     } else {
-      return null;
+      return of(null);
     }
   }
 }

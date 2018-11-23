@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -35,7 +38,11 @@ export class UriValidation {
       const size = _.size(uris);
       let hasError = false;
       for (let i = 0 ; i < size ; i++) {
-        if (!_.startsWith(uris[i], domain)) {
+        let url = _.replace(uris[i], 'http://', '');
+        url = _.replace(url, 'https://', '');
+        url = _.replace(url, 'www.', '');
+
+        if (!_.startsWith(url, domain)) {
           AC.get('uris').setErrors({ 'invalidUri' : true });
           hasError = true;
         }
@@ -81,7 +88,10 @@ export class AddPageDialogComponent implements OnInit {
     private verify: VerifyService,
     private create: CreateService,
     private message: MessageService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private location: Location,
+    private dialogRef: MatDialogRef<AddPageDialogComponent>
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -149,8 +159,15 @@ export class AddPageDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           if (success) {
-            this.pageForm.reset();
             this.message.show('PAGES_PAGE.ADD.messages.success');
+
+            if (this.location.path() !== '/console/pages') {
+              this.router.navigateByUrl('/console/pages');
+            } else {
+              window.location.reload();
+            }
+
+            this.dialogRef.close();
           }
         }
 

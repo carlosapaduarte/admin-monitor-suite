@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.title" | translate }}</h1>
-<form (submit)="createPage($event)" [formGroup]="pageForm" novalidate>  
+<form (submit)="createPage($event)" [formGroup]="pageForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-domain-block" fxLayout="column" *ngIf="!loadingDomains">
       <mat-form-field>

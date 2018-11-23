@@ -66,16 +66,17 @@ export class PageComponent implements OnInit, OnDestroy {
 
     this.evaluation.evaluateUrl(this.page)
       .subscribe(data => {
-        if (!data) {
+        if (data === null) {
           this.error = true;
+          this.loading = false;
         } else {
           this.getListOfPageEvaluations();
         }
       });
   }
 
-  deleteEvaluation(evaluation): void {
-    this.deleteService.evaluation({evaluationId: evaluation})
+  deleteEvaluation(evaluationId: number): void {
+    this.deleteService.evaluation({ evaluationId })
       .subscribe(success => {
         if (success !== null) {
           this.loading = true;

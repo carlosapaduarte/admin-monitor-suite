@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
@@ -69,7 +72,10 @@ export class AddUserDialogComponent implements OnInit {
     private get: GetService,
     private create: CreateService,
     private verify: VerifyService,
-    private message: MessageService
+    private message: MessageService,
+    private router: Router,
+    private location: Location,
+    private dialogRef: MatDialogRef<AddUserDialogComponent>
   ) {
     this.loadingCreate = false;
     this.hide = true;
@@ -152,6 +158,14 @@ export class AddUserDialogComponent implements OnInit {
         if (success !== null) {
           if (success) {
             this.message.show('USERS_PAGE.ADD.messages.success');
+
+            if (this.location.path() !== '/console/users') {
+              this.router.navigateByUrl('/console/users');
+            } else {
+              window.location.reload();
+            }
+
+            this.dialogRef.close();
           }
         }
 

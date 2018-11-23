@@ -1,23 +1,39 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import {
+  Injectable
+} from '@angular/core';
+import {
+  Router,
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
+import {
+  Observable
+} from 'rxjs';
+import { MatDialog } from '@angular/material';
 
-import { UserService } from '../services/user.service';
+import {
+  UserService
+} from '../services/user.service';
+
+import { UserAuthErrorDialogComponent } from '../dialogs/user-auth-error-dialog/user-auth-error-dialog.component';
+import { User } from '../models/user';
 
 @Injectable()
 export class AdminAuthGuard implements CanActivate {
 
-  constructor(private router: Router, private user: UserService) { }
+  constructor(private router: Router, private user: UserService, private dialog: MatDialog) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    state: RouterStateSnapshot): Observable < boolean > | Promise < boolean > | boolean {
 
-  	const login = this.user.isUserLoggedIn();
+    const login = this.user.isUserLoggedIn();
 
-  	if (!login) {
-  		this.router.navigateByUrl('');
-  	}
+    if (!login) {
+      this.dialog.open(UserAuthErrorDialogComponent);
+      this.user.logout();
+    }
 
     return login;
   }

@@ -20,7 +20,7 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
 
   eval: any;
   url: string;
-  evaluation_date: string;
+  evaluation_id: number;
 
   n_cols: number;
   colspan: number;
@@ -65,10 +65,10 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
-      this.evaluation_date = params.evaluation_date;
+      this.evaluation_id = params.evaluation_id;
       this.url = params.page;
 
-      this.evaluation.getEvaluation(this.url, this.evaluation_date)
+      this.evaluation.getEvaluation(this.url, this.evaluation_id)
         .subscribe(data => {
           if (!data) {
             this.error = true;

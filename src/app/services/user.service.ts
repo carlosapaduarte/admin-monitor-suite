@@ -6,6 +6,7 @@ import { map, retry, catchError } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
+import { ConfigService } from './config.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from './message.service';
 
@@ -21,12 +22,13 @@ export class UserService {
     private router: Router,
     private cookieService: CookieService,
     private message: MessageService,
+    private config: ConfigService,
     private dialog: MatDialog
   ) { }
 
   login(email: string, password: string): Observable<boolean> {
     const app = 'nimda';
-    return ajax.post(this.getServer('/session/login'), {email, password, app}).pipe(
+    return ajax.post(this.config.getServer('/session/login'), {email, password, app}).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -42,10 +44,10 @@ export class UserService {
         const cookie = response.result;
         const host = this.getEnv();
         const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setTime(tomorrow.getTime() + 1 * 86400000);
 
-        sessionStorage.setItem('AC-email', email);
-        this.cookieService.set('AC-SSID', btoa(cookie), tomorrow, '/', host, false);
+        sessionStorage.setItem('AMS-email', email);
+        this.cookieService.set('AMS-SSID', btoa(cookie), tomorrow, '/', host, false);
         this.router.navigateByUrl('/console');
         return true;
       }),
@@ -69,32 +71,24 @@ export class UserService {
   }
 
   isUserLoggedIn(): boolean {
-    return this.cookieService.check('AC-SSID');
+    return this.cookieService.check('AMS-SSID');
   }
 
   getUserData(): {} {
-    return atob(this.cookieService.get('AC-SSID'));
+    return atob(this.cookieService.get('AMS-SSID'));
   }
 
   getEmail(): string {
-    return sessionStorage.getItem('AC-email');
+    return sessionStorage.getItem('AMS-email');
   }
 
   logout(location: string = '/'): void {
-    const host = this.getEnv();
-
     sessionStorage.removeItem('email');
-    this.cookieService.delete('AC-SSID', '/', this.getEnv());
+    this.cookieService.delete('AMS-SSID', '/', this.getEnv());
     this.router.navigateByUrl(location);
   }
 
   private getEnv(): string {
     return _.split(location.host, ':')[0];
-  }
-
-  private getServer(service: string): string {
-    const host = location.host;
-
-    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 }

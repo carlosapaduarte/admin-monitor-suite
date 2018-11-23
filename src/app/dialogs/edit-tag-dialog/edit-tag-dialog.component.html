@@ -22,7 +22,7 @@
     </div>
     <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
-        <label for="tag_websites_input">{{ "TAGS_PAGE.ADD.websites_label" | translate }}</label>
+        <label for="tag_websites_input">{{ "TAGS_PAGE.UPDATE.websites_label" | translate }}</label>
         <mat-chip-list #websitesChipList>
           <mat-chip
             *ngFor="let website of selectedWebsites"
@@ -56,7 +56,7 @@
   <mat-dialog-actions fxLayout="column">
     <div>
       <button mat-raised-button color="warn" type="button" (click)="setDefault()">
-        {{ "TAGS_PAGE.ADD.reset" | translate }}
+        {{ "TAGS_PAGE.UPDATE.default" | translate }}
       </button>
       <span fxFlex></span>
       <button mat-raised-button color="primary" type="submit" [disabled]="tagForm.controls.name.invalid" *ngIf="!loadingUpdate">

@@ -4,6 +4,7 @@ import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
+import { ConfigService } from './config.service';
 import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
@@ -16,12 +17,13 @@ export class DeleteService {
 
   constructor(
     private userService: UserService,
-    private message: MessageService
+    private message: MessageService,
+    private config: ConfigService
   ) { }
 
   user(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/users/delete'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/users/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -46,7 +48,7 @@ export class DeleteService {
 
   tag(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/tags/delete'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -71,7 +73,7 @@ export class DeleteService {
 
   entity(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/entities/delete'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/entities/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -96,7 +98,7 @@ export class DeleteService {
 
   website(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/websites/delete'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -121,7 +123,7 @@ export class DeleteService {
 
   domain(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/domains/delete'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/domains/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -146,7 +148,7 @@ export class DeleteService {
 
   page(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/pages/delete'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/pages/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -171,7 +173,7 @@ export class DeleteService {
 
   evaluation(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/evaluations/delete'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/evaluations/delete'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -192,10 +194,5 @@ export class DeleteService {
         return of(null);
       })
     );
-  }
-
-  private getServer(service: string): string {
-    const host = location.host;
-    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 }

@@ -4,6 +4,7 @@ import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
+import { ConfigService } from './config.service';
 import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
@@ -23,11 +24,12 @@ export class GetService {
 
   constructor(
     private user: UserService,
-    private message: MessageService
+    private message: MessageService,
+    private config: ConfigService
   ) { }
 
   numberOfAcessStudiesUsers(): Observable<number> {
-    return ajax.post(this.getServer('/admin/users/studies/total'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/users/studies/total'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -50,7 +52,7 @@ export class GetService {
   }
 
   numberOfMyMonitorUsers(): Observable<number> {
-    return ajax.post(this.getServer('/admin/users/monitor/total'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/users/monitor/total'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -73,7 +75,7 @@ export class GetService {
   }
 
   numberOfAccessStudiesTags(): Observable<number> {
-    return ajax.post(this.getServer('/admin/tags/studies/total'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/studies/total'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -96,7 +98,7 @@ export class GetService {
   }
 
   numberOfObservatorioTags(): Observable<number> {
-    return ajax.post(this.getServer('/admin/tags/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -119,7 +121,7 @@ export class GetService {
   }
 
   numberOfAccessStudiesWebsites(): Observable<number> {
-    return ajax.post(this.getServer('/admin/websites/studies/total'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/studies/total'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -142,7 +144,7 @@ export class GetService {
   }
 
   numberOfMyMonitorWebsites(): Observable<number> {
-    return ajax.post(this.getServer('/admin/websites/monitor/total'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/monitor/total'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -165,7 +167,7 @@ export class GetService {
   }
 
   numberOfObservatorioWebsites(): Observable<number> {
-    return ajax.post(this.getServer('/admin/websites/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -188,7 +190,7 @@ export class GetService {
   }
 
   listOfUsers(): Observable<Array<User>> {
-    return ajax.post(this.getServer('/admin/users/all'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/users/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -211,7 +213,7 @@ export class GetService {
   }
 
   listOfTags(): Observable<Array<Tag>> {
-    return ajax.post(this.getServer('/admin/tags/all'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -234,7 +236,7 @@ export class GetService {
   }
 
   listOfOfficialTags(): Observable<Array<Tag>> {
-    return ajax.post(this.getServer('/admin/tags/allOfficial'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/allOfficial'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -257,7 +259,7 @@ export class GetService {
   }
 
   listOfEntities(): Observable<Array<Entity>> {
-    return ajax.post(this.getServer('/admin/entities/all'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/entities/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -280,7 +282,7 @@ export class GetService {
   }
 
   listOfWebsites(): Observable<Array<Website>> {
-    return ajax.post(this.getServer('/admin/websites/all'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -303,7 +305,7 @@ export class GetService {
   }
 
   listOfOfficialWebsites(): Observable<Array<Website>> {
-    return ajax.post(this.getServer('/admin/websites/allOfficial'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/allOfficial'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -326,7 +328,7 @@ export class GetService {
   }
 
   listOfEntityWebsites(entity: string): Observable<Array<Website>> {
-    return ajax.post(this.getServer('/admin/websites/entity'), {entity, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/entity'), {entity, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -349,7 +351,7 @@ export class GetService {
   }
 
   listOfUserWebsites(user: string): Observable<Array<Website>> {
-    return ajax.post(this.getServer('/admin/websites/user'), {user, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/user'), {user, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -372,7 +374,7 @@ export class GetService {
   }
 
   listOfTagWebsites(user: string, tag: string): Observable<Array<Website>> {
-    return ajax.post(this.getServer('/admin/websites/tag'), {user, tag, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/tag'), {user, tag, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -394,8 +396,31 @@ export class GetService {
     );
   }
 
+  listOfWebsitePages(websiteId: number): Observable<Array<Page>> {
+    return ajax.post(this.config.getServer('/admin/website/allPages'), {websiteId, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<Page>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   listOfDomains(): Observable<Array<Domain>> {
-    return ajax.post(this.getServer('/admin/domains/all'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/domains/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -418,7 +443,7 @@ export class GetService {
   }
 
   listOfOfficialDomains(): Observable<Array<Domain>> {
-    return ajax.post(this.getServer('/admin/domains/allOfficial'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/domains/allOfficial'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -441,7 +466,7 @@ export class GetService {
   }
 
   listOfWebsiteDomains(user: string, website: string): Observable<Array<Domain>> {
-    return ajax.post(this.getServer('/admin/domains/website'), {user, website, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/domains/website'), {user, website, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -464,7 +489,7 @@ export class GetService {
   }
 
   listOfPages(): Observable<Array<Page>> {
-    return ajax.post(this.getServer('/admin/pages/all'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/pages/all'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -487,7 +512,7 @@ export class GetService {
   }
 
   listOfDomainPages(user: string, domain: string): Observable<Array<Page>> {
-    return ajax.post(this.getServer('/admin/pages/domain'), {user, domain, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/pages/domain'), {user, domain, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -510,7 +535,7 @@ export class GetService {
   }
 
   listOfPageEvaluations(page: string): Observable<Array<any>> {
-    return ajax.post(this.getServer('/admin/evaluations/page'), {page, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/evaluations/page'), {page, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -533,7 +558,7 @@ export class GetService {
   }
 
   websitesWithoutUser(): Observable<Array<Website>> {
-    return ajax.post(this.getServer('/admin/websites/withoutUser'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/withoutUser'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -556,7 +581,7 @@ export class GetService {
   }
 
   websitesWithoutEntity(): Observable<Array<Website>> {
-    return ajax.post(this.getServer('/admin/websites/withoutEntity'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/withoutEntity'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -579,7 +604,7 @@ export class GetService {
   }
 
   listOfMyMonitorUsers(): Observable<Array<User>> {
-    return ajax.post(this.getServer('/admin/users/monitor'), {cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/users/monitor'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -602,7 +627,7 @@ export class GetService {
   }
 
   websiteCurrentDomain(websiteId: number): Observable<string> {
-    return ajax(this.getServer('/admin/websites/currentDomain/' + websiteId)).pipe(
+    return ajax(this.config.getServer('/admin/websites/currentDomain/' + websiteId)).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -625,7 +650,7 @@ export class GetService {
   }
 
   userInfo(userId: number): Observable<any> {
-    return ajax.post(this.getServer('/admin/users/info'), { userId, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/users/info'), { userId, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -648,7 +673,7 @@ export class GetService {
   }
 
   tagInfo(tagId: number): Observable<any> {
-    return ajax.post(this.getServer('/admin/tags/info'), { tagId, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/info'), { tagId, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -671,7 +696,7 @@ export class GetService {
   }
 
   entityInfo(entityId: number): Observable<any> {
-    return ajax.post(this.getServer('/admin/entities/info'), { entityId, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/entities/info'), { entityId, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -694,7 +719,7 @@ export class GetService {
   }
 
   websiteInfo(websiteId: number): Observable<any> {
-    return ajax.post(this.getServer('/admin/websites/info'), { websiteId, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/info'), { websiteId, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -714,10 +739,5 @@ export class GetService {
         return of(null);
       })
     );
-  }
-
-  private getServer(service: string): string {
-    const host = location.host;
-    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 }

@@ -72,7 +72,7 @@
   <mat-dialog-actions fxLayout="column">
     <div fxLayout="row">
       <button mat-raised-button color="warn" type="button" (click)="setDefault()">
-        {{ "USERS_PAGE.ADD.reset" | translate }}
+        {{ "USERS_PAGE.UPDATE.default" | translate }}
       </button>
       <span fxFlex></span>
       <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid" *ngIf="!loadingUpdate">

@@ -56,7 +56,7 @@ export class ListOfWebsitesComponent implements OnInit {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
       data: { id }
     });
 

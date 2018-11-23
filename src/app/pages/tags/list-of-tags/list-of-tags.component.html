@@ -1,4 +1,4 @@
-<mat-card class="mat-typography" *ngIf="!loading && !error">
+<mat-card class="mat-typography" *ngIf="!error" [hidden]="loading">
   <mat-card-header>
     <mat-card-title>
       <h1>{{ "TAGS_PAGE.LIST.title" | translate }}</h1>
@@ -55,7 +55,7 @@
       </ng-container>
 
       <ng-container matColumnDef="Creation_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-headerf>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "TAGS_PAGE.LIST.table.creation_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
@@ -99,7 +99,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>
 <app-loading *ngIf="loading"></app-loading>

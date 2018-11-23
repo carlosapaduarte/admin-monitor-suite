@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
@@ -58,7 +61,10 @@ export class AddWebsiteDialogComponent implements OnInit {
     private create: CreateService,
     private get: GetService,
     private verify: VerifyService,
-    private message: MessageService
+    private message: MessageService,
+    private router: Router,
+    private location: Location,
+    private dialogRef: MatDialogRef<AddWebsiteDialogComponent>
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -157,9 +163,15 @@ export class AddWebsiteDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           if (success) {
-            this.websiteForm.reset();
-            this.selectedTags = [];
             this.message.show('WEBSITES_PAGE.ADD.messages.success');
+
+            if (this.location.path() !== '/console/websites') {
+              this.router.navigateByUrl('/console/websites');
+            } else {
+              window.location.reload();
+            }
+
+            this.dialogRef.close();
           }
         }
 

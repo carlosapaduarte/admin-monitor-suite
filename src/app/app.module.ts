@@ -74,27 +74,29 @@ import { DeletePageDialogComponent } from './dialogs/delete-page-dialog/delete-p
 import { DeleteDomainDialogComponent } from './dialogs/delete-domain-dialog/delete-domain-dialog.component';
 import { DeleteEvaluationDialogComponent } from './dialogs/delete-evaluation-dialog/delete-evaluation-dialog.component';
 import { EditWebsiteDialogComponent } from './dialogs/edit-website-dialog/edit-website-dialog.component';
+import { ChooseObservatoryWebsitePagesDialogComponent } from './dialogs/choose-observatory-website-pages-dialog/choose-observatory-website-pages-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
   { path: 'console', component: AdminConsoleComponent, canActivate: [AdminAuthGuard], children: [
-    { path: '', component: HomeComponent },
-    { path: 'users', component: UsersComponent },
-    { path: 'user/:user', component: UserComponent },
-    { path: 'tags', component: TagsComponent },
-    { path: 'tag/:user/:tag', component: TagComponent },
-    { path: 'entities', component: EntitiesComponent },
-    { path: 'entity/:entity', component: EntityComponent },
-    { path: 'websites', component: WebsitesComponent },
-    { path: 'website/:user/:website', component: WebsiteComponent },
-    { path: 'domains', component: DomainsComponent },
-    { path: 'domain/:user/:domain', component: DomainComponent },
-    { path: 'pages', component: PagesComponent },
-    { path: 'page/:page', component: PageComponent },
-    { path: 'page/:page/:evaluation_date', component: EvaluationResultsComponent },
-    { path: 'page/:page/:evaluation_date/code', component: WebpageCodeComponent },
-    { path: 'page/:page/:evaluation_date/:ele', component: ElementResultComponent }
-  ]}
+    { path: '', component: HomeComponent, canActivate: [AdminAuthGuard] },
+    { path: 'users', component: UsersComponent, canActivate: [AdminAuthGuard] },
+    { path: 'user/:user', component: UserComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tags', component: TagsComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tag/:user/:tag', component: TagComponent, canActivate: [AdminAuthGuard] },
+    { path: 'entities', component: EntitiesComponent, canActivate: [AdminAuthGuard] },
+    { path: 'entity/:entity', component: EntityComponent, canActivate: [AdminAuthGuard] },
+    { path: 'websites', component: WebsitesComponent, canActivate: [AdminAuthGuard] },
+    { path: 'website/:user/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
+    { path: 'domains', component: DomainsComponent, canActivate: [AdminAuthGuard] },
+    { path: 'domain/:user/:domain', component: DomainComponent, canActivate: [AdminAuthGuard] },
+    { path: 'pages', component: PagesComponent, canActivate: [AdminAuthGuard] },
+    { path: 'page/:page', component: PageComponent, canActivate: [AdminAuthGuard] },
+    { path: 'page/:page/:evaluation_id', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
+    { path: 'page/:page/:evaluation_id/code', component: WebpageCodeComponent, canActivate: [AdminAuthGuard] },
+    { path: 'page/:page/:evaluation_id/:ele', component: ElementResultComponent, canActivate: [AdminAuthGuard] }
+  ]},
+  { path: '**', component: NotFound404Component }
 ];
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -160,7 +162,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeletePageDialogComponent,
     DeleteDomainDialogComponent,
     DeleteEvaluationDialogComponent,
-    EditWebsiteDialogComponent
+    EditWebsiteDialogComponent,
+    ChooseObservatoryWebsitePagesDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -202,7 +205,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeleteDomainDialogComponent,
     DeletePageDialogComponent,
     DeleteEvaluationDialogComponent,
-    BottomSheetComponent
+    BottomSheetComponent,
+    ChooseObservatoryWebsitePagesDialogComponent
   ],
   providers: [
     AdminAuthGuard,

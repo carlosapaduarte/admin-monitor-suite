@@ -58,7 +58,7 @@
         {{ "TAGS_PAGE.ADD.reset" | translate }}
       </button>
       <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="tagForm.controls.name.invalid" *ngIf="!loadingCreate">
+      <button mat-raised-button color="primary" type="submit" [disabled]="tagForm.invalid" *ngIf="!loadingCreate">
         {{ "TAGS_PAGE.ADD.submit" | translate }}
       </button>
       <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>

@@ -4,6 +4,7 @@ import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
+import { ConfigService } from './config.service';
 import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
@@ -17,12 +18,13 @@ export class CreateService {
 
   constructor(
     private user: UserService,
-    private message: MessageService
+    private message: MessageService,
+    private config: ConfigService
   ) { }
 
   newUser(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
-    return ajax.post(this.getServer('/admin/users/create'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/users/create'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -47,7 +49,7 @@ export class CreateService {
 
   newTag(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
-    return ajax.post(this.getServer('/admin/tags/create'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/create'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -72,7 +74,7 @@ export class CreateService {
 
   newEntity(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
-    return ajax.post(this.getServer('/admin/entities/create'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/entities/create'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -97,7 +99,7 @@ export class CreateService {
 
   newWebsite(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
-    return ajax.post(this.getServer('/admin/websites/create'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/create'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -122,7 +124,7 @@ export class CreateService {
 
   newDomain(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
-    return ajax.post(this.getServer('/admin/domains/create'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/domains/create'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -147,7 +149,7 @@ export class CreateService {
 
   newPages(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
-    return ajax.post(this.getServer('/admin/pages/create'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/pages/create'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -168,10 +170,5 @@ export class CreateService {
         return of(null);
       })
     );
-  }
-
-  private getServer(service: string): string {
-    const host = location.host;
-    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 }

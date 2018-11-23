@@ -5,10 +5,10 @@
       <mat-form-field>
         <label for="website_name_input">{{ "WEBSITES_PAGE.ADD.name_label" | translate }}</label>
         <input
-          id="website_name_input" 
-          matInput 
-          formControlName="name" 
-          [errorStateMatcher]="matcher" 
+          id="website_name_input"
+          matInput
+          formControlName="name"
+          [errorStateMatcher]="matcher"
           required>
         <button mat-button *ngIf="websiteForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.name.reset()">
           <mat-icon>close</mat-icon>
@@ -24,10 +24,10 @@
       <mat-form-field>
         <label for="website_domain_input">{{ "WEBSITES_PAGE.ADD.domain_label" | translate }}</label>
         <input
-          id="website_domain_input" 
-          matInput 
-          formControlName="domain" 
-          [errorStateMatcher]="matcher" 
+          id="website_domain_input"
+          matInput
+          formControlName="domain"
+          [errorStateMatcher]="matcher"
           required>
         <button mat-button *ngIf="websiteForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.domain.reset()">
           <mat-icon>close</mat-icon>
@@ -44,13 +44,13 @@
     <div fxLayout="row">
       <div class="add-entity-block" *ngIf="!loadingEntities" fxLayout="row" fxFlex>
         <mat-form-field fxFlex>
-          <label for="website_entity_input">{{ "WEBSITES_PAGE.ADD.entity_label" | translate }}</label>
+          <label for="website_entity_input">{{ "WEBSITES_PAGE.UPDATE.entity_label" | translate }}</label>
           <input
-            id="website_entity_input" 
-            type="text" 
-            aria-label="Entidade Name" 
-            matInput formControlName="entity" 
-            [matAutocomplete]="auto" 
+            id="website_entity_input"
+            type="text"
+            aria-label="Entidade Name"
+            matInput formControlName="entity"
+            [matAutocomplete]="auto"
             [errorStateMatcher]="matcher">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let ent of filteredEntities | async" [value]="ent.Long_Name">
@@ -68,13 +68,13 @@
       <span fxFlex="5"></span>
       <div class="add-user-block" *ngIf="!loadingUsers" fxLayout="row" fxFlex="45">
         <mat-form-field fxFlex>
-          <label for="website_user_input">{{ "WEBSITES_PAGE.ADD.user_label" | translate }}</label>
+          <label for="website_user_input">{{ "WEBSITES_PAGE.UPDATE.user_label" | translate }}</label>
           <input
-            id="website_user_input" 
-            type="text" 
-            aria-label="Utilizador Email" 
-            matInput formControlName="user" 
-            [matAutocomplete]="auto2" 
+            id="website_user_input"
+            type="text"
+            aria-label="Utilizador Email"
+            matInput formControlName="user"
+            [matAutocomplete]="auto2"
             [errorStateMatcher]="matcher">
           <mat-autocomplete #auto2="matAutocomplete">
             <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Email">
@@ -93,7 +93,7 @@
     <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
         <label for="website_tags_input">
-          {{ "WEBSITES_PAGE.ADD.tags_label" | translate }}
+          {{ "WEBSITES_PAGE.UPDATE.tags_label" | translate }}
         </label>
         <mat-chip-list #tagsChipList>
           <mat-chip
@@ -127,10 +127,13 @@
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="column">
     <div fxLayout="row">
-      <button mat-raised-button color="warn" type="button" (click)="setDefault()">
-        {{ "WEBSITES_PAGE.ADD.reset" | translate }}
+      <button mat-raised-button color="primary" type="button" (click)="chooseObservatorioPages()">
+        {{ "WEBSITES_PAGE.UPDATE.choose" | translate }}
       </button>
       <span fxFlex></span>
+      <button mat-raised-button color="warn" type="button" (click)="setDefault()">
+        {{ "WEBSITES_PAGE.UPDATE.default" | translate }}
+      </button>
       <button mat-raised-button color="primary" type="submit" [disabled]="websiteForm.controls.name.invalid || websiteForm.controls.domain.invalid || websiteForm.controls.entity.invalid || websiteForm.controls.user.invalid" *ngIf="!loadingUpdate">
         {{ 'WEBSITES_PAGE.UPDATE.submit' | translate }}
       </button>

@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
@@ -52,7 +55,10 @@ export class AddEntityDialogComponent implements OnInit {
     private create: CreateService,
     private get: GetService,
     private verify: VerifyService,
-    private message: MessageService
+    private message: MessageService,
+    private router: Router,
+    private location: Location,
+    private dialogRef: MatDialogRef<AddEntityDialogComponent>
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -110,9 +116,15 @@ export class AddEntityDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           if (success) {
-            this.entityForm.reset();
-            this.selectedWebsites = [];
             this.message.show('ENTITIES_PAGE.ADD.messages.success');
+
+            if (this.location.path() !== '/console/entities') {
+              this.router.navigateByUrl('/console/entities');
+            } else {
+              window.location.reload();
+            }
+
+            this.dialogRef.close();
           }
         }
 

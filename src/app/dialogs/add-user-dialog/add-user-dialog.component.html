@@ -43,12 +43,12 @@
     </div>
     <div class="add-type-block">
       <mat-radio-group formControlName="app" fxLayout="row" (change)="changeApp()" required>
-        <mat-radio-button value="studies">Access Studies</mat-radio-button>
+        <mat-radio-button value="studies">Study Monitor</mat-radio-button>
         <span fxFlex="5"></span>
         <mat-radio-button value="monitor">My Monitor</mat-radio-button>
       </mat-radio-group>
     </div>
-    <div class="add-websites-block" *ngIf="!loadingWebsites" fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="add-websites-block" *ngIf="!loadingWebsites && userForm.value.app && userForm.value.app === 'monitor'" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
         <label for="user_websites_input">
           {{ "USERS_PAGE.ADD.websites_label" | translate }}

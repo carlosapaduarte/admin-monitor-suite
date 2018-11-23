@@ -1,12 +1,29 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { MatDialog } from '@angular/material';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
+import {
+  MatTableDataSource,
+  MatPaginator,
+  MatSort
+} from '@angular/material';
+import {
+  MatDialog
+} from '@angular/material';
 import * as _ from 'lodash';
 
-import { GetService } from '../../../services/get.service';
-import { MessageService } from '../../../services/message.service';
+import {
+  GetService
+} from '../../../services/get.service';
+import {
+  MessageService
+} from '../../../services/message.service';
 
-import { EditTagDialogComponent } from '../../../dialogs/edit-tag-dialog/edit-tag-dialog.component';
+import {
+  EditTagDialogComponent
+} from '../../../dialogs/edit-tag-dialog/edit-tag-dialog.component';
 
 @Component({
   selector: 'app-list-of-tags',
@@ -75,7 +92,9 @@ export class ListOfTagsComponent implements OnInit {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,
-      data: { id }
+      data: {
+        id
+      }
     });
 
     editDialog.afterClosed()

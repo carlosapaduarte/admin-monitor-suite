@@ -4,6 +4,7 @@ import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError, delay } from 'rxjs/operators';
 import * as _ from 'lodash';
 
+import { ConfigService } from './config.service';
 import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
@@ -17,11 +18,12 @@ export class VerifyService {
 
   constructor(
     private user: UserService,
-    private message: MessageService
+    private message: MessageService,
+    private config: ConfigService
   ) { }
 
   userExists(email: string): Observable<boolean> {
-    return ajax(this.getServer('/admin/users/exists/' + email)).pipe(
+    return ajax(this.config.getServer('/admin/users/exists/' + email)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -44,7 +46,7 @@ export class VerifyService {
   }
 
   tagNameExists(name: string): Observable<boolean> {
-    return ajax(this.getServer('/admin/tags/exists/' + name)).pipe(
+    return ajax(this.config.getServer('/admin/tags/exists/' + name)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -67,7 +69,7 @@ export class VerifyService {
   }
 
   entityShortNameExists(name: string): Observable<boolean> {
-    return ajax(this.getServer('/admin/entities/exists/shortName/' + name)).pipe(
+    return ajax(this.config.getServer('/admin/entities/exists/shortName/' + name)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -90,7 +92,7 @@ export class VerifyService {
   }
 
   entityLongNameExists(name: string): Observable<boolean> {
-    return ajax(this.getServer('/admin/entities/exists/longName/' + name)).pipe(
+    return ajax(this.config.getServer('/admin/entities/exists/longName/' + name)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -113,7 +115,7 @@ export class VerifyService {
   }
 
   websiteNameExists(name: string): Observable<boolean> {
-    return ajax(this.getServer('/admin/websites/exists/' + name)).pipe(
+    return ajax(this.config.getServer('/admin/websites/exists/' + name)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -137,7 +139,7 @@ export class VerifyService {
 
   domainExists(domain: string): Observable<boolean> {
     domain = encodeURIComponent(domain);
-    return ajax(this.getServer('/admin/domains/exists/' + domain)).pipe(
+    return ajax(this.config.getServer('/admin/domains/exists/' + domain)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -157,10 +159,5 @@ export class VerifyService {
         return of(null);
       })
     );
-  }
-
-  private getServer(service: string): string {
-    const host = location.host;
-    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 }

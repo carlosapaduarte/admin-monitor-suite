@@ -4,6 +4,7 @@ import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
+import { ConfigService } from './config.service';
 import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
@@ -17,12 +18,13 @@ export class UpdateService {
 
   constructor(
     private userService: UserService,
-    private message: MessageService
+    private message: MessageService,
+    private config: ConfigService
   ) { }
 
   user(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/users/update'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/users/update'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -47,7 +49,7 @@ export class UpdateService {
 
   tag(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/tags/update'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/update'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -72,7 +74,7 @@ export class UpdateService {
 
   entity(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/entities/update'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/entities/update'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -97,7 +99,7 @@ export class UpdateService {
 
   website(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.getServer('/admin/websites/update'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/websites/update'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -120,8 +122,58 @@ export class UpdateService {
     );
   }
 
-  private getServer(service: string): string {
-    const host = location.host;
-    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
+  page(data: any): Observable<boolean> {
+    data.cookie = this.userService.getUserData();
+    return ajax.post(this.config.getServer('/admin/pages/update'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('PAGES_PAGE.UPDATE.messages.error');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  observatorioPages(pages: Array<any>, pagesId: Array<number>): Observable<boolean> {
+    const data = {
+      pages: JSON.stringify(pages),
+      pagesId: JSON.stringify(pagesId),
+      cookie: this.userService.getUserData()
+    };
+
+    return ajax.post(this.config.getServer('/admin/pages/updateObservatorio'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('PAGES_PAGE.UPDATE.messages.error');
+        console.log(err);
+        return of(null);
+      })
+    );
   }
 }

@@ -13,6 +13,7 @@ import { Response } from '../models/response';
 import { Evaluation } from '../models/evaluation';
 import { AdminError } from '../models/error';
 
+import { ConfigService } from './config.service';
 import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
@@ -28,7 +29,7 @@ import tests_colors from './tests_colors';
 export class EvaluationService {
 
   url: string;
-  evaluation_date: string;
+  evaluation_id: number;
   evaluation: Evaluation;
 
   constructor(
@@ -36,23 +37,24 @@ export class EvaluationService {
     private http: HttpClient,
     private message: MessageService,
     private user: UserService,
+    private config: ConfigService,
     private translate: TranslateService
   ) { }
 
-  getEvaluation(url: string, evaluation_date: string): Observable<Evaluation> {
-    if (this.url && this.evaluation_date && _.isEqual(this.url, url) &&
-        _.isEqual(evaluation_date, this.evaluation_date) && this.evaluation) {
+  getEvaluation(url: string, evaluation_id: number): Observable<Evaluation> {
+    if (this.url && this.evaluation_id && _.isEqual(this.url, url) &&
+        _.isEqual(evaluation_id, this.evaluation_id) && this.evaluation) {
       return of(this.evaluation.processed);
     } else {
       const _url = sessionStorage.getItem('url');
-      const _evaluation_date = sessionStorage.getItem('evaluation_date');
-      if (_url && _.isEqual(_url, url) && _evaluation_date && _.isEqual(_evaluation_date, evaluation_date)) {
+      const _evaluation_id = sessionStorage.getItem('evaluation_id');
+      if (_url && _.isEqual(_url, url) && _evaluation_id && _.isEqual(_evaluation_id, evaluation_id)) {
         this.url = _url;
-        this.evaluation_date = _evaluation_date;
+        this.evaluation_id = parseInt(_evaluation_id, 0);
         this.evaluation = <Evaluation> JSON.parse(sessionStorage.getItem('evaluation'));
         return of(this.evaluation.processed);
       } else {
-        return ajax.post(this.getServer('/admin/page/evaluation'), {evaluation_date, url, cookie: this.user.getUserData()}).pipe(
+        return ajax.post(this.config.getServer('/admin/page/evaluation'), {evaluation_id, url, cookie: this.user.getUserData()}).pipe(
           retry(3),
           map(res => {
             const response = <Response> res.response;
@@ -66,12 +68,12 @@ export class EvaluationService {
             }
 
             this.url = url;
-            this.evaluation_date = evaluation_date;
+            this.evaluation_id = evaluation_id;
             this.evaluation = <Evaluation> response.result;
             this.evaluation.processed = this.processData();
 
             sessionStorage.setItem('url', url);
-            sessionStorage.setItem('evaluation_date', evaluation_date);
+            sessionStorage.setItem('evaluation_id', evaluation_id.toString());
             sessionStorage.setItem('evaluation', JSON.stringify(this.evaluation));
 
             return this.evaluation.processed;
@@ -85,7 +87,7 @@ export class EvaluationService {
   }
 
   evaluateUrl(url: string): Observable<any> {
-    return ajax.post(this.getServer('/studies/evaluate/'), {url: encodeURIComponent(url), cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/page/evaluate/'), {url: encodeURIComponent(url), cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -151,7 +153,7 @@ export class EvaluationService {
     if (_.includes(testSee['css'], ele)) {
       results = this.getCSS(webpage, ele);
     } else {
-      results = this.getElements(webpage, allNodes, ele, _.includes(testSee['div'], ele) || _.includes(testSee['span'], ele));
+      results = this.getElements(url, webpage, allNodes, ele, _.includes(testSee['div'], ele) || _.includes(testSee['span'], ele));
     }
 
     return results;
@@ -198,12 +200,6 @@ export class EvaluationService {
 
       new Angular5Csv(data, this.url + '-' + _eval.metadata.last_update, {headers: labels});
     });
-  }
-
-  private getServer(service: string): string {
-    const host = location.host;
-
-    return 'https://' + _.split(host, ':')[0] + ':3001' + service;
   }
 
   //EMBEBED
@@ -496,7 +492,7 @@ export class EvaluationService {
     return { 'embedded_css': this.highLightCss(styles, ele), 'inline_css': this.highLightCss2(classes, ele)};
   }
 
-  private getElements(webpage: string, allNodes: Array<string>, ele: string, inpage: boolean): any {
+  private getElements(url: string, webpage: string, allNodes: Array<string>, ele: string, inpage: boolean): any {
     let path;
 
     if (allNodes[ele]) {
@@ -508,10 +504,12 @@ export class EvaluationService {
     const parser = new DOMParser();
     const doc = parser.parseFromString(webpage, 'text/html');
 
-    const nodes = doc.evaluate(path, doc, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+    const nodes = doc.evaluate(path, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
 
     const elements = new Array();
-    let n = nodes.iterateNext();
+
+    let i = 0;
+    let n = nodes.snapshotItem(i);
 
     while (n) {
       let attrs = '';
@@ -519,23 +517,48 @@ export class EvaluationService {
       for (let i = 0 ; i < _.size(n['attributes']) ; i++) {
         const attr = <Attr> n['attributes'][i];
         if (attr.value) {
-          attrs +=  attr.name + '="' + attr.value + '" ';
+          attrs += attr.name + '="' + attr.value + '" ';
         } else {
           attrs += attr.name + ' ';
+        }
+      }
+
+      let eleOuterHtml = _.clone(n['outerHTML']);
+
+      if (_.toLower(n.nodeName) === 'img') {
+        let fixSrcUrl = _.clone(url);
+        if (fixSrcUrl[_.size(fixSrcUrl)-1] === '/') {
+          fixSrcUrl = fixSrcUrl.substring(0, _.size(fixSrcUrl) - 2);
+        }
+
+        if (n['attributes']['src'] && !_.startsWith(n['attributes']['src'].value, 'http')) {
+          n['attributes']['src'].value = `http://${fixSrcUrl}${n['attributes']['src'].value}`;
+
+          n['width'] = '250';
+          n['height'] = '250';
+        }
+
+        if (n['attributes']['srcset'] && !_.startsWith(n['attributes']['srcset'].value, 'http')) {
+          n['attributes']['srcset'].value = `http://${fixSrcUrl}${n['attributes']['srcset'].value}`;
+
+          n['width'] = '250';
+          n['height'] = '250';
         }
       }
 
       elements.push({
         ele: _.toLower(n.nodeName),
         attr: attrs,
-        code: n['outerHTML']
+        code: n['outerHTML'],
+        showCode: eleOuterHtml
       });
 
       if (inpage) {
         n['style'] = 'background:#ff0 !important;border:2px dotted #900 !important;padding:2px !important;visibility:visible !important;display:inherit !important;';
       }
 
-      n = nodes.iterateNext();
+      i++;
+      n = nodes.snapshotItem(i)
     }
 
     return {
@@ -547,9 +570,9 @@ export class EvaluationService {
 
   private processData() {
     const tot = this.evaluation.data.tot;
-    const pagecode = this.evaluation.pagecode;
-    const nodes = this.evaluation.data.nodes;
-    const url = this.url;
+    //const pagecode = this.evaluation.pagecode;
+    //const nodes = this.evaluation.data.nodes;
+    //const url = this.url;
 
     const data = {};
     data['metadata'] = {};
@@ -566,9 +589,9 @@ export class EvaluationService {
     data['scoreBoard'] = [];
     data['elems'] = [];
 
-    const tabsSize = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0};
+    //const tabsSize = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0};
 
-    const hidden = ['all', 'w3cValidator'];
+    //const hidden = ['all', 'w3cValidator'];
 
     let infotot = {
         'ok': 0,
@@ -596,19 +619,19 @@ export class EvaluationService {
       };
 
     for (const ee in tot.results) {
-      const r = tot.results[ee];      
+      //const r = tot.results[ee];
 
-      const split = _.split(r, '@');
-      const sco = parseInt(split[0]);
-      const pond = split[1];
+      //const split = _.split(r, '@');
+      //const sco = parseInt(split[0]);
+      /*const pond = split[1];
       const res = split[2];
-      const cant = split[3];
+      const cant = split[3];*/
 
-      const ele = tests[ee]['elem'];
+      //const ele = tests[ee]['elem'];
       const tes = tests[ee]['test'];
       const refs = tests[ee]['ref'];
       const lev = tests[ee]['level'];
-      const techfail = refs[0] === 'F' ? 'relationF' : 'relationT';
+      //const techfail = refs[0] === 'F' ? 'relationF' : 'relationT';
 
       let color;
 
@@ -636,13 +659,13 @@ export class EvaluationService {
         }
       }
 
-      const scrcrd = this.resIcon(sco);
+      //const scrcrd = this.resIcon(sco);
 
-      tabsSize[scrcrd]++;
+      //tabsSize[scrcrd]++;
 
-      const row = scrcrd + '' + scrcrd;
+      //const row = scrcrd + '' + scrcrd;
 
-      const msg = ee;
+      //const msg = ee;
 
       const result = {};
       result['ico'] = 'assets/images/ico' + color + '.png';
@@ -651,17 +674,16 @@ export class EvaluationService {
       result['msg'] = ee;
       result['value'] = tnum;
       result['prio'] = color === 'ok' ? 3 : color === 'err'? 1 : 2;
-      result['tech_list'] = new Array();
+      //result['tech_list'] = new Array();
 
-      if (!_.includes(hidden, ele)) {
-        result['tech_list'].push(this.testView(ele, ele, tot['elems'][ele]));
+      /*if (!_.includes(hidden, ele)) {
+        result['tech_list'] = this.testView(ele, ele, tot['elems'][ele]);
         if (!isNaN(tot['elems'][ele])) {
           result['value'] += parseInt(tot['elems'][ele]);
         }
-      }
+      }*/
 
-      result['tech_list'].push(this.testView(tes, tes, tnum));
-
+      result['tech_list'] = this.testView(tes, tes, tnum);
 
       data['results'].push(result);
       /*result['title'] = ee;
@@ -753,13 +775,13 @@ export class EvaluationService {
     //data['scoreBoard'] = _.orderBy(data['scoreBoard'], ['level', 'prio'], ['asc', 'asc']);
     data['infoak'] = infoak;
 
-    for (const k in tabsSize) {
+    /*for (const k in tabsSize) {
       const v = tabsSize[k];
       if (v > 0) {
         data['tabs'][k] = v;
       }
     }
-    
+    console.log(data);*/
     return data;
   }
 
@@ -790,7 +812,7 @@ export class EvaluationService {
     }
   }
 
-  private resIcon(r: number): string {
+  /*private resIcon(r: number): string {
     switch (r) {
       case 10: return 'A';
       case 9: case 8: return 'B';
@@ -799,5 +821,5 @@ export class EvaluationService {
       case 3: case 2: return 'E';
       case 1: return 'F';
     }
-  }
+  }*/
 }

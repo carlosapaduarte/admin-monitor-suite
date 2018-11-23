@@ -1,3 +1,17 @@
-<p>
-  not-found-404 works!
-</p>
+<div fxFlex fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="mat-typography">
+    <mat-card-header fxLayout="row" fxLayoutAlign="center center">
+      <mat-card-title>
+        <h1>{{ "MISC._404.title" | translate }}</h1>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+      <p>{{ "MISC._404.description" | translate }}</p>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+      <button mat-raised-button color="primary" routerLink="/">
+        {{ "MISC._404.homepage" | translate }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

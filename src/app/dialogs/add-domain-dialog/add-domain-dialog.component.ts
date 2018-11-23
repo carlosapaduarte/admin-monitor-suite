@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
@@ -52,7 +55,10 @@ export class AddDomainDialogComponent implements OnInit {
     private get: GetService,
     private verify: VerifyService,
     private create: CreateService,
-    private message: MessageService
+    private message: MessageService,
+    private router: Router,
+    private location: Location,
+    private dialogRef: MatDialogRef<AddDomainDialogComponent>
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -122,7 +128,14 @@ export class AddDomainDialogComponent implements OnInit {
         if (success !== null) {
           if (success) {
             this.message.show('MISC.success');
-            this.domainForm.reset();
+
+            if (this.location.path() !== '/console/domains') {
+              this.router.navigateByUrl('/console/domains');
+            } else {
+              window.location.reload();
+            }
+
+            this.dialogRef.close();
           }
         }
 

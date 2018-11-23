@@ -15,6 +15,8 @@ import { UpdateService } from '../../services/update.service';
 import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
+import { ChooseObservatoryWebsitePagesDialogComponent } from '../choose-observatory-website-pages-dialog/choose-observatory-website-pages-dialog.component';
+
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -63,6 +65,7 @@ export class EditWebsiteDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<EditWebsiteDialogComponent>,
+    private dialog: MatDialog,
     private create: CreateService,
     private get: GetService,
     private update: UpdateService,
@@ -207,6 +210,13 @@ export class EditWebsiteDialogComponent implements OnInit {
     }
   }
 
+  chooseObservatorioPages(): void {
+    this.dialog.open(ChooseObservatoryWebsitePagesDialogComponent, {
+      width: '60vw',
+      data: this.data
+    });
+  }
+
   filterTags(name: string) {
     return this.tags.filter(tag => _.includes(_.toLower(tag.Name), _.toLower(name)));
   }
@@ -237,7 +247,7 @@ export class EditWebsiteDialogComponent implements OnInit {
     if (name !== '' && name !== this.defaultWebsite.Name) {
       return this.verify.websiteNameExists(name);
     } else {
-      return null;
+      return of(null);
     }
   }
 
@@ -246,7 +256,7 @@ export class EditWebsiteDialogComponent implements OnInit {
     if (val !== '' && val !== null) {
       return _.includes(_.map(this.entities, 'Long_Name'), val) ? null : { 'validEntity': true };
     } else {
-      return null;
+      return of(null);
     }
   }
 
@@ -255,7 +265,7 @@ export class EditWebsiteDialogComponent implements OnInit {
     if (val !== '' && val !== null) {
       return _.includes(_.map(this.monitorUsers, 'Email'), val) ? null : { 'validUser': true };
     } else {
-      return null;
+      return of(null);
     }
   }
 }
