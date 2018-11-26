@@ -15,7 +15,9 @@ import { UpdateService } from '../../services/update.service';
 import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
-import { ChooseObservatoryWebsitePagesDialogComponent } from '../choose-observatory-website-pages-dialog/choose-observatory-website-pages-dialog.component';
+import {
+  ChooseObservatoryWebsitePagesDialogComponent
+} from '../choose-observatory-website-pages-dialog/choose-observatory-website-pages-dialog.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -196,6 +198,7 @@ export class EditWebsiteDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           this.message.show('WEBSITES_PAGE.UPDATE.messages.success');
+          this.dialogRef.close(true);
         }
 
         this.loadingUpdate = false;
@@ -253,19 +256,20 @@ export class EditWebsiteDialogComponent implements OnInit {
 
   entityValidator(control: AbstractControl): any {
     const val = _.trim(control.value);
-    if (val !== '' && val !== null) {
+
+    if (val) {
       return _.includes(_.map(this.entities, 'Long_Name'), val) ? null : { 'validEntity': true };
     } else {
-      return of(null);
+      return null;
     }
   }
 
   userValidator(control: AbstractControl): any {
     const val = _.trim(control.value);
-    if (val !== '' && val !== null) {
+    if (val) {
       return _.includes(_.map(this.monitorUsers, 'Email'), val) ? null : { 'validUser': true };
     } else {
-      return of(null);
+      return null;
     }
   }
 }

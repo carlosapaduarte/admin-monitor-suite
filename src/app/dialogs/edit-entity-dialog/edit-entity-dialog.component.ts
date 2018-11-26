@@ -152,6 +152,7 @@ export class EditEntityDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           this.message.show('ENTITIES_PAGE.UPDATE.messages.success');
+          this.dialogRef.close(true);
         }
 
         this.loadingUpdate = false;

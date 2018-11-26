@@ -180,6 +180,7 @@ export class EditUserDialogComponent implements OnInit {
           this.userForm.controls.password.reset();
           this.userForm.controls.confirmPassword.reset();
           this.message.show('USERS_PAGE.UPDATE.messages.success');
+          this.dialogRef.close(true);
         }
 
         this.loadingUpdate = false;

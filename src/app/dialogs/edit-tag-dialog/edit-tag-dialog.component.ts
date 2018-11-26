@@ -57,8 +57,6 @@ export class EditTagDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<EditTagDialogComponent>,
-    private formBuilder: FormBuilder,
-    private create: CreateService,
     private get: GetService,
     private update: UpdateService,
     private deleteService: DeleteService,
@@ -152,6 +150,7 @@ export class EditTagDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           this.message.show('TAGS_PAGE.UPDATE.messages.success');
+          this.dialogRef.close(true);
         }
         this.loadingUpdate = false;
       });

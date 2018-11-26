@@ -64,7 +64,7 @@
     "title": "Utilizador:",
     "LIST": {
       "title": "Utilizadores",
-      "subtitle": "Lista de todos os utilizadores das aplicações Access Studies e My Monitor",
+      "subtitle": "Lista de todos os utilizadores das aplicações Study Monitor e My Monitor",
       "table": {
         "filter": "Filtro",
         "id_label": "ID",
@@ -80,7 +80,7 @@
     },
     "ADD": {
       "title": "Criar um utilizador",
-      "subtitle": "Crie um utilizador para o Access Studies ou para o My Monitor",
+      "subtitle": "Crie um utilizador para o Study Monitor ou para o My Monitor",
       "user_data": "Dados do utilizador",
       "email_label": "E-mail",
       "email_invalid": "Insira um e-mail válido",
@@ -98,7 +98,9 @@
       }
     },
     "UPDATE": {
-      "title": "Editar este utilizador",
+      "title": "Utilizador",
+      "subtitle": "Editar",
+      "description": "Editar este utilizador",
       "default": "Default",
       "submit": "Atualizar",
       "delete": {
@@ -107,7 +109,7 @@
         "list": {
           "title": "Importante:",
           "item1": "O utilizador e toda a sua informação serão apagados",
-          "item2": "Se o utilizador pertencer à aplicação Access Studies, os seus websites e tags serão apagados",
+          "item2": "Se o utilizador pertencer à aplicação Study Monitor, os seus websites e tags serão apagados",
           "item3": "Esta acção não pode ser revertida"
         },
         "submit": "Apagar utilizador"
@@ -157,7 +159,9 @@
       }
     },
     "UPDATE": {
-      "title": "Editar esta tag",
+      "title": "Tag",
+      "subtitle": "Editar",
+      "description": "Editar esta tag",
       "websites_label": "Associar Websites",
       "default": "Default",
       "submit": "Atualizar",
@@ -216,7 +220,9 @@
       }
     },
     "UPDATE": {
-      "title": "Editar esta entidade",
+      "title": "Entidade",
+      "subtitle": "Editar",
+      "description": "Editar esta entidade",
       "websites_label": "Associar Websites",
       "default": "Default",
       "submit": "Atualizar",
@@ -280,7 +286,9 @@
       }
     },
     "UPDATE": {
-      "title": "Editar este website",
+      "title": "Website",
+      "subtitle": "Editar",
+      "description": "Editar este website",
       "entity_label": "Entidade",
       "user_label": "Utilizador",
       "tags_label": "Associar tags",
@@ -359,7 +367,7 @@
         "item1": "O domínio selecionado será apagado",
         "item2": "O website do domínio não será apagado",
         "item3": "As paginas deste domínio não serão apagadas",
-        "item4": "Se este é o único domínio do website, ou se for o domínio activo, poderão ocrrer erros durante o cálculo de alguns dados",
+        "item4": "Se este é o único domínio do website, ou se for o domínio activo, poderão ocorrer erros durante o cálculo de alguns dados",
         "item5": "Esta acção não pode ser revertida"
       },
       "submit": "Apagar domínio",
@@ -406,7 +414,7 @@
         "item1": "A página selecionada será apagada",
         "item2": "O website e domínio da página não serão apagados",
         "item3": "Todo o histórico de avaliações da página será apagado",
-        "item4": "A remoção poderá afetar os dados das aplicações Observatório, My Monitor e Access Studies",
+        "item4": "A remoção poderá afetar os dados das aplicações Observatório, My Monitor e Study Monitor",
         "item5": "Esta acção não pode ser revertida"
       },
       "submit": "Apagar página",

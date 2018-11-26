@@ -58,7 +58,7 @@
           {{ "WEBSITES_PAGE.LIST.table.edit_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="edit(element.WebsiteId)">
+          <button mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="edit(element.WebsiteId)" *ngIf="element.Type !== 'studies'">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
           </button>
         </mat-cell>

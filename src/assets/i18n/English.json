@@ -64,7 +64,7 @@
     "title": "User:",
     "LIST": {
       "title": "Users",
-      "subtitle": "List of all users from the applications Access Studies and My Monitor",
+      "subtitle": "List of all users from the applications Study Monitor and My Monitor",
       "table": {
         "filter": "Filter",
         "id_label": "ID",
@@ -80,7 +80,7 @@
     },
     "ADD": {
       "title": "Create a new user",
-      "subtitle": "Create a new use for one og the following applications: Access Studies or My Monitor",
+      "subtitle": "Create a new use for one og the following applications: Study Monitor or My Monitor",
       "user_data": "User data",
       "email_label": "E-mail",
       "email_invalid": "Insert a valid e-mail",
@@ -98,7 +98,9 @@
       }
     },
     "UPDATE": {
-      "title": "Edit this user",
+      "title": "User",
+      "subtitle": "Edit",
+      "description": "Edit this user",
       "default": "Default",
       "submit": "Update",
       "delete": {
@@ -107,7 +109,7 @@
         "list": {
           "title": "Important:",
           "item1": "The user and all it's data will be deleted",
-          "item2": "If the user belongs to the Access Studies application, all it's websites and tags will be deleted",
+          "item2": "If the user belongs to the Study Monitor application, all it's websites and tags will be deleted",
           "item3": "This action can't be undone"
         },
         "submit": "Delete user"
@@ -157,7 +159,9 @@
       }
     },
     "UPDATE": {
-      "title": "Edit this tag",
+      "title": "Tag",
+      "subtitle": "Edit",
+      "description": "Edit this tag",
       "websites_label": "Associate Websites",
       "default": "Default",
       "submit": "Update",
@@ -216,7 +220,9 @@
       }
     },
     "UPDATE": {
-      "title": "Edit this entity",
+      "title": "Entity",
+      "subtitle": "Edit",
+      "description": "Edit this entity",
       "websites_label": "Associate Websites",
       "default": "Default",
       "submit": "Update",
@@ -280,7 +286,9 @@
       }
     },
     "UPDATE": {
-      "title": "Edit this website",
+      "title": "Website",
+      "subtitle": "Edit",
+      "description": "Edit this website",
       "entity_label": "Entity",
       "user_label": "User",
       "tags_label": "Associate tags",
@@ -406,7 +414,7 @@
         "item1": "The selected page will be deleted",
         "item2": "The page's domain and website won't be deleted",
         "item3": "All page evaluation history will be deleted",
-        "item4": "Removing this page may affect data from the Observatory, My Monitor and Access Studies applications",
+        "item4": "Removing this page may affect data from the Observatory, My Monitor and Study Monitor applications",
         "item5": "This action can't be undone"
       },
       "submit": "Delete page",
