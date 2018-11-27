@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.choose_observatory.title" | translate }}</h1>
+<form (submit)="choosePages($event)" novalidate>
+  <mat-dialog-content>
+
+    <mat-table #table [dataSource]="dataSource" [hidden]="loading">
+
+      <ng-container matColumnDef="Uri">
+        <mat-header-cell *matHeaderCellDef fxFlex>
+          {{ "PAGES_PAGE.LIST.table.uri_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex>
+          <strong>{{element.Uri}}</strong>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <app-loading *ngIf="loading"></app-loading>
+    <app-error *ngIf="error"></app-error>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="warn" [mat-dialog-close]="{ cancel: true }">
+      {{ "WEBSITES_PAGE.UPDATE.observatorio.cancel" | translate }}
+    </button>
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" type="submit">
+      {{ "PAGES_PAGE.ADD.choose_observatory.submit" | translate }}
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -75,6 +75,7 @@ import { DeleteDomainDialogComponent } from './dialogs/delete-domain-dialog/dele
 import { DeleteEvaluationDialogComponent } from './dialogs/delete-evaluation-dialog/delete-evaluation-dialog.component';
 import { EditWebsiteDialogComponent } from './dialogs/edit-website-dialog/edit-website-dialog.component';
 import { ChooseObservatoryWebsitePagesDialogComponent } from './dialogs/choose-observatory-website-pages-dialog/choose-observatory-website-pages-dialog.component';
+import { ChooseObservatoryPagesDialogComponent } from './dialogs/choose-observatory-pages-dialog/choose-observatory-pages-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -163,7 +164,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeleteDomainDialogComponent,
     DeleteEvaluationDialogComponent,
     EditWebsiteDialogComponent,
-    ChooseObservatoryWebsitePagesDialogComponent
+    ChooseObservatoryWebsitePagesDialogComponent,
+    ChooseObservatoryPagesDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -206,7 +208,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeletePageDialogComponent,
     DeleteEvaluationDialogComponent,
     BottomSheetComponent,
-    ChooseObservatoryWebsitePagesDialogComponent
+    ChooseObservatoryWebsitePagesDialogComponent,
+    ChooseObservatoryPagesDialogComponent
   ],
   providers: [
     AdminAuthGuard,

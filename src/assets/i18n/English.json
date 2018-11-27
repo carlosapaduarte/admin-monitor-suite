@@ -400,6 +400,11 @@
       "domain_invalid": "Invalid domain",
       "uris_label": "New uris",
       "uris_invalid": "One of the inserted uri is invalid",
+      "show_in_observatorio": "Show pages in observatory",
+      "choose_observatory": {
+        "title": "Choose pages for the observatory",
+        "submit": "Choose"
+      },
       "reset": "Reset",
       "submit": "Create",
       "messages": {

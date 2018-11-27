@@ -39,6 +39,11 @@
         </mat-error>
       </mat-form-field>
     </div>
+    <div class="add-observatorio-block">
+      <mat-checkbox formControlName="observatorio">
+        {{ "PAGES_PAGE.ADD.show_in_observatorio" | translate }}
+      </mat-checkbox>
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row">
     <button mat-raised-button color="warn" type="button" (click)="resetForm()">

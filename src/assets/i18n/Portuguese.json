@@ -400,10 +400,15 @@
       "domain_invalid": "Domínio inválido",
       "uris_label": "Novos uris",
       "uris_invalid": "Um dos uris inseridos é inválido",
+      "show_in_observatorio": "Mostrar páginas no observatório",
+      "choose_observatory": {
+        "title": "Escolha as páginas para o observatório",
+        "submit": "Escolher"
+      },
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {
-        "success": "Páginas criaddas com sucesso",
+        "success": "Páginas criadas com sucesso",
         "error": "Erro ao criar as páginas"
       }
     },

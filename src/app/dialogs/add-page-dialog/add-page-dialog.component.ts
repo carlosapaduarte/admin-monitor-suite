@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -11,9 +10,12 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
-import { VerifyService } from '../../services/verify.service';
 import { CreateService } from '../../services/create.service';
 import { MessageService } from '../../services/message.service';
+
+import {
+  ChooseObservatoryPagesDialogComponent
+} from '../choose-observatory-pages-dialog/choose-observatory-pages-dialog.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -85,12 +87,12 @@ export class AddPageDialogComponent implements OnInit {
 
   constructor(
     private get: GetService,
-    private verify: VerifyService,
     private create: CreateService,
     private message: MessageService,
     private formBuilder: FormBuilder,
     private router: Router,
     private location: Location,
+    private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddPageDialogComponent>
   ) {
     this.matcher = new MyErrorStateMatcher();
@@ -102,7 +104,8 @@ export class AddPageDialogComponent implements OnInit {
       ]),
       uris: new FormControl('', [
         Validators.required
-      ])
+      ]),
+      observatorio: new FormControl()
     },
     {
       validator: UriValidation.validUris
@@ -148,12 +151,32 @@ export class AddPageDialogComponent implements OnInit {
       return _.trim(p);
     })), ''));
 
+    if (this.pageForm.value.observatorio) {
+      let chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
+        width: '60vw',
+        data: {
+          uris: JSON.parse(uris)
+        }
+      });
+
+      chooseDialog.afterClosed().subscribe(result => {
+        if (!result.cancel) {
+          this.addPages(domainId, uris, result.uris);
+        }
+      });
+    } else {
+      this.addPages(domainId, uris, JSON.stringify([]));
+    }
+  }
+
+  private addPages(domainId: number, uris: any, observatorio: any): void {
+    this.loadingCreate = true;
+
     const formData = {
       domainId,
-      uris
+      uris,
+      observatorio
     };
-
-    this.loadingCreate = true;
 
     this.create.newPages(formData)
       .subscribe(success => {
