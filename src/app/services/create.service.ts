@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { ConfigService } from './config.service';
@@ -11,6 +12,8 @@ import { MessageService } from './message.service';
 import { Response } from '../models/response';
 import { AdminError } from '../models/error';
 
+import { AddPagesErrorsDialogComponent } from '../dialogs/add-pages-errors-dialog/add-pages-errors-dialog.component';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +22,8 @@ export class CreateService {
   constructor(
     private user: UserService,
     private message: MessageService,
-    private config: ConfigService
+    private config: ConfigService,
+    private dialog: MatDialog
   ) { }
 
   newUser(data: any): Observable<boolean> {
@@ -159,14 +163,20 @@ export class CreateService {
         const response = <Response> res.response;
 
         if (response.success !== 1) {
-          throw new AdminError(response.success, response.message);
+          throw new AdminError(response.success, response.message, 'NORMAL', response.errors, response.result);
         }
 
         return <boolean> response.result;
       }),
       catchError(err => {
-        this.message.show('PAGES_PAGE.ADD.messages.error');
         console.log(err);
+        if (err.code === 0) {
+          this.dialog.open(AddPagesErrorsDialogComponent, {
+            data: err.errors
+          });
+        } else {
+          this.message.show('PAGES_PAGE.ADD.messages.error');
+        }
         return of(null);
       })
     );

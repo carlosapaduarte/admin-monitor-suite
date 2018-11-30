@@ -410,6 +410,10 @@
       "messages": {
         "success": "Pages created successfully",
         "error": "Error creating the pages"
+      },
+      "error_dialog": {
+        "title": "Errors",
+        "message": "Some errors ocurred while trying to add the following pages:"
       }
     },
     "DELETE": {

@@ -2,7 +2,7 @@
 <form (submit)="choosePages($event)" novalidate>
   <mat-dialog-content>
 
-    <mat-table #table [dataSource]="dataSource" [hidden]="loading">
+    <mat-table #table [dataSource]="dataSource">
 
       <ng-container matColumnDef="Uri">
         <mat-header-cell *matHeaderCellDef fxFlex>
@@ -28,8 +28,6 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <app-loading *ngIf="loading"></app-loading>
-    <app-error *ngIf="error"></app-error>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-raised-button color="warn" [mat-dialog-close]="{ cancel: true }">
