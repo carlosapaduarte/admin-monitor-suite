@@ -1,6 +1,7 @@
-import { OnInit, Component, Injectable, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { OnInit, OnDestroy, Component, Injectable, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { merge } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { merge, Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -9,7 +10,7 @@ import * as _ from 'lodash';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('scrollRef') scrollRef: any;
 
@@ -26,11 +27,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   showGoToTop: boolean;
 
+  sub: Subscription;
+
   constructor(
     public el: ElementRef,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private router: Router
   ) {
-
     this.translate.addLangs(_.values(this.langs));
     this.translate.setDefaultLang('Portuguese');
 
@@ -55,6 +58,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.translate.onLangChange.subscribe(() => {
       this.updateLanguage();
     });
+    this.sub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.scrollRef.directiveRef.scrollToTop();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -68,6 +76,10 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.showGoToTop = false;
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   /**

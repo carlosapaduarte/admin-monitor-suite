@@ -179,6 +179,15 @@
       "messages": {
         "success": "Tag atualizada com sucesso",
         "error": "Erro ao atualizar tag"
+      },
+      "user_tag": {
+        "description": "Esta tag pertence a um utilizador da aplicação Study Monitor. Pretende realizar uma cópia e transformá-la numa tag oficial?",
+        "tag_name": "Novo nome da tag oficial",
+        "submit": "Transformar",
+        "messages": {
+          "success": "Tag copiada com sucesso",
+          "error": "Erro ao copiar tag"
+        }
       }
     },
     "DELETE": {
@@ -295,6 +304,7 @@
       "choose": "Escolher páginas para o observatório",
       "default": "Default",
       "submit": "Atualizar",
+      "cant_edit": "Este website não pode ser editado pois pertence a um utilizador da aplicação Study Monitor.",
       "observatorio": {
         "title": "Páginas no observatório",
         "cancel": "Cancelar",
@@ -511,7 +521,11 @@
       "practice": "Prática encontrada",
       "lvl": "Nível",
       "details": "Detalhes",
-      "understanding": "Compreensível"
+      "understanding": "Compreensível",
+      "alt_rowerr": "Não aceitável:",
+      "alt_rowwar": "Para ver manualmente:",
+      "alt_rowok": "Aceitável:",
+      "alt_see": "Ver resultados da prática:"
     },
     "scoreboard": {
       "level": "Nível",

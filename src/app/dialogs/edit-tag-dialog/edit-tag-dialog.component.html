@@ -13,7 +13,7 @@
       </mat-expansion-panel-header>
 
       <ng-container matExpansionPanelContent>
-        <form (submit)="updateTag($event)" [formGroup]="tagForm" novalidate>
+        <form *ngIf="!data.userId" (submit)="updateTag($event)" [formGroup]="tagForm" novalidate>
           <div class="add-tag-block" fxLayout="column">
             <mat-form-field>
               <label for="tag_name_input">{{ "TAGS_PAGE.ADD.name_label" | translate }}</label>
@@ -66,6 +66,29 @@
             <span fxFlex="5"></span>
             <button mat-raised-button color="primary" type="submit" [disabled]="tagForm.controls.name.invalid" *ngIf="!loadingUpdate">
               {{ "TAGS_PAGE.UPDATE.submit" | translate }}
+            </button>
+            <mat-spinner *ngIf="loadingUpdate" [diameter]="40"></mat-spinner>
+          </div>
+        </form>
+        <form *ngIf="data.userId" (submit)="transformOfficial($event)" [formGroup]="copyTagForm" fxLayout="column" novalidate>
+          <p>{{ "TAGS_PAGE.UPDATE.user_tag.description" | translate }}</p>
+          <mat-form-field>
+            <label for="copy_tag_name">{{ "TAGS_PAGE.UPDATE.user_tag.tag_name" | translate }}</label>
+            <input id="copy_tag_name" matInput type="text" formControlName="name" [errorStateMatcher]="matcher" required>
+            <button mat-button *ngIf="copyTagForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="copyTagForm.controls.name.reset()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="copyTagForm.controls.name.status === 'PENDING'">
+              <mat-progress-bar mode="buffer"></mat-progress-bar>
+            </mat-error>
+            <mat-error *ngIf="copyTagForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+            <mat-error *ngIf="copyTagForm.controls.name.hasError('notTakenName')">{{ "TAGS_PAGE.ADD.name_exists" |
+              translate }}</mat-error>
+          </mat-form-field>
+          <div>
+            <span fxFlex></span>
+            <button mat-raised-button color="primary" type="submit" [disabled]="copyTagForm.controls.name.invalid" *ngIf="!loadingUpdate">
+              {{ "TAGS_PAGE.UPDATE.user_tag.submit" | translate }}
             </button>
             <mat-spinner *ngIf="loadingUpdate" [diameter]="40"></mat-spinner>
           </div>

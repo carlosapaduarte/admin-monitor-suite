@@ -39,8 +39,7 @@ export class ListOfUsersComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private get: GetService,
-    private message: MessageService
+    private get: GetService
   ) {
     this.loading = true;
     this.error = false;

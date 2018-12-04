@@ -50,6 +50,8 @@ export class EditTagDialogComponent implements OnInit {
 
   tagForm: FormGroup;
 
+  copyTagForm: FormGroup;
+
   defaultTag: any;
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
@@ -74,6 +76,10 @@ export class EditTagDialogComponent implements OnInit {
       websites: new FormControl()
     });
 
+    this.copyTagForm = new FormGroup({
+      name: new FormControl('', Validators.required)
+    });
+
     this.loadingInfo = true;
     this.loadingWebsites = true;
     this.loadingUpdate = false;
@@ -91,9 +97,12 @@ export class EditTagDialogComponent implements OnInit {
           this.tagForm.controls.observatorio.setValue(tag.Show_in_Observatorio);
           this.selectedWebsites = tag.websites;
 
+          this.copyTagForm.controls.name.setValue(tag.Name);
+
           //this.websites = this.websites.concat(tag.websites);
 
           this.tagForm.controls.name.setAsyncValidators(this.nameValidator.bind(this));
+          this.copyTagForm.controls.name.setAsyncValidators(this.nameValidator.bind(this));
         }
 
         this.loadingUpdate = false;
@@ -150,6 +159,28 @@ export class EditTagDialogComponent implements OnInit {
       .subscribe(success => {
         if (success !== null) {
           this.message.show('TAGS_PAGE.UPDATE.messages.success');
+          this.dialogRef.close(true);
+        }
+        this.loadingUpdate = false;
+      });
+  }
+
+  transformOfficial(e): void {
+    e.preventDefault();
+
+    const name = this.copyTagForm.value.name;
+
+    const formData = {
+      tagId: this.data.id,
+      name
+    };
+
+    this.loadingUpdate = true;
+
+    this.update.copyTag(formData)
+      .subscribe(success => {
+        if (success !== null) {
+          this.message.show('TAGS_PAGE.UPDATE.user_tag.messages.success');
           this.dialogRef.close(true);
         }
         this.loadingUpdate = false;

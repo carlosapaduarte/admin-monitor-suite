@@ -51,13 +51,13 @@ export class ListOfWebsitesComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  edit(id: number): void {
+  edit(id: number, userType: string): void {
     const editDialog = this.dialog.open(EditWebsiteDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,
       scrollStrategy: this.overlay.scrollStrategies.noop(),
-      data: { id }
+      data: { id, userType }
     });
 
     editDialog.afterClosed()

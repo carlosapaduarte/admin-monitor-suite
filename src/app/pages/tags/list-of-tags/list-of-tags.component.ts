@@ -87,13 +87,14 @@ export class ListOfTagsComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  edit(id: number): void {
+  edit(id: number, userId: number): void {
     const editDialog = this.dialog.open(EditTagDialogComponent, {
       width: '60vw',
       disableClose: false,
       hasBackdrop: true,
       data: {
-        id
+        id,
+        userId
       }
     });
 

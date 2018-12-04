@@ -14,7 +14,7 @@
       </mat-expansion-panel-header>
 
       <ng-container matExpansionPanelContent>
-        <form (submit)="updateWebsite($event)" [formGroup]="websiteForm" novalidate>
+        <form *ngIf="data.userType !== 'studies'" (submit)="updateWebsite($event)" [formGroup]="websiteForm" novalidate>
           <div class="add-website-block" fxLayout="column">
             <mat-form-field>
               <label for="website_name_input">{{ "WEBSITES_PAGE.ADD.name_label" | translate }}</label>
@@ -125,6 +125,9 @@
             <mat-spinner *ngIf="loadingUpdate" [diameter]="40"></mat-spinner>
           </div>
         </form>
+        <div *ngIf="data.userType === 'studies'">
+          <p>{{ "WEBSITES_PAGE.UPDATE.cant_edit" | translate }}</p>
+        </div>
       </ng-container>
     </mat-expansion-panel>
     <mat-expansion-panel>

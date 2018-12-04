@@ -179,6 +179,15 @@
       "messages": {
         "success": "Tag updated successfully",
         "error": "Error updating tag"
+      },
+      "user_tag": {
+        "description": "This tag belongs to an Study Monitor application user. Do you want to make a copy and transform it into an official tag?",
+        "tag_name": "New official tag name",
+        "submit": "Transform",
+        "messages": {
+          "success": "Tag copied successfully",
+          "error": "Error copying tag"
+        }
       }
     },
     "DELETE": {
@@ -295,6 +304,7 @@
       "choose": "Choose observatory pages",
       "default": "Default",
       "submit": "Update",
+      "cant_edit": "This website can't be edited because it belongs to an Study Monitor application user.",
       "observatorio": {
         "title": "Observatory pages",
         "cancel": "Cancel",
@@ -511,7 +521,11 @@
       "practice": "Practice found",
       "lvl": "Level",
       "details": "Details",
-      "understanding": "Understanding"
+      "understanding": "Understanding",
+      "alt_rowerr": "Non acceptable:",
+      "alt_rowwar": "To view manually:",
+      "alt_rowok": "Acceptable:",
+      "alt_see": "See results from the practice:"
     },
     "scoreboard": {
       "level": "Level",

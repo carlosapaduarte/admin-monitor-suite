@@ -72,6 +72,31 @@ export class UpdateService {
     );
   }
 
+  copyTag(data: any): Observable<boolean> {
+    data.cookie = this.userService.getUserData();
+    return ajax.post(this.config.getServer('/admin/tags/update/copy'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('USERS_PAGE.UPDATE.user_tag.messages.error');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   entity(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
     return ajax.post(this.config.getServer('/admin/entities/update'), data).pipe(
