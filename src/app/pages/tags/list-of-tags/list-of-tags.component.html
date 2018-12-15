@@ -17,66 +17,66 @@
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
-      <ng-container matColumnDef="TagId">
+      <!--<ng-container matColumnDef="TagId">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "TAGS_PAGE.LIST.table.id_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           {{element.TagId}}
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <ng-container matColumnDef="Name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
           {{ "TAGS_PAGE.LIST.table.name_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{element.Name}}
+        <mat-cell *matCellDef="let element" fxFlex>
+          <strong>{{element.Name}}</strong>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Show_in_Observatorio">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "TAGS_PAGE.LIST.table.observatorio_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <mat-icon *ngIf="element.Show_in_Observatorio" class="md-24" aria-label="">check</mat-icon>
           <mat-icon *ngIf="!element.Show_in_Observatorio" class="md-24" aria-label="">clear</mat-icon>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="User">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">
           {{ "TAGS_PAGE.LIST.table.user_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="20">
           {{element.User ? element.User : "Admin"}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Creation_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "TAGS_PAGE.LIST.table.creation_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Creation_Date | date}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Websites">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "TAGS_PAGE.LIST.table.websites_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Websites}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef fxFlex="10">
           {{ "TAGS_PAGE.LIST.table.edit_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'TAGS_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="edit(element.TagId, element.UserId)">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
           </button>
@@ -84,8 +84,8 @@
       </ng-container>
 
       <ng-container matColumnDef="see">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button *ngIf="element.User" mat-icon-button matTooltip="{{ 'TAGS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'tag', element.User, element.Name]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>

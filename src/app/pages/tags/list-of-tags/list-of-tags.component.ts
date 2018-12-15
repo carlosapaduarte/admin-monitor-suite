@@ -36,7 +36,7 @@ export class ListOfTagsComponent implements OnInit {
   error: boolean;
 
   displayedColumns = [
-    'TagId',
+    //'TagId',
     'Name',
     'Show_in_Observatorio',
     'User',

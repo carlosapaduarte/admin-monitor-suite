@@ -16,7 +16,7 @@ export class ListOfDomainsComponent implements OnInit {
   @Input('domains') domains: Array<any>;
 
   displayedColumns = [
-    'DomainId',
+    //'DomainId',
     'Url',
     'Active',
     'User',

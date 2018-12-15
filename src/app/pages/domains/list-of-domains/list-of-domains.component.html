@@ -19,75 +19,75 @@
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
-      <ng-container matColumnDef="DomainId">
+      <!--<ng-container matColumnDef="DomainId">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "DOMAINS_PAGE.LIST.table.id_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           {{element.DomainId}}
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <ng-container matColumnDef="Url">
-        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
           {{ "DOMAINS_PAGE.LIST.table.domain_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="30">
-          {{element.Url}}
+        <mat-cell *matCellDef="let element" fxFlex>
+          <strong>{{element.Url}}</strong>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Active">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "DOMAINS_PAGE.LIST.table.active_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <mat-icon *ngIf="element.Active" class="md-24" aria-label="">check</mat-icon>
           <mat-icon *ngIf="!element.Active" class="md-24" aria-label="">clear</mat-icon>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="User">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">
           {{ "DOMAINS_PAGE.LIST.table.user_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="20">
           {{element.User ? element.User : 'Admin'}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Pages">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "DOMAINS_PAGE.LIST.table.pages_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Pages}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Start_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "DOMAINS_PAGE.LIST.table.start_date_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Start_Date | date}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="End_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "DOMAINS_PAGE.LIST.table.end_date_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.End_Date | date}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef fxFlex="10">
           {{ "DOMAINS_PAGE.LIST.table.delete_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.delete_tooltip' | translate }}" (click)="openDeleteDomainDialog(element.DomainId)">
             <mat-icon class="md-24" aria-label="">clear</mat-icon>
           </button>
@@ -95,8 +95,8 @@
       </ng-container>
 
       <ng-container matColumnDef="see">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button *ngIf="element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', element.User, element.Url]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>

@@ -23,7 +23,7 @@ export class ListOfUsersComponent implements OnInit {
   error: boolean;
 
   displayedColumns = [
-    'UserId',
+    //'UserId',
     'Email',
     'Type',
     'Websites',

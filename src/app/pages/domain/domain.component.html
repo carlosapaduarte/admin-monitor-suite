@@ -9,11 +9,13 @@
   </mat-card-header>
   <mat-card-actions>
     <a mat-icon-button class="tools" [routerLink]="['/console', 'domains']" matTooltip="{{ 'RESULTS.actions.back' | translate }}">
-       <mat-icon aria-label="'RESULTS.actions.back' | translate">arrow_back</mat-icon>
+      <mat-icon aria-label="'RESULTS.actions.back' | translate">arrow_back</mat-icon>
     </a>
     <span fxFlex></span>
   </mat-card-actions>
 </mat-card>
+<br>
+<app-domain-statistics *ngIf="!loading && !error" [pages]="pages"></app-domain-statistics>
 <br>
 <app-list-of-pages *ngIf="!loading && !error" [pages]="pages" (deletePage)="deletePage($event)"></app-list-of-pages>
 <app-loading *ngIf="loading"></app-loading>

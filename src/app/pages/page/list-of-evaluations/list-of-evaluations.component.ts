@@ -16,7 +16,7 @@ export class ListOfEvaluationsComponent implements OnInit {
   @Input('evaluations') evaluations: Array<any>;
 
   displayedColumns = [
-    'EvaluationId',
+    //'EvaluationId',
     'Score',
     'A',
     'AA',

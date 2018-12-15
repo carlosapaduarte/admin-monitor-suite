@@ -58,7 +58,28 @@
     "users_label": "Utilizadores",
     "tags_label": "Tags",
     "websites_label": "Websites",
-    "setence": "Total de {{value}}"
+    "sentence": "Total de {{value}}"
+  },
+  "STATISTICS": {
+    "title": "Estatísticas",
+    "subtitle": "Metadados",
+    "gauge": {
+      "label": "Pontuação média"
+    },
+    "tags": "Nº de categorias",
+    "websites": "Nº de websites",
+    "pages": "Nº de páginas",
+    "score": "Pontuação",
+    "newest_page_updated": "Avaliação mais recente duma página",
+    "oldest_page_updated": "Avaliação mais antiga duma página",
+    "last_updated": "Última atualização das estatísticas",
+    "score_distribution": "Distribuição de pontuações",
+    "error_distribution": "Distribuição de erros",
+    "pages_with_errors": "Páginas não conformes",
+    "pages_without_errors": "Páginas conformes",
+    "pages_without_errors_a": "Conformes A: sem erros de nível A",
+    "pages_without_errors_a_aa": "Conformes AA: sem erros de nível A+AA",
+    "pages_without_errors_a_aa_aaa": "Conformes AAA: sem erros de nível A+AA+AAA"
   },
   "USERS_PAGE": {
     "title": "Utilizador:",

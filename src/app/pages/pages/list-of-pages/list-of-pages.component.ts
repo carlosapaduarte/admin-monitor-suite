@@ -19,7 +19,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   @Input('pages') pages: Array<any>;
 
   displayedColumns = [
-    'PageId',
+    //'PageId',
     'Uri',
     'Score',
     'Evaluation_Date',

@@ -19,7 +19,7 @@ export class ListOfEntitiesComponent implements OnInit {
   error: boolean;
 
   displayedColumns = [
-    'EntityId',
+    //'EntityId',
     'Short_Name',
     'Long_Name',
     'Creation_Date',

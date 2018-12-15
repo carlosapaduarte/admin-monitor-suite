@@ -145,7 +145,7 @@ export class AddPageDialogComponent implements OnInit {
       p = _.replace(p, 'www.', '');
 
       if (p[_.size(p)-1] === '/') {
-        p[_.size(p)-1] = '';
+        p = p.substring(0, _.size(p)-1);
       }
 
       return _.trim(p);

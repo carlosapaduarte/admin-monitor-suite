@@ -17,21 +17,21 @@
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
-      <ng-container matColumnDef="EvaluationId">
+      <!--<ng-container matColumnDef="EvaluationId">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "EVALUATIONS_PAGE.LIST.table.id_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           {{element.EvaluationId}}
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <ng-container matColumnDef="Score">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "EVALUATIONS_PAGE.LIST.table.score_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{element.Score}}
+          <strong>{{element.Score}}</strong>
         </mat-cell>
       </ng-container>
 

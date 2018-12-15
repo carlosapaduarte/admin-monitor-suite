@@ -20,57 +20,57 @@
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
-      <ng-container matColumnDef="PageId">
+      <!--<ng-container matColumnDef="PageId">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "PAGES_PAGE.LIST.table.id_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           {{element.PageId}}
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <ng-container matColumnDef="Uri">
-        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="45">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
           {{ "PAGES_PAGE.LIST.table.uri_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="45">
-          {{element.Uri}}
+        <mat-cell *matCellDef="let element" fxFlex>
+          <strong>{{element.Uri}}</strong>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Score">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "PAGES_PAGE.LIST.table.score_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Score}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Evaluation_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "PAGES_PAGE.LIST.table.last_updated_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Evaluation_Date | date}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Show_In">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           Observatório
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <mat-checkbox (change)="setPageInObservatorio($event, element)" [checked]="element.Show_In === 'both' || element.Show_In === 'observatorio'">
           </mat-checkbox>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef fxFlex="10">
           {{ "PAGES_PAGE.LIST.table.delete_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'PAGES_PAGE.LIST.table.delete_tooltip' | translate }}" (click)="openDeletePageDialog(element.PageId)">
             <mat-icon class="md-24" aria-label="">clear</mat-icon>
           </button>
@@ -78,8 +78,8 @@
       </ng-container>
 
       <ng-container matColumnDef="see">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'PAGES_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'page', element.Uri]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>

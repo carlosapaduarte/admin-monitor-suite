@@ -137,8 +137,6 @@ export class AddUserDialogComponent implements OnInit {
   createUser(e): void {
     e.preventDefault();
 
-    this.loadingCreate = true;
-
     const email = this.userForm.value.email;
     const password = this.userForm.value.password;
     const confirmPassword = this.userForm.value.confirmPassword;
@@ -150,8 +148,10 @@ export class AddUserDialogComponent implements OnInit {
       password,
       confirmPassword,
       app,
-      websites
+      websites: JSON.stringify(websites)
     };
+
+    this.loadingCreate = true;
 
     this.create.newUser(formData)
       .subscribe(success => {

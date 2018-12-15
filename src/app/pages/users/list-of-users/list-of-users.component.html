@@ -18,65 +18,65 @@
 
     <mat-table #table [dataSource]="dataSource" matSort>
 
-      <ng-container matColumnDef="UserId">
+      <!--<ng-container matColumnDef="UserId">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ "USERS_PAGE.LIST.table.id_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           {{element.UserId}}
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <ng-container matColumnDef="Email">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
           {{ "USERS_PAGE.LIST.table.email_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{element.Email}}
+        <mat-cell *matCellDef="let element" fxFlex>
+          <strong>{{element.Email}}</strong>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Type">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "USERS_PAGE.LIST.table.app_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Type == "studies" ? "Study Monitor" : "My Monitor"}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Websites">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "USERS_PAGE.LIST.table.websites_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Websites}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Register_Date">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "USERS_PAGE.LIST.table.register_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Register_Date | date}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="Last_Login">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "USERS_PAGE.LIST.table.last_login_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           {{element.Last_Login | date}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef fxFlex="10">
           {{ "USERS_PAGE.LIST.table.edit_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'USERS_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="edit(element.UserId)">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
           </button>
@@ -84,8 +84,8 @@
       </ng-container>
 
       <ng-container matColumnDef="see">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'USERS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'user', element.Email]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
