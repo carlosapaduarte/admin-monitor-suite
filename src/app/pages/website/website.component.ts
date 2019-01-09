@@ -22,6 +22,7 @@ export class WebsiteComponent implements OnInit, OnDestroy {
   user: string;
   website: string;
   domains: Array<any>;
+  activeDomain: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -51,6 +52,7 @@ export class WebsiteComponent implements OnInit, OnDestroy {
       .subscribe(domains => {
         if (domains !== null) {
           this.domains = domains;
+          this.activeDomain = _.find(this.domains, { 'Active': 1 }).Url;
         } else {
           this.error = true;
         }

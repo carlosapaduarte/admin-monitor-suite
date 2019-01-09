@@ -6,6 +6,8 @@
     "title": "Iniciar sessão",
     "password_label": "Palavra-chave",
     "email_error": "Introduza um email válido. <strong>Ex.: nome@serviço.com</strong>",
+    "show_password": "Carregue aqui para mostrar a palavra-chave",
+    "hide_password": "Carregue aqui para esconder a palavra-chave",
     "submit": "Iniciar sessão",
     "messages": {
       "password_match": "A palavra-chave está incorreta",
@@ -79,7 +81,8 @@
     "pages_without_errors": "Páginas conformes",
     "pages_without_errors_a": "Conformes A: sem erros de nível A",
     "pages_without_errors_a_aa": "Conformes AA: sem erros de nível A+AA",
-    "pages_without_errors_a_aa_aaa": "Conformes AAA: sem erros de nível A+AA+AAA"
+    "pages_without_errors_a_aa_aaa": "Conformes AAA: sem erros de nível A+AA+AAA",
+    "note": "Os dados usados pertecem ao domínio ativo"
   },
   "USERS_PAGE": {
     "title": "Utilizador:",

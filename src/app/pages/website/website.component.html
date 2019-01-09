@@ -15,6 +15,8 @@
   </mat-card-actions>
 </mat-card>
 <br>
+<app-website-statistics *ngIf="!loading && !error" [user]="user" [domain]="activeDomain"></app-website-statistics>
+<br>
 <app-list-of-domains *ngIf="!loading && !error" [domains]="domains" (deleteDomain)="deleteDomain($event)"></app-list-of-domains>
 <app-loading *ngIf="loading"></app-loading>
 <app-error *ngIf="error"></app-error>

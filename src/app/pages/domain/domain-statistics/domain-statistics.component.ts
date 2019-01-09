@@ -1,5 +1,5 @@
-import { Evaluation } from './../../../models/evaluation';
 import { Component, OnInit, Input } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-domain-statistics',

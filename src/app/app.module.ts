@@ -78,6 +78,7 @@ import { ChooseObservatoryWebsitePagesDialogComponent } from './dialogs/choose-o
 import { ChooseObservatoryPagesDialogComponent } from './dialogs/choose-observatory-pages-dialog/choose-observatory-pages-dialog.component';
 import { AddPagesErrorsDialogComponent } from './dialogs/add-pages-errors-dialog/add-pages-errors-dialog.component';
 import { DomainStatisticsComponent } from './pages/domain/domain-statistics/domain-statistics.component';
+import { WebsiteStatisticsComponent } from './pages/website/website-statistics/website-statistics.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -169,7 +170,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChooseObservatoryWebsitePagesDialogComponent,
     ChooseObservatoryPagesDialogComponent,
     AddPagesErrorsDialogComponent,
-    DomainStatisticsComponent
+    DomainStatisticsComponent,
+    WebsiteStatisticsComponent
   ],
   imports: [
     BrowserModule,

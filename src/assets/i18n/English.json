@@ -6,6 +6,8 @@
     "title": "Login",
     "password_label": "Password",
     "email_error": "The e-mail is not valid. <strong>E.g. name@service.com</strong>",
+    "show_password": "Click here to show the password text",
+    "hide_password": "Click here to hide the password text",
     "submit": "Login",
     "messages": {
       "password_match": "The password is incorrect",
@@ -79,7 +81,8 @@
     "pages_without_errors": "Pages conforming",
     "pages_without_errors_a": "Conforming A: without errors of level A",
     "pages_without_errors_a_aa": "Conforming AA: without errors of level A+AA",
-    "pages_without_errors_a_aa_aaa": "Conforming AAA: without errors of level A+AA+AAA"
+    "pages_without_errors_a_aa_aaa": "Conforming AAA: without errors of level A+AA+AAA",
+    "note": "Data used from the active domain"
   },
   "USERS_PAGE": {
     "title": "User:",

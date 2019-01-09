@@ -157,13 +157,29 @@
         <tbody>
           <tr *ngFor="let r of eval.results" class="{{ 'row' + r.color }}">
             <td>
-              <span><img src="{{ r.ico }}" alt="{{ 'RESULTS.results.alt_row' + r.color | translate }}"></span>
-              <span *ngIf="r.value === 1" [innerHTML]="'TESTS_RESULTS.'+r.msg+'.s' | translate:{value: r.value} | html"></span>
-              <span *ngIf="r.value !== 1" [innerHTML]="'TESTS_RESULTS.'+r.msg+'.p' | translate:{value: r.value} | html"></span>
+              <mat-expansion-panel [class.mat-elevation-z0]="true" class="{{ 'row' + r.color }}">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span fxFlex="4"><img src="{{ r.ico }}" alt="{{ 'RESULTS.results.alt_row' + r.color | translate }}"></span>
+                    <span *ngIf="r.value === 1" [innerHTML]="'TESTS_RESULTS.'+r.msg+'.s' | translate:{value: r.value} | html"></span>
+                    <span *ngIf="r.value !== 1" [innerHTML]="'TESTS_RESULTS.'+r.msg+'.p' | translate:{value: r.value} | html"></span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                  <div [innerHTML]="'TXT_TECHNIQUES.' + r.ref | translate">
+
+                  </div>
+                </ng-template>
+              </mat-expansion-panel>
             </td>
-            <td class="text-center">{{ r.lvl }}</td>
+            <td class="text-center" fxHide.lt-sm>{{ r.lvl }}</td>
             <td class="text-center">
-              <a *ngIf="r.tech_list.ele" [routerLink]="[r.tech_list.ele]" attr.aria-label="{{ 'RESULTS.results.practice' | translate }}">
+              <a *ngIf="r.tech_list.ele && !r.tech_list.html_validator" [routerLink]="[r.tech_list.ele]"
+                attr.aria-label="{{ 'RESULTS.results.practice' | translate }}">
+                <img src="assets/images/see2.png" width="25" height="25" alt="{{ 'RESULTS.results.alt_see' | translate }}">
+              </a>
+              <a *ngIf="r.tech_list.ele && r.tech_list.html_validator" target="_blank" href="{{ r.tech_list.ele }}"
+                attr.aria-label="{{ 'RESULTS.results.practice' | translate }}">
                 <img src="assets/images/see2.png" width="25" height="25" alt="{{ 'RESULTS.results.alt_see' | translate }}">
               </a>
             </td>
