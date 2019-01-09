@@ -1,24 +1,25 @@
 <h1 mat-dialog-title>{{ "ENTITIES_PAGE.ADD.title" | translate }}</h1>
-<form (submit)="createEntity($event)" [formGroup]="entityForm" novalidate>  
+<form (submit)="createEntity($event)" [formGroup]="entityForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-entity-block" fxLayout="column">
       <mat-form-field>
         <label for="entity_short_name_input">
           {{ "ENTITIES_PAGE.ADD.short_name_label" | translate }}
         </label>
-        <input 
-          id="entity_short_name_input" 
-          matInput 
-          formControlName="shortName" 
-          [errorStateMatcher]="matcher" 
+        <input
+          id="entity_short_name_input"
+          matInput
+          formControlName="shortName"
+          [errorStateMatcher]="matcher"
           required>
-        <button  
-          *ngIf="entityForm.value.shortName" 
-          matSuffix 
-          mat-icon-button 
-          aria-label="Clear" 
+        <button
+          *ngIf="entityForm.value.shortName"
+          matSuffix
+          mat-icon-button
+          type="button"
+          aria-label="Clear"
           (click)="entityForm.controls.shortName.reset()">
-          <mat-icon>close</mat-icon>
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="entityForm.controls.shortName.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -32,19 +33,20 @@
         <label for="entity_long_name_input">
           {{ "ENTITIES_PAGE.ADD.long_name_label" | translate }}
         </label>
-        <input 
-          id="entity_long_name_input" 
-          matInput 
-          formControlName="longName" 
-          [errorStateMatcher]="matcher" 
+        <input
+          id="entity_long_name_input"
+          matInput
+          formControlName="longName"
+          [errorStateMatcher]="matcher"
           required>
-        <button 
-          *ngIf="entityForm.value.longName" 
-          matSuffix 
-          mat-icon-button 
-          aria-label="Clear" 
+        <button
+          *ngIf="entityForm.value.longName"
+          matSuffix
+          mat-icon-button
+          type="button"
+          aria-label="Clear"
           (click)="entityForm.controls.longName.reset()">
-          <mat-icon>close</mat-icon>
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="entityForm.controls.longName.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -76,8 +78,8 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
-          <button mat-button *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
-            <mat-icon>close</mat-icon>
+          <button type="button" *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
+            <mat-icon aria-hidden="false">close</mat-icon>
           </button>
         </mat-chip-list>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">

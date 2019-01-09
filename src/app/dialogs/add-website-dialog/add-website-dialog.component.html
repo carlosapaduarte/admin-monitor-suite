@@ -5,13 +5,13 @@
       <mat-form-field>
         <label for="website_name_input">{{ "WEBSITES_PAGE.ADD.name_label" | translate }}</label>
         <input
-          id="website_name_input" 
-          matInput 
-          formControlName="name" 
-          [errorStateMatcher]="matcher" 
+          id="website_name_input"
+          matInput
+          formControlName="name"
+          [errorStateMatcher]="matcher"
           required>
-        <button mat-button *ngIf="websiteForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.name.reset()">
-          <mat-icon>close</mat-icon>
+        <button type="button" *ngIf="websiteForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.name.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="websiteForm.controls.name.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -24,13 +24,13 @@
       <mat-form-field>
         <label for="website_domain_input">{{ "WEBSITES_PAGE.ADD.domain_label" | translate }}</label>
         <input
-          id="website_domain_input" 
-          matInput 
-          formControlName="domain" 
-          [errorStateMatcher]="matcher" 
+          id="website_domain_input"
+          matInput
+          formControlName="domain"
+          [errorStateMatcher]="matcher"
           required>
-        <button mat-button *ngIf="websiteForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.domain.reset()">
-          <mat-icon>close</mat-icon>
+        <button type="button" *ngIf="websiteForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.domain.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="websiteForm.controls.domain.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -46,19 +46,19 @@
         <mat-form-field fxFlex>
           <label for="website_entity_input">{{ "WEBSITES_PAGE.ADD.entity_label" | translate }}</label>
           <input
-            id="website_entity_input" 
-            type="text" 
-            aria-label="Entidade Name" 
-            matInput formControlName="entity" 
-            [matAutocomplete]="auto" 
+            id="website_entity_input"
+            type="text"
+            aria-label="Entidade Name"
+            matInput formControlName="entity"
+            [matAutocomplete]="auto"
             [errorStateMatcher]="matcher">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let ent of filteredEntities | async" [value]="ent.Long_Name">
               {{ ent.Short_Name }} - {{ ent.Long_Name }}
             </mat-option>
           </mat-autocomplete>
-          <button mat-button *ngIf="websiteForm.value.entity" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.entity.reset()">
-            <mat-icon>close</mat-icon>
+          <button type="button" *ngIf="websiteForm.value.entity" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.entity.reset()">
+            <mat-icon aria-hidden="false">close</mat-icon>
           </button>
           <mat-error *ngIf="websiteForm.controls.entity.hasError('validEntity')">
             {{ "WEBSITES_PAGE.ADD.entity_invalid" | translate }}
@@ -70,19 +70,19 @@
         <mat-form-field fxFlex>
           <label for="website_user_input">{{ "WEBSITES_PAGE.ADD.user_label" | translate }}</label>
           <input
-            id="website_user_input" 
-            type="text" 
-            aria-label="Utilizador Email" 
-            matInput formControlName="user" 
-            [matAutocomplete]="auto2" 
+            id="website_user_input"
+            type="text"
+            aria-label="Utilizador Email"
+            matInput formControlName="user"
+            [matAutocomplete]="auto2"
             [errorStateMatcher]="matcher">
           <mat-autocomplete #auto2="matAutocomplete">
             <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Email">
               {{ user.Email }}
             </mat-option>
           </mat-autocomplete>
-          <button mat-button *ngIf="websiteForm.value.user" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.user.reset()">
-            <mat-icon>close</mat-icon>
+          <button type="button" *ngIf="websiteForm.value.user" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.user.reset()">
+            <mat-icon aria-hidden="false">close</mat-icon>
           </button>
           <mat-error *ngIf="websiteForm.controls.user.hasError('validUser')">
             {{ "WEBSITES_PAGE.ADD.user_invalid" | translate }}
@@ -113,8 +113,8 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
-          <button mat-button *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
-            <mat-icon>close</mat-icon>
+          <button type="button" *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
+            <mat-icon aria-hidden="false">close</mat-icon>
           </button>
         </mat-chip-list>
         <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">

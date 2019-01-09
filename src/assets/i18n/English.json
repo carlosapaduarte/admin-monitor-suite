@@ -84,6 +84,30 @@
     "pages_without_errors_a_aa_aaa": "Conforming AAA: without errors of level A+AA+AAA",
     "note": "Data used from the active domain"
   },
+  "DIALOGS": {
+    "chart": "Chart",
+    "table": "Table",
+    "scores": {
+      "title": "Score distribution",
+      "frequency": "Frequency (nº of pages)",
+      "percentage": "Percentage (nº of pages)",
+      "percentage_label": "Percentage (%)",
+      "range": "Range",
+      "cumulative": "Cumulative frequency"
+    },
+    "errors": {
+      "title": "Error distribution",
+      "common_errors": "10 frequent errors (nº of pages)",
+      "level": "Level",
+      "description": "Description",
+      "websites": "Websites",
+      "pages": "Pages",
+      "situations": "Situations",
+      "tests_label": "Tests",
+      "situations_label": "Nº of situations"
+    },
+    "close": "Close"
+  },
   "USERS_PAGE": {
     "title": "User:",
     "LIST": {

@@ -1,7 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { GetService } from '../../../services/get.service';
+
+import { ScoreDistributionDialogComponent } from '../../../dialogs/score-distribution-dialog/score-distribution-dialog.component';
+import { ErrorDistributionDialogComponent } from '../../../dialogs/error-distribution-dialog/error-distribution-dialog.component';
 
 import { Page } from '../../../models/page';
 
@@ -38,7 +42,10 @@ export class WebsiteStatisticsComponent implements OnInit {
   pagesWithoutErrorsAAA: number;
   pagesWithoutErrorsAAAPercentage: string;
 
-  constructor(private get: GetService) {
+  constructor(
+    private get: GetService,
+    private dialog: MatDialog
+  ) {
     this.thresholdConfig = {
       '0': {
         color: 'red'
@@ -109,5 +116,24 @@ export class WebsiteStatisticsComponent implements OnInit {
 
         this.loading = false;
       });
+  }
+
+  openScoreDistributionDialog(): void {
+    this.dialog.open(ScoreDistributionDialogComponent, {
+      data: {
+        number: this.pages.length,
+        pages: this.pages
+      },
+      width: '60vw'
+    });
+  }
+
+  openErrorDistributionDialog(): void {
+    this.dialog.open(ErrorDistributionDialogComponent, {
+      data: {
+        pages: this.pages
+      },
+      width: '60vw'
+    });
   }
 }

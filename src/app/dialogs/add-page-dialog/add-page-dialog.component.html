@@ -12,8 +12,8 @@
             {{ domain.Url }}
           </mat-option>
         </mat-autocomplete>
-        <button mat-button *ngIf="pageForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.domain.reset()">
-          <mat-icon>close</mat-icon>
+        <button type="button" *ngIf="pageForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.domain.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.domain.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="pageForm.controls.domain.hasError('validDomain')">
@@ -27,8 +27,8 @@
           {{ "PAGES_PAGE.ADD.uris_label" | translate }}
         </label>
         <textarea id="pages_uris_input" matInput matTextareaAutosize matAutosizeMinRows="3" formControlName="uris" [errorStateMatcher]="matcher" required></textarea>
-        <button mat-button *ngIf="pageForm.value.uris" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.uris.reset()">
-          <mat-icon>close</mat-icon>
+        <button type="button" *ngIf="pageForm.value.uris" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.uris.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.uris.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>

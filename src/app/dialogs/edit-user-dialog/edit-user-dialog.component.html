@@ -25,27 +25,23 @@
               <label for="user_password_input">
                 {{ "USERS_PAGE.ADD.password_label" | translate }}
               </label>
-              <button mat-icon-button class="show-hide-password" type="button" (click)="hide = !hide">
-                <mat-icon *ngIf="hide" aria-hidden="false" attr.aria-label="{{ 'LOGIN.hide_password' | translate }}"
-                  matSuffix>visibility</mat-icon>
-                <mat-icon *ngIf="!hide" aria-hidden="false" attr.aria-label="{{ 'LOGIN.show_password' | translate }}"
-                  matSuffix>visibility_off</mat-icon>
-              </button>
               <input id="user_password_input" matInput [type]="hide ? 'password' : 'text'" [errorStateMatcher]="matcher"
                 formControlName="password">
+              <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+                <mat-icon *ngIf="hide" aria-hidden="false" attr.aria-label="{{ 'LOGIN.hide_password' | translate }}">visibility</mat-icon>
+                <mat-icon *ngIf="!hide" aria-hidden="false" attr.aria-label="{{ 'LOGIN.show_password' | translate }}">visibility_off</mat-icon>
+              </button>
             </mat-form-field>
             <mat-form-field>
               <label for="user_confirm_password_input">
                 {{ "USERS_PAGE.ADD.confirm_password_label" | translate }}
               </label>
-              <button mat-icon-button class="show-hide-password" type="button" (click)="hide2 = !hide2">
-                <mat-icon *ngIf="hide2" aria-hidden="false" attr.aria-label="{{ 'LOGIN.hide_password' | translate }}"
-                  matSuffix>visibility</mat-icon>
-                <mat-icon *ngIf="!hide2" aria-hidden="false" attr.aria-label="{{ 'LOGIN.show_password' | translate }}"
-                  matSuffix>visibility_off</mat-icon>
-              </button>
               <input id="user_confirm_password_input" matInput [type]="hide2 ? 'password' : 'text'" [errorStateMatcher]="matcher"
                 formControlName="confirmPassword">
+              <button mat-icon-button matSuffix type="button" (click)="hide2 = !hide2">
+                <mat-icon *ngIf="hide2" aria-hidden="false" attr.aria-label="{{ 'LOGIN.hide_password' | translate }}">visibility</mat-icon>
+                <mat-icon *ngIf="!hide2" aria-hidden="false" attr.aria-label="{{ 'LOGIN.show_password' | translate }}">visibility_off</mat-icon>
+              </button>
               <mat-error *ngIf="userForm.controls.confirmPassword.errors?.MatchPassword && !userForm.controls.confirmPassword.hasError('required')">
                 {{ "USERS_PAGE.ADD.confirm_password_error" | translate }}
               </mat-error>
@@ -73,9 +69,9 @@
                 <input id="user_websites_input" #websiteInput formControlName="websites" [matAutocomplete]="auto2"
                   [matChipInputFor]="websitesChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                   [matChipInputAddOnBlur]="addOnBlur" />
-                <button mat-button *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear"
+                <button type="button" *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear"
                   (click)="selectedWebsites = []">
-                  <mat-icon>close</mat-icon>
+                  <mat-icon aria-hidden="false">close</mat-icon>
                 </button>
               </mat-chip-list>
               <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">

@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>{{ "DOMAINS_PAGE.ADD.title" | translate }}</h1>
-<form (submit)="createDomain($event)" [formGroup]="domainForm" novalidate>  
+<form (submit)="createDomain($event)" [formGroup]="domainForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-website-block" fxLayout="column" *ngIf="!loadingWebsites">
       <mat-form-field>
@@ -12,8 +12,8 @@
             {{ ws.Name }}
           </mat-option>
         </mat-autocomplete>
-        <button mat-button *ngIf="domainForm.value.website" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.website.reset()">
-          <mat-icon>close</mat-icon>
+        <button type="button" *ngIf="domainForm.value.website" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.website.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="domainForm.controls.website.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="domainForm.controls.website.hasError('validWebsite')">
@@ -35,8 +35,8 @@
           {{ "DOMAINS_PAGE.ADD.domain_label" | translate }}
         </label>
         <input id="domain_domain_label" matInput formControlName="url" [errorStateMatcher]="matcher" required>
-        <button mat-button *ngIf="domainForm.value.url" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.url.reset()">
-          <mat-icon>close</mat-icon>
+        <button type="button" *ngIf="domainForm.value.url" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.url.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="domainForm.controls.url.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>

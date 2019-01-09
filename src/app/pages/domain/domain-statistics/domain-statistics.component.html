@@ -63,4 +63,12 @@
       </table>
     </div>
   </mat-card-content>
+  <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button color="primary" (click)="openScoreDistributionDialog()">
+      {{ "STATISTICS.score_distribution" | translate }}
+    </button>
+    <button mat-raised-button color="warn" (click)="openErrorDistributionDialog()">
+      {{ "STATISTICS.error_distribution" | translate }}
+    </button>
+  </mat-card-actions>
 </mat-card>

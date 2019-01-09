@@ -79,6 +79,8 @@ import { ChooseObservatoryPagesDialogComponent } from './dialogs/choose-observat
 import { AddPagesErrorsDialogComponent } from './dialogs/add-pages-errors-dialog/add-pages-errors-dialog.component';
 import { DomainStatisticsComponent } from './pages/domain/domain-statistics/domain-statistics.component';
 import { WebsiteStatisticsComponent } from './pages/website/website-statistics/website-statistics.component';
+import { ScoreDistributionDialogComponent } from './dialogs/score-distribution-dialog/score-distribution-dialog.component';
+import { ErrorDistributionDialogComponent } from './dialogs/error-distribution-dialog/error-distribution-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -171,7 +173,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ChooseObservatoryPagesDialogComponent,
     AddPagesErrorsDialogComponent,
     DomainStatisticsComponent,
-    WebsiteStatisticsComponent
+    WebsiteStatisticsComponent,
+    ScoreDistributionDialogComponent,
+    ErrorDistributionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -216,7 +220,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     BottomSheetComponent,
     ChooseObservatoryWebsitePagesDialogComponent,
     ChooseObservatoryPagesDialogComponent,
-    AddPagesErrorsDialogComponent
+    AddPagesErrorsDialogComponent,
+    ScoreDistributionDialogComponent,
+    ErrorDistributionDialogComponent
   ],
   providers: [
     AdminAuthGuard,

@@ -84,6 +84,30 @@
     "pages_without_errors_a_aa_aaa": "Conformes AAA: sem erros de nível A+AA+AAA",
     "note": "Os dados usados pertecem ao domínio ativo"
   },
+  "DIALOGS": {
+    "chart": "Gráfico",
+    "table": "Tabela",
+    "scores": {
+      "title": "Distribuição de pontuações",
+      "frequency": "Frequência (nº de páginas)",
+      "percentage": "Percentagem (nº de páginas)",
+      "percentage_label": "Percentagem (%)",
+      "range": "Intervalo",
+      "cumulative": "Frequência cumulativa"
+    },
+    "errors": {
+      "title": "Distribuição de erros",
+      "common_errors": "Os 10 erros mais frequentes (nº de páginas)",
+      "level": "Nível",
+      "description": "Descrição",
+      "websites": "Websites",
+      "pages": "Paǵinas",
+      "situations": "Situações",
+      "tests_label": "Testes",
+      "situations_label": "Nº de situações"
+    },
+    "close": "Fechar"
+  },
   "USERS_PAGE": {
     "title": "Utilizador:",
     "LIST": {

@@ -22,8 +22,8 @@
               </label>
               <input id="entity_short_name_input" matInput formControlName="shortName" [errorStateMatcher]="matcher"
                 required>
-              <button *ngIf="entityForm.value.shortName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.shortName.reset()">
-                <mat-icon>close</mat-icon>
+              <button *ngIf="entityForm.value.shortName" type="button" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.shortName.reset()">
+                <mat-icon aria-hidden="false">close</mat-icon>
               </button>
               <mat-error *ngIf="entityForm.controls.shortName.status === 'PENDING'">
                 <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -39,8 +39,8 @@
               </label>
               <input id="entity_long_name_input" matInput formControlName="longName" [errorStateMatcher]="matcher"
                 required>
-              <button *ngIf="entityForm.value.longName" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.longName.reset()">
-                <mat-icon>close</mat-icon>
+              <button *ngIf="entityForm.value.longName" type="button" matSuffix mat-icon-button aria-label="Clear" (click)="entityForm.controls.longName.reset()">
+                <mat-icon aria-hidden="false">close</mat-icon>
               </button>
               <mat-error *ngIf="entityForm.controls.longName.status === 'PENDING'">
                 <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -63,9 +63,9 @@
                 <input id="entity_websites_input" #websiteInput formControlName="websites" [matAutocomplete]="auto2"
                   [matChipInputFor]="websitesChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                   [matChipInputAddOnBlur]="addOnBlur" />
-                <button mat-button *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear"
+                <button mat-button *ngIf="selectedWebsites.length > 0" type="button" matSuffix mat-icon-button aria-label="Clear"
                   (click)="selectedWebsites = []">
-                  <mat-icon>close</mat-icon>
+                  <mat-icon aria-hidden="false">close</mat-icon>
                 </button>
               </mat-chip-list>
               <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">

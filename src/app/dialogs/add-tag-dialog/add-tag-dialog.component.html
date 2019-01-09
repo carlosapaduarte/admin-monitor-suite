@@ -5,8 +5,8 @@
       <mat-form-field>
         <label for="tag_name_input">{{ "TAGS_PAGE.ADD.name_label" | translate }}</label>
         <input id="tag_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" required>
-        <button mat-button *ngIf="tagForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="tagForm.controls.name.reset()">
-          <mat-icon>close</mat-icon>
+        <button type="button" *ngIf="tagForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="tagForm.controls.name.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="tagForm.controls.name.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -41,8 +41,8 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
           />
-          <button mat-button *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
-            <mat-icon>close</mat-icon>
+          <button type="button" *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
+            <mat-icon aria-hidden="false">close</mat-icon>
           </button>
         </mat-chip-list>
         <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedWebsite($event)">

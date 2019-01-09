@@ -1,5 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
+
+import { ScoreDistributionDialogComponent } from '../../../dialogs/score-distribution-dialog/score-distribution-dialog.component';
+import { ErrorDistributionDialogComponent } from '../../../dialogs/error-distribution-dialog/error-distribution-dialog.component';
+
+import { Page } from '../../../models/page';
 
 @Component({
   selector: 'app-domain-statistics',
@@ -8,12 +14,12 @@ import * as _ from 'lodash';
 })
 export class DomainStatisticsComponent implements OnInit {
 
-  @Input('pages') pages: Array<any>;
+  @Input('pages') pages: Array<Page>;
 
   score: number;
 
-  newest_page: string;
-  oldest_page: string;
+  newest_page: any;
+  oldest_page: any;
 
   thresholdConfig: any;
 
@@ -28,7 +34,7 @@ export class DomainStatisticsComponent implements OnInit {
   pagesWithoutErrorsAAA: number;
   pagesWithoutErrorsAAAPercentage: string;
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.thresholdConfig = {
       '0': {color: 'red'},
       '2.5': {color: 'orange'},
@@ -81,5 +87,24 @@ export class DomainStatisticsComponent implements OnInit {
     this.pagesWithoutErrorsAPercentage = ((this.pagesWithoutErrorsA / size) * 100).toFixed(1) + '%';
     this.pagesWithoutErrorsAAPercentage = ((this.pagesWithoutErrorsAA / size) * 100).toFixed(1) + '%';
     this.pagesWithoutErrorsAAAPercentage = ((this.pagesWithoutErrorsAAA / size) * 100).toFixed(1) + '%';
+  }
+
+  openScoreDistributionDialog(): void {
+    this.dialog.open(ScoreDistributionDialogComponent, {
+      data: {
+        number: this.pages.length,
+        pages: this.pages
+      },
+      width: '60vw'
+    });
+  }
+
+  openErrorDistributionDialog(): void {
+    this.dialog.open(ErrorDistributionDialogComponent, {
+      data: {
+        pages: this.pages
+      },
+      width: '60vw'
+    });
   }
 }
