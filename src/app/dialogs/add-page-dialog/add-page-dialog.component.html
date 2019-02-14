@@ -27,16 +27,6 @@
           {{ "PAGES_PAGE.ADD.uris_label" | translate }}
         </label>
         <textarea id="pages_uris_input" matInput matTextareaAutosize matAutosizeMinRows="2" formControlName="uris" [errorStateMatcher]="matcher" required></textarea>
-
-        <!-- TODO AQUI! -->
-        <div class="form-group">
-          <!-- TODO mudar nome para i18n -->
-          <label for="file">Choose File</label>
-          <input type="file" id="file" accept="text/xml, text/txt"
-                 (change)="handleFileInput($event.target.files)">
-        </div>
-        <!-- -->
-
         <button type="button" *ngIf="pageForm.value.uris" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.uris.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
@@ -48,6 +38,14 @@
           {{ "PAGES_PAGE.ADD.uris_invalid" | translate }}
         </mat-error>
       </mat-form-field>
+      <!-- TODO AQUI! -->
+      <div class="form-group">
+        <!-- TODO mudar nome para i18n -->
+        <label for="file">Choose File</label>
+        <input type="file" id="file" accept="text/xml, text/txt"
+               (change)="handleFileInput($event.target.files)">
+      </div>
+      <!-- -->
     </div>
     <div class="add-observatorio-block">
       <mat-checkbox formControlName="observatorio">

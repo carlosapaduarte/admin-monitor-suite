@@ -7,7 +7,7 @@ import {Location} from '@angular/common';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { NgxXml2jsonService } from 'ngx-xml2json';
+import {NgxXml2jsonService} from 'ngx-xml2json';
 import * as _ from 'lodash';
 
 import {GetService} from '../../services/get.service';
@@ -144,7 +144,7 @@ export class AddPageDialogComponent implements OnInit {
 
     const domainId = _.find(this.domains, ['Url', this.pageForm.value.domain]).DomainId;
 
-    const urisWithFileUris = this.validateFileUris(domainId, this.urisFromFile) + this.pageForm.value.uris;
+    const urisWithFileUris = this.validateFileUris(this.pageForm.value.domain, this.urisFromFile) + this.pageForm.value.uris;
 
     const uris = JSON.stringify(_.without(_.uniq(_.map(_.split(urisWithFileUris, '\n'), p => {
       p = _.replace(p, 'http://', '');
@@ -157,9 +157,6 @@ export class AddPageDialogComponent implements OnInit {
 
       return _.trim(p);
     })), ''));
-
-    //TODO
-    console.log(uris);
 
     if (this.pageForm.value.observatorio) {
       let chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
@@ -222,16 +219,23 @@ export class AddPageDialogComponent implements OnInit {
     }
   }
 
+  //TODO
+  inputValidator(control: AbstractControl): any {
+    const val = control.value;
+    if (val !== '' && val !== null) {
+      return _.includes(_.map(this.domains, 'Url'), val) ? null : {'validInput': true};
+    } else {
+      return null;
+    }
+  }
+
   handleFileInput(files: FileList) {
-    // TODO VER SE PRECISO VARIOS FICHEIROS
-    // todo ver se necessario verificar link antes de submit
-    // todo ver se funciona
     const fileToRead = files.item(0);
     switch (fileToRead.type) {
-      case ('txt'):
+      case ('text/txt'):
         this.urisFromFile = this.parseTXT(fileToRead);
         break;
-      case ('xml'):
+      case ('text/xml'):
         this.urisFromFile = this.parseXML(fileToRead);
         break;
       default:
@@ -240,35 +244,42 @@ export class AddPageDialogComponent implements OnInit {
     }
   }
 
-  parseTXT (file: File): string[] {
-    //todo remover primeira linha
+  parseTXT(file: File): string[] {
+    return [];
   }
 
-  parseXML (file: File): string[] {
+  parseXML(file: File): string[] {
     const reader = new FileReader();
+    let firstUrl = true;
     let result = [];
     reader.readAsText(file);
     reader.onload = (e) => {
-      const json = this.xml2Json.xmlToJson(reader.result);
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(e.target.result, 'text/xml');
+      const json = this.xml2Json.xmlToJson(xml);
       const urlJson = json['urlset']['url'];
       for (let url of urlJson) {
-        result.push(url['loc']);
+        if (!firstUrl) {
+          result.push(url['loc']);
+        }
+        firstUrl = false;
       }
-    }
-    result.shift();
+    };
     return result;
   }
 
   validateFileUris(domain: string, uris: string[]): string {
-    let result = null;
-    for (let url of uris) {
-      url = _.replace(url, 'http://', '');
-      url = _.replace(url, 'https://', '');
-      url = _.replace(url, 'www.', '');
-      if (!_.startsWith(url, domain)) {
-        return null;
-      } else {
-        result += url + '\n';
+    let result = '';
+    if (uris !== undefined) {
+      for (let url of uris) {
+        url = _.replace(url, 'http://', '');
+        url = _.replace(url, 'https://', '');
+        url = _.replace(url, 'www.', '');
+        if (!_.startsWith(url, domain)) {
+          return '';
+        } else {
+          result += url + '\n';
+        }
       }
     }
     return result;
