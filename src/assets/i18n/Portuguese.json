@@ -16,7 +16,7 @@
     }
   },
   "ADMIN_CONSOLE": {
-    "add_button": "Adicinar conteúdo",
+    "add_button": "Adicionar conteúdo",
     "bottom_sheet": {
       "user": {
         "title": "Utilizador",
@@ -472,7 +472,11 @@
       "error_dialog": {
         "title": "Erros",
         "message": "Ocorreram alguns erros ao tentar adicionar as seguintes páginas:"
-      }
+      },
+      "add_sitemap": "Adicionar sitemap (ficheiro .xml ou .txt)",
+      "sitemap_warning": "Os ficheiros sitemap necessitam que a sua primeira página seja igual ao domínio do website",
+      "sitemap_uris_invalid": "Um dos uris no ficheiro dado é inválido",
+      "sitemap_type_invalid": "O ficheiro dado não é do tipo .xml ou .txt"
     },
     "DELETE": {
       "title": "Apagar esta página",
@@ -611,6 +615,7 @@
     "skip_to_main": "Saltar para o conteúdo principal",
     "loading": "A carregar...",
     "required_field": "Este campo é <strong>obrigatório</strong>",
+    "at_least_one_required": "<strong>Obrigatório</strong> preencher, pelo menos, um dos campos",
     "message_close": "Fechar",
     "success": "Sucesso",
     "unexpected_error": "Ocorreu um erro inesperado. Por favor tente aceder mais tarde.",

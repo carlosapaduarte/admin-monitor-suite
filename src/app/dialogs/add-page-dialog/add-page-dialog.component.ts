@@ -1,5 +1,13 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, FormBuilder, Validators, FormGroupDirective, NgForm} from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormGroupDirective,
+  NgForm, ValidatorFn, ValidationErrors
+} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Router} from '@angular/router';
@@ -31,7 +39,6 @@ export class UriValidation {
   static validUris(AC: AbstractControl) {
     const domain = AC.get('domain').value;
     let uris = AC.get('uris').value;
-
     if (_.trim(domain) === '') {
       return null;
     }
@@ -59,6 +66,12 @@ export class UriValidation {
   }
 }
 
+export const atLeastOne = (validator: ValidatorFn, controls: string[]) => (group: FormGroup): ValidationErrors | null => {
+  const hasAtLeastOne = group && group.controls && controls
+    .some(k => !validator(group.controls[k]));
+  return hasAtLeastOne ? null : {'requiredAtLeastOne': true};
+};
+
 @Component({
   selector: 'app-add-page-dialog',
   templateUrl: './add-page-dialog.component.html',
@@ -85,6 +98,8 @@ export class AddPageDialogComponent implements OnInit {
   pageForm: FormGroup;
 
   urisFromFile: string[];
+  urisFromFileString: string;
+  fileErrorMessage: string;
 
   @ViewChild('tagInput') tagInput: ElementRef;
 
@@ -93,6 +108,7 @@ export class AddPageDialogComponent implements OnInit {
     private create: CreateService,
     private message: MessageService,
     private formBuilder: FormBuilder,
+    private formBuilder2: FormBuilder,
     private router: Router,
     private location: Location,
     private dialog: MatDialog,
@@ -100,21 +116,34 @@ export class AddPageDialogComponent implements OnInit {
     private xml2Json: NgxXml2jsonService
   ) {
     this.matcher = new MyErrorStateMatcher();
-
+    /*
+        this.pageForm = this.formBuilder.group({
+            domain: new FormControl('', [
+              Validators.required,
+              this.domainValidator.bind(this)
+            ]),
+            uris: new FormControl('', [
+              //todo para remover
+              Validators.required
+            ]),
+            observatorio: new FormControl()
+          },
+          {
+            validator: UriValidation.validUris
+          });
+    */
     this.pageForm = this.formBuilder.group({
         domain: new FormControl('', [
           Validators.required,
           this.domainValidator.bind(this)
         ]),
-        uris: new FormControl('', [
-          Validators.required
-        ]),
+        uris: new FormControl(),
+        files: new FormControl(),
         observatorio: new FormControl()
       },
       {
-        validator: UriValidation.validUris
+        validator: Validators.compose([UriValidation.validUris, atLeastOne(Validators.required, ['uris', 'files'])])
       });
-
     this.loadingDomains = true;
     this.loadingCreate = false;
   }
@@ -132,6 +161,7 @@ export class AddPageDialogComponent implements OnInit {
         }
 
         this.loadingDomains = false;
+        this.fileErrorMessage = '';
       });
   }
 
@@ -144,7 +174,7 @@ export class AddPageDialogComponent implements OnInit {
 
     const domainId = _.find(this.domains, ['Url', this.pageForm.value.domain]).DomainId;
 
-    const urisWithFileUris = this.validateFileUris(this.pageForm.value.domain, this.urisFromFile) + this.pageForm.value.uris;
+    const urisWithFileUris = this.urisFromFileString + this.pageForm.value.uris;
 
     const uris = JSON.stringify(_.without(_.uniq(_.map(_.split(urisWithFileUris, '\n'), p => {
       p = _.replace(p, 'http://', '');
@@ -157,9 +187,8 @@ export class AddPageDialogComponent implements OnInit {
 
       return _.trim(p);
     })), ''));
-
     if (this.pageForm.value.observatorio) {
-      let chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
+      const chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
         width: '60vw',
         data: {
           uris: JSON.parse(uris)
@@ -219,69 +248,77 @@ export class AddPageDialogComponent implements OnInit {
     }
   }
 
-  //TODO
-  inputValidator(control: AbstractControl): any {
-    const val = control.value;
-    if (val !== '' && val !== null) {
-      return _.includes(_.map(this.domains, 'Url'), val) ? null : {'validInput': true};
-    } else {
-      return null;
-    }
-  }
-
   handleFileInput(files: FileList) {
     const fileToRead = files.item(0);
+    console.log('123');
     switch (fileToRead.type) {
-      case ('text/txt'):
+      case ('text/plain'):
         this.urisFromFile = this.parseTXT(fileToRead);
+        this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
         break;
       case ('text/xml'):
         this.urisFromFile = this.parseXML(fileToRead);
+        this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
         break;
       default:
         this.urisFromFile = [];
+        this.fileErrorMessage = 'invalidType';
         break;
     }
   }
 
   parseTXT(file: File): string[] {
-    return [];
+    const result = [];
+    // open file and check for the urls
+    const reader = new FileReader();
+    reader.readAsText(file);
+    // divide the url in the result array
+    reader.onload = (e) => {
+      const urlFile = e.target.result;
+      const lines = urlFile.split('\n');
+      for (let i = 1; i < lines.length - 1; i++) {
+        result.push(lines[i]);
+      }
+    };
+    return result;
   }
 
   parseXML(file: File): string[] {
     const reader = new FileReader();
-    let firstUrl = true;
-    let result = [];
+    const result = [];
     reader.readAsText(file);
     reader.onload = (e) => {
       const parser = new DOMParser();
       const xml = parser.parseFromString(e.target.result, 'text/xml');
       const json = this.xml2Json.xmlToJson(xml);
       const urlJson = json['urlset']['url'];
-      for (let url of urlJson) {
-        if (!firstUrl) {
-          result.push(url['loc']);
-        }
-        firstUrl = false;
+      for (let i = 1; i < urlJson.length; i++) {
+        result.push(urlJson[i]['loc']);
       }
     };
     return result;
   }
 
-  validateFileUris(domain: string, uris: string[]): string {
-    let result = '';
+  validateFileUris(domain: string, uris: string[]): void {
+    if (!domain) {
+      this.fileErrorMessage = 'invalidDomain';
+      return;
+    }
     if (uris !== undefined) {
       for (let url of uris) {
         url = _.replace(url, 'http://', '');
         url = _.replace(url, 'https://', '');
         url = _.replace(url, 'www.', '');
         if (!_.startsWith(url, domain)) {
-          return '';
+          this.urisFromFileString = '';
+          this.fileErrorMessage = 'invalidDomain';
+          return;
         } else {
-          result += url + '\n';
+          this.urisFromFileString += url + '\n';
+          console.log(this.urisFromFileString);
+          this.fileErrorMessage = '';
         }
       }
     }
-    return result;
   }
 }

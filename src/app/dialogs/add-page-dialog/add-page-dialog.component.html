@@ -33,19 +33,28 @@
         <mat-error *ngIf="pageForm.controls.uris.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
         </mat-error>
-        <mat-error *ngIf="pageForm.controls.uris.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="pageForm.hasError('requiredAtLeastOne')" [innerHTML]="'MISC.at_least_one_required' | translate"></mat-error>
         <mat-error *ngIf="pageForm.controls.uris.hasError('invalidUri')">
           {{ "PAGES_PAGE.ADD.uris_invalid" | translate }}
         </mat-error>
       </mat-form-field>
-      <!-- TODO AQUI! -->
       <div class="form-group">
-        <!-- TODO mudar nome para i18n -->
-        <label for="file">Choose File</label>
-        <input type="file" id="file" accept="text/xml, text/txt"
+        <label for="file" matTooltip="{{ 'PAGES_PAGE.ADD.sitemap_warning' | translate}}"
+               matTooltipPosition="above">
+          {{ "PAGES_PAGE.ADD.add_sitemap" | translate}}
+        </label>
+        <br>
+        <!-- TODO mudar nome de Choose File -->
+        <input type="file" id="file" formControlName="files" accept="text/xml, text/plain"
                (change)="handleFileInput($event.target.files)">
+        <mat-error *ngIf="pageForm.hasError('requiredAtLeastOne')" [innerHTML]="'MISC.at_least_one_required' | translate"></mat-error>
+        <mat-error *ngIf="fileErrorMessage == 'invalidDomain'">
+          {{ "PAGES_PAGE.ADD.sitemap_uris_invalid" | translate }}
+        </mat-error>
+        <mat-error *ngIf="fileErrorMessage == 'invalidType'">
+          {{ "PAGES_PAGE.ADD.sitemap_type_invalid" | translate }}
+        </mat-error>
       </div>
-      <!-- -->
     </div>
     <div class="add-observatorio-block">
       <mat-checkbox formControlName="observatorio">
@@ -58,7 +67,7 @@
       {{ "PAGES_PAGE.ADD.reset" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.controls.uris.invalid" *ngIf="!loadingCreate">
+    <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.hasError('requiredAtLeastOne') || fileErrorMessage != ''" *ngIf="!loadingCreate">
       {{ "PAGES_PAGE.ADD.submit" | translate }}
     </button>
     <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>

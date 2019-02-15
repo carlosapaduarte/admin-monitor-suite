@@ -457,7 +457,7 @@
       "domain_label": "Domain",
       "domain_invalid": "Invalid domain",
       "uris_label": "New uris",
-      "uris_invalid": "One of the inserted uri is invalid",
+      "uris_invalid": "One of the inserted uris is invalid",
       "show_in_observatorio": "Show pages in observatory",
       "choose_observatory": {
         "title": "Choose pages for the observatory",
@@ -471,8 +471,12 @@
       },
       "error_dialog": {
         "title": "Errors",
-        "message": "Some errors ocurred while trying to add the following pages:"
-      }
+        "message": "Some errors occurred while trying to add the following pages:"
+      },
+      "add_sitemap": "Add sitemap (.xml or .txt files)",
+      "sitemap_warning": "Sitemaps files need to have the first page equal to website's domain",
+      "sitemap_uris_invalid": "One of the given uris is invalid",
+      "sitemap_type_invalid": "Given file's extension is not .xml or .txt"
     },
     "DELETE": {
       "title": "Delete this page",
@@ -557,7 +561,7 @@
       "subtitle": "practices detected, which can be classified by:",
       "grade": "Grade",
       "tabs": {
-        "A": "Excelent",
+        "A": "Excellent",
         "B": "Great",
         "C": "Good",
         "D": "Average",
@@ -611,9 +615,10 @@
     "skip_to_main": "Skip to main content",
     "loading": "Loading...",
     "required_field": "This field is <strong>required</strong>",
+    "at_least_one_required": "<strong>Required</strong> to address, at least, one of these fields",
     "message_close": "Close",
     "success": "Success",
-    "unexpected_error": "An unexpected error has ocurred. Please try again later.",
+    "unexpected_error": "An unexpected error has occurred. Please try again later.",
     "error_contact": "If te problem persists, please contact us...",
     "go_to_top": "Go to top",
     "_404": {
@@ -627,8 +632,8 @@
       "button": "Close"
     },
     "messages": {
-      "data_error": "An error has ocurred while trying to retrieve user data",
-      "data_table_error": "An error has ocurred when trying to load the data table"
+      "data_error": "An error has occurred while trying to retrieve user data",
+      "data_table_error": "An error has occurred when trying to load the data table"
     }
   },
   "ELEMS": {
