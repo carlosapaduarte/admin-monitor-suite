@@ -8,7 +8,7 @@
         </label>
         <input id="pages_domain_input" type="text" aria-label="Domain Name" matInput formControlName="domain" [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let domain of filteredDomains | async" [value]="domain.Url">
+          <mat-option *ngFor="let domain of filteredDomains | async" [value]="domain.Url" (click)="updateUrisFromFile()">
             {{ domain.Url }}
           </mat-option>
         </mat-autocomplete>
@@ -46,8 +46,12 @@
         <br>
         <!-- TODO mudar nome de Choose File -->
         <input type="file" id="file" formControlName="files" accept="text/xml, text/plain"
-               (change)="handleFileInput($event.target.files)">
-        <mat-error *ngIf="pageForm.hasError('requiredAtLeastOne')" [innerHTML]="'MISC.at_least_one_required' | translate"></mat-error>
+               (change)="uploadFileClick($event.target.files)">
+        <!-- TODO adicionar botao para limpar o ficheiro -->
+        <button mat-raised-button color="warn" type="button" (click)="resetFile()" [hidden]="!pageForm.value.files">
+          LIMPAR FICHEIRO
+        </button>
+        <!--<mat-error *ngIf="pageForm.hasError('requiredAtLeastOne')" [innerHTML]="'MISC.at_least_one_required' | translate"></mat-error> -->
         <mat-error *ngIf="fileErrorMessage == 'invalidDomain'">
           {{ "PAGES_PAGE.ADD.sitemap_uris_invalid" | translate }}
         </mat-error>
@@ -67,7 +71,9 @@
       {{ "PAGES_PAGE.ADD.reset" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid || pageForm.hasError('requiredAtLeastOne') || fileErrorMessage != ''" *ngIf="!loadingCreate">
+    <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid ||
+    pageForm.hasError('requiredAtLeastOne') || pageForm.controls.uris.hasError('invalidUri') || fileErrorMessage != ''"
+            *ngIf="!loadingCreate">
       {{ "PAGES_PAGE.ADD.submit" | translate }}
     </button>
     <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>

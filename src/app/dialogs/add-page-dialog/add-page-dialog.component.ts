@@ -161,12 +161,20 @@ export class AddPageDialogComponent implements OnInit {
         }
 
         this.loadingDomains = false;
-        this.fileErrorMessage = '';
       });
+    this.urisFromFileString = '';
+    this.pageForm.value.uris = '';
+    this.fileErrorMessage = '';
   }
 
   resetForm(): void {
+    this.fileErrorMessage = '';
     this.pageForm.reset();
+  }
+
+  resetFile(): void {
+    this.fileErrorMessage = '';
+    this.pageForm.controls.files.reset();
   }
 
   createPage(e): void {
@@ -250,21 +258,25 @@ export class AddPageDialogComponent implements OnInit {
 
   handleFileInput(files: FileList) {
     const fileToRead = files.item(0);
-    console.log('123');
+
+    if (fileToRead === null) {
+      this.pageForm.controls.files.reset();
+      return;
+    }
+
     switch (fileToRead.type) {
       case ('text/plain'):
         this.urisFromFile = this.parseTXT(fileToRead);
-        this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
         break;
       case ('text/xml'):
         this.urisFromFile = this.parseXML(fileToRead);
-        this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
         break;
       default:
         this.urisFromFile = [];
         this.fileErrorMessage = 'invalidType';
         break;
     }
+    setTimeout(this.validateFileUris(this.pageForm.value.domain, this.urisFromFile), 1500);
   }
 
   parseTXT(file: File): string[] {
@@ -300,25 +312,38 @@ export class AddPageDialogComponent implements OnInit {
   }
 
   validateFileUris(domain: string, uris: string[]): void {
-    if (!domain) {
+    if (domain === '') {
       this.fileErrorMessage = 'invalidDomain';
       return;
     }
-    if (uris !== undefined) {
+    if (uris !== undefined || uris !== []) {
       for (let url of uris) {
         url = _.replace(url, 'http://', '');
         url = _.replace(url, 'https://', '');
         url = _.replace(url, 'www.', '');
         if (!_.startsWith(url, domain)) {
-          this.urisFromFileString = '';
           this.fileErrorMessage = 'invalidDomain';
+          this.urisFromFileString = '';
           return;
         } else {
           this.urisFromFileString += url + '\n';
-          console.log(this.urisFromFileString);
+          console.log("url - " + url);
           this.fileErrorMessage = '';
         }
       }
     }
   }
+
+  updateUrisFromFile() {
+    if (this.urisFromFile !== undefined) {
+      this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
+    }
+    console.log(this.pageForm);
+  }
+
+  uploadFileClick(files: FileList) {
+    this.handleFileInput(files);
+    this.updateUrisFromFile();
+  }
+
 }
