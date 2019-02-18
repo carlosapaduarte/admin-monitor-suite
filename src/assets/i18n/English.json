@@ -476,7 +476,8 @@
       "add_sitemap": "Add sitemap (.xml or .txt files)",
       "sitemap_warning": "Sitemaps files need to have the first page equal to website's domain",
       "sitemap_uris_invalid": "One of the given uris is invalid",
-      "sitemap_type_invalid": "Given file's extension is not .xml or .txt"
+      "sitemap_type_invalid": "Given file's extension is not .xml or .txt",
+      "file_input": "Choose File"
     },
     "DELETE": {
       "title": "Delete this page",

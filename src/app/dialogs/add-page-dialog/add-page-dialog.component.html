@@ -13,7 +13,7 @@
           </mat-option>
         </mat-autocomplete>
         <button type="button" *ngIf="pageForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.domain.reset()">
-          <mat-icon aria-hidden="false">close</mat-icon>
+          <mat-icon aria-hidden="false">clear</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.domain.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="pageForm.controls.domain.hasError('validDomain')">
@@ -28,7 +28,7 @@
         </label>
         <textarea id="pages_uris_input" matInput matTextareaAutosize matAutosizeMinRows="2" formControlName="uris" [errorStateMatcher]="matcher" required></textarea>
         <button type="button" *ngIf="pageForm.value.uris" matSuffix mat-icon-button aria-label="Clear" (click)="pageForm.controls.uris.reset()">
-          <mat-icon aria-hidden="false">close</mat-icon>
+          <mat-icon aria-hidden="false">clear</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.uris.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
@@ -46,10 +46,9 @@
         <br>
         <!-- TODO mudar nome de Choose File -->
         <input type="file" id="file" formControlName="files" accept="text/xml, text/plain"
-               (change)="uploadFileClick($event.target.files)">
-        <!-- TODO adicionar botao para limpar o ficheiro -->
-        <button mat-raised-button color="warn" type="button" (click)="resetFile()" [hidden]="!pageForm.value.files">
-          LIMPAR FICHEIRO
+               (change)="handleFileInput($event.target.files)" (focus)="updateUrisFromFile()">
+        <button type="button" *ngIf="pageForm.value.files" matSuffix mat-icon-button aria-label="Clear" (click)="resetFile()">
+          <mat-icon aria-hidden="false">clear</mat-icon>
         </button>
         <!--<mat-error *ngIf="pageForm.hasError('requiredAtLeastOne')" [innerHTML]="'MISC.at_least_one_required' | translate"></mat-error> -->
         <mat-error *ngIf="fileErrorMessage == 'invalidDomain'">

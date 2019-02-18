@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -113,25 +113,11 @@ export class AddPageDialogComponent implements OnInit {
     private location: Location,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddPageDialogComponent>,
-    private xml2Json: NgxXml2jsonService
+    private xml2Json: NgxXml2jsonService,
+    private cd: ChangeDetectorRef
   ) {
     this.matcher = new MyErrorStateMatcher();
-    /*
-        this.pageForm = this.formBuilder.group({
-            domain: new FormControl('', [
-              Validators.required,
-              this.domainValidator.bind(this)
-            ]),
-            uris: new FormControl('', [
-              //todo para remover
-              Validators.required
-            ]),
-            observatorio: new FormControl()
-          },
-          {
-            validator: UriValidation.validUris
-          });
-    */
+
     this.pageForm = this.formBuilder.group({
         domain: new FormControl('', [
           Validators.required,
@@ -163,7 +149,6 @@ export class AddPageDialogComponent implements OnInit {
         this.loadingDomains = false;
       });
     this.urisFromFileString = '';
-    this.pageForm.value.uris = '';
     this.fileErrorMessage = '';
   }
 
@@ -182,7 +167,8 @@ export class AddPageDialogComponent implements OnInit {
 
     const domainId = _.find(this.domains, ['Url', this.pageForm.value.domain]).DomainId;
 
-    const urisWithFileUris = this.urisFromFileString + this.pageForm.value.uris;
+    this.pageForm.value.uris = this.pageForm.value.uris === null ? '' : this.pageForm.value.uris;
+    const urisWithFileUris = this.urisFromFile.join('\n') + this.pageForm.value.uris;
 
     const uris = JSON.stringify(_.without(_.uniq(_.map(_.split(urisWithFileUris, '\n'), p => {
       p = _.replace(p, 'http://', '');
@@ -276,7 +262,6 @@ export class AddPageDialogComponent implements OnInit {
         this.fileErrorMessage = 'invalidType';
         break;
     }
-    setTimeout(this.validateFileUris(this.pageForm.value.domain, this.urisFromFile), 1500);
   }
 
   parseTXT(file: File): string[] {
@@ -323,11 +308,8 @@ export class AddPageDialogComponent implements OnInit {
         url = _.replace(url, 'www.', '');
         if (!_.startsWith(url, domain)) {
           this.fileErrorMessage = 'invalidDomain';
-          this.urisFromFileString = '';
           return;
         } else {
-          this.urisFromFileString += url + '\n';
-          console.log("url - " + url);
           this.fileErrorMessage = '';
         }
       }
@@ -338,12 +320,6 @@ export class AddPageDialogComponent implements OnInit {
     if (this.urisFromFile !== undefined) {
       this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
     }
-    console.log(this.pageForm);
-  }
-
-  uploadFileClick(files: FileList) {
-    this.handleFileInput(files);
-    this.updateUrisFromFile();
   }
 
 }

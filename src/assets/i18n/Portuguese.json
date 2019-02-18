@@ -476,7 +476,8 @@
       "add_sitemap": "Adicionar sitemap (ficheiro .xml ou .txt)",
       "sitemap_warning": "Os ficheiros sitemap necessitam que a sua primeira página seja igual ao domínio do website",
       "sitemap_uris_invalid": "Um dos uris no ficheiro dado é inválido",
-      "sitemap_type_invalid": "O ficheiro dado não é do tipo .xml ou .txt"
+      "sitemap_type_invalid": "O ficheiro dado não é do tipo .xml ou .txt",
+      "file_input": "Escolha o ficheiro"
     },
     "DELETE": {
       "title": "Apagar esta página",
