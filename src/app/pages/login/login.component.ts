@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
 export class LoginComponent implements OnInit {
 
 	// creates a reference to the first input element
-  @ViewChild('emailEle') private emailElement: ElementRef;
+  @ViewChild('usernameEle') private usernameElement: ElementRef;
 
   // shows and hides the password
   hide: boolean;
@@ -29,9 +29,8 @@ export class LoginComponent implements OnInit {
     this.loginLoading = false;
 
     this.loginForm = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email,
+      username: new FormControl('', [
+        Validators.required
       ]),
       password: new FormControl('', [
         Validators.required
@@ -40,17 +39,17 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // focus the first email input box when the page is loaded
-    this.emailElement.nativeElement.focus();
+    // focus the first username input box when the page is loaded
+    this.usernameElement.nativeElement.focus();
   }
 
   login(): void {
     this.loginLoading = true;
 
-    const email = this.loginForm.value.email;
+    const username = this.loginForm.value.username;
     const password = this.loginForm.value.password;
 
-    this.user.login(email, password)
+    this.user.login(username, password)
       .subscribe(() => this.loginLoading = false);
   }
 }

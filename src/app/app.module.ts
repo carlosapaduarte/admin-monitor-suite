@@ -6,9 +6,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ObserversModule } from '@angular/cdk/observers';
 import { NgxGaugeModule } from 'ngx-gauge';
@@ -105,11 +102,6 @@ const appRoutes: Routes = [
   { path: '**', component: NotFound404Component }
 ];
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
-  wheelPropagation: true
-};
-
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -183,7 +175,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    PerfectScrollbarModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -227,11 +218,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     AdminAuthGuard,
     NoAuthGuard,
-    CookieService,
-  	{
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

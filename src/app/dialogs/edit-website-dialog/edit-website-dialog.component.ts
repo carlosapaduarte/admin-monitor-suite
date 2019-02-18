@@ -176,7 +176,7 @@ export class EditWebsiteDialogComponent implements OnInit {
     const entityId = this.websiteForm.value.entity ?
       _.find(this.entities, ['Long_Name', this.websiteForm.value.entity]).EntityId : null;
     const userId = this.websiteForm.value.user ?
-      _.find(this.monitorUsers, ['Email', this.websiteForm.value.user]).UserId : null;
+      _.find(this.monitorUsers, ['Username', this.websiteForm.value.user]).UserId : null;
 
     const defaultTags = JSON.stringify(_.map(this.defaultWebsite.tags, 'TagId'));
     const tags = JSON.stringify(_.map(this.selectedTags, 'TagId'));
@@ -240,7 +240,7 @@ export class EditWebsiteDialogComponent implements OnInit {
 
   filterUser(val: any): string[] {
     return this.monitorUsers.filter(user =>
-      _.includes(_.toLower(user.Email), _.toLower(val)));
+      _.includes(_.toLower(user.Username), _.toLower(val)));
   }
 
   nameValidator(control: AbstractControl): Observable<any> {
@@ -266,7 +266,7 @@ export class EditWebsiteDialogComponent implements OnInit {
   userValidator(control: AbstractControl): any {
     const val = _.trim(control.value);
     if (val) {
-      return _.includes(_.map(this.monitorUsers, 'Email'), val) ? null : { 'validUser': true };
+      return _.includes(_.map(this.monitorUsers, 'Username'), val) ? null : { 'validUser': true };
     } else {
       return null;
     }

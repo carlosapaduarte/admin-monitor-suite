@@ -34,7 +34,9 @@
           {{ "PAGES_PAGE.LIST.table.uri_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex>
-          <strong>{{element.Uri}}</strong>
+          <a [routerLink]="['/console', 'page', element.Uri]">
+            <strong>{{element.Uri}}</strong>
+          </a>
         </mat-cell>
       </ng-container>
 
@@ -77,14 +79,14 @@
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="see">
+      <!--<ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'PAGES_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'page', element.Uri]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

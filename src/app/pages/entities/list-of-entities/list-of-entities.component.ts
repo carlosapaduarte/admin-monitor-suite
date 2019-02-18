@@ -25,7 +25,7 @@ export class ListOfEntitiesComponent implements OnInit {
     'Creation_Date',
     'Websites',
     'edit',
-    'see'
+    //'see'
   ];
 
   dataSource: any;

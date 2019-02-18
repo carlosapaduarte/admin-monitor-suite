@@ -56,6 +56,9 @@ export class AddUserDialogComponent implements OnInit {
 
   separatorKeysCodes = [ENTER, COMMA];
 
+  names: Array<string>;
+  emails: Array<string>;
+
   filteredWebsites: Observable<any[]>;
 
   websites: any;
@@ -84,10 +87,11 @@ export class AddUserDialogComponent implements OnInit {
     this.matcher = new MyErrorStateMatcher();
 
     this.userForm = this.formBuilder.group({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ], this.emailValidator.bind(this)),
+      username: new FormControl('', [
+        Validators.required
+      ], this.usernameValidator.bind(this)),
+      names: new FormControl(),
+      emails: new FormControl(),
       password: new FormControl('', [
         Validators.required
       ]),
@@ -103,6 +107,8 @@ export class AddUserDialogComponent implements OnInit {
       validator: PasswordValidation.MatchPassword
     });
 
+    this.names = [];
+    this.emails = [];
     this.selectedWebsites = [];
   }
 
@@ -137,16 +143,20 @@ export class AddUserDialogComponent implements OnInit {
   createUser(e): void {
     e.preventDefault();
 
-    const email = this.userForm.value.email;
+    const username = this.userForm.value.username;
     const password = this.userForm.value.password;
     const confirmPassword = this.userForm.value.confirmPassword;
+    const names = _.join(this.names, ';');
+    const emails = _.join(this.emails, ';');
     const app = this.userForm.value.app;
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
 
     const formData = {
-      email,
+      username,
       password,
       confirmPassword,
+      names,
+      emails,
       app,
       websites: JSON.stringify(websites)
     };
@@ -173,6 +183,52 @@ export class AddUserDialogComponent implements OnInit {
       });
   }
 
+  addName(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.names.push(_.trim(value));
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeName(name: string): void {
+    const index = this.names.indexOf(name);
+
+    if (index >= 0) {
+      this.names.splice(index, 1);
+    }
+  }
+
+  addEmail(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.emails.push(_.trim(value));
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeEmail(email: string): void {
+    const index = this.emails.indexOf(email);
+
+    if (index >= 0) {
+      this.emails.splice(index, 1);
+    }
+  }
+
   removeWebsite(website: any): void {
     const index = _.findIndex(this.selectedWebsites, website);
 
@@ -195,11 +251,11 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
-  emailValidator(control: AbstractControl): Observable<any> {
-    const email = _.trim(control.value);
+  usernameValidator(control: AbstractControl): Observable<any> {
+    const username = _.trim(control.value);
 
-    if (email !== '') {
-      return this.verify.userExists(email);
+    if (username !== '') {
+      return this.verify.userExists(username);
     } else {
       return null;
     }

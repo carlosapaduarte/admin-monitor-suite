@@ -24,13 +24,13 @@ export class ListOfUsersComponent implements OnInit {
 
   displayedColumns = [
     //'UserId',
-    'Email',
+    'Username',
     'Type',
     'Websites',
     'Register_Date',
     'Last_Login',
     'edit',
-    'see'
+    //'see'
   ];
 
   // data source of domains

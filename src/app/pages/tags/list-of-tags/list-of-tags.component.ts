@@ -43,7 +43,7 @@ export class ListOfTagsComponent implements OnInit {
     'Creation_Date',
     'Websites',
     'edit',
-    'see'
+    //'see'
   ];
 
   dataSource: any;

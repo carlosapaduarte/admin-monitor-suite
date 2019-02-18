@@ -22,8 +22,8 @@ export class VerifyService {
     private config: ConfigService
   ) { }
 
-  userExists(email: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/users/exists/' + email)).pipe(
+  userExists(username: string): Observable<boolean> {
+    return ajax(this.config.getServer('/admin/users/exists/' + username)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -36,7 +36,7 @@ export class VerifyService {
           throw new AdminError(response.success, response.message);
         }
 
-        return response.result ? { 'notTakenEmail': true } : null;
+        return response.result ? { 'notTakenUsername': true } : null;
       }),
       catchError(err => {
         console.log(err);

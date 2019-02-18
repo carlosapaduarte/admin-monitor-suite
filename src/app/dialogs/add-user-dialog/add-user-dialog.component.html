@@ -3,22 +3,19 @@
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-user-block" fxLayout="column">
       <mat-form-field>
-        <label for="user_email_input">
-          {{ "USERS_PAGE.ADD.email_label" | translate }}
+        <label for="user_username_input">
+          {{ "USERS_PAGE.ADD.username_label" | translate }}
         </label>
-        <input id="user_email_input" matInput [errorStateMatcher]="matcher" formControlName="email" required>
-        <button type="button" *ngIf="userForm.value.email" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls.email.reset()">
+        <input id="user_username_input" matInput [errorStateMatcher]="matcher" formControlName="username" required>
+        <button type="button" *ngIf="userForm.value.username" matSuffix mat-icon-button aria-label="Clear" (click)="userForm.controls.username.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
-        <mat-error *ngIf="userForm.controls.email.status === 'PENDING'">
+        <mat-error *ngIf="userForm.controls.username.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
         </mat-error>
-        <mat-error *ngIf="userForm.controls.email.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
-        <mat-error *ngIf="userForm.controls.email.hasError('email')">
-          {{ "USERS_PAGE.ADD.email_invalid" | translate }}
-        </mat-error>
-        <mat-error *ngIf="userForm.controls.email.hasError('notTakenEmail')">
-          {{ "USERS_PAGE.ADD.email_exists" | translate }}
+        <mat-error *ngIf="userForm.controls.username.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.username.hasError('notTakenUsername')">
+          {{ "USERS_PAGE.ADD.username_exists" | translate }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
@@ -47,6 +44,50 @@
           {{ "USERS_PAGE.ADD.confirm_password_error" | translate }}
         </mat-error>
         <mat-error *ngIf="userForm.controls.confirmPassword.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="add-names-block" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <label for="user_contact_names_input">
+          {{ "USERS_PAGE.ADD.names_label" | translate }}
+        </label>
+        <mat-chip-list #namesChipList>
+          <mat-chip *ngFor="let name of names" [selectable]="selectable"
+                  [removable]="removable" (removed)="removeName(name)">
+            {{name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input id="user_contact_names_input"
+                [matChipInputFor]="namesChipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addName($event)">
+          <button type="button" *ngIf="names.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="names = []">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="add-emails-block" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <label for="user_contact_emails_input">
+          {{ "USERS_PAGE.ADD.emails_label" | translate }}
+        </label>
+        <mat-chip-list #emailsChipList>
+          <mat-chip *ngFor="let email of emails" [selectable]="selectable"
+                  [removable]="removable" (removed)="removeEmail(email)">
+            {{email}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input id="user_contact_emails_input"
+                [matChipInputFor]="emailsChipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addEmail($event)">
+          <button type="button" *ngIf="emails.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="emails = []">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+        </mat-chip-list>
       </mat-form-field>
     </div>
     <div class="add-type-block">
@@ -88,7 +129,7 @@
       {{ "USERS_PAGE.ADD.reset" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.email.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid"
+    <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.username.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid"
       *ngIf="!loadingCreate">
       {{ 'USERS_PAGE.ADD.submit' | translate }}
     </button>
