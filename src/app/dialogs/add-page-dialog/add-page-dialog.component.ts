@@ -9,7 +9,7 @@ import {
   NgForm, ValidatorFn, ValidationErrors
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {Observable} from 'rxjs';
@@ -108,13 +108,11 @@ export class AddPageDialogComponent implements OnInit {
     private create: CreateService,
     private message: MessageService,
     private formBuilder: FormBuilder,
-    private formBuilder2: FormBuilder,
     private router: Router,
     private location: Location,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddPageDialogComponent>,
-    private xml2Json: NgxXml2jsonService,
-    private cd: ChangeDetectorRef
+    private xml2Json: NgxXml2jsonService
   ) {
     this.matcher = new MyErrorStateMatcher();
 

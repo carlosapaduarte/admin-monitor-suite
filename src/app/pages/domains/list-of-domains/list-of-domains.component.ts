@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { DeleteDomainDialogComponent } from '../../../dialogs/delete-domain-dialog/delete-domain-dialog.component';
+import {CrawlerDialogComponent} from '../../../dialogs/crawler-dialog/crawler-dialog.component';
 
 @Component({
   selector: 'app-list-of-domains',
@@ -61,5 +62,16 @@ export class ListOfDomainsComponent implements OnInit {
           this.deleteDomain.next(domainId);
         }
       });
+  }
+
+  openCrawlerDialog(e, url): void {
+    e.preventDefault();
+
+    this.dialog.open(CrawlerDialogComponent, {
+      width: '600px',
+      disableClose: false,
+      hasBackdrop: true,
+      data: {url: url}
+    });
   }
 }
