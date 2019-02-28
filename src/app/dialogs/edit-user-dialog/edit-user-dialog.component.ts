@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipList } from '@angular/material';
 import * as _ from 'lodash';
 
 import { CreateService } from '../../services/create.service';
@@ -44,6 +45,8 @@ export class PasswordValidation {
 })
 export class EditUserDialogComponent implements OnInit {
 
+  @ViewChild('emailsChipList') emailsChipList: MatChipList;
+
   matcher: ErrorStateMatcher;
 
   loadingInfo: boolean;
@@ -77,11 +80,9 @@ export class EditUserDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<EditUserDialogComponent>,
     private formBuilder: FormBuilder,
-    private create: CreateService,
     private get: GetService,
     private update: UpdateService,
     private deleteService: DeleteService,
-    private verify: VerifyService,
     private message: MessageService
   ) {
     this.hide = true;
@@ -146,6 +147,9 @@ export class EditUserDialogComponent implements OnInit {
 
         this.loadingInfo = false;
       });
+
+    this.userForm.get('emails').statusChanges.subscribe(status =>
+     this.emailsChipList.errorState = status === 'INVALID' ? true : false);
   }
 
   setDefault(): void {
@@ -206,12 +210,10 @@ export class EditUserDialogComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.names.push(_.trim(value));
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -229,14 +231,17 @@ export class EditUserDialogComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
-      this.emails.push(_.trim(value));
-    }
+      if (!this.isEmailInvalid(value)) {
+        this.emails.push(_.trim(value));
 
-    // Reset the input value
-    if (input) {
-      input.value = '';
+        if (input) {
+          input.value = '';
+        }
+        this.userForm.controls.emails.setErrors(null);
+      } else {
+        this.userForm.controls.emails.setErrors({'emailError': value});
+      }
     }
   }
 
@@ -268,5 +273,32 @@ export class EditUserDialogComponent implements OnInit {
       this.websiteInput.nativeElement.value = '';
       this.userForm.controls.websites.setValue(null);
     }
+  }
+
+  isEmailInvalid(email: string): boolean {
+    let error = false;
+
+    if (email !== '') {
+      if (_.includes(email, '@')) {
+        let split = _.split(email, '@');
+        if (split[0] !== '' && split[1] !== '' && _.size(split) === 2) {
+          if (_.includes(split[1], '.')) {
+            split = _.split(split[1], '.');
+
+            if (split[0] === '' || split[1] === '' || _.size(split) !== 2) {
+              error = true;
+            }
+          } else {
+            error = true;
+          }
+        } else {
+          error = true;
+        }
+      } else {
+        error = true;
+      }
+    }
+
+    return error;
   }
 }

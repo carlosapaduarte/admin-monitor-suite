@@ -139,6 +139,7 @@
       "confirm_password_error": "As palavras-chave não coincidem",
       "names_label": "Nomes de contacto",
       "emails_label": "E-mails de contacto",
+      "emails_error": "Email é <strong>inválido</strong>",
       "choose_app": "Aplicação a que se destina",
       "websites_label": "Associar Websites",
       "reset": "Limpar",

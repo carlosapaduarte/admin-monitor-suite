@@ -139,6 +139,7 @@
       "confirm_password_error": "Passwords don't match",
       "names_label": "Contact names",
       "emails_label": "Contact e-mails",
+      "emails_error": "Email is <strong>invalid</strong>",
       "choose_app": "Application",
       "websites_label": "Choose websites",
       "reset": "Reset",

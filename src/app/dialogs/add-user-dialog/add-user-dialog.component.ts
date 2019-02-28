@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipList } from '@angular/material';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
@@ -43,6 +44,8 @@ export class PasswordValidation {
   styleUrls: ['./add-user-dialog.component.css']
 })
 export class AddUserDialogComponent implements OnInit {
+
+  @ViewChild('emailsChipList') emailsChipList: MatChipList;
 
   loadingCreate: boolean;
   loadingWebsites: boolean;
@@ -124,6 +127,9 @@ export class AddUserDialogComponent implements OnInit {
 
         this.loadingWebsites = false;
       });
+
+    this.userForm.get('emails').statusChanges.subscribe(status =>
+     this.emailsChipList.errorState = status === 'INVALID' ? true : false);
   }
 
   changeApp(): void {
@@ -138,6 +144,8 @@ export class AddUserDialogComponent implements OnInit {
   resetForm(): void {
     this.userForm.reset();
     this.selectedWebsites = [];
+    this.emails = [];
+    this.names = [];
   }
 
   createUser(e): void {
@@ -187,12 +195,10 @@ export class AddUserDialogComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.names.push(_.trim(value));
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -210,14 +216,17 @@ export class AddUserDialogComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
-      this.emails.push(_.trim(value));
-    }
+      if (!this.isEmailInvalid(value)) {
+        this.emails.push(_.trim(value));
 
-    // Reset the input value
-    if (input) {
-      input.value = '';
+        if (input) {
+          input.value = '';
+        }
+        this.userForm.controls.emails.setErrors(null);
+      } else {
+        this.userForm.controls.emails.setErrors({'emailError': value});
+      }
     }
   }
 
@@ -259,5 +268,32 @@ export class AddUserDialogComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  isEmailInvalid(email: string): boolean {
+    let error = false;
+
+    if (email !== '') {
+      if (_.includes(email, '@')) {
+        let split = _.split(email, '@');
+        if (split[0] !== '' && split[1] !== '' && _.size(split) === 2) {
+          if (_.includes(split[1], '.')) {
+            split = _.split(split[1], '.');
+
+            if (split[0] === '' || split[1] === '' || _.size(split) !== 2) {
+              error = true;
+            }
+          } else {
+            error = true;
+          }
+        } else {
+          error = true;
+        }
+      } else {
+        error = true;
+      }
+    }
+
+    return error;
   }
 }

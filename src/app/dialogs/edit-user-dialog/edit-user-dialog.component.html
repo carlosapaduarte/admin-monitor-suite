@@ -89,6 +89,7 @@
                   <mat-icon aria-hidden="false">close</mat-icon>
                 </button>
               </mat-chip-list>
+              <mat-error *ngIf="userForm.controls.emails.hasError('emailError')" [innerHTML]="'USERS_PAGE.ADD.emails_error' | translate"></mat-error>
             </mat-form-field>
           </div>
           <div class="add-type-block" fxLayout="column">
