@@ -1,5 +1,4 @@
-.table-filter, 
 .table-filter mat-form-field,
 .table-filter input {
-  width: 100%;
+  width: 50%;
 }

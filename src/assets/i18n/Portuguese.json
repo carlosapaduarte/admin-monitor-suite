@@ -535,7 +535,8 @@
       "re_evaluate": "Re-avaliar a página",
       "download": "Descarregar resultados da avaliação",
       "pagecode": "Ver código da página",
-      "open_webpage": "Abrir página web"
+      "open_webpage": "Abrir página web",
+      "add_odf_file":  "Adicionar avaliação em Open Format"
     },
     "summary": {
       "title": "Sumário",

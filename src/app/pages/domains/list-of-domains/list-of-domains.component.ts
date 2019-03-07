@@ -64,14 +64,14 @@ export class ListOfDomainsComponent implements OnInit {
       });
   }
 
-  openCrawlerDialog(e, url): void {
+  openCrawlerDialog(e, url, domainId): void {
     e.preventDefault();
 
     this.dialog.open(CrawlerDialogComponent, {
-      width: '600px',
+      width: '60vw',
       disableClose: false,
       hasBackdrop: true,
-      data: {url: url}
+      data: {url, domainId}
     });
   }
 }

@@ -1,22 +1,30 @@
 <h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.title" | translate }}</h1>
 <form (submit)="executeCrawler($event)" [formGroup]="pageForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+
+    <!-- TODO meter isto em ingles -->
     <div class="max-depth-input" fxLayout="column">
       <mat-form-field *ngIf="!pageForm.value.isMinDepth">
-        <label for="max-depth">Profundidade máxima</label>
-        <textarea id="max-depth" matInput matTextareaAutosize formControlName="maxDepth" placeholder="Maior que 1"></textarea>
+        <label>Profundidade máxima</label>
+        <mat-label></mat-label>
+        <input matInput formControlName="maxDepth" placeholder="Maior que 1">
+        <mat-icon matSuffix *ngIf="pageForm.value.maxDepth" (click)="pageForm.controls.maxDepth.reset()">close</mat-icon>
       </mat-form-field>
     </div>
 
     <div class="max-pages-input" fxLayout="column" fxLayoutAlign="start stretch">
-      <mat-form-field floatLabel="auto">
-        <label for="max-pages">Número máximo de páginas</label>
-        <textarea id="max-pages" matInput matTextareaAutosize formControlName="maxPages" placeholder="Maior que 1"></textarea>
+      <mat-form-field>
+        <label>Número máximo de páginas</label>
+        <mat-label></mat-label>
+        <input matInput formControlName="maxPages" placeholder="Maior que 1">
+        <mat-icon matSuffix *ngIf="pageForm.value.maxPages" (click)="pageForm.controls.maxPages.reset()">close</mat-icon>
       </mat-form-field>
     </div>
     <!-- https://github.com/Kashio/kaiser -->
+    <!-- https://www.npmjs.com/package/simplecrawler-zic -->
+    <!-- https://github.com/simplecrawler/simplecrawler -->
     <!-- https://material.angular.io/components/form-field/overview -->
-    <mat-checkbox *ngIf="!pageForm.value.maxDepth" formControlName="isMinDepth">Profundidade igual a 2</mat-checkbox>
+    <mat-checkbox [disabled]="pageForm.value.maxDepth" (change)="console.log(pageForm.value.isMinDepth)" formControlName="isMinDepth">Profundidade igual a 2</mat-checkbox>
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row">
@@ -24,10 +32,14 @@
       {{ "PAGES_PAGE.ADD.reset" | translate }}
     </button>
     <span fxFlex></span>
+    <h2>
+
+    </h2>
     <button mat-raised-button color="primary" type="submit" *ngIf="!loadingCreate">
       {{ "PAGES_PAGE.ADD.submit" | translate }}
     </button>
-    <mat-spinner [diameter]="40"></mat-spinner>
+    <!-- TODO fix this -->
+    <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 
 </form>

@@ -103,7 +103,7 @@
           <button *ngIf="!element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', 'admin', element.Url]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="" (click)="openCrawlerDialog($event, element.Url)">
+          <button mat-icon-button matTooltip="" (click)="openCrawlerDialog($event, element.Url, element.DomainId)">
             <!-- TODO fazer um dialog e meter um icon de setting la em cima para guardar em local storage -->
             <mat-icon class="md-24" aria-label="">pageview</mat-icon>
           </button>

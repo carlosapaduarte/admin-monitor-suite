@@ -268,8 +268,8 @@ export class AddPageDialogComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsText(file);
     // divide the url in the result array
-    reader.onload = (e) => {
-      const urlFile = e.target.result;
+    reader.onload = () => {
+      const urlFile = reader.result.toString();
       const lines = urlFile.split('\n');
       for (let i = 1; i < lines.length - 1; i++) {
         result.push(lines[i]);
@@ -282,9 +282,10 @@ export class AddPageDialogComponent implements OnInit {
     const reader = new FileReader();
     const result = [];
     reader.readAsText(file);
-    reader.onload = (e) => {
+    reader.onload = () => {
       const parser = new DOMParser();
-      const xml = parser.parseFromString(e.target.result, 'text/xml');
+      // TODO VER SE ISTO DO TOSTIRNG FICA BEM OU NAO
+      const xml = parser.parseFromString(reader.result.toString(), 'text/xml');
       const json = this.xml2Json.xmlToJson(xml);
       const urlJson = json['urlset']['url'];
       for (let i = 1; i < urlJson.length; i++) {

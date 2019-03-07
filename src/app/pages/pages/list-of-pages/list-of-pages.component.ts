@@ -83,4 +83,5 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
         }
       });
   }
+
 }
