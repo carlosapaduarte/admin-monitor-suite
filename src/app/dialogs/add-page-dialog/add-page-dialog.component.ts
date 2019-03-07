@@ -9,7 +9,7 @@ import {
   NgForm, ValidatorFn, ValidationErrors
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog, MatDialogRef} from '@angular/material';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {Observable} from 'rxjs';
@@ -108,13 +108,11 @@ export class AddPageDialogComponent implements OnInit {
     private create: CreateService,
     private message: MessageService,
     private formBuilder: FormBuilder,
-    private formBuilder2: FormBuilder,
     private router: Router,
     private location: Location,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddPageDialogComponent>,
-    private xml2Json: NgxXml2jsonService,
-    private cd: ChangeDetectorRef
+    private xml2Json: NgxXml2jsonService
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -270,8 +268,8 @@ export class AddPageDialogComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsText(file);
     // divide the url in the result array
-    reader.onload = (e) => {
-      const urlFile = e.target.result;
+    reader.onload = () => {
+      const urlFile = reader.result.toString();
       const lines = urlFile.split('\n');
       for (let i = 1; i < lines.length - 1; i++) {
         result.push(lines[i]);
@@ -284,9 +282,9 @@ export class AddPageDialogComponent implements OnInit {
     const reader = new FileReader();
     const result = [];
     reader.readAsText(file);
-    reader.onload = (e) => {
+    reader.onload = () => {
       const parser = new DOMParser();
-      const xml = parser.parseFromString(e.target.result, 'text/xml');
+      const xml = parser.parseFromString(reader.result.toString(), 'text/xml');
       const json = this.xml2Json.xmlToJson(xml);
       const urlJson = json['urlset']['url'];
       for (let i = 1; i < urlJson.length; i++) {
