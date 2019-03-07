@@ -284,7 +284,6 @@ export class AddPageDialogComponent implements OnInit {
     reader.readAsText(file);
     reader.onload = () => {
       const parser = new DOMParser();
-      // TODO VER SE ISTO DO TOSTIRNG FICA BEM OU NAO
       const xml = parser.parseFromString(reader.result.toString(), 'text/xml');
       const json = this.xml2Json.xmlToJson(xml);
       const urlJson = json['urlset']['url'];

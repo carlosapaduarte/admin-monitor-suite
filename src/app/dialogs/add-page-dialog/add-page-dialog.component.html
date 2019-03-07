@@ -44,7 +44,6 @@
           {{ "PAGES_PAGE.ADD.add_sitemap" | translate}}
         </label>
         <br>
-        <!-- TODO mudar nome de Choose File -->
         <input type="file" id="file" formControlName="files" accept="text/xml, text/plain"
                (change)="handleFileInput($event.target.files)" (focus)="updateUrisFromFile()">
         <button type="button" *ngIf="pageForm.value.files" matSuffix mat-icon-button aria-label="Clear" (click)="resetFile()">
