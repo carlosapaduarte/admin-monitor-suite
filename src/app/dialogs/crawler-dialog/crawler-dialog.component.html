@@ -5,26 +5,26 @@
     <!-- TODO meter isto em ingles -->
     <div class="max-depth-input" fxLayout="column">
       <mat-form-field *ngIf="!pageForm.value.isMinDepth">
-        <label>Profundidade máxima</label>
+        <label>{{ "CRAWLER.PARAMETERS.depth" | translate }}</label>
         <mat-label></mat-label>
-        <input matInput formControlName="maxDepth" placeholder="Maior que 1">
-        <mat-icon matSuffix *ngIf="pageForm.value.maxDepth" (click)="pageForm.controls.maxDepth.reset()">close</mat-icon>
+        <input matInput formControlName="maxDepth" placeholder= {{"CRAWLER.PLACEHOLDER.depth" | tranlate}}>
+        <mat-icon matSuffix *ngIf="pageForm.value.maxDepth" (click)="pageForm.controls.maxDepth.reset()">{{"DIALOGS.close" | translate}}</mat-icon>
       </mat-form-field>
     </div>
 
     <div class="max-pages-input" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>
-        <label>Número máximo de páginas</label>
+        <label>{{"CRAWLER.PARAMETERS.pages" | translate}}</label>
         <mat-label></mat-label>
-        <input matInput formControlName="maxPages" placeholder="Maior que 1">
-        <mat-icon matSuffix *ngIf="pageForm.value.maxPages" (click)="pageForm.controls.maxPages.reset()">close</mat-icon>
+        <input matInput formControlName="maxPages" placeholder={{"CRAWLER.PLACEHOLDER.pages" | tranlate}}>
+        <mat-icon matSuffix *ngIf="pageForm.value.maxPages" (click)="pageForm.controls.maxPages.reset()">"DIALOGS.close"</mat-icon>
       </mat-form-field>
     </div>
     <!-- https://github.com/Kashio/kaiser -->
     <!-- https://www.npmjs.com/package/simplecrawler-zic -->
     <!-- https://github.com/simplecrawler/simplecrawler -->
     <!-- https://material.angular.io/components/form-field/overview -->
-    <mat-checkbox [disabled]="pageForm.value.maxDepth" (change)="console.log(pageForm.value.isMinDepth)" formControlName="isMinDepth">Profundidade igual a 2</mat-checkbox>
+    <mat-checkbox [disabled]="pageForm.value.maxDepth" (change)="console.log(pageForm.value.isMinDepth)" formControlName="isMinDepth">{{"CRAWLER.PARAMETERS.max_depth_checkbox" | translate}}</mat-checkbox>
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row">
