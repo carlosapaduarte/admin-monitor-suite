@@ -1,30 +1,36 @@
-<h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.title" | translate }}</h1>
-<form (submit)="executeCrawler($event)" [formGroup]="pageForm" novalidate>
+<h1 mat-dialog-title>{{ "CRAWLER.title" | translate }}<b>{{url}}</b></h1>
+<form (submit)="executeCrawler()" [formGroup]="pageForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
-
-    <!-- TODO meter isto em ingles -->
     <div class="max-depth-input" fxLayout="column">
-      <mat-form-field *ngIf="!pageForm.value.isMinDepth">
+      <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.depth' | translate}}">
         <label>{{ "CRAWLER.PARAMETERS.depth" | translate }}</label>
         <mat-label></mat-label>
-        <input matInput formControlName="maxDepth" placeholder= {{"CRAWLER.PLACEHOLDER.depth" | tranlate}}>
-        <mat-icon matSuffix *ngIf="pageForm.value.maxDepth" (click)="pageForm.controls.maxDepth.reset()">{{"DIALOGS.close" | translate}}</mat-icon>
+        <input matInput formControlName="maxDepth" autocomplete="off">
+        <mat-icon matSuffix *ngIf="pageForm.value.maxDepth" (click)="pageForm.controls.maxDepth.reset()">close
+        </mat-icon>
+        <mat-error *ngIf="pageForm.controls.maxDepth.hasError('pattern')">
+          {{"CRAWLER.error1" | translate}}
+        </mat-error>
       </mat-form-field>
     </div>
 
     <div class="max-pages-input" fxLayout="column" fxLayoutAlign="start stretch">
-      <mat-form-field>
+      <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.pages' | translate}}">
         <label>{{"CRAWLER.PARAMETERS.pages" | translate}}</label>
         <mat-label></mat-label>
-        <input matInput formControlName="maxPages" placeholder={{"CRAWLER.PLACEHOLDER.pages" | tranlate}}>
-        <mat-icon matSuffix *ngIf="pageForm.value.maxPages" (click)="pageForm.controls.maxPages.reset()">"DIALOGS.close"</mat-icon>
+        <input matInput formControlName="maxPages" autocomplete="off">
+        <mat-icon matSuffix *ngIf="pageForm.value.maxPages" (click)="pageForm.controls.maxPages.reset()">close
+        </mat-icon>
+        <mat-error *ngIf="pageForm.controls.maxPages.hasError('pattern')">
+          {{"CRAWLER.error2" | translate}}
+        </mat-error>
       </mat-form-field>
     </div>
     <!-- https://github.com/Kashio/kaiser -->
     <!-- https://www.npmjs.com/package/simplecrawler-zic -->
     <!-- https://github.com/simplecrawler/simplecrawler -->
     <!-- https://material.angular.io/components/form-field/overview -->
-    <mat-checkbox [disabled]="pageForm.value.maxDepth" (change)="console.log(pageForm.value.isMinDepth)" formControlName="isMinDepth">{{"CRAWLER.PARAMETERS.max_depth_checkbox" | translate}}</mat-checkbox>
+    <!-- <mat-checkbox [disabled]="pageForm.value.maxDepth"  (change)="log(pageForm.value.isMinDepth)" formControlName="isMinDepth">{{"CRAWLER.PARAMETERS.max_depth_checkbox" | translate}}</mat-checkbox> -->
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row">
@@ -32,14 +38,13 @@
       {{ "PAGES_PAGE.ADD.reset" | translate }}
     </button>
     <span fxFlex></span>
-    <h2>
-
-    </h2>
-    <button mat-raised-button color="primary" type="submit" *ngIf="!loadingCreate">
+    <!-- TODO meter texto no i18n -->
+    <mat-error *ngIf="error">Something wrong happened!</mat-error>
+    <button mat-raised-button color="primary" type="submit" *ngIf="!loadingResponse"
+            [disabled]="pageForm.controls.maxDepth.hasError('pattern') || pageForm.controls.maxPages.hasError('pattern')">
       {{ "PAGES_PAGE.ADD.submit" | translate }}
     </button>
-    <!-- TODO fix this -->
-    <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
+    <mat-spinner *ngIf="loadingResponse" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 
 </form>

@@ -2,17 +2,6 @@
   "HEADER": {
     "name": "Admin console"
   },
-  "CRAWLER": {
-    "PARAMETERS": {
-      "depth": "Maximum depth",
-      "pages": "Maximum number of pages",
-      "max_depth_checkbox": "Depth equal to two (2)"
-    },
-    "PLACEHOLDER": {
-      "depth": "Equal or bigger than one (1)",
-      "pages": "Equal or bigger than one (1)"
-    }
-  },
   "LOGIN": {
     "title": "Login",
     "password_label": "Password",
@@ -411,7 +400,8 @@
         "end_date_label": "End date",
         "delete_label": "Delete",
         "delete_tooltip": "Delete domain",
-        "see_tooltip": "See domain"
+        "see_tooltip": "See domain",
+        "add_pages_tooltip": "Automatically add pages"
       }
     },
     "ADD": {
@@ -617,6 +607,19 @@
     "actions": {
       "download_code": "Download code",
       "open_webpage": "Open webpage"
+    }
+  },
+  "CRAWLER": {
+    "title": "Automatic page search in domain ",
+    "error1": "Only allowed positive integer numbers",
+    "error2": "Only allowed zero and positive integer numbers",
+    "PARAMETERS": {
+      "depth": "Maximum depth",
+      "pages": "Maximum number of pages"
+    },
+    "TOOLTIP": {
+      "depth": "Type 1 to only search for pages directly linked to the homepage",
+      "pages": "Type 0 to search for all pages"
     }
   },
   "FOOTER": {

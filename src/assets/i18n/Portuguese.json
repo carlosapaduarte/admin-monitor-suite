@@ -2,17 +2,6 @@
   "HEADER": {
     "name": "Consola de administração"
   },
-  "CRAWLER": {
-    "PARAMETERS": {
-      "depth": "Profundidade máxima",
-      "pages": "Número máximo de páginas",
-      "max_depth_checkbox": "Profundidade igual a dois (2)"
-    },
-    "PLACEHOLDER": {
-      "depth": "Maior ou igual a um (1)",
-      "pages": "Maior ou igual a um (1)"
-    }
-  },
   "LOGIN": {
     "title": "Iniciar sessão",
     "password_label": "Palavra-chave",
@@ -411,7 +400,8 @@
         "end_date_label": "Data de fim",
         "delete_label": "Apagar",
         "delete_tooltip": "Apagar domínio",
-        "see_tooltip": "Ver domínio"
+        "see_tooltip": "Ver domínio",
+        "add_pages_tooltip": "Adicionar páginas automaticamente"
       }
     },
     "ADD": {
@@ -617,6 +607,19 @@
     "actions": {
       "download_code": "Descarregar código da página",
       "open_webpage": "Abrir página web"
+    }
+  },
+  "CRAWLER": {
+    "title": "Procura automática de páginas do domínio ",
+    "error1": "Apenas permitido números inteiros positivos",
+    "error2": "Apenas permitido zero e números inteiros positivos",
+    "PARAMETERS": {
+      "depth": "Profundidade máxima",
+      "pages": "Número máximo de páginas"
+    },
+    "TOOLTIP": {
+      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial"
+      "pages": "Escreva 0 para procurar todas as páginas"
     }
   },
   "FOOTER": {

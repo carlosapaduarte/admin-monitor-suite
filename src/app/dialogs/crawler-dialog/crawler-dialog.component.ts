@@ -1,8 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatTableDataSource} from '@angular/material';
 
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {CrawlerService} from '../../services/crawler.service';
 
 @Component({
   selector: 'app-crawler-dialog',
@@ -12,6 +13,8 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 export class CrawlerDialogComponent implements OnInit {
 
   loadingCreate: boolean;
+  error: boolean;
+  loadingResponse: boolean;
   separatorKeysCodes = [ENTER, COMMA];
   visible = true;
   selectable = false;
@@ -26,32 +29,39 @@ export class CrawlerDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
+    private crawl: CrawlerService
   ) {
     this.url = data.url;
     this.domainId = data.domainId;
     this.pageForm = this.formBuilder.group({
-        maxDepth: new FormControl(),
-        maxPages: new FormControl(),
-        isMinDepth: new FormControl()
+        maxDepth: new FormControl('1',[
+          Validators.pattern('^[0-9]*[1-9][0-9]*$')
+        ]),
+        maxPages: new FormControl('0', [
+          Validators.pattern('^[0-9]*$')
+        ]),
       });
-    this.loadingCreate = false;
+    this.loadingResponse = false;
+    this.error = false;
   }
 
   ngOnInit() {
   }
-/*
-  executeCrawler(e: Event) {
-    const crawler = Crawler(this.url)
-      .on("fetchcomplete", function(queueItem, responseBuffer, response){
-        console.log("queueItem - " + queueItem + "\nrespondeBuffer - " + responseBuffer + "\nresponse - " + response);
-      });
-    crawler.maxDepth = 2;
-    crawler.maxLinkNumber = x;
-    crawler.start();
-    /*crawler.queue.countItems({ fetched: true }, function(error, count) {
-    console.log("The number of completed items is %d", count);
-    this.loadingCreate = true;
-});
 
-  } */
+  log(e) {
+    console.log(e);
+  }
+
+  executeCrawler() {
+    this.loadingResponse = true;
+    this.crawl.callCrawler(this.url, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
+      .subscribe(response => {
+        if (response) {
+          //TODO O QUE FAZER COM BOOLEAN RECEBIDO
+        } else {
+          this.error = true;
+        }
+        this.loadingResponse = false;
+      });
+  }
 }
