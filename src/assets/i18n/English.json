@@ -620,6 +620,10 @@
     "TOOLTIP": {
       "depth": "Type 1 to only search for pages directly linked to the homepage",
       "pages": "Type 0 to search for all pages"
+    },
+    "MESSAGE": {
+      "success": "Found {{value}} pages!",
+      "failed": "Unexpected error!"
     }
   },
   "FOOTER": {

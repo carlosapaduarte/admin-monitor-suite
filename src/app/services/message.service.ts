@@ -15,9 +15,9 @@ export class MessageService {
   ) { }
 
   // show messages to the user
-  show(message: string, duration: number = 5000, button: any = null): void {
+  show(message: string, duration: number = 5000, button: any = null, values: {} = {}): void {
     if (button) {
-      this.translate.get([message, button.message]).subscribe((res: string[]) => {
+      this.translate.get([message, button.message], values).subscribe((res: string[]) => {
         const snack = this.snackBar.open(res[message], res[button.message], {
           duration: duration,
         });

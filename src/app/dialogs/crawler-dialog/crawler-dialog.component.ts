@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatTableDataSource} from '@angular/material';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {CrawlerService} from '../../services/crawler.service';
+import {MessageService} from '../../services/message.service';
 
 @Component({
   selector: 'app-crawler-dialog',
@@ -28,7 +29,8 @@ export class CrawlerDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
-    private crawl: CrawlerService
+    private crawl: CrawlerService,
+    private msg: MessageService
   ) {
     this.url = data.url;
     this.domainId = data.domainId;
@@ -55,12 +57,18 @@ export class CrawlerDialogComponent implements OnInit {
     this.loadingResponse = true;
     this.crawl.callCrawler(this.url, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
       .subscribe(response => {
-        if (response) {
-          //TODO O QUE FAZER COM BOOLEAN RECEBIDO
+        if (response > 0) {
+          // TODO verificar se estah bem
+          this.msg.show( 'CRAWLER.MESSAGE.success', 5000, null, { value: response });
         } else {
           this.error = true;
         }
         this.loadingResponse = false;
       });
+  }
+
+  resetForm() {
+    this.error = false;
+    this.pageForm.reset();
   }
 }

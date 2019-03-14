@@ -620,7 +620,13 @@
     "TOOLTIP": {
       "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial",
       "pages": "Escreva 0 para procurar todas as páginas"
-    }
+    },
+    "MESSAGE": {
+      "success": "Foram encontradas {{value}} páginas!",
+      "failed": "Aconteceu um erro!"
+    },
+    "reset": "Limpar",
+    "submit": "Procurar"
   },
   "FOOTER": {
     "language": "Língua",
