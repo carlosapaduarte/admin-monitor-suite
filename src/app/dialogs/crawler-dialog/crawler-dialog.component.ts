@@ -12,7 +12,6 @@ import {CrawlerService} from '../../services/crawler.service';
 })
 export class CrawlerDialogComponent implements OnInit {
 
-  loadingCreate: boolean;
   error: boolean;
   loadingResponse: boolean;
   separatorKeysCodes = [ENTER, COMMA];
@@ -34,7 +33,7 @@ export class CrawlerDialogComponent implements OnInit {
     this.url = data.url;
     this.domainId = data.domainId;
     this.pageForm = this.formBuilder.group({
-        maxDepth: new FormControl('1',[
+        maxDepth: new FormControl('1', [
           Validators.pattern('^[0-9]*[1-9][0-9]*$')
         ]),
         maxPages: new FormControl('0', [

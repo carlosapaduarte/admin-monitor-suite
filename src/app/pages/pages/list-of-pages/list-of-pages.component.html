@@ -20,17 +20,18 @@
       </mat-form-field>
 
       <span fxFlex></span>
-
+<!--
       <mat-error>
-        <!-- TODO que erros eh suposto ver aqui? -->
-        <!-- TODO rotating buggering icon -->
-      </mat-error>
-
-      <button mat-icon-button class="tools" matTooltip="{{ 'RESULTS.actions.add_odf_file' | translate }}"
-              (click)="file.click()">
-        <mat-icon aria-label="'RESULTS.actions.add_odf_file' | translate" style="transform: scale(1.5)">note_add</mat-icon>
-      </button>
-      <input type="file" #file id="odfFile" accept="application/json" style="display:none">
+        TODO que erros eh suposto ver aqui? -->
+        <!-- TODO rotating buggering icon
+      </mat-error> -->
+      <div [formGroup]="pagesForm">
+        <button mat-icon-button class="tools" matTooltip="{{ 'RESULTS.actions.add_odf_file' | translate }}"
+                (click)="file.click()">
+          <mat-icon aria-label="'RESULTS.actions.add_odf_file' | translate" style="transform: scale(1.5)">note_add</mat-icon>
+        </button>
+        <input type="file" #file id="odfFile" formControlName="file" accept="application/json" style="display:none" (change)="sendFile()">
+      </div>
 
     </div>
     <mat-table [dataSource]="dataSource" matSort>

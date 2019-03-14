@@ -618,7 +618,7 @@
       "pages": "Número máximo de páginas"
     },
     "TOOLTIP": {
-      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial"
+      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial",
       "pages": "Escreva 0 para procurar todas as páginas"
     }
   },

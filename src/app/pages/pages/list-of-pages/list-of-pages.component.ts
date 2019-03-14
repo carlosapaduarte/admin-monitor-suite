@@ -7,6 +7,9 @@ import { DeletePageDialogComponent } from '../../../dialogs/delete-page-dialog/d
 
 import { UpdateService } from '../../../services/update.service';
 import { MessageService } from '../../../services/message.service';
+import {OpenDataService} from '../../../services/open-data.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {atLeastOne, UriValidation} from '../../../dialogs/add-page-dialog/add-page-dialog.component';
 
 @Component({
   selector: 'app-list-of-pages',
@@ -19,7 +22,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   @Input('pages') pages: Array<any>;
 
   displayedColumns = [
-    //'PageId',
+    // 'PageId',
     'Uri',
     'Score',
     'Evaluation_Date',
@@ -31,6 +34,12 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   dataSource: any;
   selection: any;
 
+  error: boolean;
+  loadingResponse: boolean;
+  pagesForm: FormGroup;
+  fileErrorMessage: string;
+  jsonFromFile: string;
+
   @ViewChild('input') input: ElementRef;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,8 +47,12 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private update: UpdateService,
-    private message: MessageService
-  ) { }
+    private odf: OpenDataService,
+    private formBuilder: FormBuilder,
+  ) {
+    this.pagesForm = this.formBuilder.group({
+        file: new FormControl()});
+  }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.pages);
@@ -49,7 +62,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sortingDataAccessor = (item, property) => {
-      switch(property) {
+      switch (property) {
         case 'Show_In':
           return _.includes(['observatorio', 'both'], item['Show_In']);
 
@@ -82,6 +95,46 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
           this.deletePage.next(pageId);
         }
       });
+  }
+
+  sendFile() {
+    const fileToRead = (<HTMLInputElement>document.getElementById('odfFile')).files[0];
+
+    if (fileToRead === null) {
+      this.pagesForm.controls.file.reset();
+      return;
+    }
+
+    console.log(fileToRead.type);
+    switch (fileToRead.type) {
+      case ('application/json'):
+        this.parseJSON(fileToRead);
+        break;
+      default:
+        this.jsonFromFile = '';
+        this.fileErrorMessage = 'invalidType';
+        break;
+    }
+
+    this.loadingResponse = true;
+    this.odf.sendOpenDataFile(this.jsonFromFile)
+      .subscribe(response => {
+        if (response) {
+          // TODO O QUE FAZER COM BOOLEAN RECEBIDO
+        } else {
+          this.error = true;
+        }
+        this.loadingResponse = false;
+      });
+  }
+
+  parseJSON(file: File): void {
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = () => {
+      this.jsonFromFile = reader.result.toString();
+      console.log(this.jsonFromFile);
+    };
   }
 
 }
