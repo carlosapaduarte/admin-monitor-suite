@@ -6,11 +6,10 @@
     <mat-table [dataSource]="dataSource">
 
       <ng-container matColumnDef="Uri">
-        <!-- TODO fxFlex might be screwing this up -->
-        <mat-header-cell *matHeaderCellDef fxFlex>
+        <mat-header-cell *matHeaderCellDef>
           {{ "CRAWLER.LIST.uri_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex>
+        <mat-cell *matCellDef="let element">
           <strong>{{element.Uri}}</strong>
         </mat-cell>
       </ng-container>

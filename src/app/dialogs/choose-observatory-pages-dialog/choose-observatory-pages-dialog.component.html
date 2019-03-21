@@ -2,25 +2,25 @@
 <form (submit)="choosePages($event)" novalidate>
   <mat-dialog-content>
 
-    <mat-table #table [dataSource]="dataSource">
+    <mat-table [dataSource]="dataSource">
 
       <ng-container matColumnDef="Uri">
-        <mat-header-cell *matHeaderCellDef fxFlex>
+        <mat-header-cell *matHeaderCellDef>
           {{ "PAGES_PAGE.LIST.table.uri_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex>
+        <mat-cell *matCellDef="let element">
           <strong>{{element.Uri}}</strong>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="select">
         <mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          <mat-checkbox color="primary" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+          <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </mat-cell>
       </ng-container>

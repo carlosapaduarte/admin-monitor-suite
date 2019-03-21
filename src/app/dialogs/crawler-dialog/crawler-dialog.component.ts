@@ -5,10 +5,10 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {CrawlerService} from '../../services/crawler.service';
 import {MessageService} from '../../services/message.service';
-import {ChooseObservatoryPagesDialogComponent} from '../choose-observatory-pages-dialog/choose-observatory-pages-dialog.component';
 import {CreateService} from '../../services/create.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
+import {AddCrawlerPagesDialogComponent} from '../add-crawler-pages-dialog/add-crawler-pages-dialog.component';
 
 @Component({
   selector: 'app-crawler-dialog',
@@ -71,8 +71,8 @@ export class CrawlerDialogComponent implements OnInit {
     this.crawl.callCrawler(this.url, this.domainId, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
       .subscribe(response => {
         if (response > 0) {
-          const chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
-            width: '60vw',
+          const chooseDialog = this.dialog.open(AddCrawlerPagesDialogComponent, {
+            width: '40vw',
             data: {
               // TODO fix this
               uris: JSON.parse(response.toLocaleString())

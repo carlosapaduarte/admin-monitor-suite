@@ -184,7 +184,7 @@ export class AddPageDialogComponent implements OnInit {
     })), ''));
     if (this.pageForm.value.observatorio) {
       const chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
-        width: '60vw',
+        width: '40vw',
         data: {
           uris: JSON.parse(uris)
         }

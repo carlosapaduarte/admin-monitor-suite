@@ -26,6 +26,7 @@ export class ChooseObservatoryPagesDialogComponent implements OnInit {
   ) {
     this.dataSource = new MatTableDataSource(_.map(this.data.uris, u => ( { Uri: u } )));
     this.selection = new SelectionModel<any>(true, []);
+    this.dialogRef.disableClose = true;
   }
 
   ngOnInit(): void {
