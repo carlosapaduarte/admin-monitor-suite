@@ -116,7 +116,6 @@
       "title": "Users",
       "subtitle": "List of all users from the applications Study Monitor and My Monitor",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "username_label": "Username",
         "app_label": "App",
@@ -185,7 +184,6 @@
       "title": "Tags",
       "subtitle": "List of all tags",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "name_label": "Name",
         "observatorio_label": "Observatory",
@@ -255,7 +253,6 @@
       "title": "Entities",
       "subtitle": "List of all Entities",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "short_name_label": "Short name",
         "long_name_label": "Long name",
@@ -317,7 +314,6 @@
       "title": "Websites",
       "subtitle": "List of all websites",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "name_label": "Name",
         "entity_label": "Entity",
@@ -394,7 +390,6 @@
       "title": "Domains",
       "subtitle": "List of all domains",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "domain_label": "Domain",
         "active_label": "Active",
@@ -447,7 +442,6 @@
       "title": "Pages",
       "subtitle": "List of all pages",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "uri_label": "Uri",
         "score_label": "Score",
@@ -506,7 +500,6 @@
       "title": "Evaluations",
       "subtitle": "List of all page evaluations",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "score_label": "Score",
         "a_label": "Nº errors A",
@@ -640,6 +633,7 @@
     "English": "English"
   },
   "MISC": {
+    "filter": "Filter",
     "skip_to_main": "Skip to main content",
     "loading": "Loading...",
     "required_field": "This field is <strong>required</strong>",

@@ -116,7 +116,6 @@
       "title": "Utilizadores",
       "subtitle": "Lista de todos os utilizadores das aplicações Study Monitor e My Monitor",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "username_label": "Utilizador",
         "app_label": "Aplicação",
@@ -185,7 +184,6 @@
       "title": "Tags",
       "subtitle": "Lista de todas as Tags",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "name_label": "Nome",
         "observatorio_label": "Observatório",
@@ -255,7 +253,6 @@
       "title": "Entidades",
       "subtitle": "Lista de todas as Entidades",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "short_name_label": "Nome abreviado",
         "long_name_label": "Nome completo",
@@ -317,7 +314,6 @@
       "title": "Websites",
       "subtitle": "Lista de todos os websites",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "name_label": "Nome",
         "entity_label": "Entidade",
@@ -394,7 +390,6 @@
       "title": "Domínios",
       "subtitle": "Lista de todos os domínios",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "domain_label": "Domínio",
         "active_label": "Activo",
@@ -447,7 +442,6 @@
       "title": "Páginas",
       "subtitle": "Lista de todas as páginas",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "uri_label": "Uri",
         "score_label": "Pontuação",
@@ -506,7 +500,6 @@
       "title": "Avaliações",
       "subtitle": "Lista de todas as avaliações da página",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "score_label": "Pontuação",
         "a_label": "Nº erros A",
@@ -642,6 +635,7 @@
     "English": "English"
   },
   "MISC": {
+    "filter": "Filtro",
     "skip_to_main": "Saltar para o conteúdo principal",
     "loading": "A carregar...",
     "required_field": "Este campo é <strong>obrigatório</strong>",
