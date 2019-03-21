@@ -72,13 +72,13 @@
           <input
             id="website_user_input"
             type="text"
-            aria-label="Utilizador Email"
+            aria-label="Utilizador"
             matInput formControlName="user"
             [matAutocomplete]="auto2"
             [errorStateMatcher]="matcher">
           <mat-autocomplete #auto2="matAutocomplete">
-            <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Email">
-              {{ user.Email }}
+            <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Username">
+              {{ user.Username }}
             </mat-option>
           </mat-autocomplete>
           <button type="button" *ngIf="websiteForm.value.user" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.user.reset()">

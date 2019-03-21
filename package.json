@@ -44,7 +44,6 @@
     "promise": "^8.0.1",
     "readline-sync": "^1.4.9",
     "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.3.1",
     "web-animations-js": "^2.3.1",
     "webpack": "^4.29.6",
     "webpack-dev-server": "^3.1.14",

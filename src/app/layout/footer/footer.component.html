@@ -1,13 +1,13 @@
 <mat-divider></mat-divider>
 <footer class="navbar-bottom" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign.gt-sm="space-around center" fxLayoutAlign.lt-md="start center">
-  
+
   <span><em lang="en">Copyright</em> © 2018 <a routerLink="http://www.acessibilidades.pt">{{ "FOOTER.link" | translate}}</a> {{ "FOOTER.rights" | translate}}</span>
-  
+
   <mat-form-field fxHide.lt-md [color]="'white'">
     <label for="language">{{ "FOOTER.language" | translate }}</label>
     <mat-select id="language" [(value)]="selectedLang" (selectionChange)="changeLanguage()">
       <mat-option *ngFor="let lang of translate.getLangs()" [value]="lang">
-        {{ lang }}
+        {{ "LANGUAGES." + lang | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>

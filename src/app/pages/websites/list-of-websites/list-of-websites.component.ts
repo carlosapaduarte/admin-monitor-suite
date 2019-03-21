@@ -23,7 +23,7 @@ export class ListOfWebsitesComponent implements OnInit {
     'User',
     'Creation_Date',
     'edit',
-    'see'
+    //'see'
   ];
 
   // data source of domains

@@ -28,7 +28,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
     'Evaluation_Date',
     'Show_In',
     'delete',
-    'see'
+    //'see'
   ];
 
   dataSource: any;

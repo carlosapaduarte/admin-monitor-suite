@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipList } from '@angular/material';
 import * as _ from 'lodash';
 
 import { CreateService } from '../../services/create.service';
@@ -44,6 +45,8 @@ export class PasswordValidation {
 })
 export class EditUserDialogComponent implements OnInit {
 
+  @ViewChild('emailsChipList') emailsChipList: MatChipList;
+
   matcher: ErrorStateMatcher;
 
   loadingInfo: boolean;
@@ -56,6 +59,9 @@ export class EditUserDialogComponent implements OnInit {
   addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
+
+  names: Array<string>;
+  emails: Array<string>;
 
   filteredWebsites: Observable<any[]>;
 
@@ -74,11 +80,9 @@ export class EditUserDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<EditUserDialogComponent>,
     private formBuilder: FormBuilder,
-    private create: CreateService,
     private get: GetService,
     private update: UpdateService,
     private deleteService: DeleteService,
-    private verify: VerifyService,
     private message: MessageService
   ) {
     this.hide = true;
@@ -90,9 +94,11 @@ export class EditUserDialogComponent implements OnInit {
     this.matcher = new MyErrorStateMatcher();
 
     this.userForm = this.formBuilder.group({
-      email: new FormControl({value: '', disabled: true}),
+      username: new FormControl({value: '', disabled: true}),
       password: new FormControl(),
       confirmPassword: new FormControl(),
+      names: new FormControl(),
+      emails: new FormControl(),
       app: new FormControl({value: '', disabled: true}),
       websites: new FormControl()
     },
@@ -104,16 +110,19 @@ export class EditUserDialogComponent implements OnInit {
     this.loadingWebsites = true;
     this.loadingUpdate = false;
 
+    this.names = [];
+    this.emails = [];
     this.selectedWebsites = [];
   }
 
   ngOnInit(): void {
-
     this.get.userInfo(this.data.id)
       .subscribe(user => {
         if (user !== null) {
           this.defaultUser = _.cloneDeep(user);
-          this.userForm.controls.email.setValue(user.Email);
+          this.userForm.controls.username.setValue(user.Username);
+          this.names = _.split(user.Names, ';');
+          this.emails = _.split(user.Emails, ';');
 
           if (user.Type === 'monitor') {
             this.userForm.controls.app.setValue('My Monitor');
@@ -138,11 +147,16 @@ export class EditUserDialogComponent implements OnInit {
 
         this.loadingInfo = false;
       });
+
+    this.userForm.get('emails').statusChanges.subscribe(status =>
+     this.emailsChipList.errorState = status === 'INVALID' ? true : false);
   }
 
   setDefault(): void {
     this.userForm.controls.password.reset();
     this.userForm.controls.confirmPassword.reset();
+    this.names = _.split(this.defaultUser.Names, ';');
+    this.emails = _.split(this.defaultUser.Emails, ';');
     this.selectedWebsites = _.clone(this.defaultUser.websites);
   }
 
@@ -162,6 +176,9 @@ export class EditUserDialogComponent implements OnInit {
     const password = this.userForm.value.password;
     const confirmPassword = this.userForm.value.confirmPassword;
 
+    const names = _.join(this.names, ';');
+    const emails = _.join(this.emails, ';');
+
     const defaultWebsites = JSON.stringify(_.map(this.defaultUser.websites, 'WebsiteId'));
     const websites = JSON.stringify(_.map(this.selectedWebsites, 'WebsiteId'));
 
@@ -169,6 +186,8 @@ export class EditUserDialogComponent implements OnInit {
       userId: this.data.id,
       password,
       confirmPassword,
+      names,
+      emails,
       app: this.defaultUser.Type,
       defaultWebsites,
       websites
@@ -185,6 +204,53 @@ export class EditUserDialogComponent implements OnInit {
 
         this.loadingUpdate = false;
       });
+  }
+
+  addName(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.names.push(_.trim(value));
+    }
+
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeName(name: string): void {
+    const index = this.names.indexOf(name);
+
+    if (index >= 0) {
+      this.names.splice(index, 1);
+    }
+  }
+
+  addEmail(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      if (!this.isEmailInvalid(value)) {
+        this.emails.push(_.trim(value));
+
+        if (input) {
+          input.value = '';
+        }
+        this.userForm.controls.emails.setErrors(null);
+      } else {
+        this.userForm.controls.emails.setErrors({'emailError': value});
+      }
+    }
+  }
+
+  removeEmail(email: string): void {
+    const index = this.emails.indexOf(email);
+
+    if (index >= 0) {
+      this.emails.splice(index, 1);
+    }
   }
 
   removeWebsite(website: any): void {
@@ -207,5 +273,32 @@ export class EditUserDialogComponent implements OnInit {
       this.websiteInput.nativeElement.value = '';
       this.userForm.controls.websites.setValue(null);
     }
+  }
+
+  isEmailInvalid(email: string): boolean {
+    let error = false;
+
+    if (email !== '') {
+      if (_.includes(email, '@')) {
+        let split = _.split(email, '@');
+        if (split[0] !== '' && split[1] !== '' && _.size(split) === 2) {
+          if (_.includes(split[1], '.')) {
+            split = _.split(split[1], '.');
+
+            if (split[0] === '' || split[1] === '' || _.size(split) !== 2) {
+              error = true;
+            }
+          } else {
+            error = true;
+          }
+        } else {
+          error = true;
+        }
+      } else {
+        error = true;
+      }
+    }
+
+    return error;
   }
 }

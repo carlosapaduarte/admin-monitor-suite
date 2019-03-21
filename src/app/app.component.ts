@@ -1,7 +1,21 @@
-import { OnInit, OnDestroy, Component, Injectable, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { merge, Subscription } from 'rxjs';
+import {
+  OnInit,
+  OnDestroy,
+  Component,
+  Injectable,
+  ElementRef,
+  HostListener
+} from '@angular/core';
+import {
+  TranslateService
+} from '@ngx-translate/core';
+import {
+  Router,
+  NavigationEnd
+} from '@angular/router';
+import {
+  Subscription
+} from 'rxjs';
 import * as _ from 'lodash';
 
 @Injectable()
@@ -10,9 +24,7 @@ import * as _ from 'lodash';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  @ViewChild('scrollRef') scrollRef: any;
+export class AppComponent implements OnInit, OnDestroy {
 
   selectedLang: string;
   langs: {} = {
@@ -60,22 +72,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.sub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.scrollRef.directiveRef.scrollToTop();
+        document.getElementById('main').scrollIntoView();
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    merge(this.scrollRef.directiveRef.PS_SCROLL_DOWN, this.scrollRef.directiveRef.PS_SCROLL_UP)
-      .subscribe(() => {
-        const y = this.scrollRef.directiveRef.geometry().y;
-
-        if (y > 300) {
-          this.showGoToTop = true;
-        } else {
-          this.showGoToTop = false;
-        }
-      });
   }
 
   ngOnDestroy(): void {
@@ -98,6 +97,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goToTop(): void {
-    this.scrollRef.directiveRef.scrollToTop(0, 250);
+    document.getElementById('main').scrollIntoView();
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(e): void {
+    if (document.documentElement.scrollTop > 300) {
+      this.showGoToTop = true;
+    } else {
+      this.showGoToTop = false;
+    }
   }
 }

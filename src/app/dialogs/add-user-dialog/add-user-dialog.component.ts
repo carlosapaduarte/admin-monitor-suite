@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipList } from '@angular/material';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
@@ -44,6 +45,8 @@ export class PasswordValidation {
 })
 export class AddUserDialogComponent implements OnInit {
 
+  @ViewChild('emailsChipList') emailsChipList: MatChipList;
+
   loadingCreate: boolean;
   loadingWebsites: boolean;
 
@@ -55,6 +58,9 @@ export class AddUserDialogComponent implements OnInit {
   addOnBlur = false;
 
   separatorKeysCodes = [ENTER, COMMA];
+
+  names: Array<string>;
+  emails: Array<string>;
 
   filteredWebsites: Observable<any[]>;
 
@@ -84,10 +90,11 @@ export class AddUserDialogComponent implements OnInit {
     this.matcher = new MyErrorStateMatcher();
 
     this.userForm = this.formBuilder.group({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ], this.emailValidator.bind(this)),
+      username: new FormControl('', [
+        Validators.required
+      ], this.usernameValidator.bind(this)),
+      names: new FormControl(),
+      emails: new FormControl(),
       password: new FormControl('', [
         Validators.required
       ]),
@@ -103,6 +110,8 @@ export class AddUserDialogComponent implements OnInit {
       validator: PasswordValidation.MatchPassword
     });
 
+    this.names = [];
+    this.emails = [];
     this.selectedWebsites = [];
   }
 
@@ -118,6 +127,9 @@ export class AddUserDialogComponent implements OnInit {
 
         this.loadingWebsites = false;
       });
+
+    this.userForm.get('emails').statusChanges.subscribe(status =>
+     this.emailsChipList.errorState = status === 'INVALID' ? true : false);
   }
 
   changeApp(): void {
@@ -132,21 +144,27 @@ export class AddUserDialogComponent implements OnInit {
   resetForm(): void {
     this.userForm.reset();
     this.selectedWebsites = [];
+    this.emails = [];
+    this.names = [];
   }
 
   createUser(e): void {
     e.preventDefault();
 
-    const email = this.userForm.value.email;
+    const username = this.userForm.value.username;
     const password = this.userForm.value.password;
     const confirmPassword = this.userForm.value.confirmPassword;
+    const names = _.join(this.names, ';');
+    const emails = _.join(this.emails, ';');
     const app = this.userForm.value.app;
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
 
     const formData = {
-      email,
+      username,
       password,
       confirmPassword,
+      names,
+      emails,
       app,
       websites: JSON.stringify(websites)
     };
@@ -173,6 +191,53 @@ export class AddUserDialogComponent implements OnInit {
       });
   }
 
+  addName(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.names.push(_.trim(value));
+    }
+
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeName(name: string): void {
+    const index = this.names.indexOf(name);
+
+    if (index >= 0) {
+      this.names.splice(index, 1);
+    }
+  }
+
+  addEmail(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      if (!this.isEmailInvalid(value)) {
+        this.emails.push(_.trim(value));
+
+        if (input) {
+          input.value = '';
+        }
+        this.userForm.controls.emails.setErrors(null);
+      } else {
+        this.userForm.controls.emails.setErrors({'emailError': value});
+      }
+    }
+  }
+
+  removeEmail(email: string): void {
+    const index = this.emails.indexOf(email);
+
+    if (index >= 0) {
+      this.emails.splice(index, 1);
+    }
+  }
+
   removeWebsite(website: any): void {
     const index = _.findIndex(this.selectedWebsites, website);
 
@@ -195,13 +260,40 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
-  emailValidator(control: AbstractControl): Observable<any> {
-    const email = _.trim(control.value);
+  usernameValidator(control: AbstractControl): Observable<any> {
+    const username = _.trim(control.value);
 
-    if (email !== '') {
-      return this.verify.userExists(email);
+    if (username !== '') {
+      return this.verify.userExists(username);
     } else {
       return null;
     }
+  }
+
+  isEmailInvalid(email: string): boolean {
+    let error = false;
+
+    if (email !== '') {
+      if (_.includes(email, '@')) {
+        let split = _.split(email, '@');
+        if (split[0] !== '' && split[1] !== '' && _.size(split) === 2) {
+          if (_.includes(split[1], '.')) {
+            split = _.split(split[1], '.');
+
+            if (split[0] === '' || split[1] === '' || _.size(split) !== 2) {
+              error = true;
+            }
+          } else {
+            error = true;
+          }
+        } else {
+          error = true;
+        }
+      } else {
+        error = true;
+      }
+    }
+
+    return error;
   }
 }

@@ -69,11 +69,11 @@
             <div class="add-user-block" *ngIf="!loadingUsers" fxLayout="row" fxFlex="45">
               <mat-form-field fxFlex>
                 <label for="website_user_input">{{ "WEBSITES_PAGE.UPDATE.user_label" | translate }}</label>
-                <input id="website_user_input" type="text" aria-label="Utilizador Email" matInput formControlName="user"
+                <input id="website_user_input" type="text" aria-label="Utilizador" matInput formControlName="user"
                   [matAutocomplete]="auto2" [errorStateMatcher]="matcher">
                 <mat-autocomplete #auto2="matAutocomplete">
-                  <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Email">
-                    {{ user.Email }}
+                  <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Username">
+                    {{ user.Username }}
                   </mat-option>
                 </mat-autocomplete>
                 <button type="button" *ngIf="websiteForm.value.user" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.user.reset()">

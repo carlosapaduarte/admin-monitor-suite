@@ -38,7 +38,9 @@
           {{ "ENTITIES_PAGE.LIST.table.long_name_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex>
-          <strong>{{element.Long_Name}}</strong>
+          <a [routerLink]="['/console', 'entity', element.Long_Name]">
+            <strong>{{element.Long_Name}}</strong>
+          </a>
         </mat-cell>
       </ng-container>
 
@@ -67,14 +69,14 @@
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="see">
+      <!--<ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'ENTITIES_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'entity', element.Long_Name]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
