@@ -224,7 +224,6 @@ export class AddPageDialogComponent implements OnInit {
             this.dialogRef.close();
           }
         }
-
         this.loadingCreate = false;
       });
   }

@@ -622,6 +622,11 @@
       "success": "Foram encontradas {{value}} páginas!",
       "failed": "Aconteceu um erro!"
     },
+    "RESULT_LIST": {
+      "uri_label": "Páginas",
+      "cancel": "Cancelar",
+      "submit": "Adicionar"
+    },
     "reset": "Limpar",
     "submit": "Procurar"
   },

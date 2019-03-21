@@ -1,10 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {CrawlerService} from '../../services/crawler.service';
 import {MessageService} from '../../services/message.service';
+import {ChooseObservatoryPagesDialogComponent} from '../choose-observatory-pages-dialog/choose-observatory-pages-dialog.component';
+import {CreateService} from '../../services/create.service';
+import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-crawler-dialog',
@@ -29,22 +33,26 @@ export class CrawlerDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
+    private create: CreateService,
     private crawl: CrawlerService,
     private msg: MessageService,
+    private dialog: MatDialog,
+    private router: Router,
+    private location: Location,
     private dialogRef: MatDialogRef<CrawlerDialogComponent>
   ) {
     this.url = data.url;
     this.domainId = data.domainId;
     this.pageForm = this.formBuilder.group({
-        maxDepth: new FormControl('1', [
-          Validators.pattern('^[0-9]*[1-9][0-9]*$'),
-          Validators.required
-        ]),
-        maxPages: new FormControl('0', [
-          Validators.pattern('^[0-9]*$'),
-          Validators.required
-        ]),
-      });
+      maxDepth: new FormControl('1', [
+        Validators.pattern('^[0-9]*[1-9][0-9]*$'),
+        Validators.required
+      ]),
+      maxPages: new FormControl('0', [
+        Validators.pattern('^[0-9]*$'),
+        Validators.required
+      ]),
+    });
     this.loadingResponse = false;
     this.error = false;
   }
@@ -63,8 +71,20 @@ export class CrawlerDialogComponent implements OnInit {
     this.crawl.callCrawler(this.url, this.domainId, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
       .subscribe(response => {
         if (response > 0) {
-          // TODO verificar se estah bem
-          this.msg.show( 'CRAWLER.MESSAGE.success', 5000, null, { value: response });
+          const chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
+            width: '60vw',
+            data: {
+              // TODO fix this
+              uris: JSON.parse(response.toLocaleString())
+            }
+          });
+          chooseDialog.afterClosed().subscribe(result => {
+            if (!result.cancel) {
+              this.addPages(this.domainId, result.uris);
+              // TODO verificar se estah bem
+              this.msg.show('CRAWLER.MESSAGE.success', 3000, null, {value: response});
+            }
+          });
         } else {
           this.error = true;
         }
@@ -77,5 +97,27 @@ export class CrawlerDialogComponent implements OnInit {
     this.error = false;
     this.pageForm.controls.maxDepth.setValue('1');
     this.pageForm.controls.maxPages.setValue('0');
+  }
+
+  private addPages(domainId: number, uris: any): void {
+    const formData = {
+      domainId,
+      uris
+    };
+
+    this.create.newPages(formData)
+      .subscribe(success => {
+        if (success !== null) {
+          if (success) {
+            this.msg.show('PAGES_PAGE.ADD.messages.success');
+            if (this.location.path() !== '/console/pages') {
+              this.router.navigateByUrl('/console/pages');
+            } else {
+              window.location.reload();
+            }
+            this.dialogRef.close();
+          }
+        }
+      });
   }
 }

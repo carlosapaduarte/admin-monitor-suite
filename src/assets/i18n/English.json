@@ -621,7 +621,14 @@
     "MESSAGE": {
       "success": "Found {{value}} pages!",
       "failed": "Unexpected error!"
-    }
+    },
+    "RESULT_LIST": {
+      "uri_label": "Pages",
+      "cancel": "Cancel",
+      "submit": "Submit"
+    },
+    "reset": "Reset",
+    "submit": "Search"
   },
   "FOOTER": {
     "language": "Language",
