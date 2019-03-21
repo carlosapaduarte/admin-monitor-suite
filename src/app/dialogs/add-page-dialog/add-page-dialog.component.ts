@@ -152,11 +152,13 @@ export class AddPageDialogComponent implements OnInit {
 
   resetForm(): void {
     this.fileErrorMessage = '';
+    this.urisFromFile = [];
     this.pageForm.reset();
   }
 
   resetFile(): void {
     this.fileErrorMessage = '';
+    this.urisFromFile = [];
     this.pageForm.controls.files.reset();
   }
 
@@ -166,7 +168,8 @@ export class AddPageDialogComponent implements OnInit {
     const domainId = _.find(this.domains, ['Url', this.pageForm.value.domain]).DomainId;
 
     this.pageForm.value.uris = this.pageForm.value.uris === null ? '' : this.pageForm.value.uris;
-    const urisWithFileUris = this.urisFromFile.join('\n') + this.pageForm.value.uris;
+    const urisWithFileUris = this.urisFromFile !== undefined ?
+      this.urisFromFile.join('\n') + '\n' + this.pageForm.value.uris : this.pageForm.value.uris;
 
     const uris = JSON.stringify(_.without(_.uniq(_.map(_.split(urisWithFileUris, '\n'), p => {
       p = _.replace(p, 'http://', '');
@@ -244,6 +247,8 @@ export class AddPageDialogComponent implements OnInit {
     const fileToRead = files.item(0);
 
     if (fileToRead === null) {
+      this.fileErrorMessage = '';
+      this.urisFromFile = [];
       this.pageForm.controls.files.reset();
       return;
     }

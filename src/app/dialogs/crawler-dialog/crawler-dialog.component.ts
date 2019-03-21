@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatTableDataSource} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -30,16 +30,19 @@ export class CrawlerDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private crawl: CrawlerService,
-    private msg: MessageService
+    private msg: MessageService,
+    private dialogRef: MatDialogRef<CrawlerDialogComponent>
   ) {
     this.url = data.url;
     this.domainId = data.domainId;
     this.pageForm = this.formBuilder.group({
         maxDepth: new FormControl('1', [
-          Validators.pattern('^[0-9]*[1-9][0-9]*$')
+          Validators.pattern('^[0-9]*[1-9][0-9]*$'),
+          Validators.required
         ]),
         maxPages: new FormControl('0', [
-          Validators.pattern('^[0-9]*$')
+          Validators.pattern('^[0-9]*$'),
+          Validators.required
         ]),
       });
     this.loadingResponse = false;
@@ -54,8 +57,10 @@ export class CrawlerDialogComponent implements OnInit {
   }
 
   executeCrawler() {
+    this.error = false;
     this.loadingResponse = true;
-    this.crawl.callCrawler(this.url, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
+    this.dialogRef.disableClose = true;
+    this.crawl.callCrawler(this.url, this.domainId, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
       .subscribe(response => {
         if (response > 0) {
           // TODO verificar se estah bem
@@ -63,12 +68,14 @@ export class CrawlerDialogComponent implements OnInit {
         } else {
           this.error = true;
         }
+        this.dialogRef.disableClose = false;
         this.loadingResponse = false;
       });
   }
 
   resetForm() {
     this.error = false;
-    this.pageForm.reset();
+    this.pageForm.controls.maxDepth.setValue('1');
+    this.pageForm.controls.maxPages.setValue('0');
   }
 }

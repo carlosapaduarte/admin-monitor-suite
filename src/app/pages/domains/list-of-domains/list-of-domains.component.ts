@@ -25,7 +25,7 @@ export class ListOfDomainsComponent implements OnInit {
     'Start_Date',
     'End_Date',
     'delete',
-    //'see'
+    'see'
   ];
 
   dataSource: any;

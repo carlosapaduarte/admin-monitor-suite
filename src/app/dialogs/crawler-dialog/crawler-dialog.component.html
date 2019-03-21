@@ -8,6 +8,7 @@
         <input matInput formControlName="maxDepth" autocomplete="off">
         <mat-icon matSuffix *ngIf="pageForm.value.maxDepth" (click)="pageForm.controls.maxDepth.reset()">close
         </mat-icon>
+        <mat-error *ngIf="pageForm.controls.maxDepth.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="pageForm.controls.maxDepth.hasError('pattern')">
           {{"CRAWLER.error1" | translate}}
         </mat-error>
@@ -21,6 +22,7 @@
         <input matInput formControlName="maxPages" autocomplete="off">
         <mat-icon matSuffix *ngIf="pageForm.value.maxPages" (click)="pageForm.controls.maxPages.reset()">close
         </mat-icon>
+        <mat-error *ngIf="pageForm.controls.maxPages.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="pageForm.controls.maxPages.hasError('pattern')">
           {{"CRAWLER.error2" | translate}}
         </mat-error>
@@ -40,9 +42,11 @@
     <span fxFlex></span>
     <mat-error *ngIf="error">{{ "CRAWLER.MESSAGE.failed" | translate }}</mat-error>
     <button mat-raised-button color="primary" type="submit" *ngIf="!loadingResponse"
-            [disabled]="pageForm.controls.maxDepth.hasError('pattern') || pageForm.controls.maxPages.hasError('pattern')">
+            [disabled]="pageForm.controls.maxDepth.hasError('pattern') || pageForm.controls.maxPages.hasError('pattern') ||
+                        pageForm.controls.maxDepth.hasError('required') || pageForm.controls.maxPages.hasError('required')">
       {{ "CRAWLER.submit" | translate }}
     </button>
+    <!-- TODO fazer botao de 'cancelar procura' para poder fechar janelinha-->
     <mat-spinner *ngIf="loadingResponse" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 
