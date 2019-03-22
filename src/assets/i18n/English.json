@@ -619,7 +619,8 @@
       "pages": "Type 0 to search for all pages"
     },
     "MESSAGE": {
-      "success": "Found {{value}} pages!",
+      "success": "Pages added successfully!",
+      "no_pages": "No pages were found!",
       "failed": "Unexpected error!"
     },
     "RESULT_LIST": {

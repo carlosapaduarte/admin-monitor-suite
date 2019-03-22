@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{ "CRAWLER.title" | translate }}<b>{{url}}</b></h1>
 <form (submit)="executeCrawler()" [formGroup]="pageForm" novalidate>
-  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+  <mat-dialog-content>
     <div class="max-depth-input" fxLayout="column">
       <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.depth' | translate}}">
         <label>{{ "CRAWLER.PARAMETERS.depth" | translate }}</label>
@@ -15,7 +15,7 @@
       </mat-form-field>
     </div>
 
-    <div class="max-pages-input" fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="max-pages-input" fxLayout="column">
       <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.pages' | translate}}">
         <label>{{"CRAWLER.PARAMETERS.pages" | translate}}</label>
         <mat-label></mat-label>

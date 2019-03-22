@@ -218,7 +218,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddPagesErrorsDialogComponent,
     ScoreDistributionDialogComponent,
     ErrorDistributionDialogComponent,
-    CrawlerDialogComponent
+    CrawlerDialogComponent,
+    AddCrawlerPagesDialogComponent
   ],
   providers: [
     AdminAuthGuard,

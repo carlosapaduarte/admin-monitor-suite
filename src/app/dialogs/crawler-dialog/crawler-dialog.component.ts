@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {CrawlerService} from '../../services/crawler.service';
 import {MessageService} from '../../services/message.service';
@@ -9,6 +9,7 @@ import {CreateService} from '../../services/create.service';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {AddCrawlerPagesDialogComponent} from '../add-crawler-pages-dialog/add-crawler-pages-dialog.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-crawler-dialog',
@@ -17,7 +18,6 @@ import {AddCrawlerPagesDialogComponent} from '../add-crawler-pages-dialog/add-cr
 })
 export class CrawlerDialogComponent implements OnInit {
 
-  error: boolean;
   loadingResponse: boolean;
   separatorKeysCodes = [ENTER, COMMA];
   visible = true;
@@ -54,7 +54,6 @@ export class CrawlerDialogComponent implements OnInit {
       ]),
     });
     this.loadingResponse = false;
-    this.error = false;
   }
 
   ngOnInit() {
@@ -65,28 +64,43 @@ export class CrawlerDialogComponent implements OnInit {
   }
 
   executeCrawler() {
-    this.error = false;
     this.loadingResponse = true;
     this.dialogRef.disableClose = true;
-    this.crawl.callCrawler(this.url, this.domainId, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
+    this.crawl.callCrawler(this.url, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
       .subscribe(response => {
-        if (response > 0) {
+        if (response.length > 0) {
+
+          // JSON stringify of result array to string
+          const uris = JSON.stringify(_.without(_.uniq(_.map(response, p => {
+            p = _.replace(p, 'http://', '');
+            p = _.replace(p, 'https://', '');
+            p = _.replace(p, 'www.', '');
+
+            if (p[_.size(p) - 1] === '/') {
+              p = p.substring(0, _.size(p) - 1);
+            }
+
+            return _.trim(p);
+          })), ''));
+
           const chooseDialog = this.dialog.open(AddCrawlerPagesDialogComponent, {
             width: '40vw',
             data: {
-              // TODO fix this
-              uris: JSON.parse(response.toLocaleString())
+              uris: JSON.parse(uris),
+              domain: this.url,
+              domainId: this.domainId
             }
           });
           chooseDialog.afterClosed().subscribe(result => {
             if (!result.cancel) {
-              this.addPages(this.domainId, result.uris);
-              // TODO verificar se estah bem
-              this.msg.show('CRAWLER.MESSAGE.success', 3000, null, {value: response});
+              this.addPages(this.domainId, result.uris, JSON.stringify([]));
             }
           });
+          this.dialogRef.close();
+        } else if (response.length === 0) {
+          this.msg.show('CRAWLER.MESSAGE.no_pages');
         } else {
-          this.error = true;
+          this.msg.show('CRAWLER.MESSAGE.failed', 7000);
         }
         this.dialogRef.disableClose = false;
         this.loadingResponse = false;
@@ -94,22 +108,22 @@ export class CrawlerDialogComponent implements OnInit {
   }
 
   resetForm() {
-    this.error = false;
     this.pageForm.controls.maxDepth.setValue('1');
     this.pageForm.controls.maxPages.setValue('0');
   }
 
-  private addPages(domainId: number, uris: any): void {
+  private addPages(domainId: number, uris: any, observatorio: any): void {
     const formData = {
       domainId,
-      uris
+      uris,
+      observatorio
     };
 
     this.create.newPages(formData)
       .subscribe(success => {
         if (success !== null) {
           if (success) {
-            this.msg.show('PAGES_PAGE.ADD.messages.success');
+            this.msg.show('CRAWLER.MESSAGE.success');
             if (this.location.path() !== '/console/pages') {
               this.router.navigateByUrl('/console/pages');
             } else {

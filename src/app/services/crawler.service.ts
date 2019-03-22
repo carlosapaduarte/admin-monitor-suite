@@ -20,8 +20,8 @@ export class CrawlerService {
     private config: ConfigService
   ) { }
 
-  callCrawler(domain: string, domain_id: number, max_depth: number, max_pages: number): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/page/crawler'), {domain, domain_id, max_depth, max_pages}).pipe(
+  callCrawler(domain: string, max_depth: number, max_pages: number): Observable<string[]> {
+    return ajax.post(this.config.getServer('/admin/page/crawler'), {domain, max_depth, max_pages}).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -34,7 +34,7 @@ export class CrawlerService {
           throw new AdminError(response.success, response.message);
         }
 
-        return <boolean> response.result;
+        return <string[]> response.result;
       }),
       catchError(err => {
         console.log(err);

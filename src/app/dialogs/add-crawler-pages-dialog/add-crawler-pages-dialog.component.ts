@@ -1,8 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as _ from 'lodash';
+import {CrawlerService} from '../../services/crawler.service';
+import {CrawlerDialogComponent} from '../crawler-dialog/crawler-dialog.component';
 
 @Component({
   selector: 'app-add-crawler-pages-dialog',
@@ -20,10 +22,16 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   selection: any;
 
+  domain: string;
+  domainId: number;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<AddCrawlerPagesDialogComponent>
+    private dialogRef: MatDialogRef<AddCrawlerPagesDialogComponent>,
+    private dialog: MatDialog
   ) {
+    this.domain = this.data.domain;
+    this.domainId = this.data.domainId;
     this.dataSource = new MatTableDataSource(_.map(this.data.uris, u => ( { Uri: u } )));
     this.selection = new SelectionModel<any>(true, []);
     this.dialogRef.disableClose = true;
@@ -53,5 +61,18 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  openCrawlerDialog(e){
+    e.preventDefault();
+
+    const url = this.domain;
+    const domainId = this.domainId;
+    this.dialog.open(CrawlerDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true,
+      data: {url, domainId}
+    });
   }
 }

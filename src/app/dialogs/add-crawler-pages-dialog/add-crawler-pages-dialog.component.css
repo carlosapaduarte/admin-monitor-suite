@@ -5,3 +5,7 @@
   padding-left: 10%;
   flex: 0 0 20%;
 }
+
+.mat-checkbox label{
+  margin: 0 !important;
+}
