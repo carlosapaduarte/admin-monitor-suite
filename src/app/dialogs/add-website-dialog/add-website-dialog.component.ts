@@ -192,7 +192,7 @@ export class AddWebsiteDialogComponent implements OnInit {
   }
 
   selectedTag(event: MatAutocompleteSelectedEvent): void {
-    const index = _.findIndex(this.tags, t => t.Name === event.option.viewValue);
+    const index = _.findIndex(this.tags, t => t['Name'] === event.option.viewValue);
     if (!_.includes(this.selectedTags, this.tags[index])) {
       this.selectedTags.push(this.tags[index]);
       this.tagInput.nativeElement.value = '';

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { GetService } from '../../services/get.service';
 import { MessageService } from '../../services/message.service';
@@ -17,7 +17,7 @@ export class WebsitesComponent implements OnInit {
 
   constructor(
     private get: GetService,
-    private message: MessageService
+    private cd: ChangeDetectorRef
   ) {
     this.loading = true;
     this.error = false;
@@ -42,6 +42,7 @@ export class WebsitesComponent implements OnInit {
         }
 
         this.loading = false;
+        this.cd.detectChanges();
       });
   }
 }

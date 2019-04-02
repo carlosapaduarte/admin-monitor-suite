@@ -1,15 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { A11yModule } from '@angular/cdk/a11y';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ObserversModule } from '@angular/cdk/observers';
 import { NgxGaugeModule } from 'ngx-gauge';
-import { HighlightModule } from 'ngx-highlightjs';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -172,10 +172,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserModule,
     NoopAnimationsModule,
-    BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
     HttpClientModule,
+    A11yModule,
     FormsModule,
     ReactiveFormsModule,
     ObserversModule,
@@ -190,8 +190,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    NgxGaugeModule,
-    HighlightModule.forRoot()
+    NgxGaugeModule
   ],
   entryComponents: [
     UserAuthErrorDialogComponent,

@@ -146,7 +146,7 @@ export class AddEntityDialogComponent implements OnInit {
   }
 
   selectedWebsite(event: MatAutocompleteSelectedEvent): void {
-    const index = _.findIndex(this.websites, w => w.Name === event.option.viewValue);
+    const index = _.findIndex(this.websites, w => w['Name'] === event.option.viewValue);
     if (!_.includes(this.selectedWebsites, this.websites[index])) {
       this.selectedWebsites.push(this.websites[index]);
       this.websiteInput.nativeElement.value = '';

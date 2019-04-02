@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { GetService } from '../../services/get.service';
-import { MessageService } from '../../services/message.service';
-
 @Component({
   selector: 'app-entities',
   templateUrl: './entities.component.html',
@@ -10,18 +7,9 @@ import { MessageService } from '../../services/message.service';
 })
 export class EntitiesComponent implements OnInit {
 
-  loading: boolean;
-  error: boolean;
-
   entities: Array<any>;
 
-  constructor(
-    private get: GetService,
-    private message: MessageService
-  ) {
-    this.loading = true;
-    this.error = false;
-  }
+  constructor() { }
 
   ngOnInit() {
 

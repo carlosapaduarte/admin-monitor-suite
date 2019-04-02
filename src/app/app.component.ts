@@ -4,7 +4,8 @@ import {
   Component,
   Injectable,
   ElementRef,
-  HostListener
+  HostListener,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   TranslateService
@@ -22,7 +23,8 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
 

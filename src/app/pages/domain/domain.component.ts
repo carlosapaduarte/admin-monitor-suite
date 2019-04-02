@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
@@ -27,7 +27,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private get: GetService,
     private deleteService: DeleteService,
-    private message: MessageService
+    private cd: ChangeDetectorRef
   ) {
     this.loading = true;
     this.error = false;
@@ -56,6 +56,7 @@ export class DomainComponent implements OnInit, OnDestroy {
         }
 
         this.loading = false;
+        this.cd.detectChanges();
       });
   }
 

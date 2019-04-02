@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
@@ -28,7 +28,8 @@ export class WebsiteComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private get: GetService,
     private deleteService: DeleteService,
-    private message: MessageService
+    private message: MessageService,
+    private cd: ChangeDetectorRef
   ) {
     this.loading = true;
     this.error = false;
@@ -52,12 +53,13 @@ export class WebsiteComponent implements OnInit, OnDestroy {
       .subscribe(domains => {
         if (domains !== null) {
           this.domains = domains;
-          this.activeDomain = _.find(this.domains, { 'Active': 1 }).Url;
+          this.activeDomain = _.find(this.domains, ['Active', 1]).Url;
         } else {
           this.error = true;
         }
 
         this.loading = false;
+        this.cd.detectChanges();
       });
   }
 

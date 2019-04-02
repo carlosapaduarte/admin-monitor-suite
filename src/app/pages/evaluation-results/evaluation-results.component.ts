@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -30,7 +30,8 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
   constructor(
     private evaluation: EvaluationService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private cd: ChangeDetectorRef
   ) {
 
     this.thresholdConfig = {
@@ -77,6 +78,7 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
           }
 
           this.loading = false;
+          this.cd.detectChanges();
         });
     });
   }

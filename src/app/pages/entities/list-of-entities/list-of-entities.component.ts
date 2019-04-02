@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
@@ -38,7 +38,7 @@ export class ListOfEntitiesComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private get: GetService,
-    private message: MessageService
+    private cd: ChangeDetectorRef
   ) {
     this.loading = true;
     this.error = false;
@@ -60,6 +60,7 @@ export class ListOfEntitiesComponent implements OnInit {
         }
 
         this.loading = false;
+        this.cd.detectChanges();
       });
   }
 
