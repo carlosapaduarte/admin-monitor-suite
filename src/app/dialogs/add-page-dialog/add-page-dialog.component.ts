@@ -156,11 +156,13 @@ export class AddPageDialogComponent implements OnInit {
 
   resetForm(): void {
     this.fileErrorMessage = '';
+    this.urisFromFile = [];
     this.pageForm.reset();
   }
 
   resetFile(): void {
     this.fileErrorMessage = '';
+    this.urisFromFile = [];
     this.pageForm.controls.files.reset();
   }
 
@@ -188,7 +190,7 @@ export class AddPageDialogComponent implements OnInit {
 
     if (this.pageForm.value.observatorio) {
       const chooseDialog = this.dialog.open(ChooseObservatoryPagesDialogComponent, {
-        width: '60vw',
+        width: '40vw',
         data: {
           uris: JSON.parse(uris)
         }
@@ -228,7 +230,6 @@ export class AddPageDialogComponent implements OnInit {
             this.dialogRef.close();
           }
         }
-
         this.loadingCreate = false;
       });
   }
@@ -252,6 +253,8 @@ export class AddPageDialogComponent implements OnInit {
     const fileToRead = files.item(0);
     this.urisFromFile = [];
     if (fileToRead === null) {
+      this.fileErrorMessage = '';
+      this.urisFromFile = [];
       this.pageForm.controls.files.reset();
       return;
     }

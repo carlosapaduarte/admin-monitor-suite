@@ -45,3 +45,4 @@ testem.log
 Thumbs.db
 
 admin.js
+package-lock.json

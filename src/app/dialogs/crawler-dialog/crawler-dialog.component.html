@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>{{ "CRAWLER.title" | translate }}<b>{{url}}</b></h1>
+<form (submit)="executeCrawler()" [formGroup]="pageForm" novalidate>
+  <mat-dialog-content>
+    <div class="max-depth-input" fxLayout="column">
+      <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.depth' | translate}}">
+        <label>{{ "CRAWLER.PARAMETERS.depth" | translate }}</label>
+        <mat-label></mat-label>
+        <input matInput formControlName="maxDepth" type="number" min="0" autocomplete="off">
+        <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.maxDepth" (click)="pageForm.controls.maxDepth.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
+        </button>
+        <mat-error *ngIf="pageForm.controls.maxDepth.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="pageForm.controls.maxDepth.hasError('pattern')">
+          {{"CRAWLER.error1" | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="max-pages-input" fxLayout="column">
+      <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.pages' | translate}}">
+        <label>{{"CRAWLER.PARAMETERS.pages" | translate}}</label>
+        <mat-label></mat-label>
+        <input matInput formControlName="maxPages" type="number" min="0" autocomplete="off">
+        <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.maxPages" (click)="pageForm.controls.maxPages.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
+        </button>
+        <mat-error *ngIf="pageForm.controls.maxPages.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="pageForm.controls.maxPages.hasError('pattern')">
+          {{"CRAWLER.error2" | translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- https://github.com/Kashio/kaiser -->
+    <!-- https://www.npmjs.com/package/simplecrawler-zic -->
+    <!-- https://github.com/simplecrawler/simplecrawler -->
+    <!-- https://material.angular.io/components/form-field/overview -->
+    <!-- <mat-checkbox [disabled]="pageForm.value.maxDepth"  (change)="log(pageForm.value.isMinDepth)" formControlName="isMinDepth">{{"CRAWLER.PARAMETERS.max_depth_checkbox" | translate}}</mat-checkbox> -->
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row">
+    <button mat-raised-button color="warn" type="button" (click)="resetForm()">
+      {{ "CRAWLER.reset" | translate }}
+    </button>
+    <span fxFlex></span>
+    <mat-error *ngIf="error">{{ "CRAWLER.MESSAGE.failed" | translate }}</mat-error>
+    <button mat-raised-button color="primary" type="submit" *ngIf="!loadingResponse"
+            [disabled]="pageForm.controls.maxDepth.hasError('pattern') || pageForm.controls.maxPages.hasError('pattern') ||
+                        pageForm.controls.maxDepth.hasError('required') || pageForm.controls.maxPages.hasError('required')">
+      {{ "CRAWLER.submit" | translate }}
+    </button>
+    <!-- TODO fazer botao de 'cancelar procura' para poder fechar janelinha.. como?-->
+    <mat-spinner *ngIf="loadingResponse" [diameter]="40"></mat-spinner>
+  </mat-dialog-actions>
+
+</form>

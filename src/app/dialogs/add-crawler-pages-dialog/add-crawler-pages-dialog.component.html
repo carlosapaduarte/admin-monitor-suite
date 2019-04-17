@@ -1,4 +1,5 @@
 <h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.choose_observatory.title" | translate }}</h1>
+<!-- TODO CHANGE TITLE -->
 <form (submit)="choosePages($event)" novalidate>
   <mat-dialog-content>
 
@@ -6,7 +7,7 @@
 
       <ng-container matColumnDef="Uri">
         <mat-header-cell *matHeaderCellDef>
-          {{ "PAGES_PAGE.LIST.table.uri_label" | translate }}
+          {{ "CRAWLER.RESULT_LIST.uri_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <strong>{{element.Uri}}</strong>
@@ -15,12 +16,12 @@
 
       <ng-container matColumnDef="select">
         <mat-header-cell *matHeaderCellDef>
-          <mat-checkbox color="primary" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          <mat-checkbox color="primary" style="margin-bottom: 0" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+          <mat-checkbox color="primary" style="margin-bottom: 0" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
           </mat-checkbox>
         </mat-cell>
       </ng-container>
@@ -30,12 +31,12 @@
     </mat-table>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="warn" [mat-dialog-close]="{ cancel: true }">
-      {{ "WEBSITES_PAGE.UPDATE.observatorio.cancel" | translate }}
+    <button mat-raised-button color="warn" [mat-dialog-close]="{ cancel: true }" (click)="openCrawlerDialog($event)">
+      {{ "CRAWLER.RESULT_LIST.cancel" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="submit">
-      {{ "PAGES_PAGE.ADD.choose_observatory.submit" | translate }}
+    <button mat-raised-button color="primary" type="submit" [disabled]="this.selection.selected.length === 0">
+      {{ "CRAWLER.RESULT_LIST.submit" | translate }}
     </button>
   </mat-dialog-actions>
 </form>
