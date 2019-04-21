@@ -55,6 +55,7 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'Import':
+          //TODO fix this
           return _.includes(['both'], item['Import']);
 
         default:
