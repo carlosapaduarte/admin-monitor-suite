@@ -1,0 +1,71 @@
+<mat-card class="mat-typography">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>{{ "PAGES_PAGE.LIST.title" | translate }}</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h2>{{ "PAGES_PAGE.LIST.subtitle" | translate }}</h2>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="table-filter">
+      <mat-form-field appearance="outline">
+        <mat-label>
+          {{ "MISC.filter" | translate }}
+        </mat-label>
+        <input id="pages_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+        <!-- (click)="this.parent.getElementById('odfFile').click()" -->
+      </mat-form-field>
+
+    </div>
+    <mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="Uri">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
+          {{ "PAGES_PAGE.LIST.table.uri_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex>
+          <a [routerLink]="['/console', 'page', element.Uri]">
+            <strong>{{element.Uri}}</strong>
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Score">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
+          {{ "PAGES_PAGE.LIST.table.score_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          {{element.Score}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Evaluation_Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
+          {{ "PAGES_PAGE.LIST.table.last_updated_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          {{element.Evaluation_Date | date}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Import">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
+          Importar <!-- TODO i18n -->
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          <mat-checkbox (change)="setPageinAMS($event, element)"
+                        [checked]="isAdminPage(element.Show_In)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]"
+                   showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>
