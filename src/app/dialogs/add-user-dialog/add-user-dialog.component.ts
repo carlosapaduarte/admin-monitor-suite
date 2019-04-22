@@ -56,11 +56,13 @@ export class AddUserDialogComponent implements OnInit {
   selectable = false;
   removable = true;
   addOnBlur = false;
+  removeList = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
   names: Array<string>;
   emails: Array<string>;
+  siteTransferList: Array<String>;
 
   filteredWebsites: Observable<any[]>;
 
@@ -246,6 +248,10 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
+  removeTransferList(website: any): void {
+      this.siteTransferList = null;
+  }
+
   filterWebsite(name: string) {
     return this.websites.filter(website =>
         _.includes(website.Name.toLowerCase(), name.toLowerCase()));
@@ -259,6 +265,7 @@ export class AddUserDialogComponent implements OnInit {
       this.userForm.controls.websites.setValue(null);
     }
   }
+
 
   usernameValidator(control: AbstractControl): Observable<any> {
     const username = _.trim(control.value);
