@@ -9,10 +9,10 @@
   </mat-card-header>
   <mat-card-content>
     <div class="table-filter">
-      <mat-form-field>
-        <label for="domain_table_filter">
-          {{ "DOMAINS_PAGE.LIST.table.filter" | translate }}
-        </label>
+      <mat-form-field appearance="outline">
+        <mat-label>
+          {{ "MISC.filter" | translate }}
+        </mat-label>
         <input id="domain_table_filter" matInput (keyup)="applyFilter($event.target.value)">
       </mat-form-field>
     </div>
@@ -104,17 +104,20 @@
         </mat-cell>
       </ng-container>
 
-      <!--<ng-container matColumnDef="see">
-        <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="10">
-          <button *ngIf="element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', element.User, element.Url]">
+      <ng-container matColumnDef="see">
+        <mat-header-cell *matHeaderCellDef fxFlex="8">Crawler</mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="8">
+          <!--<button *ngIf="element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', element.User, element.Url]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
           <button *ngIf="!element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', 'admin', element.Url]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
+          </button> -->
+          <button mat-icon-button matTooltip="{{'DOMAINS_PAGE.LIST.table.add_pages_tooltip' | translate}}" (click)="openCrawlerDialog($event, element.Url, element.DomainId)">
+            <mat-icon class="md-24" aria-label="">pageview</mat-icon>
           </button>
         </mat-cell>
-      </ng-container>-->
+      </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

@@ -18,31 +18,8 @@
         <!-- (click)="this.parent.getElementById('odfFile').click()" -->
       </mat-form-field>
 
-      <span fxFlex></span>
-<!--
-      <mat-error>
-        TODO que erros eh suposto ver aqui? -->
-        <!-- TODO rotating buggering icon
-      </mat-error> -->
-      <div [formGroup]="pagesForm">
-        <button mat-icon-button class="tools" matTooltip="{{ 'RESULTS.actions.add_odf_file' | translate }}"
-                (click)="file.click()">
-          <mat-icon aria-label="'RESULTS.actions.add_odf_file' | translate" style="transform: scale(1.5)">note_add</mat-icon>
-        </button>
-        <input type="file" #file id="odfFile" formControlName="file" accept="application/json" style="display:none" (change)="sendFile()">
-      </div>
-
     </div>
     <mat-table [dataSource]="dataSource" matSort>
-
-      <!--<ng-container matColumnDef="PageId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ "PAGES_PAGE.LIST.table.id_label" | translate }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{element.PageId}}
-        </mat-cell>
-      </ng-container>-->
 
       <ng-container matColumnDef="Uri">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
@@ -73,38 +50,16 @@
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Show_In">
+      <ng-container matColumnDef="Import">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
-          Observatório
+          Importar <!-- TODO i18n -->
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <mat-checkbox (change)="setPageInObservatorio($event, element)"
-                        [checked]="element.Show_In === 'both' || element.Show_In === 'observatorio'">
+          <mat-checkbox (change)="setPageinAMS($event, element)"
+                        [checked]="isAdminPage(element.Show_In)">
           </mat-checkbox>
         </mat-cell>
       </ng-container>
-
-      <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef fxFlex="10">
-          {{ "PAGES_PAGE.LIST.table.delete_label" | translate }}
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="10">
-          <button mat-icon-button matTooltip="{{ 'PAGES_PAGE.LIST.table.delete_tooltip' | translate }}"
-                  (click)="openDeletePageDialog(element.PageId)">
-            <mat-icon class="md-24" aria-label="">clear</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-
-      <!--<ng-container matColumnDef="see">
-        <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="10">
-          <button mat-icon-button matTooltip="{{ 'PAGES_PAGE.LIST.table.see_tooltip' | translate }}"
-                  [routerLink]="['/console', 'page', element.Uri]">
-            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>-->
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

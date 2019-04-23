@@ -116,7 +116,6 @@
       "title": "Users",
       "subtitle": "List of all users from the applications Study Monitor and My Monitor",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "username_label": "Username",
         "app_label": "App",
@@ -185,7 +184,6 @@
       "title": "Tags",
       "subtitle": "List of all tags",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "name_label": "Name",
         "observatorio_label": "Observatory",
@@ -255,7 +253,6 @@
       "title": "Entities",
       "subtitle": "List of all Entities",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "short_name_label": "Short name",
         "long_name_label": "Long name",
@@ -317,7 +314,6 @@
       "title": "Websites",
       "subtitle": "List of all websites",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "name_label": "Name",
         "entity_label": "Entity",
@@ -394,7 +390,6 @@
       "title": "Domains",
       "subtitle": "List of all domains",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "domain_label": "Domain",
         "active_label": "Active",
@@ -404,7 +399,8 @@
         "end_date_label": "End date",
         "delete_label": "Delete",
         "delete_tooltip": "Delete domain",
-        "see_tooltip": "See domain"
+        "see_tooltip": "See domain",
+        "add_pages_tooltip": "Automatically add pages"
       }
     },
     "ADD": {
@@ -446,7 +442,6 @@
       "title": "Pages",
       "subtitle": "List of all pages",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "uri_label": "Uri",
         "score_label": "Score",
@@ -461,7 +456,7 @@
       "domain_label": "Domain",
       "domain_invalid": "Invalid domain",
       "uris_label": "New uris",
-      "uris_invalid": "One of the inserted uri is invalid",
+      "uris_invalid": "One of the inserted uris is invalid",
       "show_in_observatorio": "Show pages in observatory",
       "choose_observatory": {
         "title": "Choose pages for the observatory",
@@ -475,8 +470,13 @@
       },
       "error_dialog": {
         "title": "Errors",
-        "message": "Some errors ocurred while trying to add the following pages:"
-      }
+        "message": "Some errors occurred while trying to add the following pages:"
+      },
+      "add_sitemap": "Add sitemap (.xml or .txt files)",
+      "sitemap_warning": "Sitemaps files need to have the first page equal to website's domain",
+      "sitemap_uris_invalid": "One of the given uris is invalid",
+      "sitemap_type_invalid": "Given file's extension is not .xml or .txt",
+      "file_input": "Choose File"
     },
     "DELETE": {
       "title": "Delete this page",
@@ -500,7 +500,6 @@
       "title": "Evaluations",
       "subtitle": "List of all page evaluations",
       "table": {
-        "filter": "Filter",
         "id_label": "ID",
         "score_label": "Score",
         "a_label": "Nº errors A",
@@ -534,7 +533,8 @@
       "re_evaluate": "Re-evaluate page",
       "download": "Download evaluation results",
       "pagecode": "See page code",
-      "open_webpage": "Open webpage"
+      "open_webpage": "Open webpage",
+      "add_odf_file":  "Add evaluation in Open Format"
     },
     "summary": {
       "title": "Summary",
@@ -561,7 +561,7 @@
       "subtitle": "practices detected, which can be classified by:",
       "grade": "Grade",
       "tabs": {
-        "A": "Excelent",
+        "A": "Excellent",
         "B": "Great",
         "C": "Good",
         "D": "Average",
@@ -606,6 +606,31 @@
       "open_webpage": "Open webpage"
     }
   },
+  "CRAWLER": {
+    "title": "Automatic page search in domain ",
+    "error1": "Only allowed positive integer numbers",
+    "error2": "Only allowed zero and positive integer numbers",
+    "PARAMETERS": {
+      "depth": "Maximum depth",
+      "pages": "Maximum number of pages"
+    },
+    "TOOLTIP": {
+      "depth": "Type 1 to only search for pages directly linked to the homepage",
+      "pages": "Type 0 to search for all pages"
+    },
+    "MESSAGE": {
+      "success": "Pages added successfully!",
+      "no_pages": "No pages were found!",
+      "failed": "Unexpected error!"
+    },
+    "RESULT_LIST": {
+      "uri_label": "Pages",
+      "cancel": "Cancel",
+      "submit": "Submit"
+    },
+    "reset": "Reset",
+    "submit": "Search"
+  },
   "FOOTER": {
     "language": "Language",
     "link": "ACCESS Unit",
@@ -616,12 +641,14 @@
     "English": "English"
   },
   "MISC": {
+    "filter": "Filter",
     "skip_to_main": "Skip to main content",
     "loading": "Loading...",
     "required_field": "This field is <strong>required</strong>",
+    "at_least_one_required": "<strong>Required</strong> to address, at least, one of these fields",
     "message_close": "Close",
     "success": "Success",
-    "unexpected_error": "An unexpected error has ocurred. Please try again later.",
+    "unexpected_error": "An unexpected error has occurred. Please try again later.",
     "error_contact": "If te problem persists, please contact us...",
     "go_to_top": "Go to top",
     "_404": {
@@ -635,8 +662,8 @@
       "button": "Close"
     },
     "messages": {
-      "data_error": "An error has ocurred while trying to retrieve user data",
-      "data_table_error": "An error has ocurred when trying to load the data table"
+      "data_error": "An error has occurred while trying to retrieve user data",
+      "data_table_error": "An error has occurred when trying to load the data table"
     }
   },
   "ELEMS": {

@@ -18,7 +18,7 @@
     }
   },
   "ADMIN_CONSOLE": {
-    "add_button": "Adicinar conteúdo",
+    "add_button": "Adicionar conteúdo",
     "bottom_sheet": {
       "user": {
         "title": "Utilizador",
@@ -116,7 +116,6 @@
       "title": "Utilizadores",
       "subtitle": "Lista de todos os utilizadores das aplicações Study Monitor e My Monitor",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "username_label": "Utilizador",
         "app_label": "Aplicação",
@@ -185,7 +184,6 @@
       "title": "Tags",
       "subtitle": "Lista de todas as Tags",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "name_label": "Nome",
         "observatorio_label": "Observatório",
@@ -255,7 +253,6 @@
       "title": "Entidades",
       "subtitle": "Lista de todas as Entidades",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "short_name_label": "Nome abreviado",
         "long_name_label": "Nome completo",
@@ -317,7 +314,6 @@
       "title": "Websites",
       "subtitle": "Lista de todos os websites",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "name_label": "Nome",
         "entity_label": "Entidade",
@@ -394,7 +390,6 @@
       "title": "Domínios",
       "subtitle": "Lista de todos os domínios",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "domain_label": "Domínio",
         "active_label": "Activo",
@@ -404,7 +399,8 @@
         "end_date_label": "Data de fim",
         "delete_label": "Apagar",
         "delete_tooltip": "Apagar domínio",
-        "see_tooltip": "Ver domínio"
+        "see_tooltip": "Ver domínio",
+        "add_pages_tooltip": "Adicionar páginas automaticamente"
       }
     },
     "ADD": {
@@ -446,7 +442,6 @@
       "title": "Páginas",
       "subtitle": "Lista de todas as páginas",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "uri_label": "Uri",
         "score_label": "Pontuação",
@@ -476,7 +471,12 @@
       "error_dialog": {
         "title": "Erros",
         "message": "Ocorreram alguns erros ao tentar adicionar as seguintes páginas:"
-      }
+      },
+      "add_sitemap": "Adicionar sitemap (ficheiro .xml ou .txt)",
+      "sitemap_warning": "Os ficheiros sitemap necessitam que a sua primeira página seja igual ao domínio do website",
+      "sitemap_uris_invalid": "Um dos uris no ficheiro dado é inválido",
+      "sitemap_type_invalid": "O ficheiro dado não é do tipo .xml ou .txt",
+      "file_input": "Escolha o ficheiro"
     },
     "DELETE": {
       "title": "Apagar esta página",
@@ -500,7 +500,6 @@
       "title": "Avaliações",
       "subtitle": "Lista de todas as avaliações da página",
       "table": {
-        "filter": "Filtro",
         "id_label": "ID",
         "score_label": "Pontuação",
         "a_label": "Nº erros A",
@@ -534,7 +533,8 @@
       "re_evaluate": "Re-avaliar a página",
       "download": "Descarregar resultados da avaliação",
       "pagecode": "Ver código da página",
-      "open_webpage": "Abrir página web"
+      "open_webpage": "Abrir página web",
+      "add_odf_file":  "Adicionar avaliação em Open Format"
     },
     "summary": {
       "title": "Sumário",
@@ -606,6 +606,31 @@
       "open_webpage": "Abrir página web"
     }
   },
+  "CRAWLER": {
+    "title": "Procura automática de páginas do domínio ",
+    "error1": "Apenas permitido números inteiros positivos",
+    "error2": "Apenas permitido zero e números inteiros positivos",
+    "PARAMETERS": {
+      "depth": "Profundidade máxima",
+      "pages": "Número máximo de páginas"
+    },
+    "TOOLTIP": {
+      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial",
+      "pages": "Escreva 0 para procurar todas as páginas"
+    },
+    "MESSAGE": {
+      "success": "Páginas adicionadas com sucesso!",
+      "no_pages": "Não foram encontradas páginas!",
+      "failed": "Aconteceu um erro!"
+    },
+    "RESULT_LIST": {
+      "uri_label": "Páginas",
+      "cancel": "Cancelar",
+      "submit": "Adicionar"
+    },
+    "reset": "Limpar",
+    "submit": "Procurar"
+  },
   "FOOTER": {
     "language": "Língua",
     "link": "Unidade ACESSO",
@@ -616,9 +641,11 @@
     "English": "English"
   },
   "MISC": {
+    "filter": "Filtro",
     "skip_to_main": "Saltar para o conteúdo principal",
     "loading": "A carregar...",
     "required_field": "Este campo é <strong>obrigatório</strong>",
+    "at_least_one_required": "<strong>Obrigatório</strong> preencher, pelo menos, um dos campos",
     "message_close": "Fechar",
     "success": "Sucesso",
     "unexpected_error": "Ocorreu um erro inesperado. Por favor tente aceder mais tarde.",
