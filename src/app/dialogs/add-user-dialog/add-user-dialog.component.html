@@ -100,7 +100,7 @@
     </div>
     <div class="add-websites-block" *ngIf="!loadingWebsites && userForm.value.app && userForm.value.app === 'monitor'"
       fxLayout="column" fxLayoutAlign="start stretch">
-      <mat-checkbox #transferPage checked='monitor'>Transfer Pages</mat-checkbox>
+      <mat-checkbox formControlName="transfer" #transferPage checked='monitor'>Transfer Pages</mat-checkbox>
       <mat-form-field>
         <label for="user_websites_input">
           {{ "USERS_PAGE.ADD.websites_label" | translate }}

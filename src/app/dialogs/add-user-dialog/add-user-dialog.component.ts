@@ -266,6 +266,12 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
+  addPages(e): void {
+    e.preventDefault();
+
+
+  }
+
 
   usernameValidator(control: AbstractControl): Observable<any> {
     const username = _.trim(control.value);
