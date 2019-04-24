@@ -46,7 +46,7 @@
           {{ "WEBSITES_PAGE.LIST.table.entity_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="20">
-          <a [routerLink]="['/console', 'entity', element.Entity2]">
+          <a *ngIf="element.Entity2" [routerLink]="['/console', 'entity', element.Entity2]">
             <strong>{{element.Entity}}</strong>
           </a>
         </mat-cell>

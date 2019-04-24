@@ -126,14 +126,14 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row">
+    <span fxFlex></span>
     <button mat-raised-button color="warn" type="button" (click)="resetForm()">
       {{ "USERS_PAGE.ADD.reset" | translate }}
     </button>
-    <span fxFlex></span>
     <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.username.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid"
       *ngIf="!loadingCreate">
       {{ 'USERS_PAGE.ADD.submit' | translate }}
     </button>
-    <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
+    <span *ngIf="loadingCreate"><strong>{{ "MISC.loading" | translate }}</strong></span>
   </mat-dialog-actions>
 </form>

@@ -6,16 +6,19 @@
         <label for="domain_website_input">
           {{ "DOMAINS_PAGE.ADD.website_label" | translate }}
         </label>
-        <input id="domain_website_input" type="text" aria-label="Website Name" matInput formControlName="website" [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
+        <input id="domain_website_input" type="text" aria-label="Website Name" matInput formControlName="website"
+          [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentDomain()">
           <mat-option *ngFor="let ws of filteredWebsites | async" [value]="ws.Name">
             {{ ws.Name }}
           </mat-option>
         </mat-autocomplete>
-        <button type="button" *ngIf="domainForm.value.website" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.website.reset()">
+        <button type="button" *ngIf="domainForm.value.website" matSuffix mat-icon-button aria-label="Clear"
+          (click)="domainForm.controls.website.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
-        <mat-error *ngIf="domainForm.controls.website.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="domainForm.controls.website.hasError('required')"
+          [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="domainForm.controls.website.hasError('validWebsite')">
           {{ "DOMAINS_PAGE.ADD.website_invalid" | translate }}
         </mat-error>
@@ -35,13 +38,15 @@
           {{ "DOMAINS_PAGE.ADD.domain_label" | translate }}
         </label>
         <input id="domain_domain_label" matInput formControlName="url" [errorStateMatcher]="matcher" required>
-        <button type="button" *ngIf="domainForm.value.url" matSuffix mat-icon-button aria-label="Clear" (click)="domainForm.controls.url.reset()">
+        <button type="button" *ngIf="domainForm.value.url" matSuffix mat-icon-button aria-label="Clear"
+          (click)="domainForm.controls.url.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="domainForm.controls.url.status === 'PENDING'">
           <mat-progress-bar mode="buffer"></mat-progress-bar>
         </mat-error>
-        <mat-error *ngIf="domainForm.controls.url.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="domainForm.controls.url.hasError('required')" [innerHTML]="'MISC.required_field' | translate">
+        </mat-error>
         <mat-error *ngIf="domainForm.controls.url.hasError('url')">
           {{ "DOMAINS_PAGE.ADD.domain_invalid" | translate }}
         </mat-error>
@@ -52,13 +57,14 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row">
-      <button mat-raised-button color="warn" type="button" (click)="resetForm()">
-        {{ "DOMAINS_PAGE.ADD.reset" | translate }}
-      </button>
-      <span fxFlex></span>
-      <button mat-raised-button color="primary" type="submit" [disabled]="domainForm.controls.website.invalid || domainForm.controls.url.invalid" *ngIf="!loadingCreate">
-        {{ "DOMAINS_PAGE.ADD.submit" | translate }}
-      </button>
-      <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
+    <span fxFlex></span>
+    <button mat-raised-button color="warn" type="button" (click)="resetForm()">
+      {{ "DOMAINS_PAGE.ADD.reset" | translate }}
+    </button>
+    <button mat-raised-button color="primary" type="submit"
+      [disabled]="domainForm.controls.website.invalid || domainForm.controls.url.invalid" *ngIf="!loadingCreate">
+      {{ "DOMAINS_PAGE.ADD.submit" | translate }}
+    </button>
+    <span *ngIf="loadingCreate"><strong>{{ "MISC.loading" | translate }}</strong></span>
   </mat-dialog-actions>
 </form>

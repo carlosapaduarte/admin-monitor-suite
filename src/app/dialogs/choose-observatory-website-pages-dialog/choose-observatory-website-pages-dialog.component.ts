@@ -59,6 +59,10 @@ export class ChooseObservatoryWebsitePagesDialogComponent implements OnInit {
       });
   }
 
+  deletePages(): void {
+    console.log(_.map(this.selection.selected, 'PageId'));
+  }
+
   updateObservatoryPages(e): void {
     e.preventDefault();
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
@@ -13,7 +13,7 @@ import { MessageService } from '../../services/message.service';
 })
 export class UserComponent implements OnInit, OnDestroy {
 
-loading: boolean;
+  loading: boolean;
   error: boolean;
 
   sub: Subscription;
@@ -24,7 +24,7 @@ loading: boolean;
   constructor(
     private activatedRoute: ActivatedRoute,
     private get: GetService,
-    private message: MessageService
+    private cd: ChangeDetectorRef
   ) {
     this.loading = true;
     this.error = false;
@@ -57,6 +57,7 @@ loading: boolean;
         }
 
         this.loading = false;
+        this.cd.detectChanges();
       });
   }
 }

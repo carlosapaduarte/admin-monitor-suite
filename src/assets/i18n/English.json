@@ -12,8 +12,8 @@
     "hide_password": "Click here to hide the password text",
     "submit": "Login",
     "messages": {
-      "password_match": "The password is incorrect",
-      "no_user": "The user doesn't exist",
+      "password_match": "Wrong username or password",
+      "no_user": "Wrong username or password",
       "system_error": "There was a system error. Please try later"
     }
   },
@@ -98,15 +98,15 @@
       "cumulative": "Cumulative frequency"
     },
     "errors": {
-      "title": "Error distribution",
-      "common_errors": "10 frequent errors (nº of pages)",
+      "title": "10 most frequent errors",
+      "common_errors": "Nº of pages",
       "level": "Level",
       "description": "Description",
       "websites": "Websites",
       "pages": "Pages",
-      "situations": "Situations",
+      "situations": "Occurrences",
       "tests_label": "Tests",
-      "situations_label": "Nº of situations"
+      "situations_label": "Nº of pages"
     },
     "close": "Close"
   },
@@ -349,15 +349,17 @@
       "entity_label": "Entity",
       "user_label": "User",
       "tags_label": "Associate tags",
-      "choose": "Choose observatory pages",
+      "manage": "Manage pages",
       "default": "Default",
       "submit": "Update",
       "cant_edit": "This website can't be edited because it belongs to an Study Monitor application user.",
       "observatorio": {
-        "title": "Observatory pages",
+        "title": "Manage pages",
         "cancel": "Cancel",
-        "submit": "Update",
-        "success": "Pages updated successfully"
+        "delete": "Delete pages",
+        "submit": "Update observatory",
+        "success": "Observatory updated successfully",
+        "delete_success": "Pages deleted successfully"
       },
       "delete": {
         "title": "Delete",
@@ -441,11 +443,13 @@
     "LIST": {
       "title": "Pages",
       "subtitle": "List of all pages",
+      "delete_pages": "Delete pages",
       "table": {
         "id_label": "ID",
         "uri_label": "Uri",
         "score_label": "Score",
         "last_updated_label": "Last evaluation",
+        "observatory_label": "Observatory",
         "delete_label": "Delete",
         "delete_tooltip": "Delete this page",
         "see_tooltip": "See page"

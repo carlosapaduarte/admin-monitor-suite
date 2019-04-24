@@ -19,19 +19,27 @@
       </mat-form-field>
 
       <span fxFlex></span>
-<!--
+      <!--
       <mat-error>
         TODO que erros eh suposto ver aqui? -->
-        <!-- TODO rotating buggering icon
+      <!-- TODO rotating buggering icon
       </mat-error> -->
       <div [formGroup]="pagesForm">
         <button mat-icon-button class="tools" matTooltip="{{ 'RESULTS.actions.add_odf_file' | translate }}"
-                (click)="file.click()">
-          <mat-icon aria-label="'RESULTS.actions.add_odf_file' | translate" style="transform: scale(1.5)">note_add</mat-icon>
+          (click)="file.click()">
+          <mat-icon aria-label="'RESULTS.actions.add_odf_file' | translate" style="transform: scale(1.5)">note_add
+          </mat-icon>
         </button>
-        <input type="file" #file id="odfFile" formControlName="file" accept="application/json" style="display:none" (change)="sendFile()">
+        <input type="file" #file id="odfFile" formControlName="file" accept="application/json" style="display:none"
+          (change)="sendFile()">
       </div>
 
+    </div>
+    <div>
+      <span fxFlex></span>
+      <button mat-raised-button type="button" color="warn" (click)="deletePages()" [disabled]="selection.selected.length === 0">
+        {{ "PAGES_PAGE.LIST.delete_pages" | translate }}
+      </button>
     </div>
     <mat-table [dataSource]="dataSource" matSort>
 
@@ -75,24 +83,27 @@
 
       <ng-container matColumnDef="Show_In">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
-          Observatório
+          {{ "PAGES_PAGE.LIST.table.observatory_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <mat-checkbox (change)="setPageInObservatorio($event, element)"
-                        [checked]="element.Show_In === 'both' || element.Show_In === 'observatorio'">
+          <mat-checkbox color="primary" (change)="setPageInObservatorio($event, element)"
+            [checked]="element.Show_In === 'both' || element.Show_In === 'observatorio'">
           </mat-checkbox>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef fxFlex="10">
-          {{ "PAGES_PAGE.LIST.table.delete_label" | translate }}
+          <mat-checkbox color="warn" (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+          </mat-checkbox>
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <button mat-icon-button matTooltip="{{ 'PAGES_PAGE.LIST.table.delete_tooltip' | translate }}"
-                  (click)="openDeletePageDialog(element.PageId)">
-            <mat-icon class="md-24" aria-label="">clear</mat-icon>
-          </button>
+          <mat-checkbox color="warn" (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(element) : null" [checked]="selection.isSelected(element)"
+            [aria-label]="checkboxLabel(element)">
+          </mat-checkbox>
         </mat-cell>
       </ng-container>
 
@@ -110,7 +121,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]"
-                   showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons>
+    </mat-paginator>
   </mat-card-content>
 </mat-card>

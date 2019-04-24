@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
@@ -32,7 +33,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   ];
 
   dataSource: any;
-  selection: any;
+  selection: SelectionModel<any>;
 
   error: boolean;
   loadingResponse: boolean;
@@ -52,6 +53,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   ) {
     this.pagesForm = this.formBuilder.group({
         file: new FormControl()});
+    this.selection = new SelectionModel<any>(true, []);
   }
 
   ngOnInit(): void {
@@ -97,6 +99,10 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
       });
   }
 
+  deletePages(): void {
+    console.log(this.selection.selected);
+  }
+
   sendFile() {
     const fileToRead = (<HTMLInputElement>document.getElementById('odfFile')).files[0];
 
@@ -105,7 +111,6 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    console.log(fileToRead.type);
     switch (fileToRead.type) {
       case ('application/json'):
         this.parseJSON(fileToRead);
@@ -133,8 +138,28 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
     reader.readAsText(file);
     reader.onload = () => {
       this.jsonFromFile = reader.result.toString();
-      console.log(this.jsonFromFile);
     };
   }
 
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.filteredData.forEach(row => this.selection.select(row));
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
 }

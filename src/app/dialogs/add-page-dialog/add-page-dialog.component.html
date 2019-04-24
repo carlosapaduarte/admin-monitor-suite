@@ -65,15 +65,15 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row">
+    <span fxFlex></span>
     <button mat-raised-button color="warn" type="button" (click)="resetForm()">
       {{ "PAGES_PAGE.ADD.reset" | translate }}
     </button>
-    <span fxFlex></span>
     <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.controls.domain.invalid ||
     pageForm.hasError('requiredAtLeastOne') || pageForm.controls.uris.hasError('invalidUri') || fileErrorMessage != '' || fileLoading"
             *ngIf="!loadingCreate">
       {{ "PAGES_PAGE.ADD.submit" | translate }}
     </button>
-    <mat-spinner *ngIf="loadingCreate" [diameter]="40"></mat-spinner>
+    <span *ngIf="loadingCreate"><strong>{{ "MISC.loading" | translate }}</strong></span>
   </mat-dialog-actions>
 </form>

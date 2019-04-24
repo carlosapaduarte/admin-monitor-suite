@@ -12,8 +12,8 @@
     "hide_password": "Carregue aqui para esconder a palavra-chave",
     "submit": "Iniciar sessão",
     "messages": {
-      "password_match": "A palavra-chave está incorreta",
-      "no_user": "O utilizador não existe",
+      "password_match": "Utilizador ou palavra-chave incorretos",
+      "no_user": "Utilizador ou palavra-chave incorretos",
       "system_error": "Erro no sistema. Por favor tente mais tarde"
     }
   },
@@ -98,15 +98,15 @@
       "cumulative": "Frequência cumulativa"
     },
     "errors": {
-      "title": "Distribuição de erros",
-      "common_errors": "Os 10 erros mais frequentes (nº de páginas)",
+      "title": "Os 10 erros mais frequentes",
+      "common_errors": "Nº de páginas",
       "level": "Nível",
       "description": "Descrição",
       "websites": "Websites",
       "pages": "Paǵinas",
-      "situations": "Situações",
+      "situations": "Ocurrências",
       "tests_label": "Testes",
-      "situations_label": "Nº de situações"
+      "situations_label": "Nº de páginas"
     },
     "close": "Fechar"
   },
@@ -349,15 +349,17 @@
       "entity_label": "Entidade",
       "user_label": "Utilizador",
       "tags_label": "Associar tags",
-      "choose": "Escolher páginas para o observatório",
+      "manage": "Gerir páginas",
       "default": "Default",
       "submit": "Atualizar",
       "cant_edit": "Este website não pode ser editado pois pertence a um utilizador da aplicação Study Monitor.",
       "observatorio": {
-        "title": "Páginas no observatório",
+        "title": "Gerir páginas",
         "cancel": "Cancelar",
-        "submit": "Atualizar",
-        "success": "Páginas atualizadas com sucesso"
+        "delete": "Apagar páginas",
+        "submit": "Atualizar observatório",
+        "success": "Observatório atualizado com sucesso",
+        "delete_success": "Páginas apagadas com sucesso"
       },
       "delete": {
         "title": "Apagar",
@@ -441,11 +443,13 @@
     "LIST": {
       "title": "Páginas",
       "subtitle": "Lista de todas as páginas",
+      "delete_pages": "Apagar páginas",
       "table": {
         "id_label": "ID",
         "uri_label": "Uri",
         "score_label": "Pontuação",
         "last_updated_label": "Última avaliação",
+        "observatory_label": "Observatório",
         "delete_label": "Apagar",
         "delete_tooltip": "Apagar esta página",
         "see_tooltip": "Ver página"

@@ -2,7 +2,7 @@
 
 <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
   <mat-accordion>
-    <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{ "USERS_PAGE.UPDATE.subtitle" | translate }}
@@ -131,12 +131,12 @@
             <button mat-raised-button color="warn" type="button" (click)="setDefault()">
               {{ "USERS_PAGE.UPDATE.default" | translate }}
             </button>
-            <span fxFlex="5"></span>
+            <span fxFlex="2"></span>
             <button mat-raised-button color="primary" type="submit" [disabled]="userForm.controls.username.invalid || userForm.controls.password.invalid || userForm.controls.confirmPassword.invalid || userForm.controls.app.invalid"
               *ngIf="!loadingUpdate">
               {{ 'USERS_PAGE.UPDATE.submit' | translate }}
             </button>
-            <mat-spinner *ngIf="loadingUpdate" [diameter]="40"></mat-spinner>
+            <span *ngIf="loadingUpdate"><strong>{{ "MISC.loading" | translate }}</strong></span>
           </div>
         </form>
       </ng-container>
