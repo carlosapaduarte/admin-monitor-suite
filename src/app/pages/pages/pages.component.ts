@@ -30,11 +30,13 @@ export class PagesComponent implements OnInit {
     this.getListOfPages();
   }
 
-  deletePage(page): void {
-    this.deleteService.page({pageId: page})
+  deletePages(pages): void {
+    this.deleteService.pages({pages})
       .subscribe(success => {
         if (success !== null) {
           this.loading = true;
+          this.cd.detectChanges();
+
           this.getListOfPages();
           this.message.show('PAGES_PAGE.DELETE.messages.success');
         }

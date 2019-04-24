@@ -172,14 +172,14 @@ export class UpdateService {
     );
   }
 
-  observatorioPages(pages: Array<any>, pagesId: Array<number>): Observable<boolean> {
+  observatoryPages(pages: Array<any>, pagesId: Array<number>): Observable<boolean> {
     const data = {
       pages: JSON.stringify(pages),
       pagesId: JSON.stringify(pagesId),
       cookie: this.userService.getUserData()
     };
 
-    return ajax.post(this.config.getServer('/admin/pages/updateObservatorio'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/pages/updateObservatory'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {

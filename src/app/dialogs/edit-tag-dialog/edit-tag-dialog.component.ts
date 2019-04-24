@@ -165,28 +165,6 @@ export class EditTagDialogComponent implements OnInit {
       });
   }
 
-  transformOfficial(e): void {
-    e.preventDefault();
-
-    const name = this.copyTagForm.value.name;
-
-    const formData = {
-      tagId: this.data.id,
-      name
-    };
-
-    this.loadingUpdate = true;
-
-    this.update.copyTag(formData)
-      .subscribe(success => {
-        if (success !== null) {
-          this.message.show('TAGS_PAGE.UPDATE.user_tag.messages.success');
-          this.dialogRef.close(true);
-        }
-        this.loadingUpdate = false;
-      });
-  }
-
   removeWebsite(website: any): void {
     const index = _.findIndex(this.selectedWebsites, website);
 

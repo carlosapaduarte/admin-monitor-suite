@@ -152,7 +152,7 @@
       "title": "User",
       "subtitle": "Edit",
       "description": "Edit this user",
-      "default": "Default",
+      "default": "Undo changes",
       "submit": "Update",
       "delete": {
         "title": "Delete",
@@ -213,7 +213,7 @@
       "subtitle": "Edit",
       "description": "Edit this tag",
       "websites_label": "Associate Websites",
-      "default": "Default",
+      "default": "Undo changes",
       "submit": "Update",
       "delete": {
         "title": "Delete",
@@ -282,7 +282,7 @@
       "subtitle": "Edit",
       "description": "Edit this entity",
       "websites_label": "Associate Websites",
-      "default": "Default",
+      "default": "Undo changes",
       "submit": "Update",
       "delete": {
         "title": "Delete",
@@ -349,8 +349,11 @@
       "entity_label": "Entity",
       "user_label": "User",
       "tags_label": "Associate tags",
-      "manage": "Manage pages",
-      "default": "Default",
+      "manage": {
+        "observatory": "Select observatory pages",
+        "delete": "Delete website pages"
+      },
+      "default": "Undo changes",
       "submit": "Update",
       "cant_edit": "This website can't be edited because it belongs to an Study Monitor application user.",
       "observatorio": {
@@ -360,6 +363,12 @@
         "submit": "Update observatory",
         "success": "Observatory updated successfully",
         "delete_success": "Pages deleted successfully"
+      },
+      "delete_pages": {
+        "title": "Delete website pages",
+        "submit": "Delete",
+        "cancel": "Cancel",
+        "success": "Pages deleted successfully"
       },
       "delete": {
         "title": "Delete",
@@ -482,20 +491,25 @@
       "sitemap_type_invalid": "Given file's extension is not .xml or .txt",
       "file_input": "Choose File"
     },
+    "UPDATE": {
+      "messages": {
+        "error": "Error updating page in observatory"
+      }
+    },
     "DELETE": {
-      "title": "Delete this page",
+      "title": "Delete pages",
       "list": {
         "title": "Important:",
-        "item1": "The selected page will be deleted",
+        "item1": "The selected pages will be deleted",
         "item2": "The page's domain and website won't be deleted",
         "item3": "All page evaluation history will be deleted",
-        "item4": "Removing this page may affect data from the Observatory, My Monitor and Study Monitor applications",
+        "item4": "Removing the pages may affect data from the Observatory, My Monitor and Study Monitor applications",
         "item5": "This action can't be undone"
       },
-      "submit": "Delete page",
+      "submit": "Delete pages",
       "messages": {
-        "success": "Page deleted successfully",
-        "error": "Error deleting page"
+        "success": "Pages deleted successfully",
+        "error": "Error deleting pages"
       }
     }
   },

@@ -37,7 +37,7 @@
     </div>
     <div>
       <span fxFlex></span>
-      <button mat-raised-button type="button" color="warn" (click)="deletePages()" [disabled]="selection.selected.length === 0">
+      <button mat-raised-button type="button" color="warn" (click)="openDeletePageDialog()" [disabled]="selection.selected.length === 0">
         {{ "PAGES_PAGE.LIST.delete_pages" | translate }}
       </button>
     </div>
@@ -86,8 +86,8 @@
           {{ "PAGES_PAGE.LIST.table.observatory_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <mat-checkbox color="primary" (change)="setPageInObservatorio($event, element)"
-            [checked]="element.Show_In === 'both' || element.Show_In === 'observatorio'">
+          <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="setPageInObservatory($event, element)"
+            [checked]="element.Show_In[2] === '1'">
           </mat-checkbox>
         </mat-cell>
       </ng-container>

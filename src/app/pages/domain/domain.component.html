@@ -17,6 +17,6 @@
 <br>
 <app-domain-statistics *ngIf="!loading && !error" [pages]="pages"></app-domain-statistics>
 <br>
-<app-list-of-pages *ngIf="!loading && !error" [pages]="pages" (deletePage)="deletePage($event)"></app-list-of-pages>
+<app-list-of-pages *ngIf="!loading && !error" [pages]="pages" (deletePages)="deletePages($event)"></app-list-of-pages>
 <app-loading *ngIf="loading"></app-loading>
 <app-error *ngIf="error"></app-error>

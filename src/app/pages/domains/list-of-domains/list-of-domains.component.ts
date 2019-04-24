@@ -24,7 +24,7 @@ export class ListOfDomainsComponent implements OnInit {
     'Pages',
     'Start_Date',
     'End_Date',
-    'delete',
+    //'delete',
     'see'
   ];
 

@@ -1,5 +1,5 @@
-<h1 mat-dialog-title>{{ "WEBSITES_PAGE.UPDATE.observatorio.title" | translate }}</h1>
-<form (submit)="updateObservatoryPages($event)" novalidate>
+<h1 mat-dialog-title>{{ "WEBSITES_PAGE.UPDATE.delete_pages.title" | translate }}</h1>
+<form (submit)="deleteWebsitePages($event)" novalidate>
   <mat-dialog-content>
 
     <mat-table #table [dataSource]="dataSource" [hidden]="loading">
@@ -33,11 +33,11 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-raised-button color="warn" mat-dialog-close>
-      {{ "WEBSITES_PAGE.UPDATE.observatorio.cancel" | translate }}
+      {{ "WEBSITES_PAGE.UPDATE.delete_pages.cancel" | translate }}
     </button>
     <span fxFlex></span>
     <button mat-raised-button color="primary" type="submit">
-      {{ "WEBSITES_PAGE.UPDATE.observatorio.submit" | translate }}
+      {{ "WEBSITES_PAGE.UPDATE.delete_pages.submit" | translate }}
     </button>
   </mat-dialog-actions>
 </form>

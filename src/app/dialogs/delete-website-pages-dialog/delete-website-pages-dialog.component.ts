@@ -5,15 +5,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
-import { UpdateService } from '../../services/update.service';
+import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
-  selector: 'app-choose-observatory-website-pages-dialog',
-  templateUrl: './choose-observatory-website-pages-dialog.component.html',
-  styleUrls: ['./choose-observatory-website-pages-dialog.component.css']
+  selector: 'app-delete-website-pages-dialog',
+  templateUrl: './delete-website-pages-dialog.component.html',
+  styleUrls: ['./delete-website-pages-dialog.component.css']
 })
-export class ChooseObservatoryWebsitePagesDialogComponent implements OnInit {
+export class DeleteWebsitePagesDialogComponent implements OnInit {
 
   loading: boolean;
   error: boolean;
@@ -29,9 +29,9 @@ export class ChooseObservatoryWebsitePagesDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<ChooseObservatoryWebsitePagesDialogComponent>,
+    private dialogRef: MatDialogRef<DeleteWebsitePagesDialogComponent>,
     private get: GetService,
-    private update: UpdateService,
+    private remove: DeleteService,
     private message: MessageService
   ) {
     this.loading = true;
@@ -46,11 +46,6 @@ export class ChooseObservatoryWebsitePagesDialogComponent implements OnInit {
         if (pages) {
           this.pages = pages;
           this.dataSource = new MatTableDataSource<any>(pages);
-          this.dataSource.data.forEach(page => {
-            if (page.Show_In[2] === '1') {
-              this.selection.select(page);
-            }
-          });
         } else {
           this.error = true;
         }
@@ -59,15 +54,15 @@ export class ChooseObservatoryWebsitePagesDialogComponent implements OnInit {
       });
   }
 
-  updateObservatoryPages(e): void {
+  deleteWebsitePages(e): void {
     e.preventDefault();
 
-    const pagesId = _.map(this.selection.selected, 'PageId');
+    const pages = _.map(this.selection.selected, 'PageId');
 
-    this.update.observatoryPages(this.pages, pagesId)
+    this.remove.pages({pages})
       .subscribe(success => {
         if (success) {
-          this.message.show('WEBSITES_PAGE.UPDATE.observatorio.success');
+          this.message.show('WEBSITES_PAGE.UPDATE.delete_pages.success');
           this.dialogRef.close();
         }
       });

@@ -60,8 +60,8 @@ export class DomainComponent implements OnInit, OnDestroy {
       });
   }
 
-  deletePage(page): void {
-    this.deleteService.page({pageId: page})
+  deletePages(pages): void {
+    this.deleteService.pages({pages})
       .subscribe(success => {
         if (success !== null) {
           this.loading = true;

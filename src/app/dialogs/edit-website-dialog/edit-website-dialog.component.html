@@ -1,163 +1,132 @@
 <h1 mat-dialog-title>
   {{ "WEBSITES_PAGE.UPDATE.title" | translate }}
 </h1>
-<mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ "WEBSITES_PAGE.UPDATE.subtitle" | translate }}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ "WEBSITES_PAGE.UPDATE.description" | translate }}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <ng-container matExpansionPanelContent>
-        <form *ngIf="data.userType !== 'studies'" (submit)="updateWebsite($event)" [formGroup]="websiteForm" novalidate>
-          <div class="add-website-block" fxLayout="column">
-            <mat-form-field>
-              <label for="website_name_input">{{ "WEBSITES_PAGE.ADD.name_label" | translate }}</label>
-              <input id="website_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" required>
-              <button type="button" *ngIf="websiteForm.value.name" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.name.reset()">
-                <mat-icon aria-hidden="false">close</mat-icon>
-              </button>
-              <mat-error *ngIf="websiteForm.controls.name.status === 'PENDING'">
-                <mat-progress-bar mode="buffer"></mat-progress-bar>
-              </mat-error>
-              <mat-error *ngIf="websiteForm.controls.name.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
-              <mat-error *ngIf="websiteForm.controls.name.hasError('notTakenName')">
-                {{ "WEBSITES_PAGE.ADD.name_exists" | translate }}
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <label for="website_domain_input">{{ "WEBSITES_PAGE.ADD.domain_label" | translate }}</label>
-              <input id="website_domain_input" matInput formControlName="domain" [errorStateMatcher]="matcher" required>
-              <button type="button" *ngIf="websiteForm.value.domain" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.domain.reset()">
-                <mat-icon aria-hidden="false">close</mat-icon>
-              </button>
-              <mat-error *ngIf="websiteForm.controls.domain.status === 'PENDING'">
-                <mat-progress-bar mode="buffer"></mat-progress-bar>
-              </mat-error>
-              <mat-error *ngIf="websiteForm.controls.domain.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
-              <mat-error *ngIf="websiteForm.controls.domain.hasError('notTakenDomain')">
-                {{ "WEBSITES_PAGE.ADD.domain_exists" | translate }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row">
-            <div class="add-entity-block" *ngIf="!loadingEntities" fxLayout="row" fxFlex>
-              <mat-form-field fxFlex>
-                <label for="website_entity_input">{{ "WEBSITES_PAGE.UPDATE.entity_label" | translate }}</label>
-                <input id="website_entity_input" type="text" aria-label="Entidade Name" matInput formControlName="entity"
-                  [matAutocomplete]="auto" [errorStateMatcher]="matcher">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let ent of filteredEntities | async" [value]="ent.Long_Name">
-                    {{ ent.Short_Name }} - {{ ent.Long_Name }}
-                  </mat-option>
-                </mat-autocomplete>
-                <button type="button" *ngIf="websiteForm.value.entity" matSuffix mat-icon-button aria-label="Clear"
-                  (click)="websiteForm.controls.entity.reset()">
-                  <mat-icon aria-hidden="false">close</mat-icon>
-                </button>
-                <mat-error *ngIf="websiteForm.controls.entity.hasError('validEntity')">
-                  {{ "WEBSITES_PAGE.ADD.entity_invalid" | translate }}
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <span fxFlex="5"></span>
-            <div class="add-user-block" *ngIf="!loadingUsers" fxLayout="row" fxFlex="45">
-              <mat-form-field fxFlex>
-                <label for="website_user_input">{{ "WEBSITES_PAGE.UPDATE.user_label" | translate }}</label>
-                <input id="website_user_input" type="text" aria-label="Utilizador" matInput formControlName="user"
-                  [matAutocomplete]="auto2" [errorStateMatcher]="matcher">
-                <mat-autocomplete #auto2="matAutocomplete">
-                  <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Username">
-                    {{ user.Username }}
-                  </mat-option>
-                </mat-autocomplete>
-                <button type="button" *ngIf="websiteForm.value.user" matSuffix mat-icon-button aria-label="Clear" (click)="websiteForm.controls.user.reset()">
-                  <mat-icon aria-hidden="false">close</mat-icon>
-                </button>
-                <mat-error *ngIf="websiteForm.controls.user.hasError('validUser')">
-                  {{ "WEBSITES_PAGE.ADD.user_invalid" | translate }}
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
-            <mat-form-field>
-              <label for="website_tags_input">
-                {{ "WEBSITES_PAGE.UPDATE.tags_label" | translate }}
-              </label>
-              <mat-chip-list #tagsChipList>
-                <mat-chip *ngFor="let tag of selectedTags" [selectable]="selectable" [removable]="removable" (removed)="removeTag(tag)">
-                  {{tag.Name}}
-                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input id="website_tags_input" #tagInput formControlName="tags" [matAutocomplete]="auto3"
-                  [matChipInputFor]="tagsChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  [matChipInputAddOnBlur]="addOnBlur" />
-                <button type="button" *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedTags = []">
-                  <mat-icon aria-hidden="false">close</mat-icon>
-                </button>
-              </mat-chip-list>
-              <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
-                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
-                  {{ tag.Name }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <div fxLayout="row">
-            <button mat-raised-button color="primary" type="button" (click)="chooseObservatorioPages()">
-              {{ "WEBSITES_PAGE.UPDATE.manage" | translate }}
-            </button>
-            <span fxFlex></span>
-            <button mat-raised-button color="warn" type="button" (click)="setDefault()">
-              {{ "WEBSITES_PAGE.UPDATE.default" | translate }}
-            </button>
-            <span fxFlex="2"></span>
-            <button mat-raised-button color="primary" type="submit" [disabled]="websiteForm.invalid || websiteForm.controls.domain.invalid || websiteForm.controls.entity.invalid || websiteForm.controls.user.invalid"
-              *ngIf="!loadingUpdate">
-              {{ 'WEBSITES_PAGE.UPDATE.submit' | translate }}
-            </button>
-            <span *ngIf="loadingUpdate"><strong>{{ "MISC.loading" | translate }}</strong></span>
-          </div>
-        </form>
-        <div *ngIf="data.userType === 'studies'">
-          <p>{{ "WEBSITES_PAGE.UPDATE.cant_edit" | translate }}</p>
-        </div>
-      </ng-container>
-    </mat-expansion-panel>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ "WEBSITES_PAGE.UPDATE.delete.title" | translate }}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ "WEBSITES_PAGE.UPDATE.delete.description" | translate }}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <ng-template matExpansionPanelContent>
-        <p><strong>{{ "WEBSITES_PAGE.UPDATE.delete.list.title" | translate }}</strong></p>
-        <ul>
-          <li>{{ "WEBSITES_PAGE.UPDATE.delete.list.item1" | translate }}</li>
-          <li>{{ "WEBSITES_PAGE.UPDATE.delete.list.item2" | translate }}</li>
-          <li>{{ "WEBSITES_PAGE.UPDATE.delete.list.item3" | translate }}</li>
-          <li>{{ "WEBSITES_PAGE.UPDATE.delete.list.item4" | translate }}</li>
-        </ul>
-        <button mat-button color="warn" type="button" (click)="deleteWebsite()">
-          {{ "WEBSITES_PAGE.UPDATE.delete.submit" | translate }}
+<form (submit)="updateWebsite($event)" [formGroup]="websiteForm" novalidate>
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+    <div class="add-website-block" fxLayout="column">
+      <mat-form-field>
+        <label for="website_name_input">{{ "WEBSITES_PAGE.ADD.name_label" | translate }}</label>
+        <input id="website_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" required>
+        <button type="button" *ngIf="websiteForm.value.name" matSuffix mat-icon-button aria-label="Clear"
+          (click)="websiteForm.controls.name.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
         </button>
-      </ng-template>
-    </mat-expansion-panel>
-  </mat-accordion>
-  <br>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-raised-button color="accent" mat-dialog-close>
-    {{ "MISC.message_close" | translate }}
-  </button>
-</mat-dialog-actions>
+        <mat-error *ngIf="websiteForm.controls.name.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
+        <mat-error *ngIf="websiteForm.controls.name.hasError('required')"
+          [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="websiteForm.controls.name.hasError('notTakenName')">
+          {{ "WEBSITES_PAGE.ADD.name_exists" | translate }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <label for="website_domain_input">{{ "WEBSITES_PAGE.ADD.domain_label" | translate }}</label>
+        <input id="website_domain_input" matInput formControlName="domain" [errorStateMatcher]="matcher" required>
+        <button type="button" *ngIf="websiteForm.value.domain" matSuffix mat-icon-button aria-label="Clear"
+          (click)="websiteForm.controls.domain.reset()">
+          <mat-icon aria-hidden="false">close</mat-icon>
+        </button>
+        <mat-error *ngIf="websiteForm.controls.domain.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
+        <mat-error *ngIf="websiteForm.controls.domain.hasError('required')"
+          [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="websiteForm.controls.domain.hasError('notTakenDomain')">
+          {{ "WEBSITES_PAGE.ADD.domain_exists" | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
+      <div class="add-entity-block" *ngIf="!loadingEntities" fxLayout="row" fxFlex>
+        <mat-form-field fxFlex>
+          <label for="website_entity_input">{{ "WEBSITES_PAGE.UPDATE.entity_label" | translate }}</label>
+          <input id="website_entity_input" type="text" aria-label="Entidade Name" matInput formControlName="entity"
+            [matAutocomplete]="auto" [errorStateMatcher]="matcher">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let ent of filteredEntities | async" [value]="ent.Long_Name">
+              {{ ent.Short_Name }} - {{ ent.Long_Name }}
+            </mat-option>
+          </mat-autocomplete>
+          <button type="button" *ngIf="websiteForm.value.entity" matSuffix mat-icon-button aria-label="Clear"
+            (click)="websiteForm.controls.entity.reset()">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+          <mat-error *ngIf="websiteForm.controls.entity.hasError('validEntity')">
+            {{ "WEBSITES_PAGE.ADD.entity_invalid" | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <span fxFlex="5"></span>
+      <div class="add-user-block" *ngIf="!loadingUsers" fxLayout="row" fxFlex="45">
+        <mat-form-field fxFlex>
+          <label for="website_user_input">{{ "WEBSITES_PAGE.UPDATE.user_label" | translate }}</label>
+          <input id="website_user_input" type="text" aria-label="Utilizador" matInput formControlName="user"
+            [matAutocomplete]="auto2" [errorStateMatcher]="matcher">
+          <mat-autocomplete #auto2="matAutocomplete">
+            <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Username">
+              {{ user.Username }}
+            </mat-option>
+          </mat-autocomplete>
+          <button type="button" *ngIf="websiteForm.value.user" matSuffix mat-icon-button aria-label="Clear"
+            (click)="websiteForm.controls.user.reset()">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+          <mat-error *ngIf="websiteForm.controls.user.hasError('validUser')">
+            {{ "WEBSITES_PAGE.ADD.user_invalid" | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <label for="website_tags_input">
+          {{ "WEBSITES_PAGE.UPDATE.tags_label" | translate }}
+        </label>
+        <mat-chip-list #tagsChipList>
+          <mat-chip *ngFor="let tag of selectedTags" [selectable]="selectable" [removable]="removable"
+            (removed)="removeTag(tag)">
+            {{tag.Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input id="website_tags_input" #tagInput formControlName="tags" [matAutocomplete]="auto3"
+            [matChipInputFor]="tagsChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur" />
+          <button type="button" *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear"
+            (click)="selectedTags = []">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+        </mat-chip-list>
+        <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="selectedTag($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
+            {{ tag.Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="warn" type="button" (click)="deleteWebsite()">
+      {{ "WEBSITES_PAGE.UPDATE.delete.submit" | translate }}
+    </button>
+    <span fxFlex="2"></span>
+    <button mat-raised-button color="warn" type="button" (click)="deleteWebsitePages()">
+      {{ "WEBSITES_PAGE.UPDATE.manage.delete" | translate }}
+    </button>
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" type="button" (click)="chooseObservatoryPages()">
+      {{ "WEBSITES_PAGE.UPDATE.manage.observatory" | translate }}
+    </button>
+    <span fxFlex="2"></span>
+    <button mat-raised-button color="accent" type="button" (click)="setDefault()">
+      {{ "WEBSITES_PAGE.UPDATE.default" | translate }}
+    </button>
+    <span fxFlex="2"></span>
+    <button mat-raised-button color="primary" type="submit"
+      [disabled]="websiteForm.invalid || websiteForm.controls.domain.invalid || websiteForm.controls.entity.invalid || websiteForm.controls.user.invalid"
+      *ngIf="!loadingUpdate">
+      {{ 'WEBSITES_PAGE.UPDATE.submit' | translate }}
+    </button>
+    <span *ngIf="loadingUpdate"><strong>{{ "MISC.loading" | translate }}</strong></span>
+  </mat-dialog-actions>
+</form>

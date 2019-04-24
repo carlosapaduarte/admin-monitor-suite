@@ -1,16 +1,14 @@
 import { Component, OnInit, AfterViewInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { DeletePageDialogComponent } from '../../../dialogs/delete-page-dialog/delete-page-dialog.component';
 
 import { UpdateService } from '../../../services/update.service';
-import { MessageService } from '../../../services/message.service';
-import {OpenDataService} from '../../../services/open-data.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {atLeastOne, UriValidation} from '../../../dialogs/add-page-dialog/add-page-dialog.component';
+import { OpenDataService } from '../../../services/open-data.service';
 
 @Component({
   selector: 'app-list-of-pages',
@@ -19,7 +17,7 @@ import {atLeastOne, UriValidation} from '../../../dialogs/add-page-dialog/add-pa
 })
 export class ListOfPagesComponent implements OnInit, AfterViewInit {
 
-  @Output('deletePage') deletePage = new EventEmitter<number>();
+  @Output('deletePages') deletePages = new EventEmitter<Array<number>>();
   @Input('pages') pages: Array<any>;
 
   displayedColumns = [
@@ -49,7 +47,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private update: UpdateService,
     private odf: OpenDataService,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {
     this.pagesForm = this.formBuilder.group({
         file: new FormControl()});
@@ -80,11 +78,16 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
-  setPageInObservatorio(checkbox: any, page: any): void {
-    this.update.page({ pageId: page.PageId, checked: checkbox.checked }).subscribe();
+  setPageInObservatory(checkbox: any, page: any): void {
+    this.update.page({ pageId: page.PageId, checked: checkbox.checked })
+    .subscribe(result => {
+      if (!result) {
+        checkbox.source.checked = !checkbox.checked;
+      }
+    });
   }
 
-  openDeletePageDialog(pageId: number): void {
+  openDeletePageDialog(): void {
     const deleteDialog = this.dialog.open(DeletePageDialogComponent, {
       width: '60vw',
       disableClose: false,
@@ -94,13 +97,9 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
     deleteDialog.afterClosed()
       .subscribe(result => {
         if (result) {
-          this.deletePage.next(pageId);
+          this.deletePages.next(_.map(this.selection.selected, 'PageId'));
         }
       });
-  }
-
-  deletePages(): void {
-    console.log(this.selection.selected);
   }
 
   sendFile() {

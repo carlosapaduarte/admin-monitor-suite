@@ -146,7 +146,7 @@ export class DeleteService {
     );
   }
 
-  page(data: any): Observable<boolean> {
+  pages(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
     return ajax.post(this.config.getServer('/admin/pages/delete'), data).pipe(
       retry(3),
@@ -161,7 +161,7 @@ export class DeleteService {
           throw new AdminError(response.success, response.message);
         }
 
-        return <boolean> response.result;
+        return <boolean> (response.success === 1);
       }),
       catchError(err => {
         this.message.show('PAGES_PAGE.DELETE.messages.error');

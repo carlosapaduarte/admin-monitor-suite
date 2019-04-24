@@ -19,6 +19,10 @@ import {
   ChooseObservatoryWebsitePagesDialogComponent
 } from '../choose-observatory-website-pages-dialog/choose-observatory-website-pages-dialog.component';
 
+import {
+  DeleteWebsitePagesDialogComponent
+} from './../delete-website-pages-dialog/delete-website-pages-dialog.component';
+
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -212,7 +216,14 @@ export class EditWebsiteDialogComponent implements OnInit {
     }
   }
 
-  chooseObservatorioPages(): void {
+  deleteWebsitePages(): void {
+    this.dialog.open(DeleteWebsitePagesDialogComponent, {
+      width: '60vw',
+      data: this.data
+    });
+  }
+
+  chooseObservatoryPages(): void {
     this.dialog.open(ChooseObservatoryWebsitePagesDialogComponent, {
       width: '60vw',
       data: this.data

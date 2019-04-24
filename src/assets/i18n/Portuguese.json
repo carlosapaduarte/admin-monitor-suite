@@ -152,7 +152,7 @@
       "title": "Utilizador",
       "subtitle": "Editar",
       "description": "Editar este utilizador",
-      "default": "Default",
+      "default": "Reverter alterações",
       "submit": "Atualizar",
       "delete": {
         "title": "Apagar",
@@ -213,7 +213,7 @@
       "subtitle": "Editar",
       "description": "Editar esta tag",
       "websites_label": "Associar Websites",
-      "default": "Default",
+      "default": "Reverter alterações",
       "submit": "Atualizar",
       "delete": {
         "title": "Apagar",
@@ -282,7 +282,7 @@
       "subtitle": "Editar",
       "description": "Editar esta entidade",
       "websites_label": "Associar Websites",
-      "default": "Default",
+      "default": "Reverter alterações",
       "submit": "Atualizar",
       "delete": {
         "title": "Apagar",
@@ -349,17 +349,24 @@
       "entity_label": "Entidade",
       "user_label": "Utilizador",
       "tags_label": "Associar tags",
-      "manage": "Gerir páginas",
-      "default": "Default",
+      "manage": {
+        "observatory": "Escolher páginas para o observatório",
+        "delete": "Apagar páginas"
+      },
+      "default": "Reverter alterações",
       "submit": "Atualizar",
       "cant_edit": "Este website não pode ser editado pois pertence a um utilizador da aplicação Study Monitor.",
       "observatorio": {
-        "title": "Gerir páginas",
+        "title": "Escolher páginas para mostrar no observatório",
         "cancel": "Cancelar",
-        "delete": "Apagar páginas",
         "submit": "Atualizar observatório",
-        "success": "Observatório atualizado com sucesso",
-        "delete_success": "Páginas apagadas com sucesso"
+        "success": "Observatório atualizado com sucesso"
+      },
+      "delete_pages": {
+        "title": "Apagar páginas do website",
+        "submit": "Apagar",
+        "cancel": "Cancelar",
+        "success": "Páginas apagadas com sucesso"
       },
       "delete": {
         "title": "Apagar",
@@ -482,20 +489,25 @@
       "sitemap_type_invalid": "O ficheiro dado não é do tipo .xml ou .txt",
       "file_input": "Escolha o ficheiro"
     },
+    "UPDATE": {
+      "messages": {
+        "error": "Erro ao atualizar a página no observatório"
+      }
+    },
     "DELETE": {
-      "title": "Apagar esta página",
+      "title": "Apagar páginas",
       "list": {
         "title": "Importante:",
-        "item1": "A página selecionada será apagada",
+        "item1": "As páginas selecionadas seram apagadas",
         "item2": "O website e domínio da página não serão apagados",
         "item3": "Todo o histórico de avaliações da página será apagado",
         "item4": "A remoção poderá afetar os dados das aplicações Observatório, My Monitor e Study Monitor",
         "item5": "Esta acção não pode ser revertida"
       },
-      "submit": "Apagar página",
+      "submit": "Apagar páginas",
       "messages": {
-        "success": "Página apagada com sucesso",
-        "error": "Erro ao apagar página"
+        "success": "Páginas apagadas com sucesso",
+        "error": "Erro ao apagar páginas"
       }
     }
   },

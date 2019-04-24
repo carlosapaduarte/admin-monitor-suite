@@ -121,8 +121,8 @@ export class EditUserDialogComponent implements OnInit {
         if (user !== null) {
           this.defaultUser = _.cloneDeep(user);
           this.userForm.controls.username.setValue(user.Username);
-          this.names = _.split(user.Names, ';');
-          this.emails = _.split(user.Emails, ';');
+          this.names = _.without(_.split(user.Names, ';'), '');
+          this.emails = _.without(_.split(user.Emails, ';'), '');
 
           if (user.Type === 'monitor') {
             this.userForm.controls.app.setValue('My Monitor');
@@ -155,8 +155,8 @@ export class EditUserDialogComponent implements OnInit {
   setDefault(): void {
     this.userForm.controls.password.reset();
     this.userForm.controls.confirmPassword.reset();
-    this.names = _.split(this.defaultUser.Names, ';');
-    this.emails = _.split(this.defaultUser.Emails, ';');
+    this.names = _.without(_.split(this.defaultUser.Names, ';'), '');
+    this.emails = _.without(_.split(this.defaultUser.Emails, ';'), '');
     this.selectedWebsites = _.clone(this.defaultUser.websites);
   }
 
