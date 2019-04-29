@@ -8,6 +8,7 @@ import { DeletePageDialogComponent } from '../../../dialogs/delete-page-dialog/d
 import { UpdateService } from '../../../services/update.service';
 import {OpenDataService} from '../../../services/open-data.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-list-of-pages-user',
@@ -29,6 +30,8 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
   dataSource: any;
   selection: any;
 
+  user: string;
+
   error: boolean;
   pagesForm: FormGroup;
 
@@ -37,6 +40,7 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private update: UpdateService,
     private formBuilder: FormBuilder,
@@ -49,6 +53,9 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(this.pages);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.activatedRoute.params.subscribe(params => {
+      this.user = _.trim(params.user);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -71,7 +78,7 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
   }
 
   setPageinAMS(checkbox: any, page: any): void {
-    this.update.importPage({ pageId: page.PageId, checked: checkbox.checked }).subscribe();
+    this.update.importPage({ pageId: page.PageId, checked: checkbox.checked, user: this.user}).subscribe();
   }
 
   isAdminPage(flags: string): boolean {
