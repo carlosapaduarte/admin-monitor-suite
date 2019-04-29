@@ -38,6 +38,7 @@ import { PagesComponent } from './pages/pages/pages.component';
 import { ListOfPagesComponent } from './pages/pages/list-of-pages/list-of-pages.component';
 import { TagsComponent } from './pages/tags/tags.component';
 import { ListOfTagsComponent } from './pages/tags/list-of-tags/list-of-tags.component';
+import { ListOfTagsUserComponent } from './pages/tags/list-of-tags/list-of-tags-user.component';
 import { AddTagDialogComponent } from './dialogs/add-tag-dialog/add-tag-dialog.component';
 import { BottomSheetComponent } from './dialogs/bottom-sheet/bottom-sheet.component';
 import { AddUserDialogComponent } from './dialogs/add-user-dialog/add-user-dialog.component';
@@ -81,6 +82,7 @@ import { ErrorDistributionDialogComponent } from './dialogs/error-distribution-d
 import { CrawlerDialogComponent } from './dialogs/crawler-dialog/crawler-dialog.component';
 import { AddCrawlerPagesDialogComponent } from './dialogs/add-crawler-pages-dialog/add-crawler-pages-dialog.component';
 import { ListOfPagesUserComponent } from './pages/pages/list-of-pages-user/list-of-pages-user.component';
+import { ListOfTagsUserComponent } from './pages/tags/list-of-tags-user/list-of-tags-user.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -173,7 +175,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ErrorDistributionDialogComponent,
     CrawlerDialogComponent,
     AddCrawlerPagesDialogComponent,
-    ListOfPagesUserComponent
+    ListOfPagesUserComponent,
+    ListOfTagsUserComponent
   ],
   imports: [
     BrowserModule,

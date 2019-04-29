@@ -1,36 +1,15 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import {
-  MatTableDataSource,
-  MatPaginator,
-  MatSort
-} from '@angular/material';
-import {
-  MatDialog
-} from '@angular/material';
-import * as _ from 'lodash';
-
-import {
-  GetService
-} from '../../../services/get.service';
-import {
-  MessageService
-} from '../../../services/message.service';
-
-import {
-  EditTagDialogComponent
-} from '../../../dialogs/edit-tag-dialog/edit-tag-dialog.component';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {GetService} from '../../../services/get.service';
+import {MessageService} from '../../../services/message.service';
+import {EditTagDialogComponent} from '../../../dialogs/edit-tag-dialog/edit-tag-dialog.component';
 
 @Component({
-  selector: 'app-list-of-tags',
-  templateUrl: './list-of-tags.component.html',
-  styleUrls: ['./list-of-tags.component.css']
+  selector: 'app-list-of-tags-user',
+  templateUrl: './list-of-tags-user.component.html',
+  styleUrls: ['./list-of-tags-user.component.css']
 })
-export class ListOfTagsComponent implements OnInit {
+export class ListOfTagsUserComponent implements OnInit {
 
   loading: boolean;
   error: boolean;
@@ -41,7 +20,7 @@ export class ListOfTagsComponent implements OnInit {
     'User',
     'Creation_Date',
     'Websites',
-    'edit',
+    'Import'
   ];
 
   dataSource: any;
