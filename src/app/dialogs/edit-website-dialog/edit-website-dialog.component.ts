@@ -85,6 +85,7 @@ export class EditWebsiteDialogComponent implements OnInit {
       domain: new FormControl({value: '', disabled: true}),
       entity: new FormControl(),
       user: new FormControl(),
+      transfer: new FormControl({value: '', disabled: true}),
       tags: new FormControl()
     });
 
@@ -159,7 +160,24 @@ export class EditWebsiteDialogComponent implements OnInit {
     this.websiteForm.controls.domain.setValue(this.defaultWebsite.Domain);
     this.websiteForm.controls.entity.setValue(this.defaultWebsite.Entity);
     this.websiteForm.controls.user.setValue(this.defaultWebsite.User);
+    this.websiteForm.controls.transfer.disable();
+    this.websiteForm.controls.transfer.setValue(false);
     this.selectedTags = _.clone(this.defaultWebsite.tags);
+  }
+
+  transferPagesValidator(): void {
+    if ((this.websiteForm.value.user === this.defaultWebsite.User) || this.websiteForm.value.user === '') {
+      this.websiteForm.controls.transfer.disable();
+      this.websiteForm.controls.transfer.setValue(false);
+    } else {
+      this.websiteForm.controls.transfer.enable();
+    }
+  }
+
+  removedUser(): void {
+    this.websiteForm.controls.user.reset();
+    this.websiteForm.controls.transfer.disable();
+    this.websiteForm.controls.transfer.setValue(false);
   }
 
   deleteWebsite(): void {
@@ -182,6 +200,10 @@ export class EditWebsiteDialogComponent implements OnInit {
     const userId = this.websiteForm.value.user ?
       _.find(this.monitorUsers, ['Username', this.websiteForm.value.user]).UserId : null;
 
+    const olderUserId = this.defaultWebsite.User ?
+      _.find(this.monitorUsers, ['Username', this.defaultWebsite.User]).UserId : null;
+    const transfer = this.websiteForm.value.transfer;
+
     const defaultTags = JSON.stringify(_.map(this.defaultWebsite.tags, 'TagId'));
     const tags = JSON.stringify(_.map(this.selectedTags, 'TagId'));
 
@@ -191,6 +213,8 @@ export class EditWebsiteDialogComponent implements OnInit {
       domain,
       entityId,
       userId,
+      olderUserId,
+      transfer,
       defaultTags,
       tags
     };

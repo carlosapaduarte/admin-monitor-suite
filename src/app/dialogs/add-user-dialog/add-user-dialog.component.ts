@@ -56,11 +56,13 @@ export class AddUserDialogComponent implements OnInit {
   selectable = false;
   removable = true;
   addOnBlur = false;
+  removeList = false;
 
   separatorKeysCodes = [ENTER, COMMA];
 
   names: Array<string>;
   emails: Array<string>;
+  siteTransferList: Array<String>;
 
   filteredWebsites: Observable<any[]>;
 
@@ -104,6 +106,7 @@ export class AddUserDialogComponent implements OnInit {
       app: new FormControl('', [
         Validators.required
       ]),
+      transfer: new FormControl({value: '', disabled: true}),
       websites: new FormControl({value: '', disabled: true})
     },
     {
@@ -138,6 +141,9 @@ export class AddUserDialogComponent implements OnInit {
     } else {
       this.userForm.controls.websites.reset();
       this.userForm.controls.websites.disable();
+      this.userForm.controls.transfer.disable();
+      this.selectedWebsites = [];
+      this.userForm.controls.transfer.setValue(false);
     }
   }
 
@@ -158,7 +164,7 @@ export class AddUserDialogComponent implements OnInit {
     const emails = _.join(this.emails, ';');
     const app = this.userForm.value.app;
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
-
+    const transfer = this.userForm.value.transfer;
     const formData = {
       username,
       password,
@@ -166,7 +172,8 @@ export class AddUserDialogComponent implements OnInit {
       names,
       emails,
       app,
-      websites: JSON.stringify(websites)
+      websites: JSON.stringify(websites),
+      transfer
     };
 
     this.loadingCreate = true;
@@ -244,6 +251,20 @@ export class AddUserDialogComponent implements OnInit {
     if (index >= 0) {
       this.selectedWebsites.splice(index, 1);
     }
+    if (this.selectedWebsites.length === 0) {
+      this.userForm.controls.transfer.disable();
+      this.userForm.controls.transfer.setValue(false);
+    }
+  }
+
+  removeWebsites(): void {
+    this.selectedWebsites = [];
+    this.userForm.controls.transfer.disable();
+    this.userForm.controls.transfer.setValue(false);
+  }
+
+  removeTransferList(website: any): void {
+    this.siteTransferList = null;
   }
 
   filterWebsite(name: string) {
@@ -258,7 +279,11 @@ export class AddUserDialogComponent implements OnInit {
       this.websiteInput.nativeElement.value = '';
       this.userForm.controls.websites.setValue(null);
     }
+    if (this.selectedWebsites.length > 0) {
+      this.userForm.controls.transfer.enable();
+    }
   }
+
 
   usernameValidator(control: AbstractControl): Observable<any> {
     const username = _.trim(control.value);

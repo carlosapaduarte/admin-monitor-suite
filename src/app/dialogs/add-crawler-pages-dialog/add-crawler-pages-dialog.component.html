@@ -31,8 +31,9 @@
     </mat-table>
   </mat-dialog-content>
   <mat-dialog-actions>
+    <!-- TODO mudar este método apenas para fechar -->
     <button mat-raised-button color="warn" [mat-dialog-close]="{ cancel: true }" (click)="openCrawlerDialog($event)">
-      {{ "CRAWLER.RESULT_LIST.cancel" | translate }}
+    {{ "CRAWLER.RESULT_LIST.cancel" | translate }}
     </button>
     <span fxFlex></span>
     <button mat-raised-button color="primary" type="submit" [disabled]="this.selection.selected.length === 0">

@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{ "CRAWLER.title" | translate }}<b>{{url}}</b></h1>
 <form (submit)="executeCrawler()" [formGroup]="pageForm" novalidate>
   <mat-dialog-content>
-    <div class="max-depth-input" fxLayout="column">
+    <div class="max-depth-input" fxLayout="column" *ngIf="!loadingResponse">
       <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.depth' | translate}}">
         <label>{{ "CRAWLER.PARAMETERS.depth" | translate }}</label>
         <mat-label></mat-label>
@@ -16,7 +16,7 @@
       </mat-form-field>
     </div>
 
-    <div class="max-pages-input" fxLayout="column">
+    <div class="max-pages-input" fxLayout="column" *ngIf="!loadingResponse">
       <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.pages' | translate}}">
         <label>{{"CRAWLER.PARAMETERS.pages" | translate}}</label>
         <mat-label></mat-label>
@@ -35,10 +35,13 @@
     <!-- https://github.com/simplecrawler/simplecrawler -->
     <!-- https://material.angular.io/components/form-field/overview -->
     <!-- <mat-checkbox [disabled]="pageForm.value.maxDepth"  (change)="log(pageForm.value.isMinDepth)" formControlName="isMinDepth">{{"CRAWLER.PARAMETERS.max_depth_checkbox" | translate}}</mat-checkbox> -->
+    <div *ngIf="loadingResponse">
+      <h1>Vais ter que esperar um bocadinho, tem lá calma rapaz</h1>
+    </div>
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row">
-    <button mat-raised-button color="warn" type="button" (click)="resetForm()">
+    <button mat-raised-button color="warn" type="button" *ngIf="!loadingResponse" (click)="resetForm()">
       {{ "CRAWLER.reset" | translate }}
     </button>
     <span fxFlex></span>
@@ -48,7 +51,6 @@
                         pageForm.controls.maxDepth.hasError('required') || pageForm.controls.maxPages.hasError('required')">
       {{ "CRAWLER.submit" | translate }}
     </button>
-    <!-- TODO fazer botao de 'cancelar procura' para poder fechar janelinha.. como?-->
     <mat-spinner *ngIf="loadingResponse" [diameter]="40"></mat-spinner>
   </mat-dialog-actions>
 

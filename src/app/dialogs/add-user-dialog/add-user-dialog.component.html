@@ -93,9 +93,9 @@
     </div>
     <div class="add-type-block">
       <mat-radio-group formControlName="app" fxLayout="row" (change)="changeApp()" required>
-        <mat-radio-button value="studies">Study Monitor</mat-radio-button>
+        <mat-radio-button color="primary" value="studies">Study Monitor</mat-radio-button>
         <span fxFlex="5"></span>
-        <mat-radio-button value="monitor">My Monitor</mat-radio-button>
+        <mat-radio-button color="primary" value="monitor">My Monitor</mat-radio-button>
       </mat-radio-group>
     </div>
     <div class="add-websites-block" *ngIf="!loadingWebsites && userForm.value.app && userForm.value.app === 'monitor'"
@@ -112,8 +112,8 @@
           </mat-chip>
           <input id="user_websites_input" #websiteInput formControlName="websites" [matAutocomplete]="auto2"
             [matChipInputFor]="websitesChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur" />
-          <button type="button" *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="selectedWebsites = []">
+            [matChipInputAddOnBlur]="addOnBlur"/>
+          <button type="button" *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="removeWebsites()">
             <mat-icon aria-hidden="false">close</mat-icon>
           </button>
         </mat-chip-list>
@@ -123,6 +123,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <mat-checkbox color="primary" formControlName="transfer">
+        {{ "USERS_PAGE.ADD.transfer_label" | translate }}
+      </mat-checkbox>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions fxLayout="row">

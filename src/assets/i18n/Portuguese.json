@@ -140,6 +140,7 @@
       "emails_label": "E-mails de contacto",
       "emails_error": "Email é <strong>inválido</strong>",
       "choose_app": "Aplicação a que se destina",
+      "transfer_label": "Transferir páginas do observatório",
       "websites_label": "Associar Websites",
       "reset": "Limpar",
       "submit": "Criar",

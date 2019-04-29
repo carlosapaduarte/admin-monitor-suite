@@ -42,17 +42,17 @@
       </ng-container>
 
       <ng-container matColumnDef="Entity">
-        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30">
           {{ "WEBSITES_PAGE.LIST.table.entity_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="20">
+        <mat-cell *matCellDef="let element" fxFlex="30">
           <a *ngIf="element.Entity2" [routerLink]="['/console', 'entity', element.Entity2]">
             <strong>{{element.Entity}}</strong>
           </a>
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="User">
+      <!--<ng-container matColumnDef="User">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">
           {{ "WEBSITES_PAGE.LIST.table.user_label" | translate }}
         </mat-header-cell>
@@ -64,7 +64,7 @@
             Admin
           </span>
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <ng-container matColumnDef="Creation_Date">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">

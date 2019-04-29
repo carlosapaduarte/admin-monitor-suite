@@ -109,7 +109,7 @@
             [matChipInputFor]="websitesChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur" />
           <button type="button" *ngIf="selectedWebsites.length > 0" matSuffix mat-icon-button aria-label="Clear"
-            (click)="selectedWebsites = []">
+            (click)="removeWebsites()">
             <mat-icon aria-hidden="false">close</mat-icon>
           </button>
         </mat-chip-list>
@@ -119,6 +119,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <mat-checkbox color="primary" formControlName="transfer">
+        {{ "USERS_PAGE.ADD.transfer_label" | translate }}
+      </mat-checkbox>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>

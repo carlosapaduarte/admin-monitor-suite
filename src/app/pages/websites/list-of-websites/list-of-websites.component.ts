@@ -20,7 +20,7 @@ export class ListOfWebsitesComponent implements OnInit {
     //'WebsiteId',
     'Name',
     'Entity',
-    'User',
+    //'User',
     'Creation_Date',
     'edit',
     //'see'

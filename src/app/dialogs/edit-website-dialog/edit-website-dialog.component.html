@@ -61,15 +61,15 @@
       <div class="add-user-block" *ngIf="!loadingUsers" fxLayout="row" fxFlex="45">
         <mat-form-field fxFlex>
           <label for="website_user_input">{{ "WEBSITES_PAGE.UPDATE.user_label" | translate }}</label>
-          <input id="website_user_input" type="text" aria-label="Utilizador" matInput formControlName="user"
-            [matAutocomplete]="auto2" [errorStateMatcher]="matcher">
-          <mat-autocomplete #auto2="matAutocomplete">
+          <input id="website_user_input" type="text" aria-label="User" matInput formControlName="user"
+            [matAutocomplete]="auto2" [errorStateMatcher]="matcher" (keyup)="transferPagesValidator()">
+          <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="transferPagesValidator()">
             <mat-option *ngFor="let user of filteredUsers | async" [value]="user.Username">
               {{ user.Username }}
             </mat-option>
           </mat-autocomplete>
           <button type="button" *ngIf="websiteForm.value.user" matSuffix mat-icon-button aria-label="Clear"
-            (click)="websiteForm.controls.user.reset()">
+            (click)="removedUser()">
             <mat-icon aria-hidden="false">close</mat-icon>
           </button>
           <mat-error *ngIf="websiteForm.controls.user.hasError('validUser')">
@@ -77,6 +77,11 @@
           </mat-error>
         </mat-form-field>
       </div>
+    </div>
+    <div class="transfer-pages-block">
+      <mat-checkbox color="primary" formControlName="transfer">
+        {{ "USERS_PAGE.ADD.transfer_label" | translate }}
+      </mat-checkbox>
     </div>
     <div class="add-tags-block" *ngIf="!loadingTags" fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>

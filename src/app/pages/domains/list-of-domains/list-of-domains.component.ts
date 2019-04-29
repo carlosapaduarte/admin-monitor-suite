@@ -20,7 +20,7 @@ export class ListOfDomainsComponent implements OnInit {
     //'DomainId',
     'Url',
     'Active',
-    'User',
+    //'User',
     'Pages',
     'Start_Date',
     'End_Date',

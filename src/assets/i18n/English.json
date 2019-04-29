@@ -140,6 +140,7 @@
       "emails_label": "Contact e-mails",
       "emails_error": "Email is <strong>invalid</strong>",
       "choose_app": "Application",
+      "transfer_label": "Transfer pages from observatory",
       "websites_label": "Choose websites",
       "reset": "Reset",
       "submit": "Create",

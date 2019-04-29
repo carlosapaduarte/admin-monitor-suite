@@ -3,7 +3,6 @@ import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as _ from 'lodash';
-import {CrawlerService} from '../../services/crawler.service';
 import {CrawlerDialogComponent} from '../crawler-dialog/crawler-dialog.component';
 
 @Component({
@@ -47,6 +46,7 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
       cancel: false,
       uris: JSON.stringify(_.map(this.selection.selected, 'Uri'))
     });
+    this.openCrawlerDialog(e);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

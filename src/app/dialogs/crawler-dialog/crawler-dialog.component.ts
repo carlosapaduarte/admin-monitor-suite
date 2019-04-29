@@ -57,17 +57,19 @@ export class CrawlerDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
+    //TODO meter boolean para saber se ja existe um crawler em execucao (bd?)
+    //TODO mudar html para verificar boolean e aparecer aviso de impossibilidade de usar o crawler
 
-  log(e) {
-    console.log(e);
+    //TODO se ja existir uris abrir o add-crawler-pages-dialog com a escolha de uris
   }
 
   executeCrawler() {
     this.loadingResponse = true;
-    this.dialogRef.disableClose = true;
+    this.dialogRef.disableClose = true; //TODO tirar isto
     this.crawl.callCrawler(this.url, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
       .subscribe(response => {
+        //TODO isto vai tudo para o serviço?
+        //TODO guardar uris na base de dados
         if (response.length > 0) {
 
           // JSON stringify of result array to string
@@ -91,6 +93,7 @@ export class CrawlerDialogComponent implements OnInit {
               domainId: this.domainId
             }
           });
+          //TODO meter isto no nginit?
           chooseDialog.afterClosed().subscribe(result => {
             if (!result.cancel) {
               this.addPages(this.domainId, result.uris, JSON.stringify([]));
@@ -112,6 +115,9 @@ export class CrawlerDialogComponent implements OnInit {
     this.pageForm.controls.maxPages.setValue('0');
   }
 
+  //TODO meter isto no add-crawler-pages-dialog ou mudar aqui?
+  //TODO apagar uris descobertos da bd?
+  //TODO atualizar boolean de resultados à espera
   private addPages(domainId: number, uris: any, observatorio: any): void {
     const formData = {
       domainId,
