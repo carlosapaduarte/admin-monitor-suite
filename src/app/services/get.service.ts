@@ -373,6 +373,29 @@ export class GetService {
     );
   }
 
+  listOfUserTags(user: string): Observable<Array<Website>> {
+    return ajax.post(this.config.getServer('/admin/websites/user'), {user, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<Website>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   listOfTagWebsites(user: string, tag: string): Observable<Array<Website>> {
     return ajax.post(this.config.getServer('/admin/websites/tag'), {user, tag, cookie: this.user.getUserData()}).pipe(
       retry(3),
@@ -641,6 +664,29 @@ export class GetService {
         }
 
         return <string> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  userType(username: string): Observable<any> {
+    return ajax.post(this.config.getServer('/admin/users/type'), { username, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <any> response.result;
       }),
       catchError(err => {
         console.log(err);
