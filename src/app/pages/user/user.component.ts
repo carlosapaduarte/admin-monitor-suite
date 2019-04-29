@@ -38,22 +38,14 @@ export class UserComponent implements OnInit, OnDestroy {
       this.get.userType(this.user)
         .subscribe(type => {
           if (type !== null) {
-            this.userType = type;
-            switch (this.userType) {
-              case('monitor'):
-                this.getListOfUserWebsites();
-                break;
-              case('studies'):
-                this.getListOfUserTags();
-                break;
-              default:
-                console.log('123');
-                this.error = true;
+            if (type !== 'monitor' && type !== 'studies') {
+              this.error = true;
+            } else {
+              this.userType = type;
             }
           } else {
             this.error = true;
           }
-
           this.loading = false;
         });
     });
@@ -62,7 +54,7 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
+  /*
   refreshWebsites(): void {
     this.loading = true;
     this.getListOfUserWebsites();
@@ -81,6 +73,7 @@ export class UserComponent implements OnInit, OnDestroy {
       });
   }
 
+  //TODO tirar isto daqui e deixar so na list-of-tags-user
   private getListOfUserTags(): void {
     this.get.listOfUserTags(this.user)
       .subscribe(tags => {
@@ -89,22 +82,9 @@ export class UserComponent implements OnInit, OnDestroy {
         } else {
           this.error = true;
         }
-
+        console.log('eis as tags');
+        console.log(tags);
         this.loading = false;
       });
-  }
-
-  private getUserType(): any {
-    this.get.userType(this.user)
-      .subscribe(type => {
-        if (type !== null) {
-          console.log(type);
-          return type;
-        } else {
-          this.error = true;
-        }
-
-        this.loading = false;
-      });
-  }
+  }*/
 }

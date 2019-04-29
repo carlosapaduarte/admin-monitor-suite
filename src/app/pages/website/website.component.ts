@@ -16,6 +16,7 @@ export class WebsiteComponent implements OnInit, OnDestroy {
 
   loading: boolean;
   error: boolean;
+  errorNoActiveDomains: boolean;
 
   sub: Subscription;
 
@@ -52,7 +53,13 @@ export class WebsiteComponent implements OnInit, OnDestroy {
       .subscribe(domains => {
         if (domains !== null) {
           this.domains = domains;
-          this.activeDomain = _.find(this.domains, { 'Active': 1 }).Url;
+          console.log(domains);
+          console.log(_.find(this.domains, { 'Active': 1 }));
+          if (_.size(domains) > 0 && _.size(_.find(this.domains, {'Active': 1})) === 0){
+            this.errorNoActiveDomains = true;
+          } else {
+            this.activeDomain = _.find(this.domains, { 'Active': 1 }).Url;
+          }
         } else {
           this.error = true;
         }

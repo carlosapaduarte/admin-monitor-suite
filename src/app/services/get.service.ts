@@ -374,7 +374,7 @@ export class GetService {
   }
 
   listOfUserTags(user: string): Observable<Array<Website>> {
-    return ajax.post(this.config.getServer('/admin/websites/user'), {user, cookie: this.user.getUserData()}).pipe(
+    return ajax.post(this.config.getServer('/admin/tags/user'), {user, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;

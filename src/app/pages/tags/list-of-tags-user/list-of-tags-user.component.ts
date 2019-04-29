@@ -4,6 +4,9 @@ import {GetService} from '../../../services/get.service';
 import {MessageService} from '../../../services/message.service';
 import {EditTagDialogComponent} from '../../../dialogs/edit-tag-dialog/edit-tag-dialog.component';
 
+import * as _ from 'lodash';
+import {ActivatedRoute} from '@angular/router';
+
 @Component({
   selector: 'app-list-of-tags-user',
   templateUrl: './list-of-tags-user.component.html',
@@ -14,10 +17,11 @@ export class ListOfTagsUserComponent implements OnInit {
   loading: boolean;
   error: boolean;
 
+  user: string;
+
   displayedColumns = [
     'Name',
     'Show_in_Observatorio',
-    'User',
     'Creation_Date',
     'Websites',
     'Import'
@@ -33,18 +37,22 @@ export class ListOfTagsUserComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private get: GetService,
-    private message: MessageService
+    private message: MessageService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.loading = true;
     this.error = false;
   }
 
   ngOnInit(): void {
-    this.getListOfTags();
+    this.activatedRoute.params.subscribe(params => {
+      this.user = _.trim(params.user);
+    });
+    this.getListOfUserTags();
   }
 
-  private getListOfTags(): void {
-    this.get.listOfTags()
+  private getListOfUserTags(): void {
+    this.get.listOfUserTags(this.user)
       .subscribe(tags => {
         if (tags !== null) {
           this.dataSource = new MatTableDataSource(tags);
@@ -64,23 +72,4 @@ export class ListOfTagsUserComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  edit(id: number, userId: number): void {
-    const editDialog = this.dialog.open(EditTagDialogComponent, {
-      width: '60vw',
-      disableClose: false,
-      hasBackdrop: true,
-      data: {
-        id,
-        userId
-      }
-    });
-
-    editDialog.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.loading = true;
-          this.getListOfTags();
-        }
-      });
-  }
 }
