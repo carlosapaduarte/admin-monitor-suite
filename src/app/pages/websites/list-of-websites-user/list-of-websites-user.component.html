@@ -54,12 +54,14 @@
 
       <ng-container matColumnDef="Import">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
-          Importar <!-- TODO i18n -->
+          {{ "IMPORT.import" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <mat-checkbox> <!--TODO (change)="setPageinAMS($event, element)"
+          <mat-checkbox (change)="log(element)"> <!--TODO (change)="setPageinAMS($event, element)"
                         [checked]="isAdminPage(element.Show_In)"-->
           </mat-checkbox>
+          <button mat-raised-button color="primary" (click)="openImportWebsiteDialog(element.Name, element.WebsiteId)"
+                  >{{ "IMPORT.import" | translate }}</button> <!-- [disabled]="alreadyImported(element.WebsiteId)"-->
         </mat-cell>
       </ng-container>
 

@@ -29,7 +29,6 @@ import { ListOfUsersComponent } from './pages/users/list-of-users/list-of-users.
 import { WebsitesComponent } from './pages/websites/websites.component';
 import { ListOfWebsitesComponent } from './pages/websites/list-of-websites/list-of-websites.component';
 import { NotFound404Component } from './pages/not-found-404/not-found-404.component';
-import { ConfirmAdditionDialogComponent } from './dialogs/confirm-addition-dialog/confirm-addition-dialog.component';
 import { EntitiesComponent } from './pages/entities/entities.component';
 import { ListOfEntitiesComponent } from './pages/entities/list-of-entities/list-of-entities.component';
 import { DomainsComponent } from './pages/domains/domains.component';
@@ -83,6 +82,8 @@ import { AddCrawlerPagesDialogComponent } from './dialogs/add-crawler-pages-dial
 import { ListOfPagesUserComponent } from './pages/pages/list-of-pages-user/list-of-pages-user.component';
 import { ListOfTagsUserComponent } from './pages/tags/list-of-tags-user/list-of-tags-user.component';
 import { ListOfWebsitesUserComponent } from './pages/websites/list-of-websites-user/list-of-websites-user.component';
+import { ImportWebsiteDialogComponent } from './dialogs/import-website-dialog/import-website-dialog.component';
+import { ImportTagDialogComponent } from './dialogs/import-tag-dialog/import-tag-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -128,7 +129,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     WebsitesComponent,
     ListOfWebsitesComponent,
     NotFound404Component,
-    ConfirmAdditionDialogComponent,
     EntitiesComponent,
     ListOfEntitiesComponent,
     DomainsComponent,
@@ -177,7 +177,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddCrawlerPagesDialogComponent,
     ListOfPagesUserComponent,
     ListOfTagsUserComponent,
-    ListOfWebsitesUserComponent
+    ListOfWebsitesUserComponent,
+    ImportWebsiteDialogComponent,
+    ImportTagDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -225,7 +227,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ScoreDistributionDialogComponent,
     ErrorDistributionDialogComponent,
     CrawlerDialogComponent,
-    AddCrawlerPagesDialogComponent
+    AddCrawlerPagesDialogComponent,
+    ImportTagDialogComponent,
+    ImportWebsiteDialogComponent
   ],
   providers: [
     AdminAuthGuard,

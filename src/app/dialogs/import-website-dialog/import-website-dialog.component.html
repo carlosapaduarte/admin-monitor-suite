@@ -1,0 +1,22 @@
+<h1 class="mat-display-1" mat-dialog-title>{{ "IMPORT.WEBSITE.title" | translate }} <strong>{{website}}</strong> </h1>
+<mat-dialog-content>
+  <p><strong>{{ "IMPORT.title" | translate }}</strong></p>
+  <ul>
+    <li>{{ "IMPORT.WEBSITE.list.item1" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item2" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item3" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item4" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item5" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item6" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item7" | translate }}</li>
+
+    <!-- as tres primeiras eh para quando o dominio nao existe -->
+    <!-- as tres proximas eh para quando o dominio existe -->
+    <!-- a ultima eh sempre -->
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importWebsite()">
+    {{ "IMPORT.import" | translate }}
+  </button>
+</mat-dialog-actions>

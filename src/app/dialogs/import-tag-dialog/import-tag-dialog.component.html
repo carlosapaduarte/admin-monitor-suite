@@ -1,0 +1,14 @@
+<h1 class="mat-display-1" mat-dialog-title>{{ "IMPORT.TAG.title" | translate }} <strong>{{tag}}</strong></h1>
+<mat-dialog-content>
+  <p><strong>{{ "IMPORT.title" | translate }}</strong></p>
+  <ul>
+    <li>{{ "IMPORT.WEBSITE.list.item1" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item2" | translate }}</li>
+    <li>{{ "IMPORT.WEBSITE.list.item3" | translate }}</li>
+  </ul>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importTag()">
+    {{ "IMPORT.import" | translate }}
+  </button>
+</mat-dialog-actions>

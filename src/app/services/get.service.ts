@@ -350,8 +350,8 @@ export class GetService {
     );
   }
 
-  listOfUserWebsites(user: string): Observable<Array<Website>> {
-    return ajax.post(this.config.getServer('/admin/websites/user'), {user, cookie: this.user.getUserData()}).pipe(
+  listOfUserTagWebsites(user: string, tag: string): Observable<Array<Website>> {
+    return ajax.post(this.config.getServer('/admin/websites/studyTag'), {user, tag, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;

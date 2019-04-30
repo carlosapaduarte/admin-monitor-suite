@@ -1,9 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
 import {GetService} from '../../../services/get.service';
 
 import * as _ from 'lodash';
+import {AddCrawlerPagesDialogComponent} from '../../../dialogs/add-crawler-pages-dialog/add-crawler-pages-dialog.component';
+import {ImportWebsiteDialogComponent} from '../../../dialogs/import-website-dialog/import-website-dialog.component';
+import {UpdateService} from '../../../services/update.service';
 
 @Component({
   selector: 'app-list-of-websites-user',
@@ -26,6 +29,7 @@ export class ListOfWebsitesUserComponent implements OnInit {
   error: boolean;
 
   user: string;
+  tag: string;
 
   @ViewChild('input') input: ElementRef;
   @ViewChild(MatSort) sort: MatSort;
@@ -34,11 +38,14 @@ export class ListOfWebsitesUserComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private get: GetService,
+    private update: UpdateService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.user = _.trim(params.user);
+      this.tag = _.trim(params.tag);
     });
     this.getListOfUserWebsites();
   }
@@ -50,10 +57,10 @@ export class ListOfWebsitesUserComponent implements OnInit {
   }
 
   private getListOfUserWebsites(): void {
-    this.get.listOfUserWebsites(this.user)
-      .subscribe(tags => {
-        if (tags !== null) {
-          this.dataSource = new MatTableDataSource(tags);
+    this.get.listOfUserTagWebsites(this.user, this.tag)
+      .subscribe(websites => {
+        if (websites !== null) {
+          this.dataSource = new MatTableDataSource(websites);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         } else {
@@ -61,6 +68,25 @@ export class ListOfWebsitesUserComponent implements OnInit {
         }
         this.loading = false;
       });
+  }
+
+  log(data: any): void{
+    console.log(data);
+  }
+
+  openImportWebsiteDialog(website: string, websiteId: string): void {
+    const importWebsiteDialog = this.dialog.open(ImportWebsiteDialogComponent, {
+      width: '40vw',
+      data: {
+        website: website,
+        websiteId: websiteId,
+      }
+    });
+    importWebsiteDialog.afterClosed().subscribe(result => {
+      if (result) {
+        window.location.reload();
+      }
+    });
   }
 }
 

@@ -6,6 +6,8 @@ import {EditTagDialogComponent} from '../../../dialogs/edit-tag-dialog/edit-tag-
 
 import * as _ from 'lodash';
 import {ActivatedRoute} from '@angular/router';
+import {ImportWebsiteDialogComponent} from '../../../dialogs/import-website-dialog/import-website-dialog.component';
+import {ImportTagDialogComponent} from '../../../dialogs/import-tag-dialog/import-tag-dialog.component';
 
 @Component({
   selector: 'app-list-of-tags-user',
@@ -70,6 +72,21 @@ export class ListOfTagsUserComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  openImportTagDialog(tag: string, tagId: string): void {
+    const importTagDialog = this.dialog.open(ImportTagDialogComponent, {
+      width: '40vw',
+      data: {
+        tag: tag,
+        tagId: tagId,
+      }
+    });
+    importTagDialog.afterClosed().subscribe(result => {
+      /*if (result) {
+        window.location.reload();
+      }*/
+    });
   }
 
 }

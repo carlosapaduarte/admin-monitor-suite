@@ -160,4 +160,27 @@ export class VerifyService {
       })
     );
   }
+
+  domainExistsInAdmin(websiteId: string): Observable<boolean> {
+    return ajax(this.config.getServer('/admin/domains/existsAdmin/' + websiteId)).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return of(response.result === 'true');
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
 }
