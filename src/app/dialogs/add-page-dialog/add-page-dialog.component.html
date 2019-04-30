@@ -1,4 +1,10 @@
-<h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.title" | translate }}</h1>
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "PAGES_PAGE.ADD.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
 <form (submit)="createPage($event)" [formGroup]="pageForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-domain-block" fxLayout="column" *ngIf="!loadingDomains">
@@ -6,7 +12,7 @@
         <label for="pages_domain_input">
           {{ "PAGES_PAGE.ADD.domain_label" | translate }}
         </label>
-        <input id="pages_domain_input" type="text" aria-label="Domain Name" matInput formControlName="domain" [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
+        <input id="pages_domain_input" type="text" aria-label="Domain Name" matInput formControlName="domain" [matAutocomplete]="auto" [errorStateMatcher]="matcher" autofocus required>
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let domain of filteredDomains | async" [value]="domain.Url" (click)="updateUrisFromFile()">
             {{ domain.Url }}

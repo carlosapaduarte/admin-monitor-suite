@@ -1,4 +1,10 @@
-<h1 mat-dialog-title>{{ "ENTITIES_PAGE.ADD.title" | translate }}</h1>
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "ENTITIES_PAGE.ADD.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
 <form (submit)="createEntity($event)" [formGroup]="entityForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-entity-block" fxLayout="column">
@@ -11,6 +17,7 @@
           matInput
           formControlName="shortName"
           [errorStateMatcher]="matcher"
+          cdkFocusInitial
           required>
         <button
           *ngIf="entityForm.value.shortName"

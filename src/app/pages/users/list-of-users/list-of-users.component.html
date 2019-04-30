@@ -11,7 +11,7 @@
   <mat-card-content>
     <div class="table-filter">
       <mat-form-field appearance="outline">
-        <label>
+        <label for="user_list_filter">
           {{ "MISC.filter" | translate }}
         </label>
         <input id="user_list_filter" matInput (keyup)="applyFilter($event.target.value)">

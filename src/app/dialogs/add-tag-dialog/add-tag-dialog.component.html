@@ -1,10 +1,16 @@
-<h1 class="mat-display-1" mat-dialog-title>{{ "TAGS_PAGE.ADD.title" | translate }}</h1>
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "TAGS_PAGE.ADD.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
 <form (submit)="createTag($event)" [formGroup]="tagForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-tag-block" fxLayout="column">
       <mat-form-field>
         <label for="tag_name_input">{{ "TAGS_PAGE.ADD.name_label" | translate }}</label>
-        <input id="tag_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" required>
+        <input id="tag_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" cdkFocusInitial required>
         <button type="button" *ngIf="tagForm.value.name" matSuffix mat-icon-button aria-label="Clear"
           (click)="tagForm.controls.name.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>

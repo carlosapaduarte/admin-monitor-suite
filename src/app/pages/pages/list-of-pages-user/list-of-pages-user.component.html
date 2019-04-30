@@ -11,10 +11,10 @@
   <mat-card-content>
     <div class="table-filter">
       <mat-form-field appearance="outline">
-        <mat-label>
+        <label for="user_pages_table_filter">
           {{ "MISC.filter" | translate }}
-        </mat-label>
-        <input id="pages_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+        </label>
+        <input id="user_pages_table_filter" matInput (keyup)="applyFilter($event.target.value)">
         <!-- (click)="this.parent.getElementById('odfFile').click()" -->
       </mat-form-field>
 

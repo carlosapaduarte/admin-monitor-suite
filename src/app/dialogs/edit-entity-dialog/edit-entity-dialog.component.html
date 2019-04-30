@@ -1,6 +1,10 @@
-<h1 mat-dialog-title>
-  {{ "ENTITIES_PAGE.UPDATE.title" | translate }}
-</h1>
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "ENTITIES_PAGE.UPDATE.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
 <form (submit)="updateEntity($event)" [formGroup]="entityForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="edit-entity-block" *ngIf="!loadingInfo" fxLayout="column">
@@ -8,7 +12,7 @@
         <label for="entity_short_name_input">
           {{ "ENTITIES_PAGE.ADD.short_name_label" | translate }}
         </label>
-        <input id="entity_short_name_input" matInput formControlName="shortName" [errorStateMatcher]="matcher" required>
+        <input id="entity_short_name_input" matInput formControlName="shortName" [errorStateMatcher]="matcher" cdkFocusInitial autofocus required>
         <button *ngIf="entityForm.value.shortName" type="button" matSuffix mat-icon-button aria-label="Clear"
           (click)="entityForm.controls.shortName.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>

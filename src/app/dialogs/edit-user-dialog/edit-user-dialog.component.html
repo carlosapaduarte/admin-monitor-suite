@@ -1,5 +1,10 @@
-<h1 class="mat-display-1" mat-dialog-title>{{ "USERS_PAGE.UPDATE.title" | translate }}</h1>
-
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "USERS_PAGE.UPDATE.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
 <form (submit)="updateUser($event)" [formGroup]="userForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-user-block" fxLayout="column">
@@ -14,7 +19,7 @@
           {{ "USERS_PAGE.ADD.password_label" | translate }}
         </label>
         <input id="user_password_input" matInput [type]="hide ? 'password' : 'text'" [errorStateMatcher]="matcher"
-          formControlName="password">
+          formControlName="password" cdkFocusInitial autofocus>
         <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
           <mat-icon *ngIf="hide" aria-hidden="false" attr.aria-label="{{ 'LOGIN.hide_password' | translate }}">
             visibility

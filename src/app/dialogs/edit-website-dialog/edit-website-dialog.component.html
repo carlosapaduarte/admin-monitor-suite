@@ -1,12 +1,16 @@
-<h1 mat-dialog-title>
-  {{ "WEBSITES_PAGE.UPDATE.title" | translate }}
-</h1>
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "WEBSITES_PAGE.UPDATE.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
 <form (submit)="updateWebsite($event)" [formGroup]="websiteForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-website-block" fxLayout="column">
       <mat-form-field>
         <label for="website_name_input">{{ "WEBSITES_PAGE.ADD.name_label" | translate }}</label>
-        <input id="website_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" required>
+        <input id="website_name_input" matInput formControlName="name" [errorStateMatcher]="matcher" cdkFocusInitial autofocus required>
         <button type="button" *ngIf="websiteForm.value.name" matSuffix mat-icon-button aria-label="Clear"
           (click)="websiteForm.controls.name.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>

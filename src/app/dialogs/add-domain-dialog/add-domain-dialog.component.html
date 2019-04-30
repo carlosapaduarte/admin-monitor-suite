@@ -1,4 +1,10 @@
-<h1 mat-dialog-title>{{ "DOMAINS_PAGE.ADD.title" | translate }}</h1>
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "DOMAINS_PAGE.ADD.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
 <form (submit)="createDomain($event)" [formGroup]="domainForm" novalidate>
   <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
     <div class="add-website-block" fxLayout="column" *ngIf="!loadingWebsites">
@@ -7,7 +13,7 @@
           {{ "DOMAINS_PAGE.ADD.website_label" | translate }}
         </label>
         <input id="domain_website_input" type="text" aria-label="Website Name" matInput formControlName="website"
-          [matAutocomplete]="auto" [errorStateMatcher]="matcher" required>
+          [matAutocomplete]="auto" [errorStateMatcher]="matcher" autofocus required>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="getCurrentDomain()">
           <mat-option *ngFor="let ws of filteredWebsites | async" [value]="ws.Name">
             {{ ws.Name }}

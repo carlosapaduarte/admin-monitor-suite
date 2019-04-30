@@ -11,7 +11,7 @@
   <mat-card-content>
     <div class="table-filter">
       <mat-form-field appearance="outline">
-        <label>
+        <label for="pages_table_filter">
           {{ "MISC.filter" | translate }}
         </label>
         <input id="pages_table_filter" matInput (keyup)="applyFilter($event.target.value)">
@@ -24,7 +24,7 @@
         TODO que erros eh suposto ver aqui? -->
       <!-- TODO rotating buggering icon
       </mat-error> -->
-      <div [formGroup]="pagesForm">
+      <!--<div [formGroup]="pagesForm">
         <button mat-icon-button class="tools" matTooltip="{{ 'RESULTS.actions.add_odf_file' | translate }}"
           (click)="file.click()">
           <mat-icon aria-label="'RESULTS.actions.add_odf_file' | translate" style="transform: scale(1.5)">note_add
@@ -32,7 +32,7 @@
         </button>
         <input type="file" #file id="odfFile" formControlName="file" accept="application/json" style="display:none"
           (change)="sendFile()">
-      </div>
+      </div>-->
 
     </div>
     <div>
