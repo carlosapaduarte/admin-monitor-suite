@@ -16,7 +16,6 @@ import { Page } from '../../../models/page';
 })
 export class WebsiteStatisticsComponent implements OnInit {
 
-  @Input('user') user: string;
   @Input('domain') domain: string;
 
   pages: Array<Page>;
@@ -61,6 +60,7 @@ export class WebsiteStatisticsComponent implements OnInit {
       }
     };
 
+    this.pages = new Array<any>();
     this.score = 0;
     this.pagesWithErrors = 0;
     this.pagesWithoutErrorsA = 0;
@@ -69,7 +69,7 @@ export class WebsiteStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.get.listOfDomainPages(this.user, encodeURIComponent(this.domain))
+    this.get.listOfDomainPages(encodeURIComponent(this.domain))
       .subscribe(pages => {
         if (pages !== null) {
           this.pages = pages;

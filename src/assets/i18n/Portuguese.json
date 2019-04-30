@@ -62,7 +62,10 @@
     "users_label": "Utilizadores",
     "tags_label": "Tags",
     "websites_label": "Websites",
-    "sentence": "Total de {{value}}"
+    "sentence": "Total de {{value}}",
+    "observatory": "Observatório",
+    "monitor": "My Monitor",
+    "studies": "Study Monitor"
   },
   "STATISTICS": {
     "title": "Estatísticas",
@@ -387,6 +390,9 @@
       }
     },
     "DELETE": {
+      "title": "Apagar website",
+      "description": "Este website pertence a um utilizador do My Monitor. Por favor remova o website do utilizador antes de pode apagar o website.",
+      "button": "Ok",
       "messages": {
         "success": "Website apagado com sucesso",
         "error": "Erro ao apagar website"

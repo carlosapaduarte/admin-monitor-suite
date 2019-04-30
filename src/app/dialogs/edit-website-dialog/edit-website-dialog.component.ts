@@ -16,6 +16,10 @@ import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
 import {
+  DeleteWebsiteConfirmationDialogComponent
+} from '../../dialogs/delete-website-confirmation-dialog/delete-website-confirmation-dialog.component';
+
+import {
   ChooseObservatoryWebsitePagesDialogComponent
 } from '../choose-observatory-website-pages-dialog/choose-observatory-website-pages-dialog.component';
 
@@ -181,13 +185,19 @@ export class EditWebsiteDialogComponent implements OnInit {
   }
 
   deleteWebsite(): void {
-    this.deleteService.website({websiteId: this.data.id})
-      .subscribe(success => {
-        if (success !== null) {
-          this.message.show('WEBSITES_PAGE.DELETE.messages.success');
-          this.dialogRef.close(true);
-        }
+    if (!this.defaultWebsite.User) {
+      this.deleteService.website({websiteId: this.data.id})
+        .subscribe(success => {
+          if (success !== null) {
+            this.message.show('WEBSITES_PAGE.DELETE.messages.success');
+            this.dialogRef.close(true);
+          }
+        });
+    } else {
+      this.dialog.open(DeleteWebsiteConfirmationDialogComponent, {
+        width: '60vw'
       });
+    }
   }
 
   updateWebsite(e): void {

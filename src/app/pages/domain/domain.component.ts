@@ -35,7 +35,6 @@ export class DomainComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      this.user = _.trim(params.user);
       this.domain = params.domain;
 
       this.getListOfDomainPages();
@@ -47,7 +46,7 @@ export class DomainComponent implements OnInit, OnDestroy {
   }
 
   private getListOfDomainPages(): void {
-    this.get.listOfDomainPages(this.user, encodeURIComponent(this.domain))
+    this.get.listOfDomainPages(encodeURIComponent(this.domain))
       .subscribe(pages => {
         if (pages !== null) {
           this.pages = pages;

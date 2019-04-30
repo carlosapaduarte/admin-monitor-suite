@@ -33,10 +33,7 @@
           {{ "TAGS_PAGE.LIST.table.name_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex>
-          <a *ngIf="!element.User" [routerLink]="['/console', 'tag', 'admin', element.Name]">
-            <strong>{{element.Name}}</strong>
-          </a>
-          <a *ngIf="element.User" [routerLink]="['/console', 'tag', element.User, element.Name]">
+          <a [routerLink]="['/console', 'tag', element.Name]">
             <strong>{{element.Name}}</strong>
           </a>
         </mat-cell>

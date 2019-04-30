@@ -62,7 +62,10 @@
     "users_label": "Users",
     "tags_label": "Tags",
     "websites_label": "Websites",
-    "sentence": "Total of {{value}}"
+    "sentence": "Total of {{value}}",
+    "observatory": "Observatory",
+    "monitor": "My Monitor",
+    "studies": "Study Monitor"
   },
   "STATISTICS": {
     "title": "Statistics",
@@ -389,6 +392,9 @@
       }
     },
     "DELETE": {
+      "title": "Delete website",
+      "description": "This website belongs to a My Monitor user. Please remove the website from the user before deleting it.",
+      "button": "Ok",
       "messages": {
         "success": "Website deleted successfully",
         "error": "Error deleting website"

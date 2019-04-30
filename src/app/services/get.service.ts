@@ -373,8 +373,8 @@ export class GetService {
     );
   }
 
-  listOfTagWebsites(user: string, tag: string): Observable<Array<Website>> {
-    return ajax.post(this.config.getServer('/admin/websites/tag'), {user, tag, cookie: this.user.getUserData()}).pipe(
+  listOfTagWebsites(tag: string): Observable<Array<Website>> {
+    return ajax.post(this.config.getServer('/admin/websites/tag'), {tag, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -511,8 +511,8 @@ export class GetService {
     );
   }
 
-  listOfDomainPages(user: string, domain: string): Observable<Array<Page>> {
-    return ajax.post(this.config.getServer('/admin/pages/domain'), {user, domain, cookie: this.user.getUserData()}).pipe(
+  listOfDomainPages(domain: string): Observable<Array<Page>> {
+    return ajax.post(this.config.getServer('/admin/pages/domain'), {domain, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;

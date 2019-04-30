@@ -29,7 +29,6 @@ import { ListOfUsersComponent } from './pages/users/list-of-users/list-of-users.
 import { WebsitesComponent } from './pages/websites/websites.component';
 import { ListOfWebsitesComponent } from './pages/websites/list-of-websites/list-of-websites.component';
 import { NotFound404Component } from './pages/not-found-404/not-found-404.component';
-import { ConfirmAdditionDialogComponent } from './dialogs/confirm-addition-dialog/confirm-addition-dialog.component';
 import { EntitiesComponent } from './pages/entities/entities.component';
 import { ListOfEntitiesComponent } from './pages/entities/list-of-entities/list-of-entities.component';
 import { DomainsComponent } from './pages/domains/domains.component';
@@ -82,6 +81,8 @@ import { CrawlerDialogComponent } from './dialogs/crawler-dialog/crawler-dialog.
 import { AddCrawlerPagesDialogComponent } from './dialogs/add-crawler-pages-dialog/add-crawler-pages-dialog.component';
 import { DeleteWebsitePagesDialogComponent } from './dialogs/delete-website-pages-dialog/delete-website-pages-dialog.component';
 import { ListOfPagesUserComponent } from './pages/pages/list-of-pages-user/list-of-pages-user.component';
+import { DeleteWebsiteConfirmationDialogComponent } from './dialogs/delete-website-confirmation-dialog/delete-website-confirmation-dialog.component';
+import { DeleteTagConfirmationDialogComponent } from './dialogs/delete-tag-confirmation-dialog/delete-tag-confirmation-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -90,13 +91,13 @@ const appRoutes: Routes = [
     { path: 'users', component: UsersComponent, canActivate: [AdminAuthGuard] },
     { path: 'user/:user', component: UserComponent, canActivate: [AdminAuthGuard] },
     { path: 'tags', component: TagsComponent, canActivate: [AdminAuthGuard] },
-    { path: 'tag/:user/:tag', component: TagComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tag/:tag', component: TagComponent, canActivate: [AdminAuthGuard] },
     { path: 'entities', component: EntitiesComponent, canActivate: [AdminAuthGuard] },
     { path: 'entity/:entity', component: EntityComponent, canActivate: [AdminAuthGuard] },
     { path: 'websites', component: WebsitesComponent, canActivate: [AdminAuthGuard] },
-    { path: 'website/:user/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
+    { path: 'website/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
     { path: 'domains', component: DomainsComponent, canActivate: [AdminAuthGuard] },
-    { path: 'domain/:user/:domain', component: DomainComponent, canActivate: [AdminAuthGuard] },
+    { path: 'domain/:domain', component: DomainComponent, canActivate: [AdminAuthGuard] },
     { path: 'pages', component: PagesComponent, canActivate: [AdminAuthGuard] },
     { path: 'page/:page', component: PageComponent, canActivate: [AdminAuthGuard] },
     { path: 'page/:page/:evaluation_id', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
@@ -127,7 +128,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     WebsitesComponent,
     ListOfWebsitesComponent,
     NotFound404Component,
-    ConfirmAdditionDialogComponent,
     EntitiesComponent,
     ListOfEntitiesComponent,
     DomainsComponent,
@@ -175,7 +175,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     CrawlerDialogComponent,
     AddCrawlerPagesDialogComponent,
     DeleteWebsitePagesDialogComponent,
-    ListOfPagesUserComponent
+    ListOfPagesUserComponent,
+    DeleteWebsiteConfirmationDialogComponent,
+    DeleteTagConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -223,7 +225,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ErrorDistributionDialogComponent,
     CrawlerDialogComponent,
     AddCrawlerPagesDialogComponent,
-    DeleteWebsitePagesDialogComponent
+    DeleteWebsitePagesDialogComponent,
+    DeleteWebsiteConfirmationDialogComponent,
+    DeleteTagConfirmationDialogComponent
   ],
   providers: [
     AdminAuthGuard,

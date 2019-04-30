@@ -142,7 +142,7 @@ export class EditUserDialogComponent implements OnInit {
                 this.loadingWebsites = false;
               });
           } else {
-            this.userForm.controls.app.setValue('Access Studies');
+            this.userForm.controls.app.setValue('Study Monitor');
           }
         }
 

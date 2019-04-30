@@ -33,10 +33,7 @@
           {{ "DOMAINS_PAGE.LIST.table.domain_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex>
-          <a *ngIf="element.User" [routerLink]="['/console', 'domain', element.User, element.Url]">
-            <strong>{{element.Url}}</strong>
-          </a>
-          <a *ngIf="!element.User" [routerLink]="['/console', 'domain', 'admin', element.Url]">
+          <a [routerLink]="['/console', 'domain', element.Url]">
             <strong>{{element.Url}}</strong>
           </a>
         </mat-cell>

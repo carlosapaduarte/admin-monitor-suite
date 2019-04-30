@@ -33,7 +33,6 @@ export class TagComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      this.user = _.trim(params.user);
       this.tag = params.tag;
 
       this.getListOfTagWebsites();
@@ -50,7 +49,7 @@ export class TagComponent implements OnInit, OnDestroy {
   }
 
   private getListOfTagWebsites(): void {
-    this.get.listOfTagWebsites(this.user, this.tag)
+    this.get.listOfTagWebsites(this.tag)
       .subscribe(websites => {
         if (websites !== null) {
           this.websites = websites;

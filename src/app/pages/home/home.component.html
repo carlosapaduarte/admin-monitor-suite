@@ -11,24 +11,25 @@
   <mat-card-content>
     <br>
     <div>
-      <h3>Study Monitor</h3>
+      <h3>{{ "HOME_PAGE.observatory" | translate }}</h3>
+      <div fxLayout="row" fxLayoutAlign="none center">
+        <app-item [icon]="'category'" [title]="'tags_label'" [value]="observatorio_tags"></app-item>
+        <app-item [icon]="'web'" [title]="'websites_label'" [value]="observatorio_websites"></app-item>
+      </div>
+      <br>
+      <h3>{{ "HOME_PAGE.monitor" | translate }}</h3>
+      <div fxLayout="row" fxLayoutAlign="none center">
+        <app-item [icon]="'person'" [title]="'users_label'" [value]="my_monitor_users"></app-item>
+        <app-item [icon]="'web'" [title]="'websites_label'" [value]="my_monitor_websites"></app-item>
+      </div>
+      <br>
+      <h3>{{ "HOME_PAGE.studies" | translate }}</h3>
       <div fxLayout="row" fxLayoutAlign="none center">
         <app-item [icon]="'person'" [title]="'users_label'" [value]="access_studies_users"></app-item>
         <app-item [icon]="'category'" [title]="'tags_label'" [value]="access_studies_tags"></app-item>
         <app-item [icon]="'web'" [title]="'websites_label'" [value]="access_studies_websites"></app-item>
       </div>
       <br>
-      <h3>My Monitor</h3>
-      <div fxLayout="row" fxLayoutAlign="none center">
-        <app-item [icon]="'person'" [title]="'users_label'" [value]="my_monitor_users"></app-item>
-        <app-item [icon]="'web'" [title]="'websites_label'" [value]="my_monitor_websites"></app-item>
-      </div>
-      <br>
-      <h3>Observatório</h3>
-      <div fxLayout="row" fxLayoutAlign="none center">
-        <app-item [icon]="'category'" [title]="'tags_label'" [value]="observatorio_tags"></app-item>
-        <app-item [icon]="'web'" [title]="'websites_label'" [value]="observatorio_websites"></app-item>
-      </div>
     </div>
     <br>
   </mat-card-content>

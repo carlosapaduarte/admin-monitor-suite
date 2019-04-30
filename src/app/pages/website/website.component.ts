@@ -37,7 +37,6 @@ export class WebsiteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      this.user = _.trim(params.user);
       this.website = params.website;
 
       this.getListOfWebsiteDomains();
