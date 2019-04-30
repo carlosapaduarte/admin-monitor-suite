@@ -647,20 +647,13 @@
       }
     },
     "TAG": {
-        "title": "Importar a tag",
-        "list": {
-          "item1": "Esta operação irá importar todos os websites e os seus domínios associados, bem como todas as suas páginas.",
-          "item2": "Se pretender importar algum domínio para um website existente, crie primeiro esse domínio no respetivo website.",
-          "item3": "Esta ação não pode ser revertida!"
-        }
-      },
-    "RESULT_LIST": {
-      "uri_label": "Páginas",
-      "cancel": "Cancelar",
-      "submit": "Adicionar"
-    },
-    "reset": "Limpar",
-    "submit": "Procurar"
+      "title": "Importar a tag",
+      "list": {
+        "item1": "Esta operação irá importar todos os websites e os seus domínios associados, bem como todas as suas páginas.",
+        "item2": "Se pretender importar algum domínio para um website existente, crie primeiro esse domínio no respetivo website.",
+        "item3": "Esta ação não pode ser revertida!"
+      }
+    }
   },
   "FOOTER": {
     "language": "Língua",
