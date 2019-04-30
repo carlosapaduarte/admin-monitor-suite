@@ -13,6 +13,10 @@ export class ImportWebsiteDialogComponent implements OnInit {
   websiteId: string;
   website: string;
 
+  hasDomain: boolean;
+  webName: string;
+  domain: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private verify: VerifyService,
@@ -20,6 +24,10 @@ export class ImportWebsiteDialogComponent implements OnInit {
   ) {
     this.website = this.data.website;
     this.websiteId = this.data.websiteId;
+    this.hasDomain = this.data.hasDomain;
+    this.webName = this.data.webName;
+    this.domain = this.data.url;
+    console.log(this.domain);
   }
 
   ngOnInit() {

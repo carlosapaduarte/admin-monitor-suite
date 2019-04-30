@@ -2,12 +2,9 @@
 <mat-dialog-content>
   <p><strong>{{ "IMPORT.title" | translate }}</strong></p>
   <ul>
-    <li>{{ "IMPORT.WEBSITE.list.item1" | translate }}</li>
-    <li>{{ "IMPORT.WEBSITE.list.item2" | translate }}</li>
-    <li>{{ "IMPORT.WEBSITE.list.item3" | translate }}</li>
-    <li>{{ "IMPORT.WEBSITE.list.item4" | translate }}</li>
-    <li>{{ "IMPORT.WEBSITE.list.item5" | translate }}</li>
-    <li>{{ "IMPORT.WEBSITE.list.item6" | translate }}</li>
+    <li *ngIf="!hasDomain">{{ "IMPORT.WEBSITE.list.item1" | translate }}{{domain}}{{ "IMPORT.WEBSITE.list.item2" | translate }} </li>
+    <li *ngIf="!hasDomain">{{ "IMPORT.WEBSITE.list.item3" | translate }} </li>
+    <li *ngIf="hasDomain">{{ "IMPORT.WEBSITE.list.item4" | translate }}{{domain}}{{ "IMPORT.WEBSITE.list.item5" | translate }} {{webName}} {{ "IMPORT.WEBSITE.list.item6" | translate }}</li>
     <li>{{ "IMPORT.WEBSITE.list.item7" | translate }}</li>
 
     <!-- as tres primeiras eh para quando o dominio nao existe -->

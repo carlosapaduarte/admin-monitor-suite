@@ -74,12 +74,16 @@ export class ListOfWebsitesUserComponent implements OnInit {
     console.log(data);
   }
 
-  openImportWebsiteDialog(website: string, websiteId: string): void {
+  openImportWebsiteDialog(website, websiteId, webName, url: string, hasDomain: boolean): void {
+    console.log(url);
     const importWebsiteDialog = this.dialog.open(ImportWebsiteDialogComponent, {
       width: '40vw',
       data: {
         website: website,
         websiteId: websiteId,
+        hasDomain: hasDomain,
+        webName: webName,
+        url: url
       }
     });
     importWebsiteDialog.afterClosed().subscribe(result => {

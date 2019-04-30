@@ -57,11 +57,9 @@
           {{ "IMPORT.import" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <mat-checkbox (change)="log(element)"> <!--TODO (change)="setPageinAMS($event, element)"
-                        [checked]="isAdminPage(element.Show_In)"-->
-          </mat-checkbox>
-          <button mat-raised-button color="primary" (click)="openImportWebsiteDialog(element.Name, element.WebsiteId)"
-                  >{{ "IMPORT.import" | translate }}</button> <!-- [disabled]="alreadyImported(element.WebsiteId)"-->
+          <button mat-raised-button color="primary"
+                  (click)="openImportWebsiteDialog(element.Name, element.WebsiteId, element.webName, element.Url, element.hasDomain)"
+                  [disabled]="element.imported">{{ "IMPORT.import" | translate }}</button>
         </mat-cell>
       </ng-container>
 
@@ -69,6 +67,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]"
+                   showFirstLastButtons></mat-paginator>
   </mat-card-content>
 </mat-card>
