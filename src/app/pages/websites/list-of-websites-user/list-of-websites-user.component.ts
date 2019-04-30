@@ -30,6 +30,7 @@ export class ListOfWebsitesUserComponent implements OnInit {
 
   user: string;
   tag: string;
+  userType: string;
 
   @ViewChild('input') input: ElementRef;
   @ViewChild(MatSort) sort: MatSort;
@@ -46,8 +47,28 @@ export class ListOfWebsitesUserComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.user = _.trim(params.user);
       this.tag = _.trim(params.tag);
-    });
-    this.getListOfUserWebsites();
+
+        this.get.userType(this.user)
+          .subscribe(type => {
+            if (type !== null) {
+              if (type !== 'monitor' && type !== 'studies') {
+                this.error = true;
+              } else {
+                this.userType = type;
+              }
+            } else {
+              this.error = true;
+            }
+            this.loading = false;
+          });
+      });
+
+    if (this.userType === 'studies') {
+      this.getListOfStudiesWebsites();
+    } else {
+      this.getListOfWebsites();
+    }
+
   }
 
   applyFilter(filterValue: string): void {
@@ -56,8 +77,8 @@ export class ListOfWebsitesUserComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  private getListOfUserWebsites(): void {
-    this.get.listOfUserTagWebsites(this.user, this.tag)
+  private getListOfStudiesWebsites(): void {
+    this.get.listOfStudiesTagWebsites(this.user, this.tag)
       .subscribe(websites => {
         if (websites !== null) {
           this.dataSource = new MatTableDataSource(websites);
@@ -70,7 +91,21 @@ export class ListOfWebsitesUserComponent implements OnInit {
       });
   }
 
-  log(data: any): void{
+  private getListOfWebsites(): void {
+    this.get.listOfUserWebsites(this.user)
+      .subscribe(websites => {
+        if (websites !== null) {
+          this.dataSource = new MatTableDataSource(websites);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        } else {
+          this.error = true;
+        }
+        this.loading = false;
+      });
+  }
+
+  log(data: any): void {
     console.log(data);
   }
 

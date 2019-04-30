@@ -64,7 +64,6 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
         case 'Import':
           //TODO fix this
           return _.includes(['both'], item['Import']);
-
         default:
           return item[property];
       }
@@ -77,8 +76,10 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
-  setPageinAMS(checkbox: any, page: any): void {
-    this.update.importPage({ pageId: page.PageId, checked: checkbox.checked, user: this.user}).subscribe();
+  setPageinAMS(pageId: string): void {
+    this.update.importPage({ pageId: pageId, user: this.user}).subscribe();
+    //TODO deixar isto assim?
+    window.location.reload();
   }
 
   isAdminPage(flags: string): boolean {

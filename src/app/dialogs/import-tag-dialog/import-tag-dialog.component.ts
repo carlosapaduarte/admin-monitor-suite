@@ -24,7 +24,7 @@ export class ImportTagDialogComponent implements OnInit {
   }
 
   importTag(): void {
-    this.update.importTag({ tagId: this.tagId}).subscribe();
+    this.update.importTag({ tagId: this.tagId, tagName: this.tag}).subscribe();
   }
 
 }

@@ -27,7 +27,6 @@ export class ImportWebsiteDialogComponent implements OnInit {
     this.hasDomain = this.data.hasDomain;
     this.webName = this.data.webName;
     this.domain = this.data.url;
-    console.log(this.domain);
   }
 
   ngOnInit() {

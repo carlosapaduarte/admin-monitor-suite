@@ -350,8 +350,31 @@ export class GetService {
     );
   }
 
-  listOfUserTagWebsites(user: string, tag: string): Observable<Array<Website>> {
+  listOfStudiesTagWebsites(user: string, tag: string): Observable<Array<Website>> {
     return ajax.post(this.config.getServer('/admin/websites/studyTag'), {user, tag, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<Website>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  listOfUserWebsites(user: string): Observable<Array<Website>> {
+    return ajax.post(this.config.getServer('/admin/websites/user'), {user, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;

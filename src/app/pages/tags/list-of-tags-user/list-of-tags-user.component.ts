@@ -83,9 +83,9 @@ export class ListOfTagsUserComponent implements OnInit {
       }
     });
     importTagDialog.afterClosed().subscribe(result => {
-      /*if (result) {
+      if (result) {
         window.location.reload();
-      }*/
+      }
     });
   }
 

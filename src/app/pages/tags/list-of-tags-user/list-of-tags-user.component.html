@@ -75,11 +75,8 @@
           {{ "IMPORT.import" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <mat-checkbox> <!--TODO (change)="setPageinAMS($event, element)"
-                        [checked]="isAdminPage(element.Show_In)"-->
-          </mat-checkbox>
           <button mat-raised-button color="primary" (click)="openImportTagDialog(element.Name, element.TagId)"
-                  >{{ "IMPORT.import" | translate }}</button><!-- [disabled]="alreadyImported(element.TagId)"-->
+                  [disabled]="element.imported">{{ "IMPORT.import" | translate }}</button>
         </mat-cell>
       </ng-container>
 

@@ -2,14 +2,10 @@
 <mat-dialog-content>
   <p><strong>{{ "IMPORT.title" | translate }}</strong></p>
   <ul>
-    <li *ngIf="!hasDomain">{{ "IMPORT.WEBSITE.list.item1" | translate }}{{domain}}{{ "IMPORT.WEBSITE.list.item2" | translate }} </li>
+    <li *ngIf="!hasDomain">{{ "IMPORT.WEBSITE.list.item1" | translate }}<strong>{{domain}}</strong>{{ "IMPORT.WEBSITE.list.item2" | translate }} </li>
     <li *ngIf="!hasDomain">{{ "IMPORT.WEBSITE.list.item3" | translate }} </li>
-    <li *ngIf="hasDomain">{{ "IMPORT.WEBSITE.list.item4" | translate }}{{domain}}{{ "IMPORT.WEBSITE.list.item5" | translate }} {{webName}} {{ "IMPORT.WEBSITE.list.item6" | translate }}</li>
-    <li>{{ "IMPORT.WEBSITE.list.item7" | translate }}</li>
-
-    <!-- as tres primeiras eh para quando o dominio nao existe -->
-    <!-- as tres proximas eh para quando o dominio existe -->
-    <!-- a ultima eh sempre -->
+    <li *ngIf="hasDomain">{{ "IMPORT.WEBSITE.list.item4" | translate }}<strong>{{domain}}</strong>{{ "IMPORT.WEBSITE.list.item5" | translate }}<strong>{{webName}}</strong>{{ "IMPORT.WEBSITE.list.item6" | translate }}</li>
+    <li><strong>{{ "IMPORT.WEBSITE.list.item7" | translate }}</strong></li>
   </ul>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
