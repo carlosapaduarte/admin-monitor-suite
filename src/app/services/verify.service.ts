@@ -58,8 +58,30 @@ export class VerifyService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-
         return response.result ? { 'notTakenName': true } : null;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  tagNameDialogExists(name: string): Observable<boolean> {
+    return ajax(this.config.getServer('/admin/tags/exists/' + name)).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+        console.log(response.result);
+        return response.result;
       }),
       catchError(err => {
         console.log(err);

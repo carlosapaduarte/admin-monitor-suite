@@ -26,7 +26,6 @@ export class ListOfWebsitesUserComponent implements OnInit {
   selection: any;
 
   loading: boolean;
-  error: boolean;
 
   user: string;
   tag: string;
@@ -41,33 +40,26 @@ export class ListOfWebsitesUserComponent implements OnInit {
     private get: GetService,
     private update: UpdateService,
     private dialog: MatDialog,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.user = _.trim(params.user);
       this.tag = _.trim(params.tag);
 
-        this.get.userType(this.user)
-          .subscribe(type => {
-            if (type !== null) {
-              if (type !== 'monitor' && type !== 'studies') {
-                this.error = true;
-              } else {
-                this.userType = type;
-              }
+      this.get.userType(this.user)
+        .subscribe(type => {
+          if (type !== null) {
+            if (type === 'studies' || type === 'nimda') {
+              this.getListOfStudiesWebsites();
             } else {
-              this.error = true;
+              this.getListOfWebsites();
             }
-            this.loading = false;
-          });
-      });
+          this.loading = false;
+        }});
+    });
 
-    if (this.userType === 'studies') {
-      this.getListOfStudiesWebsites();
-    } else {
-      this.getListOfWebsites();
-    }
 
   }
 
@@ -84,8 +76,6 @@ export class ListOfWebsitesUserComponent implements OnInit {
           this.dataSource = new MatTableDataSource(websites);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        } else {
-          this.error = true;
         }
         this.loading = false;
       });
@@ -98,8 +88,6 @@ export class ListOfWebsitesUserComponent implements OnInit {
           this.dataSource = new MatTableDataSource(websites);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
-        } else {
-          this.error = true;
         }
         this.loading = false;
       });

@@ -7,9 +7,17 @@
     <li *ngIf="hasDomain">{{ "IMPORT.WEBSITE.list.item4" | translate }}<strong>{{domain}}</strong>{{ "IMPORT.WEBSITE.list.item5" | translate }}<strong>{{webName}}</strong>{{ "IMPORT.WEBSITE.list.item6" | translate }}</li>
     <li><strong>{{ "IMPORT.WEBSITE.list.item7" | translate }}</strong></li>
   </ul>
+  <div *ngIf="websiteNameExists">
+    <p><strong>Ja existe um website com este nome</strong></p>
+    <p>Introduza um novo nome:</p>
+    <div [formGroup]="pageForm">
+      <input type="text" aria-label="New Website Name" matInput formControlName="newWebsiteName" required>
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
-  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importWebsite()">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importWebsite()"
+          [disabled]="websiteNameExists && pageForm.controls.newWebsiteName.hasError('required')">
     {{ "IMPORT.import" | translate }}
   </button>
 </mat-dialog-actions>

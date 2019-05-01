@@ -644,6 +644,10 @@
         "item5": ") link to this website to the website ",
         "item6": ", as well as all its pages.",
         "item7": "This action cannot be undone!"
+      },
+      "warning": {
+        "item1": "Already exists a website with this name!",
+        "item2": "Please insert a new name for the future imported website:"
       }
     },
     "TAG": {
@@ -652,6 +656,10 @@
         "item1": "This operation will import all its websites and corresponding domains, as well as all its pages.",
         "item2": "If you pretend to import any domain to an existent website, you need to create that domain in that desired website first.",
         "item3": "This action cannot be undone!"
+      },
+      "warning": {
+        "item1": "Already exists a tag with this name!",
+        "item2": "Please insert a new name for the future imported tag:"
       }
     }
   },

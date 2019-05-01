@@ -6,9 +6,17 @@
     <li>{{ "IMPORT.TAG.list.item2" | translate }}</li>
     <li><strong>{{ "IMPORT.TAG.list.item3" | translate }}</strong></li>
   </ul>
+  <div *ngIf="tagNameExists">
+    <p><strong>{{ "IMPORT.TAG.warning.item1" | translate }}</strong></p>
+    <p>{{ "IMPORT.TAG.warning.item2" | translate }}</p>
+    <div [formGroup]="pageForm">
+      <input type="text" aria-label="New Tag Name" matInput formControlName="newTagName" required>
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
-  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importTag()">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importTag()"
+          [disabled]="tagNameExists && pageForm.controls.newTagName.hasError('required')">
     {{ "IMPORT.import" | translate }}
   </button>
 </mat-dialog-actions>
