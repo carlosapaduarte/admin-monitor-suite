@@ -104,7 +104,7 @@
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="see">
+      <ng-container *ngIf="user === ''" matColumnDef="see">
         <mat-header-cell *matHeaderCellDef fxFlex="8">Crawler</mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="8">
           <!--<button *ngIf="element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', element.User, element.Url]">

@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { MatDialog } from '@angular/material';
+import {Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter} from '@angular/core';
+import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import * as _ from 'lodash';
 
-import { DeleteDomainDialogComponent } from '../../../dialogs/delete-domain-dialog/delete-domain-dialog.component';
+import {DeleteDomainDialogComponent} from '../../../dialogs/delete-domain-dialog/delete-domain-dialog.component';
 import {CrawlerDialogComponent} from '../../../dialogs/crawler-dialog/crawler-dialog.component';
+import {ActivatedRoute} from '@angular/router';
+import {GetService} from '../../../services/get.service';
 
 @Component({
   selector: 'app-list-of-domains',
@@ -27,6 +29,8 @@ export class ListOfDomainsComponent implements OnInit {
     'see'
   ];
 
+  user: string;
+
   dataSource: any;
   selection: any;
 
@@ -34,7 +38,24 @@ export class ListOfDomainsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+              private activatedRoute: ActivatedRoute,
+              private get: GetService) {
+    this.activatedRoute.params.subscribe(params => {
+      this.user = _.trim(params.user);
+      console.log(this.user);
+      if (this.user !== '') {
+        this.displayedColumns = [
+          'Url',
+          'Active',
+          'Pages',
+          'Start_Date',
+          'End_Date',
+          'delete'
+        ];
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.domains);
