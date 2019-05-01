@@ -83,6 +83,10 @@ import { DeleteWebsitePagesDialogComponent } from './dialogs/delete-website-page
 import { ListOfPagesUserComponent } from './pages/pages/list-of-pages-user/list-of-pages-user.component';
 import { DeleteWebsiteConfirmationDialogComponent } from './dialogs/delete-website-confirmation-dialog/delete-website-confirmation-dialog.component';
 import { DeleteTagConfirmationDialogComponent } from './dialogs/delete-tag-confirmation-dialog/delete-tag-confirmation-dialog.component';
+import { ListOfTagsUserComponent } from './pages/tags/list-of-tags-user/list-of-tags-user.component';
+import { ListOfWebsitesUserComponent } from './pages/websites/list-of-websites-user/list-of-websites-user.component';
+import { ImportWebsiteDialogComponent } from './dialogs/import-website-dialog/import-website-dialog.component';
+import { ImportTagDialogComponent } from './dialogs/import-tag-dialog/import-tag-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -92,10 +96,13 @@ const appRoutes: Routes = [
     { path: 'user/:user', component: UserComponent, canActivate: [AdminAuthGuard] },
     { path: 'tags', component: TagsComponent, canActivate: [AdminAuthGuard] },
     { path: 'tag/:tag', component: TagComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tag/:user/:tag', component: TagComponent, canActivate: [AdminAuthGuard] },
     { path: 'entities', component: EntitiesComponent, canActivate: [AdminAuthGuard] },
     { path: 'entity/:entity', component: EntityComponent, canActivate: [AdminAuthGuard] },
     { path: 'websites', component: WebsitesComponent, canActivate: [AdminAuthGuard] },
     { path: 'website/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
+    { path: 'website/:user/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tag/website/:tag/:user/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
     { path: 'domains', component: DomainsComponent, canActivate: [AdminAuthGuard] },
     { path: 'domain/:domain', component: DomainComponent, canActivate: [AdminAuthGuard] },
     { path: 'pages', component: PagesComponent, canActivate: [AdminAuthGuard] },
@@ -177,7 +184,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeleteWebsitePagesDialogComponent,
     ListOfPagesUserComponent,
     DeleteWebsiteConfirmationDialogComponent,
-    DeleteTagConfirmationDialogComponent
+    DeleteTagConfirmationDialogComponent,
+    ListOfPagesUserComponent,
+    ListOfTagsUserComponent,
+    ListOfWebsitesUserComponent,
+    ImportWebsiteDialogComponent,
+    ImportTagDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -227,7 +239,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddCrawlerPagesDialogComponent,
     DeleteWebsitePagesDialogComponent,
     DeleteWebsiteConfirmationDialogComponent,
-    DeleteTagConfirmationDialogComponent
+    DeleteTagConfirmationDialogComponent,
+    ImportTagDialogComponent,
+    ImportWebsiteDialogComponent
   ],
   providers: [
     AdminAuthGuard,

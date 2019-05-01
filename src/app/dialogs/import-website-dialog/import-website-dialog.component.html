@@ -1,0 +1,34 @@
+<h1 class="mat-display-1" mat-dialog-title>{{ "IMPORT.WEBSITE.title" | translate }} <strong>{{website}}</strong> </h1>
+<mat-dialog-content>
+  <p><strong>{{ "IMPORT.title" | translate }}</strong></p>
+  <ul>
+    <li *ngIf="!hasDomain">{{ "IMPORT.WEBSITE.list.item1" | translate }}<strong>{{domain}}</strong>{{ "IMPORT.WEBSITE.list.item2" | translate }} </li>
+    <li *ngIf="!hasDomain">{{ "IMPORT.WEBSITE.list.item3" | translate }} </li>
+    <li *ngIf="hasDomain">{{ "IMPORT.WEBSITE.list.item4" | translate }}<strong>{{domain}}</strong>{{ "IMPORT.WEBSITE.list.item5" | translate }}<strong>{{webName}}</strong>{{ "IMPORT.WEBSITE.list.item6" | translate }}</li>
+    <li><strong>{{ "IMPORT.WEBSITE.list.item7" | translate }}</strong></li>
+  </ul>
+  <div *ngIf="!hasDomain">
+    <p><strong>{{ "IMPORT.WEBSITE.warning.item1" | translate }}</strong></p>
+    <p><strong>{{ "IMPORT.WEBSITE.warning.item2" | translate }}</strong></p>
+    <div [formGroup]="pageForm">
+      <mat-form-field fxFlex>
+        <label>{{ "IMPORT.WEBSITE.warning.item3" | translate }}</label>
+        <input mat-input type="text" aria-label="New Website Name" matInput formControlName="newWebsiteName" required>
+        <mat-error *ngIf="pageForm.controls.newWebsiteName.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
+        <mat-error *ngIf="pageForm.controls.newWebsiteName.hasError('notTakenName')">
+          {{ "WEBSITES_PAGE.ADD.name_exists" | translate }}
+        </mat-error>
+        <mat-error *ngIf="pageForm.controls.newWebsiteName.hasError('required')" [innerHTML]="'MISC.required_field' | translate">
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importWebsite()"
+          [disabled]="!hasDomain && pageForm.controls.newWebsiteName.invalid ">
+    {{ "IMPORT.import" | translate }}
+  </button>
+</mat-dialog-actions>

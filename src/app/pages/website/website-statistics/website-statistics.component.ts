@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
@@ -16,6 +16,7 @@ import { Page } from '../../../models/page';
 })
 export class WebsiteStatisticsComponent implements OnInit {
 
+  @Input('user') user: string;
   @Input('domain') domain: string;
 
   pages: Array<Page>;
@@ -43,7 +44,8 @@ export class WebsiteStatisticsComponent implements OnInit {
 
   constructor(
     private get: GetService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {
     this.thresholdConfig = {
       '0': {
@@ -69,7 +71,7 @@ export class WebsiteStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.get.listOfDomainPages(encodeURIComponent(this.domain))
+    this.get.listOfDomainPages(this.user, encodeURIComponent(this.domain))
       .subscribe(pages => {
         if (pages !== null) {
           this.pages = pages;
@@ -115,6 +117,7 @@ export class WebsiteStatisticsComponent implements OnInit {
         }
 
         this.loading = false;
+        this.cd.detectChanges();
       });
   }
 

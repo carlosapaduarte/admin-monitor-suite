@@ -1,0 +1,33 @@
+<h1 class="mat-display-1" mat-dialog-title>{{ "IMPORT.TAG.title" | translate }} <strong>{{tag}}</strong></h1>
+<mat-dialog-content>
+  <p><strong>{{ "IMPORT.title" | translate }}</strong></p>
+  <ul>
+    <li>{{ "IMPORT.TAG.list.item1" | translate }}</li>
+    <li>{{ "IMPORT.TAG.list.item2" | translate }}</li>
+    <li><strong>{{ "IMPORT.TAG.list.item3" | translate }}</strong></li>
+  </ul>
+  <div *ngIf="tagNameExists">
+    <p><strong>{{ "IMPORT.TAG.warning.item1" | translate }}</strong></p>
+    <p>{{ "IMPORT.TAG.warning.item2" | translate }}</p>
+    <div [formGroup]="pageForm">
+      <mat-form-field fxFlex>
+        <label for="import-tag-new-name">{{ "IMPORT.TAG.warning.item3" | translate }}</label>
+        <input id="import-tag-new-name" mat-input type="text" aria-label="New Tag Name" matInput formControlName="newTagName" required>
+        <mat-error *ngIf="pageForm.controls.newTagName.status === 'PENDING'">
+          <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </mat-error>
+        <mat-error *ngIf="pageForm.controls.newTagName.hasError('notTakenName')">
+          {{ "TAGS_PAGE.ADD.name_exists" | translate }}
+        </mat-error>
+        <mat-error *ngIf="pageForm.controls.newTagName.hasError('required')" [innerHTML]="'MISC.required_field' | translate">
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="importTag()"
+          [disabled]="tagNameExists && pageForm.controls.newTagName.invalid">
+    {{ "IMPORT.import" | translate }}
+  </button>
+</mat-dialog-actions>

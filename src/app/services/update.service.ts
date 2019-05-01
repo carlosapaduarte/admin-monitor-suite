@@ -172,14 +172,9 @@ export class UpdateService {
     );
   }
 
-  observatoryPages(pages: Array<any>, pagesId: Array<number>): Observable<boolean> {
-    const data = {
-      pages: JSON.stringify(pages),
-      pagesId: JSON.stringify(pagesId),
-      cookie: this.userService.getUserData()
-    };
-
-    return ajax.post(this.config.getServer('/admin/pages/updateObservatory'), data).pipe(
+importPage(data: any): Observable<boolean> {
+    data.cookie = this.userService.getUserData();
+    return ajax.post(this.config.getServer('/admin/pages/updateAdminPage'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
@@ -195,16 +190,71 @@ export class UpdateService {
         return <boolean> response.result;
       }),
       catchError(err => {
-        this.message.show('PAGES_PAGE.UPDATE.messages.error');
+        this.message.show('IMPORT.errors.page');
         console.log(err);
         return of(null);
       })
     );
   }
 
-  importPage(data: any): Observable<boolean> {
+  importWebsite(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/updateAdmin'), data).pipe(
+    return ajax.post(this.config.getServer('/admin/pages/updateAdminWebsite'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('IMPORT.errors.website');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  importTag(data: any): Observable<boolean> {
+    data.cookie = this.userService.getUserData();
+    return ajax.post(this.config.getServer('/admin/pages/updateAdminTag'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('IMPORT.errors.tag');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  observatoryPages(pages: Array<any>, pagesId: Array<number>): Observable<boolean> {
+    const data = {
+      pages: JSON.stringify(pages),
+      pagesId: JSON.stringify(pagesId),
+      cookie: this.userService.getUserData()
+    };
+
+    return ajax.post(this.config.getServer('/admin/pages/updateObservatorio'), data).pipe(
       retry(3),
       map(res => {
         if (!res.response || res.status === 404) {

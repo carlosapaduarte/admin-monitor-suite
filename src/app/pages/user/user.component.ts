@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
-import { GetService } from '../../services/get.service';
-import { MessageService } from '../../services/message.service';
+import {GetService} from '../../services/get.service';
+import {MessageService} from '../../services/message.service';
 
 @Component({
   selector: 'app-user',
@@ -19,7 +19,8 @@ export class UserComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   user: string;
-  websites: Array<any>;
+  userType: string;
+  data: Array<any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,14 +35,28 @@ export class UserComponent implements OnInit, OnDestroy {
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.user = _.trim(params.user);
 
-      this.getListOfUserWebsites();
+      this.get.userType(this.user)
+        .subscribe(type => {
+          if (type !== null) {
+            if (type !== 'monitor' && type !== 'studies') {
+              this.error = true;
+            } else {
+              this.userType = type;
+            }
+          } else {
+            this.error = true;
+          }
+
+          this.loading = false;
+          this.cd.detectChanges();
+        });
     });
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
+  /*
   refreshWebsites(): void {
     this.loading = true;
     this.getListOfUserWebsites();
@@ -51,7 +66,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.get.listOfUserWebsites(this.user)
       .subscribe(websites => {
         if (websites !== null) {
-          this.websites = websites;
+          this.data = websites;
         } else {
           this.error = true;
         }
@@ -60,4 +75,19 @@ export class UserComponent implements OnInit, OnDestroy {
         this.cd.detectChanges();
       });
   }
+
+  //TODO tirar isto daqui e deixar so na list-of-tags-user
+  private getListOfUserTags(): void {
+    this.get.listOfUserTags(this.user)
+      .subscribe(tags => {
+        if (tags !== null) {
+          this.data = tags;
+        } else {
+          this.error = true;
+        }
+        console.log('eis as tags');
+        console.log(tags);
+        this.loading = false;
+      });
+  }*/
 }

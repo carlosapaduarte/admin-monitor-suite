@@ -1,3 +1,7 @@
 mat-card-header {
   text-align: center;
 }
+
+div {
+  font-weight: bold;
+}

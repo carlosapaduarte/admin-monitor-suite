@@ -16,7 +16,7 @@
       </mat-form-field>
     </div>
 
-    <div class="max-pages-input" fxLayout="column" *ngIf="!loadingResponse">
+    <div class="max-pages-input" fxLayout="column">
       <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.pages' | translate}}">
         <label>{{"CRAWLER.PARAMETERS.pages" | translate}}</label>
         <mat-label></mat-label>
@@ -35,9 +35,9 @@
     <!-- https://github.com/simplecrawler/simplecrawler -->
     <!-- https://material.angular.io/components/form-field/overview -->
     <!-- <mat-checkbox [disabled]="pageForm.value.maxDepth"  (change)="log(pageForm.value.isMinDepth)" formControlName="isMinDepth">{{"CRAWLER.PARAMETERS.max_depth_checkbox" | translate}}</mat-checkbox> -->
-    <div *ngIf="loadingResponse">
-      <h1>Vais ter que esperar um bocadinho, tem lá calma rapaz</h1>
-    </div>
+    <!--<div *ngIf="loadingResponse">
+      <h1>TODO</h1>
+    </div>-->
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row">

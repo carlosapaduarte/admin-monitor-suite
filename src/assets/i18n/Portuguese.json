@@ -654,6 +654,45 @@
     "reset": "Limpar",
     "submit": "Procurar"
   },
+  "IMPORT": {
+    "import": "Importar",
+    "title": "Atenção!",
+    "WEBSITE": {
+      "title": "Importar o website",
+      "list": {
+        "item1": "Esta operação irá importar o website e o seu domínio (",
+        "item2": ") associado, bem como todas as suas páginas.",
+        "item3": "Se pretender importar este domínio para outro website existente, crie primeiro esse domínio no respetivo website.",
+        "item4": "Esta operação irá importar o domínio (",
+        "item5": ") associado a este website para o website ",
+        "item6": ", bem como todas as suas páginas.",
+        "item7": "Esta ação não pode ser revertida!"
+      },
+      "warning": {
+        "item1": "Já existe um website com este nome!",
+        "item2": "Por favor, insira um novo nome para o website a importar:",
+        "item3": "Novo nome"
+      }
+    },
+    "TAG": {
+      "title": "Importar a tag",
+      "list": {
+        "item1": "Esta operação irá importar todos os websites e os seus domínios associados, bem como todas as suas páginas.",
+        "item2": "Se pretender importar algum domínio para um website existente, crie primeiro esse domínio no respetivo website.",
+        "item3": "Esta ação não pode ser revertida!"
+      },
+      "warning": {
+        "item1": "Já existe uma tag com este nome!",
+        "item2": "Por favor, insira um novo nome para a tag a importar:",
+        "item3": "Novo nome"
+      },
+      "errors": {
+      "page": "Erro ao importar página",
+      "website": "Erro ao importar website",
+      "tag": "Erro ao importar tag"
+    }
+    }
+  },
   "FOOTER": {
     "language": "Língua",
     "link": "Unidade ACESSO",

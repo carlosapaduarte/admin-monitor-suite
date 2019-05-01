@@ -1,0 +1,73 @@
+<mat-card class="mat-typography">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>{{ "WEBSITES_PAGE.LIST.title" | translate }}</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h2>{{ "WEBSITES_PAGE.LIST.subtitle" | translate }}</h2>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="table-filter">
+      <mat-form-field appearance="outline" fxFlex>
+        <label for="website_table_filter">
+          {{ "MISC.filter" | translate }}
+        </label>
+        <input id="website_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="Name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
+          {{ "WEBSITES_PAGE.LIST.table.name_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex>
+          <a *ngIf="tag" [routerLink]="['/console', 'tag', 'website', tag, element.User, element.Name]">
+            <strong>{{element.Name}}</strong>
+          </a>
+          <a *ngIf="!tag" [routerLink]="['/console', 'website', element.User, element.Name]">
+            <strong>{{element.Name}}</strong>
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <!--<ng-container matColumnDef="Entity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="20">
+          {{ "WEBSITES_PAGE.LIST.table.entity_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="20">
+          <a [routerLink]="['/console', 'entity', element.Entity2]">
+            <strong>{{element.Entity}}</strong>
+          </a>
+        </mat-cell>
+      </ng-container>-->
+
+      <ng-container matColumnDef="Creation_Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
+          {{ "WEBSITES_PAGE.LIST.table.creation_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10"> {{element.Creation_Date | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Import">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [hidden]="type !== 'studies'" fxFlex="10">
+          {{ "IMPORT.import" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10" [hidden]="type !== 'studies'">
+          <button mat-raised-button color="primary"
+                  (click)="openImportWebsiteDialog(element.Name, element.WebsiteId, element.webName, element.Url, element.hasDomain)"
+                  [disabled]="element.imported">{{ "IMPORT.import" | translate }}</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]"
+                   showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>

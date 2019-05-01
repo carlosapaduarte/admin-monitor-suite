@@ -63,6 +63,7 @@
         </mat-cell>
       </ng-container>-->
 
+
       <ng-container matColumnDef="Pages">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
           {{ "DOMAINS_PAGE.LIST.table.pages_label" | translate }}
@@ -101,20 +102,20 @@
         </mat-cell>
       </ng-container>-->
 
-      <ng-container matColumnDef="see">
+      <!--<ng-container *ngIf="user === ''" matColumnDef="see">
         <mat-header-cell *matHeaderCellDef fxFlex="8">Crawler</mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="8">
-          <!--<button *ngIf="element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', element.User, element.Url]">
+          <button *ngIf="element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', element.User, element.Url]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </button>
           <button *ngIf="!element.User" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'domain', 'admin', element.Url]">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
-          </button> -->
+          </button>
           <button mat-icon-button matTooltip="{{'DOMAINS_PAGE.LIST.table.add_pages_tooltip' | translate}}" (click)="openCrawlerDialog($event, element.Url, element.DomainId)">
             <mat-icon class="md-24" aria-label="">pageview</mat-icon>
           </button>
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

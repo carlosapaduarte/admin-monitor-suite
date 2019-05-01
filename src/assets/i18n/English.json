@@ -656,6 +656,45 @@
     "reset": "Reset",
     "submit": "Search"
   },
+  "IMPORT": {
+    "import": "Import",
+    "title": "Beware!",
+    "WEBSITE": {
+      "title": "Import website",
+      "list": {
+        "item1": "This operation will import ths website and its corresponding domain (",
+        "item2": "), as well as all its pages.",
+        "item3": "If you pretend to import this domain to another existent website, you need to create that domain in that desired website first.",
+        "item4": "This operation will import the domain (",
+        "item5": ") from this website to the website ",
+        "item6": ", as well as all its pages.",
+        "item7": "This action cannot be undone!"
+      },
+      "warning": {
+        "item1": "Already exists a website with this name!",
+        "item2": "Please insert a new name for the future imported website:",
+        "item3": "New name"
+      }
+    },
+    "TAG": {
+      "title": "Import tag",
+      "list": {
+        "item1": "This operation will import all its websites and corresponding domains, as well as all its pages.",
+        "item2": "If you pretend to import any domain to an existent website, you need to create that domain in that desired website first.",
+        "item3": "This action cannot be undone!"
+      },
+      "warning": {
+        "item1": "Already exists a tag with this name!",
+        "item2": "Please insert a new name for the future imported tag:",
+        "item3": "New name"
+      }
+    },
+    "errors": {
+      "page": "Error importing page",
+      "website": "Error importing website",
+      "tag": "Error importing tag"
+    }
+  },
   "FOOTER": {
     "language": "Language",
     "link": "ACCESS Unit",

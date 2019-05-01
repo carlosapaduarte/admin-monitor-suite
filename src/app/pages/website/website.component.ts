@@ -16,13 +16,16 @@ export class WebsiteComponent implements OnInit, OnDestroy {
 
   loading: boolean;
   error: boolean;
+  errorNoActiveDomains: boolean;
 
   sub: Subscription;
 
+  tag: string;
   user: string;
   website: string;
   domains: Array<any>;
   activeDomain: string;
+  pages: Array<any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,9 +40,25 @@ export class WebsiteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
+      this.tag = params.tag || null;
+      this.user = params.user || 'admin';
       this.website = params.website;
 
-      this.getListOfWebsiteDomains();
+      if (this.user === 'admin') {
+        this.getListOfWebsiteDomains();
+      } else {
+        this.get.listOfUserWebsitePages(this.tag, this.user, this.website)
+          .subscribe(pages => {
+            if (pages !== null) {
+              this.pages = pages;
+            } else {
+              this.error = true;
+            }
+
+            this.loading = false;
+            this.cd.detectChanges();
+          });
+      }
     });
   }
 
@@ -52,7 +71,11 @@ export class WebsiteComponent implements OnInit, OnDestroy {
       .subscribe(domains => {
         if (domains !== null) {
           this.domains = domains;
-          this.activeDomain = _.find(this.domains, ['Active', 1]).Url;
+          if (_.size(domains) > 0 && _.size(_.find(this.domains, ['Active', 1 ])) === 0){
+            this.errorNoActiveDomains = true;
+          } else {
+            this.activeDomain = _.find(this.domains, ['Active', 1 ]).Url;
+          }
         } else {
           this.error = true;
         }
