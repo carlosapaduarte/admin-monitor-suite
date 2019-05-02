@@ -3,10 +3,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
-import { DeletePageDialogComponent } from '../../../dialogs/delete-page-dialog/delete-page-dialog.component';
-
 import { UpdateService } from '../../../services/update.service';
-import {OpenDataService} from '../../../services/open-data.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 
@@ -90,8 +87,6 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
           this.cd.detectChanges();
         }
       });
-    //TODO deixar isto assim?
-    //window.location.reload();
   }
 
   isAdminPage(flags: string): boolean {
