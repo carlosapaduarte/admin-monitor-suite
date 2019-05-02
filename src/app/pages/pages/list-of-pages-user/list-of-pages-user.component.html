@@ -19,7 +19,7 @@
       </mat-form-field>
 
     </div>
-    <mat-table [dataSource]="dataSource" matSort>
+    <mat-table id="mattable" [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="Uri">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
@@ -52,7 +52,7 @@
 
       <ng-container matColumnDef="Import">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
-          Importar <!-- TODO i18n -->
+          {{ "IMPORT.import" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-raised-button color="primary"
