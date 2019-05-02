@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {GetService} from '../../../services/get.service';
 import {MessageService} from '../../../services/message.service';
@@ -29,6 +29,7 @@ export class ListOfTagsUserComponent implements OnInit {
     'Import'
   ];
 
+  tags: Array<any>;
   dataSource: any;
   selection: any;
 
@@ -39,8 +40,8 @@ export class ListOfTagsUserComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private get: GetService,
-    private message: MessageService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {
     this.loading = true;
     this.error = false;
@@ -57,7 +58,8 @@ export class ListOfTagsUserComponent implements OnInit {
     this.get.listOfUserTags(this.user)
       .subscribe(tags => {
         if (tags !== null) {
-          this.dataSource = new MatTableDataSource(tags);
+          this.tags = tags;
+          this.dataSource = new MatTableDataSource(this.tags);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         } else {
@@ -74,17 +76,22 @@ export class ListOfTagsUserComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  openImportTagDialog(tag: string, tagId: string): void {
+  openImportTagDialog(tagName: string, tagId: string): void {
     const importTagDialog = this.dialog.open(ImportTagDialogComponent, {
       width: '40vw',
       data: {
-        tag: tag,
+        tag: tagName,
         tagId: tagId,
       }
     });
     importTagDialog.afterClosed().subscribe(result => {
       if (result) {
-        window.location.reload();
+        const tag = _.filter(this.tags);
+        tag[0].imported = true;
+        this.loading = true;
+        this.cd.detectChanges();
+        this.getListOfUserTags();
+        //window.location.reload();
       }
     });
   }

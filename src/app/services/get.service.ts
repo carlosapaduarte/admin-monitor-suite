@@ -603,8 +603,8 @@ export class GetService {
     );
   }
 
-  listOfPageEvaluations(page: string): Observable<Array<any>> {
-    return ajax.post(this.config.getServer('/admin/evaluations/page'), {page, cookie: this.user.getUserData()}).pipe(
+  listOfPageEvaluations(page: string, type: string): Observable<Array<any>> {
+    return ajax.post(this.config.getServer('/admin/evaluations/page'), {page, type, cookie: this.user.getUserData()}).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;

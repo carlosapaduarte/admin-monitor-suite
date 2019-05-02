@@ -22,7 +22,7 @@ export class ListOfEvaluationsComponent implements OnInit {
     'AA',
     'AAA',
     'Evaluation_Date',
-    'delete',
+    //'delete',
     'see'
   ];
 

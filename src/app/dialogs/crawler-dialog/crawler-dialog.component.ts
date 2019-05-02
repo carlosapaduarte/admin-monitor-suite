@@ -24,6 +24,7 @@ export class CrawlerDialogComponent implements OnInit {
   selectable = false;
   removable = true;
   addOnBlur = false;
+  error: boolean;
 
   pageForm: FormGroup;
 
@@ -54,6 +55,7 @@ export class CrawlerDialogComponent implements OnInit {
       ]),
     });
     this.loadingResponse = false;
+    this.error = false;
   }
 
   ngOnInit() {

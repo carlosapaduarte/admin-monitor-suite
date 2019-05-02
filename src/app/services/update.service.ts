@@ -187,7 +187,7 @@ importPage(data: any): Observable<boolean> {
           throw new AdminError(response.success, response.message);
         }
 
-        return <boolean> response.result;
+        return <boolean> (response.result > 0);
       }),
       catchError(err => {
         this.message.show('IMPORT.errors.page');

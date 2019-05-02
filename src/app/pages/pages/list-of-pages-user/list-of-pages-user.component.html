@@ -10,7 +10,7 @@
 
   <mat-card-content>
     <div class="table-filter">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" fxFlex>
         <label for="user_pages_table_filter">
           {{ "MISC.filter" | translate }}
         </label>
@@ -26,7 +26,10 @@
           {{ "PAGES_PAGE.LIST.table.uri_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex>
-          <a [routerLink]="['/console', 'page', element.Uri]">
+          <a *ngIf="tag" [routerLink]="['/console', 'tag', 'website', tag, user, website, element.Uri]">
+            <strong>{{element.Uri}}</strong>
+          </a>
+          <a *ngIf="!tag" [routerLink]="['/console', 'website', user, website, element.Uri]">
             <strong>{{element.Uri}}</strong>
           </a>
         </mat-cell>
@@ -57,7 +60,7 @@
         <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-raised-button color="primary"
                   (click)="setPageinAMS(element.PageId)"
-                  [disabled]="isAdminPage(element.Show_In)">{{ "IMPORT.import" | translate }}</button>
+                  [disabled]="element.Show_In[0] === '1'">{{ "IMPORT.import" | translate }}</button>
         </mat-cell>
       </ng-container>
 
