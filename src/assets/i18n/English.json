@@ -637,11 +637,14 @@
     "error2": "Only allowed zero and positive integer numbers",
     "PARAMETERS": {
       "depth": "Maximum depth",
-      "pages": "Maximum number of pages"
+      "pages": "Maximum number of pages",
+      "subdomain": "Desired sub-domain"
     },
     "TOOLTIP": {
-      "depth": "Type 1 to only search for pages directly linked to the homepage",
-      "pages": "Type 0 to search for all pages"
+      "depth": "Type 1 to only search for pages directly linked to the homepage (or desired sub-domain)",
+      "pages": "Type 0 to search for all pages",
+      "subdomain": "If you want to search for pages in '",
+      "subdomain2": "/abc', only type 'abc'"
     },
     "MESSAGE": {
       "success": "Pages added successfully!",
@@ -654,7 +657,24 @@
       "submit": "Submit"
     },
     "reset": "Reset",
-    "submit": "Search"
+    "submit": "Search",
+    "close": "Close",
+    "executing": "Automatic page search can take a while to finish!",
+    "executing2": "Periodically visit the list of automatic page searches to check its results.",
+    "crawlerList": "Go to list of searches"
+  },
+  "CRAWLER_PAGE": {
+    "title": "Automatic page searches",
+    "LIST": {
+      "domain": "Domain",
+      "subdomain": "Sub-domain",
+      "date": "Initial date",
+      "status": "Status",
+      "result": "Results"
+    },
+    "TOOLTIP": {
+      "show_result": "Show found pages"
+    }
   },
   "IMPORT": {
     "import": "Import",
