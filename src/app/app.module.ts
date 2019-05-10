@@ -87,6 +87,7 @@ import { ListOfTagsUserComponent } from './pages/tags/list-of-tags-user/list-of-
 import { ListOfWebsitesUserComponent } from './pages/websites/list-of-websites-user/list-of-websites-user.component';
 import { ImportWebsiteDialogComponent } from './dialogs/import-website-dialog/import-website-dialog.component';
 import { ImportTagDialogComponent } from './dialogs/import-tag-dialog/import-tag-dialog.component';
+import { ListOfCrawlsComponent } from './pages/list-of-crawls/list-of-crawls.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -117,7 +118,8 @@ const appRoutes: Routes = [
     { path: 'page/:page', component: PageComponent, canActivate: [AdminAuthGuard] },
     { path: 'page/:page/:evaluation_id', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
     { path: 'page/:page/:evaluation_id/code', component: WebpageCodeComponent, canActivate: [AdminAuthGuard] },
-    { path: 'page/:page/:evaluation_id/:ele', component: ElementResultComponent, canActivate: [AdminAuthGuard] }
+    { path: 'page/:page/:evaluation_id/:ele', component: ElementResultComponent, canActivate: [AdminAuthGuard] },
+    { path: 'crawler', component: ListOfCrawlsComponent, canActivate: [AdminAuthGuard] }
   ]},
   { path: '**', component: NotFound404Component }
 ];
@@ -197,7 +199,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ListOfTagsUserComponent,
     ListOfWebsitesUserComponent,
     ImportWebsiteDialogComponent,
-    ImportTagDialogComponent
+    ImportTagDialogComponent,
+    ListOfCrawlsComponent
   ],
   imports: [
     BrowserModule,

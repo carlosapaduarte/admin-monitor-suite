@@ -2,9 +2,7 @@
 <!-- TODO CHANGE TITLE -->
 <form (submit)="choosePages($event)" novalidate>
   <mat-dialog-content>
-
     <mat-table [dataSource]="dataSource">
-
       <ng-container matColumnDef="Uri">
         <mat-header-cell *matHeaderCellDef>
           {{ "CRAWLER.RESULT_LIST.uri_label" | translate }}
@@ -30,9 +28,9 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
   </mat-dialog-content>
+
   <mat-dialog-actions>
-    <!-- TODO mudar este método apenas para fechar -->
-    <button mat-raised-button color="warn" [mat-dialog-close]="{ cancel: true }" (click)="openCrawlerDialog($event)">
+    <button mat-raised-button color="warn" mat-dialog-close>
     {{ "CRAWLER.RESULT_LIST.cancel" | translate }}
     </button>
     <span fxFlex></span>

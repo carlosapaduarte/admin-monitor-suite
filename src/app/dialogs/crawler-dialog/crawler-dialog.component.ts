@@ -18,14 +18,13 @@ import * as _ from 'lodash';
 })
 export class CrawlerDialogComponent implements OnInit {
 
-  loadingResponse: boolean;
   separatorKeysCodes = [ENTER, COMMA];
   visible = true;
   selectable = false;
   removable = true;
   addOnBlur = false;
   error: boolean;
-
+  crawlExecuting: boolean;
   pageForm: FormGroup;
 
   url: string;
@@ -53,25 +52,23 @@ export class CrawlerDialogComponent implements OnInit {
         Validators.pattern('^[0-9]*$'),
         Validators.required
       ]),
+      subDomain: new FormControl(''),
     });
-    this.loadingResponse = false;
     this.error = false;
+    this.crawlExecuting = false;
   }
 
   ngOnInit() {
-    //TODO meter boolean para saber se ja existe um crawler em execucao (bd?)
-    //TODO mudar html para verificar boolean e aparecer aviso de impossibilidade de usar o crawler
-
-    //TODO se ja existir uris abrir o add-crawler-pages-dialog com a escolha de uris
   }
 
   executeCrawler() {
-    this.loadingResponse = true;
-    this.dialogRef.disableClose = true; //TODO tirar isto
-    this.crawl.callCrawler(this.url, this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
+    //TODO verificar se este if para o subdomain pode ser apagado
+    this.crawl.callCrawler(this.url, this.domainId, (!this.pageForm.value.subDomain ? this.url : this.url + '/' + this.pageForm.value.subDomain), this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
       .subscribe(response => {
+        this.crawlExecuting = response; //always true
+      });/*
         //TODO isto vai tudo para o serviço?
-        //TODO guardar uris na base de dados
+        //TODO guardar uris na base de dados - crawler/getByCrawlDomainID
         if (response.length > 0) {
 
           // JSON stringify of result array to string
@@ -86,7 +83,7 @@ export class CrawlerDialogComponent implements OnInit {
 
             return _.trim(p);
           })), ''));
-
+        /*TODO meter isto no list-of-crawls
           const chooseDialog = this.dialog.open(AddCrawlerPagesDialogComponent, {
             width: '40vw',
             data: {
@@ -103,13 +100,15 @@ export class CrawlerDialogComponent implements OnInit {
           });
           this.dialogRef.close();
         } else if (response.length === 0) {
+          //TODO meter um aviso e traduzir isso no add-pages-crawler
+          //todo check em realtime do subdominio
           this.msg.show('CRAWLER.MESSAGE.no_pages');
         } else {
           this.msg.show('CRAWLER.MESSAGE.failed', 7000);
         }
         this.dialogRef.disableClose = false;
         this.loadingResponse = false;
-      });
+      });*/
   }
 
   resetForm() {
@@ -117,29 +116,12 @@ export class CrawlerDialogComponent implements OnInit {
     this.pageForm.controls.maxPages.setValue('0');
   }
 
-  //TODO meter isto no add-crawler-pages-dialog ou mudar aqui?
-  //TODO apagar uris descobertos da bd?
-  //TODO atualizar boolean de resultados à espera
-  private addPages(domainId: number, uris: any, observatorio: any): void {
-    const formData = {
-      domainId,
-      uris,
-      observatorio
-    };
+  closeDialog() {
+    this.dialogRef.close();
+  }
 
-    this.create.newPages(formData)
-      .subscribe(success => {
-        if (success !== null) {
-          if (success) {
-            this.msg.show('CRAWLER.MESSAGE.success');
-            if (this.location.path() !== '/console/pages') {
-              this.router.navigateByUrl('/console/pages');
-            } else {
-              window.location.reload();
-            }
-            this.dialogRef.close();
-          }
-        }
-      });
+  goToCrawlerList() {
+    this.closeDialog();
+    this.router.navigateByUrl('/console/crawler');
   }
 }

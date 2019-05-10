@@ -22,12 +22,10 @@ export class ListOfDomainsComponent implements OnInit {
     //'DomainId',
     'Url',
     'Active',
-    //'User',
     'Pages',
     'Start_Date',
     'End_Date',
-    //'delete',
-    //'see'
+    'see'
   ];
 
   user: string;
@@ -39,23 +37,7 @@ export class ListOfDomainsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private dialog: MatDialog,
-              private activatedRoute: ActivatedRoute,
-              private get: GetService) {
-    this.activatedRoute.params.subscribe(params => {
-      this.user = _.trim(params.user);
-      console.log(this.user);
-      if (this.user !== '') {
-        this.displayedColumns = [
-          'Url',
-          'Active',
-          'Pages',
-          'Start_Date',
-          'End_Date',
-          'delete'
-        ];
-      }
-    });
+  constructor(private dialog: MatDialog) {
   }
 
   ngOnInit(): void {

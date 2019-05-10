@@ -1,0 +1,78 @@
+<mat-card class="mat-typography">
+  <!-- TODO tudo o que for translate -->
+  <!-- TODO cruz para fechar -->
+  <mat-card-header>
+    <mat-card-title>
+      <h1>{{ "CRAWLER_PAGE.title" | translate }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table-filter">
+      <mat-form-field appearance="outline">
+        <label for="crawler_table_filter">
+          {{ "MISC.filter" | translate }}
+        </label>
+        <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="Domain">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
+          {{ "CRAWLER_PAGE.LIST.domain" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex>
+          <a [routerLink]="['/console', 'domain', element.DomainUri]">
+            <strong>{{element.DomainUri}}</strong>
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Subdomain">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
+          {{ "CRAWLER_PAGE.LIST.subdomain" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex>
+          <span *ngIf="element.DomainUri === element.SubDomainUri">-</span>
+          <span *ngIf="element.DomainUri !== element.SubDomainUri">{{substringSubdomain(element.SubDomainUri)}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="InitialDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
+          {{ "CRAWLER_PAGE.LIST.date" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          {{element.Creation_Date | date}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
+          {{ "CRAWLER_PAGE.LIST.status" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          <mat-icon *ngIf="element.Done === 0" class="md-24" aria-label="">schedule</mat-icon>
+          <mat-icon *ngIf="element.Done === 1" class="md-24" aria-label="">check_circle</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Result">
+        <mat-header-cell *matHeaderCellDef fxFlex="8">{{ "CRAWLER_PAGE.LIST.result" | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="8">
+          <button *ngIf="element.Done === 1" mat-icon-button
+                  matTooltip="{{'CRAWLER_PAGE.TOOLTIP.show_result' | translate}}"
+                  (click)="openAddCrawlerPagesDialog($event, element)">
+            <mat-icon class="md-24" aria-label="">assignment</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="50" [pageSizeOptions]="[10, 20, 50, 100, 250, 500, 1000]"
+                   showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>
