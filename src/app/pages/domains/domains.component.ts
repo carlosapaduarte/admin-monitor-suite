@@ -44,14 +44,8 @@ export class DomainsComponent implements OnInit {
       });
   }
 
-  deleteDomain(domain): void {
-    this.deleteService.domain({domainId: domain})
-      .subscribe(success => {
-        if (success !== null) {
-          this.loading = true;
-          this.getListOfDomains();
-          this.message.show('DOMAINS_PAGE.DELETE.messages.success');
-        }
-      });
+  refreshDomains(): void {
+    this.loading = true;
+    this.getListOfDomains();
   }
 }

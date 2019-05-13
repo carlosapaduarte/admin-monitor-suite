@@ -85,14 +85,8 @@ export class WebsiteComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteDomain(domain): void {
-    this.deleteService.domain({domainId: domain})
-      .subscribe(success => {
-        if (success !== null) {
-          this.loading = true;
-          this.getListOfWebsiteDomains();
-          this.message.show('DOMAINS_PAGE.DELETE.messages.success');
-        }
-      });
+  refreshDomains(): void {
+    this.loading = true;
+    this.getListOfWebsiteDomains();
   }
 }

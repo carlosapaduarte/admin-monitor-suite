@@ -36,6 +36,9 @@
         </mat-error>
         <mat-error *ngIf="websiteForm.controls.domain.hasError('required')"
           [innerHTML]="'MISC.required_field' | translate"></mat-error>
+          <mat-error *ngIf="websiteForm.controls.domain.hasError('invalidDomain')">
+        {{ "WEBSITES_PAGE.ADD.domain_invalid" | translate }}
+      </mat-error>
         <mat-error *ngIf="websiteForm.controls.domain.hasError('notTakenDomain')">
           {{ "WEBSITES_PAGE.ADD.domain_exists" | translate }}
         </mat-error>

@@ -183,8 +183,8 @@ export class VerifyService {
     );
   }
 
-  domainExistsInAdmin(websiteId: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/domains/existsAdmin/' + websiteId)).pipe(
+  domainExistsInAdmin(domainId: string): Observable<boolean> {
+    return ajax(this.config.getServer('/admin/domains/existsAdmin/' + domainId)).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;

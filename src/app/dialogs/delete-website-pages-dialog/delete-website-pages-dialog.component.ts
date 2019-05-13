@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -11,7 +11,8 @@ import { MessageService } from '../../services/message.service';
 @Component({
   selector: 'app-delete-website-pages-dialog',
   templateUrl: './delete-website-pages-dialog.component.html',
-  styleUrls: ['./delete-website-pages-dialog.component.css']
+  styleUrls: ['./delete-website-pages-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeleteWebsitePagesDialogComponent implements OnInit {
 
@@ -32,7 +33,8 @@ export class DeleteWebsitePagesDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<DeleteWebsitePagesDialogComponent>,
     private get: GetService,
     private remove: DeleteService,
-    private message: MessageService
+    private message: MessageService,
+    private cd: ChangeDetectorRef
   ) {
     this.loading = true;
     this.error = false;
@@ -51,6 +53,7 @@ export class DeleteWebsitePagesDialogComponent implements OnInit {
         }
 
         this.loading = false;
+        this.cd.detectChanges();
       });
   }
 

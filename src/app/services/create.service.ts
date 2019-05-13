@@ -29,7 +29,6 @@ export class CreateService {
   newUser(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
     return ajax.post(this.config.getServer('/admin/users/create'), data).pipe(
-      retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
@@ -54,7 +53,6 @@ export class CreateService {
   newTag(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
     return ajax.post(this.config.getServer('/admin/tags/create'), data).pipe(
-      retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
@@ -79,7 +77,6 @@ export class CreateService {
   newEntity(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
     return ajax.post(this.config.getServer('/admin/entities/create'), data).pipe(
-      retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
@@ -104,7 +101,6 @@ export class CreateService {
   newWebsite(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
     return ajax.post(this.config.getServer('/admin/websites/create'), data).pipe(
-      retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
@@ -129,7 +125,6 @@ export class CreateService {
   newDomain(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
     return ajax.post(this.config.getServer('/admin/domains/create'), data).pipe(
-      retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
@@ -154,7 +149,6 @@ export class CreateService {
   newPages(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
     return ajax.post(this.config.getServer('/admin/pages/create'), data).pipe(
-      retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');

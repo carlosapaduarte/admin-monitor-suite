@@ -1,0 +1,41 @@
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "DOMAINS_PAGE.UPDATE.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
+<form (submit)="updateDomain($event)" [formGroup]="domainForm" novalidate>
+  <mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+    <mat-form-field>
+      <label for="edit-domain-url">
+        {{ "DOMAINS_PAGE.UPDATE.url_label" | translate }}
+      </label>
+      <input id="edit-domain-url" matInput type="text" formControlName="url" [errorStateMatcher]="matcher" autofocus
+        required>
+      <mat-error *ngIf="domainForm.controls.url.status === 'PENDING'">
+        <mat-progress-bar mode="buffer"></mat-progress-bar>
+      </mat-error>
+      <mat-error *ngIf="domainForm.controls.url.hasError('required')" [innerHTML]="'MISC.required_field' | translate">
+      </mat-error>
+      <mat-error *ngIf="domainForm.controls.url.hasError('invalidDomain')">
+        {{ "DOMAINS_PAGE.ADD.domain_invalid" | translate }}
+      </mat-error>
+      <mat-error *ngIf="domainForm.controls.url.hasError('notTakenDomain')">
+        {{ "DOMAINS_PAGE.ADD.domain_exists" | translate }}
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <span fxFlex></span>
+    <button mat-raised-button color="accent" type="button" (click)="setDefault()">
+      {{ "DOMAINS_PAGE.UPDATE.default" | translate }}
+    </button>
+    <span fxFlex="2"></span>
+    <button mat-raised-button color="primary" type="submit"
+      [disabled]="domainForm.controls.url.invalid || domainForm.value.url === data.url" *ngIf="!loadingUpdate">
+      {{ "DOMAINS_PAGE.UPDATE.submit" | translate }}
+    </button>
+    <span *ngIf="loadingUpdate"><strong>{{ "MISC.loading" | translate }}</strong></span>
+  </mat-dialog-actions>
+</form>

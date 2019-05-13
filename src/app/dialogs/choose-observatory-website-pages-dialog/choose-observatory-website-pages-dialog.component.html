@@ -36,7 +36,7 @@
       {{ "WEBSITES_PAGE.UPDATE.observatorio.cancel" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="submit">
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading || error">
       {{ "WEBSITES_PAGE.UPDATE.observatorio.submit" | translate }}
     </button>
   </mat-dialog-actions>

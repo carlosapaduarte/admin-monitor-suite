@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -73,7 +73,8 @@ export class AddWebsiteDialogComponent implements OnInit {
         Validators.required
       ], this.nameValidator.bind(this)),
       domain: new FormControl('', [
-        Validators.required
+        Validators.required,
+        domainValidator
       ], this.domainValidator.bind(this)),
       entity: new FormControl('', [
         this.entityValidator.bind(this)
@@ -247,4 +248,21 @@ export class AddWebsiteDialogComponent implements OnInit {
       return null;
     }
   }
+}
+
+function domainValidator(control: FormControl): ValidationErrors | null {
+  let domain = _.trim(control.value);
+  domain = _.replace(domain, 'http://', '');
+  domain = _.replace(domain, 'https://', '');
+  domain = _.replace(domain, 'www.', '');
+
+  let invalid = false;
+  if (domain === '') {
+    return null;
+  }
+
+  invalid = !_.includes(domain, '.');
+  invalid = invalid || _.includes(domain, '/');
+
+  return invalid ? { invalidDomain: true } : null;
 }

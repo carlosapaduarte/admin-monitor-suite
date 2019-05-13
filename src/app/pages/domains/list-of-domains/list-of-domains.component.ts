@@ -3,6 +3,7 @@ import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
 import {MatDialog} from '@angular/material';
 import * as _ from 'lodash';
 
+import { EditDomainDialogComponent } from './../../../dialogs/edit-domain-dialog/edit-domain-dialog.component';
 import {DeleteDomainDialogComponent} from '../../../dialogs/delete-domain-dialog/delete-domain-dialog.component';
 import {CrawlerDialogComponent} from '../../../dialogs/crawler-dialog/crawler-dialog.component';
 import {ActivatedRoute} from '@angular/router';
@@ -15,7 +16,7 @@ import {GetService} from '../../../services/get.service';
 })
 export class ListOfDomainsComponent implements OnInit {
 
-  @Output('deleteDomain') deleteDomain = new EventEmitter<number>();
+  @Output('refreshDomains') refreshDomains = new EventEmitter<boolean>();
   @Input('domains') domains: Array<any>;
 
   displayedColumns = [
@@ -27,7 +28,8 @@ export class ListOfDomainsComponent implements OnInit {
     'Start_Date',
     'End_Date',
     //'delete',
-    //'see'
+    //'see',
+    'Edit'
   ];
 
   user: string;
@@ -39,12 +41,13 @@ export class ListOfDomainsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private dialog: MatDialog,
-              private activatedRoute: ActivatedRoute,
-              private get: GetService) {
+  constructor(
+    private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.activatedRoute.params.subscribe(params => {
       this.user = _.trim(params.user);
-      console.log(this.user);
+
       if (this.user !== '') {
         this.displayedColumns = [
           'Url',
@@ -70,17 +73,21 @@ export class ListOfDomainsComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  openDeleteDomainDialog(domainId: number): void {
-    const deleteDialog = this.dialog.open(DeleteDomainDialogComponent, {
+  openEditDomainDialog(domainId: number, url: string): void {
+    const editDialog = this.dialog.open(EditDomainDialogComponent, {
       width: '60vw',
       disableClose: false,
-      hasBackdrop: true
+      hasBackdrop: true,
+      data: {
+        domainId,
+        url
+      }
     });
 
-    deleteDialog.afterClosed()
+    editDialog.afterClosed()
       .subscribe(result => {
         if (result) {
-          this.deleteDomain.next(domainId);
+          this.refreshDomains.next(true);
         }
       });
   }

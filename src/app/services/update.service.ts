@@ -147,6 +147,31 @@ export class UpdateService {
     );
   }
 
+  domain(data: any): Observable<boolean> {
+    data.cookie = this.userService.getUserData();
+    return ajax.post(this.config.getServer('/admin/domains/update'), data).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('PAGES_PAGE.UPDATE.messages.error');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   page(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
     return ajax.post(this.config.getServer('/admin/pages/update'), data).pipe(
@@ -255,7 +280,6 @@ importPage(data: any): Observable<boolean> {
     };
 
     return ajax.post(this.config.getServer('/admin/pages/updateObservatorio'), data).pipe(
-      retry(3),
       map(res => {
         if (!res.response || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');

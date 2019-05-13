@@ -14,7 +14,7 @@
 <br>
 <app-website-statistics *ngIf="!loading && !error && !errorNoActiveDomains && user === 'admin'" [user]="user" [domain]="activeDomain"></app-website-statistics>
 <br>
-<app-list-of-domains *ngIf="!loading && !error && !errorNoActiveDomains && user === 'admin'" [domains]="domains" (deleteDomain)="deleteDomain($event)"></app-list-of-domains>
+<app-list-of-domains *ngIf="!loading && !error && !errorNoActiveDomains && user === 'admin'" [domains]="domains" (refreshDomains)="refreshDomains($event)"></app-list-of-domains>
 <app-list-of-pages-user *ngIf="!loading && !error && user !== 'admin'" [pages]="pages"></app-list-of-pages-user>
 <app-loading *ngIf="loading"></app-loading>
 
