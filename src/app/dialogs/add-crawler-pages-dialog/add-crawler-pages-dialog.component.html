@@ -1,5 +1,4 @@
-<h1 mat-dialog-title>{{ "PAGES_PAGE.ADD.choose_observatory.title" | translate }}</h1>
-<!-- TODO CHANGE TITLE -->
+<h1 mat-dialog-title>{{ "CRAWLER_PAGE.ADD.title" | translate }}</h1>
 <form (submit)="choosePages($event)" novalidate>
   <mat-dialog-content>
     <mat-table [dataSource]="dataSource">
@@ -34,8 +33,11 @@
     {{ "CRAWLER.RESULT_LIST.cancel" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="submit" [disabled]="this.selection.selected.length === 0">
+    <button *ngIf="!submitted" mat-raised-button color="primary" type="submit" [disabled]="this.selection.selected.length === 0">
       {{ "CRAWLER.RESULT_LIST.submit" | translate }}
+    </button>
+    <button *ngIf="submitted" mat-raised-button disabled>
+      {{ "CRAWLER.RESULT_LIST.submitting" | translate }}
     </button>
   </mat-dialog-actions>
 </form>

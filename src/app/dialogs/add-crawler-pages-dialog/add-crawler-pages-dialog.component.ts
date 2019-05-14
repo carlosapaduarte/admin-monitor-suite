@@ -31,6 +31,7 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
   domainId: number;
   error = false;
   loading = false;
+  submitted: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -50,6 +51,7 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.submitted = false;
     //TODO verificacao dos resultados e do texto a apresentar.. tais como falha de crawler ou numero de links = 0
   }
 
@@ -78,6 +80,7 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
 
   choosePages(e): void {
     e.preventDefault();
+    this.submitted = true;
     this.addPages(JSON.stringify(_.map(this.selection.selected, 'Uri')), JSON.stringify([]));
   }
 

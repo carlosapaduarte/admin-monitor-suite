@@ -655,7 +655,8 @@
     "RESULT_LIST": {
       "uri_label": "Pages",
       "cancel": "Cancel",
-      "submit": "Submit"
+      "submit": "Submit",
+      "submitting": "Submitting..."
     },
     "reset": "Reset",
     "submit": "Search",
@@ -681,6 +682,9 @@
     },
     "DELETE": {
       "error": "It was not possible to delete this search result!"
+    },
+    "ADD": {
+      "title": "Choose pages to add"
     }
   },
   "IMPORT": {
