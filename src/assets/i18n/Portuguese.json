@@ -666,6 +666,7 @@
   "CRAWLER_PAGE": {
     "title": "Procuras automáticas de páginas",
     "subtitle": "Lista de todas as procuras de páginas a executar e terminadas",
+    "change_config": "Alterar configurações",
     "LIST": {
       "domain": "Domínio",
       "subdomain": "Sub-domínio",
@@ -683,6 +684,21 @@
     },
     "ADD": {
       "title": "Escolha as páginas a adicionar"
+    }
+  },
+  "CRAWLER_CONFIG": {
+    "title": "Configuração dos valores pré-definidos na procura automática de páginas",
+    "reset": "Limpar",
+    "submit": "Atualizar dados",
+    "PARAMETERS": {
+      "old_depth": "Atual profundidade máxima",
+      "depth": "Profundidade máximo desejada",
+      "old_pages": "Atual número máximo de páginas",
+      "pages": "Número máximo de páginas desejado"
+    },
+    "TOOLTIP": {
+      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial",
+      "pages": "Escreva 0 para procurar todas as páginas"
     }
   },
   "IMPORT": {

@@ -6,6 +6,8 @@ import {GetService} from '../../services/get.service';
 import {DeleteService} from '../../services/delete.service';
 import {AddCrawlerPagesDialogComponent} from '../../dialogs/add-crawler-pages-dialog/add-crawler-pages-dialog.component';
 import {SelectionModel} from '@angular/cdk/collections';
+import {DeletePageDialogComponent} from '../../dialogs/delete-page-dialog/delete-page-dialog.component';
+import {CrawlerConfigDialogComponent} from '../../dialogs/crawler-config-dialog/crawler-config-dialog.component';
 
 @Component({
   selector: 'app-list-of-crawls',
@@ -101,6 +103,14 @@ export class ListOfCrawlsComponent implements OnInit {
 
   substringSubdomain(subdomain: string): string {
     return subdomain.substring(subdomain.indexOf('/') + 1);
+  }
+
+  openCrawlerConfigDialog(): void {
+    this.dialog.open(CrawlerConfigDialogComponent, {
+      width: '60vw',
+      disableClose: false,
+      hasBackdrop: true
+    });
   }
 
 }

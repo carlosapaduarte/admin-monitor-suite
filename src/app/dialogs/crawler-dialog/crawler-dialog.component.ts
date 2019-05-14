@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {AddCrawlerPagesDialogComponent} from '../add-crawler-pages-dialog/add-crawler-pages-dialog.component';
 import * as _ from 'lodash';
+import {GetService} from '../../services/get.service';
 
 @Component({
   selector: 'app-crawler-dialog',
@@ -34,6 +35,7 @@ export class CrawlerDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private create: CreateService,
+    private get: GetService,
     private crawl: CrawlerService,
     private msg: MessageService,
     private dialog: MatDialog,
@@ -44,11 +46,11 @@ export class CrawlerDialogComponent implements OnInit {
     this.url = data.url;
     this.domainId = data.domainId;
     this.pageForm = this.formBuilder.group({
-      maxDepth: new FormControl('1', [
+      maxDepth: new FormControl('', [
         Validators.pattern('^[0-9]*[1-9][0-9]*$'),
         Validators.required
       ]),
-      maxPages: new FormControl('0', [
+      maxPages: new FormControl('', [
         Validators.pattern('^[0-9]*$'),
         Validators.required
       ]),
@@ -59,6 +61,13 @@ export class CrawlerDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.get.getCrawlerConfig()
+      .subscribe(result => {
+        if (result !== null) {
+          this.pageForm.controls.maxDepth.setValue(result.maxDepth);
+          this.pageForm.controls.maxPages.setValue(result.maxPages);
+        }
+      });
   }
 
   executeCrawler() {

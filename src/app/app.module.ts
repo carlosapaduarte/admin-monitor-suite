@@ -88,6 +88,7 @@ import { ListOfWebsitesUserComponent } from './pages/websites/list-of-websites-u
 import { ImportWebsiteDialogComponent } from './dialogs/import-website-dialog/import-website-dialog.component';
 import { ImportTagDialogComponent } from './dialogs/import-tag-dialog/import-tag-dialog.component';
 import { ListOfCrawlsComponent } from './pages/list-of-crawls/list-of-crawls.component';
+import { CrawlerConfigDialogComponent } from './dialogs/crawler-config-dialog/crawler-config-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -200,7 +201,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ListOfWebsitesUserComponent,
     ImportWebsiteDialogComponent,
     ImportTagDialogComponent,
-    ListOfCrawlsComponent
+    ListOfCrawlsComponent,
+    CrawlerConfigDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -252,7 +254,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeleteWebsiteConfirmationDialogComponent,
     DeleteTagConfirmationDialogComponent,
     ImportTagDialogComponent,
-    ImportWebsiteDialogComponent
+    ImportWebsiteDialogComponent,
+    CrawlerConfigDialogComponent
   ],
   providers: [
     AdminAuthGuard,

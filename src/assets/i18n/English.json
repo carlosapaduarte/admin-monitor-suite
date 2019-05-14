@@ -687,6 +687,21 @@
       "title": "Choose pages to add"
     }
   },
+  "CRAWLER_CONFIG": {
+    "title": "Configuration of default values for automatic page search",
+    "reset": "Reset",
+    "submit": "Update values",
+    "PARAMETERS": {
+      "old_depth": "Actual maximum depth",
+      "depth": "Desired maximum depth",
+      "old_pages": "Actual maximum number of pages",
+      "pages": "Desired maximum number of pages"
+    },
+    "TOOLTIP": {
+      "depth": "Type 1 to only search for pages directly linked to the homepage",
+      "pages": "Type 0 to search for all pages"
+    }
+  },
   "IMPORT": {
     "import": "Import",
     "title": "Beware!",
