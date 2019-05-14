@@ -5,16 +5,15 @@
     <mat-card-title>
       <h1>{{ "CRAWLER_PAGE.title" | translate }}</h1>
     </mat-card-title>
+    <mat-card-subtitle>
+      <h2>{{ "CRAWLER_PAGE.subtitle" | translate }}</h2>
+    </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div class="table-filter">
-      <mat-form-field appearance="outline">
-        <label for="crawler_table_filter">
-          {{ "MISC.filter" | translate }}
-        </label>
-        <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)">
-      </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline">
+      <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)"
+             placeholder='{{ "MISC.filter" | translate }}'>
+    </mat-form-field>
 
     <mat-table #table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="Domain">
@@ -54,6 +53,17 @@
         <mat-cell *matCellDef="let element" fxFlex="10">
           <mat-icon *ngIf="element.Done === 0" class="md-24" aria-label="">schedule</mat-icon>
           <mat-icon *ngIf="element.Done === 1" class="md-24" aria-label="">check_circle</mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Delete">
+        <mat-header-cell *matHeaderCellDef fxFlex="8">{{ "CRAWLER_PAGE.LIST.delete" | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="8">
+          <button *ngIf="element.Done === 1" mat-icon-button
+                  matTooltip="{{'CRAWLER_PAGE.TOOLTIP.delete_result' | translate}}"
+                  (click)="deleteCrawlerResult($event, element.CrawlDomainId)">
+            <mat-icon class="md-24" aria-label="">clear</mat-icon>
+          </button>
         </mat-cell>
       </ng-container>
 

@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   entities: string;
   websites: string;
   domains: string;
+  crawler: string;
   pages: string;
   settings: string;
 
@@ -28,6 +29,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.entities = _.includes(event.url, 'entities') ? 'primary' : 'default';
         this.websites = _.includes(event.url, 'websites') ? 'primary' : 'default';
         this.domains = _.includes(event.url, 'domains') ? 'primary' : 'default';
+        this.crawler = _.includes(event.url, 'crawler') ? 'primary' : 'default';
         this.pages = _.includes(event.url, 'pages') ? 'primary' : 'default';
         this.settings = _.includes(event.url, 'settings') ? 'primary' : 'default';
       }

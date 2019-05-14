@@ -195,4 +195,28 @@ export class DeleteService {
       })
     );
   }
+
+  crawl(crawlDomainId: any): Observable<boolean> {
+    return ajax.post(this.config.getServer('/admin/crawler/delete'), {crawlDomainId}).pipe(
+      retry(3),
+      map(res => {
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('CRAWLER_PAGE.DELETE.error');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
 }

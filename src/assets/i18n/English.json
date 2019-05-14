@@ -53,6 +53,7 @@
     "entities": "Entities",
     "websites": "Websites",
     "domains": "Domains",
+    "crawler": "Crawler",
     "pages": "Pages",
     "settings": "Settings"
   },
@@ -665,15 +666,21 @@
   },
   "CRAWLER_PAGE": {
     "title": "Automatic page searches",
+    "subtitle": "List of all page searches still executing and already terminated",
     "LIST": {
       "domain": "Domain",
       "subdomain": "Sub-domain",
       "date": "Initial date",
       "status": "Status",
+      "delete": "Delete",
       "result": "Results"
     },
     "TOOLTIP": {
-      "show_result": "Show found pages"
+      "show_result": "Show found pages",
+      "delete_result": "Delete search result"
+    },
+    "DELETE": {
+      "error": "It was not possible to delete this search result!"
     }
   },
   "IMPORT": {

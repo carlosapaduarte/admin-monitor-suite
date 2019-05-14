@@ -53,6 +53,7 @@
     "entities": "Entidades",
     "websites": "Websites",
     "domains": "Domínios",
+    "crawler": "Crawler",
     "pages": "Páginas",
     "settings": "Definições"
   },
@@ -663,15 +664,21 @@
   },
   "CRAWLER_PAGE": {
     "title": "Procuras automáticas de páginas",
+    "subtitle": "Lista de todas as procuras de páginas a executar e terminadas",
     "LIST": {
       "domain": "Domínio",
       "subdomain": "Sub-domínio",
       "date": "Data de início",
       "status": "Estado",
+      "delete": "Apagar",
       "result": "Resultados"
     },
     "TOOLTIP": {
-      "show_result": "Mostrar páginas encontradas"
+      "show_result": "Mostrar páginas encontradas",
+      "delete_result": "Apagar resultados"
+    },
+    "DELETE": {
+      "error": "Não foi possível apagar o resultado da pesquisa!"
     }
   },
   "IMPORT": {
