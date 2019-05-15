@@ -88,6 +88,9 @@ import { ListOfWebsitesUserComponent } from './pages/websites/list-of-websites-u
 import { ImportWebsiteDialogComponent } from './dialogs/import-website-dialog/import-website-dialog.component';
 import { ImportTagDialogComponent } from './dialogs/import-tag-dialog/import-tag-dialog.component';
 import { EditDomainDialogComponent } from './dialogs/edit-domain-dialog/edit-domain-dialog.component';
+import { AddPagesProgressDialogComponent } from './dialogs/add-pages-progress-dialog/add-pages-progress-dialog.component';
+import { AddPagesProgressCloseConfirmationDialogComponent } from './dialogs/add-pages-progress-close-confirmation-dialog/add-pages-progress-close-confirmation-dialog.component';
+import { ReEvaluateWebsitePagesProgressDialogComponent } from './dialogs/re-evaluate-website-pages-progress-dialog/re-evaluate-website-pages-progress-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -199,7 +202,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ListOfWebsitesUserComponent,
     ImportWebsiteDialogComponent,
     ImportTagDialogComponent,
-    EditDomainDialogComponent
+    EditDomainDialogComponent,
+    AddPagesProgressDialogComponent,
+    AddPagesProgressCloseConfirmationDialogComponent,
+    ReEvaluateWebsitePagesProgressDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -252,7 +258,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeleteTagConfirmationDialogComponent,
     ImportTagDialogComponent,
     ImportWebsiteDialogComponent,
-    EditDomainDialogComponent
+    EditDomainDialogComponent,
+    AddPagesProgressDialogComponent,
+    AddPagesProgressCloseConfirmationDialogComponent
   ],
   providers: [
     AdminAuthGuard,

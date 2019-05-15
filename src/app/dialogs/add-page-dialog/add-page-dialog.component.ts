@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -25,6 +25,10 @@ import {MessageService} from '../../services/message.service';
 import {
   ChooseObservatoryPagesDialogComponent
 } from '../choose-observatory-pages-dialog/choose-observatory-pages-dialog.component';
+
+import {
+  AddPagesProgressDialogComponent
+} from '../add-pages-progress-dialog/add-pages-progress-dialog.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -198,11 +202,29 @@ export class AddPageDialogComponent implements OnInit {
 
       chooseDialog.afterClosed().subscribe(result => {
         if (!result.cancel) {
-          this.addPages(domainId, uris, result.uris);
+          this.dialog.open(AddPagesProgressDialogComponent, {
+            width: '40vw',
+            data: {
+              domainId: domainId,
+              uris: JSON.parse(uris),
+              observatory_uris: result.uris
+            }
+          });
+          //this.addPages(domainId, uris, result.uris);
+          this.dialogRef.close();
         }
       });
     } else {
-      this.addPages(domainId, uris, JSON.stringify([]));
+      this.dialog.open(AddPagesProgressDialogComponent, {
+        width: '40vw',
+        data: {
+          domainId: domainId,
+          uris: JSON.parse(uris),
+          observatory_uris: []
+        }
+      });
+      //this.addPages(domainId, uris, JSON.stringify([]));
+      this.dialogRef.close();
     }
   }
 

@@ -323,6 +323,8 @@
         "entity_label": "Entity",
         "user_label": "User",
         "creation_label": "Creation date",
+        "re_evaluate_label": "Re-evaluate",
+        "re_evaluate_tooltip": "Re-evaluate all website pages",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this website",
         "see_tooltip": "See website"
@@ -509,7 +511,24 @@
       "sitemap_warning": "Sitemaps files need to have the first page equal to website's domain",
       "sitemap_uris_invalid": "One of the given uris is invalid",
       "sitemap_type_invalid": "Given file's extension is not .xml or .txt",
-      "file_input": "Choose File"
+      "file_input": "Choose File",
+      "progress": {
+        "title": "Add pages progress",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Elapsed uris:",
+        "remaining_uris": "Remaining uris:",
+        "success_uris": "Success uris:",
+        "error_uris": "Error uris:",
+        "current_uri": "Current uri:",
+        "uris_with_errors": "See uris with errors",
+        "close": "Close",
+        "close_dialog": {
+          "title": "End process",
+          "description": "Closing the dialog will stop the current process. Do you want to stop the process?",
+          "no": "No",
+          "yes": "Yes"
+        }
+      }
     },
     "UPDATE": {
       "messages": {

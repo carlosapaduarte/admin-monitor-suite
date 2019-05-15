@@ -22,6 +22,7 @@ export class ListOfWebsitesComponent implements OnInit {
     'Entity',
     //'User',
     'Creation_Date',
+    //'re-evaluate',
     'edit',
     //'see'
   ];

@@ -323,6 +323,8 @@
         "entity_label": "Entidade",
         "user_label": "Utilizador",
         "creation_label": "Data de criação",
+        "re_evaluate_label": "Re-avaliar",
+        "re_evaluate_tooltip": "Re-avaliar as páginas do website",
         "edit_label": "Editar",
         "edit_tooltip": "Editar este website",
         "see_tooltip": "Ver website"
@@ -507,7 +509,24 @@
       "sitemap_warning": "Os ficheiros sitemap necessitam que a sua primeira página seja igual ao domínio do website",
       "sitemap_uris_invalid": "Um dos uris no ficheiro dado é inválido",
       "sitemap_type_invalid": "O ficheiro dado não é do tipo .xml ou .txt",
-      "file_input": "Escolha o ficheiro"
+      "file_input": "Escolha o ficheiro",
+      "progress": {
+        "title": "Adicionar páginas - progresso",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Uris decorridos:",
+        "remaining_uris": "Uris em falta:",
+        "success_uris": "Uris com suceso:",
+        "error_uris": "Uris com erro:",
+        "current_uri": "Uri atual:",
+        "uris_with_errors": "Ver uris com erros",
+        "close": "Fechar",
+        "close_dialog": {
+          "title": "Terminar processo",
+          "description": "Fechar a janela irá terminar o processo em execução. Pretende terminar o processo?",
+          "no": "Não",
+          "yes": "Sim"
+        }
+      }
     },
     "UPDATE": {
       "messages": {
