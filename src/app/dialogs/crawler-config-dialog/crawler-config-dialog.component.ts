@@ -24,6 +24,8 @@ export class CrawlerConfigDialogComponent implements OnInit {
   url: string;
   domainId: number;
 
+  getConfig: any;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
@@ -53,6 +55,7 @@ export class CrawlerConfigDialogComponent implements OnInit {
     this.get.getCrawlerConfig()
       .subscribe(result => {
         if (result !== null) {
+          this.getConfig = result;
           this.pageForm.controls.oldMaxDepth.setValue(result.maxDepth);
           this.pageForm.controls.oldMaxPages.setValue(result.maxPages);
         }
@@ -60,8 +63,8 @@ export class CrawlerConfigDialogComponent implements OnInit {
   }
 
   updateConfig() {
-    const maxDepth = this.pageForm.value.maxDepth === '' ? this.pageForm.value.oldMaxDepth : this.pageForm.value.maxDepth;
-    const maxPages = this.pageForm.value.maxPages === '' ? this.pageForm.value.oldMaxPages : this.pageForm.value.maxPages;
+    const maxDepth = this.pageForm.value.maxDepth === '' ? this.getConfig.maxDepth : this.pageForm.value.maxDepth;
+    const maxPages = this.pageForm.value.maxPages === '' ? this.getConfig.maxPages : this.pageForm.value.maxPages;
     this.update.crawlerConfig({maxDepth, maxPages}).subscribe();
     this.closeDialog();
   }

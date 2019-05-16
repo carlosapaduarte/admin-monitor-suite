@@ -653,7 +653,10 @@
       "failed": "Unexpected error!"
     },
     "RESULT_LIST": {
+      "title": "Choose pages to import",
       "uri_label": "Pages",
+      "import": "Import",
+      "observ": "Observatory",
       "cancel": "Cancel",
       "submit": "Submit",
       "submitting": "Submitting..."
@@ -682,9 +685,6 @@
     },
     "DELETE": {
       "error": "It was not possible to delete this search result!"
-    },
-    "ADD": {
-      "title": "Choose pages to add"
     }
   },
   "CRAWLER_CONFIG": {

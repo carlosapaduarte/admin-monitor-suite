@@ -8,20 +8,21 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div fxLayout="row">
-      <mat-form-field appearance="outline" fxFlex="80%">
+    <div class="table-filter" fxLayout="row">
+      <mat-form-field appearance="outline">
         <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)"
                placeholder='{{ "MISC.filter" | translate }}'>
       </mat-form-field>
 
-      <span fxFlex="5%"></span>
+      <span fxFlex></span>
 
-      <button mat-raised-button class="openCrawlerButton" type="button" color="primary" (click)="openCrawlerConfigDialog()">
+      <button mat-raised-button class="openCrawlerButton" type="button" color="primary"
+              (click)="openCrawlerConfigDialog()">
         {{ "CRAWLER_PAGE.change_config" | translate }}
       </button>
     </div>
 
-    <mat-table #table [dataSource]="dataSource" matSort>
+    <mat-table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="Domain">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>

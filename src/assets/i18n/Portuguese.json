@@ -651,7 +651,10 @@
       "failed": "Aconteceu um erro!"
     },
     "RESULT_LIST": {
+      "title": "Escolha as páginas a importar",
       "uri_label": "Páginas",
+      "import":  "Importar",
+      "observ": "Observatório",
       "cancel": "Cancelar",
       "submit": "Adicionar",
       "submitting": "A adicionar..."
@@ -681,9 +684,6 @@
     },
     "DELETE": {
       "error": "Não foi possível apagar o resultado da pesquisa!"
-    },
-    "ADD": {
-      "title": "Escolha as páginas a adicionar"
     }
   },
   "CRAWLER_CONFIG": {
