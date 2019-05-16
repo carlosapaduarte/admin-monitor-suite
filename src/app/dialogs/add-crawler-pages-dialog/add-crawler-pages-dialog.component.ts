@@ -74,7 +74,6 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
             return _.trim(uriToClean);
           }));
           this.dataSource = new MatTableDataSource(_.map(JSON.parse(cleanUris), u => ({Uri: u})));
-          console.log(this.dataSource.data);
         } else {
           this.error = true;
         }

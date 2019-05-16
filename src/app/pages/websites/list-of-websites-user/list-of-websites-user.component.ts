@@ -116,10 +116,6 @@ export class ListOfWebsitesUserComponent implements OnInit {
       });
   }
 
-  log(data: any): void {
-    console.log(data);
-  }
-
   openImportWebsiteDialog(websiteName, websiteId, webName, url: string, hasDomain: boolean): void {
     const importWebsiteDialog = this.dialog.open(ImportWebsiteDialogComponent, {
       width: '40vw',
