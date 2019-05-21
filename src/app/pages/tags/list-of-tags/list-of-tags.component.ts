@@ -25,6 +25,8 @@ import {
 import {
   EditTagDialogComponent
 } from '../../../dialogs/edit-tag-dialog/edit-tag-dialog.component';
+import { ReEvaluateTagWebsitesProgressDialogComponent } from '../../../dialogs/re-evaluate-tag-websites-progress-dialog/re-evaluate-tag-websites-progress-dialog.component';
+
 
 @Component({
   selector: 'app-list-of-tags',
@@ -42,6 +44,7 @@ export class ListOfTagsComponent implements OnInit {
     //'User',
     'Creation_Date',
     'Websites',
+    're-evaluate',
     'edit',
   ];
 
@@ -85,6 +88,14 @@ export class ListOfTagsComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  reEvaluateTagWebsites(tagId: number): void {
+    this.dialog.open(ReEvaluateTagWebsitesProgressDialogComponent, {
+      width: '40vw',
+      disableClose: true,
+      data: tagId
+    });
   }
 
   edit(id: number, userId: number): void {

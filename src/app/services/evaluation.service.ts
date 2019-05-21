@@ -86,6 +86,32 @@ export class EvaluationService {
     }
   }
 
+  getUserPageEvaluation(url: string, userType: string): Observable<Evaluation> {
+    return ajax.post(this.config.getServer('/admin/user/page/evaluation'), {userType, url, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        this.url = url;
+        this.evaluation = <Evaluation> response.result;
+        this.evaluation.processed = this.processData();
+
+        return this.evaluation.processed;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      }));
+  }
+
   evaluateUrl(url: string): Observable<any> {
     return ajax.post(this.config.getServer('/admin/page/evaluate/'), {url: encodeURIComponent(url), cookie: this.user.getUserData()}).pipe(
       retry(3),

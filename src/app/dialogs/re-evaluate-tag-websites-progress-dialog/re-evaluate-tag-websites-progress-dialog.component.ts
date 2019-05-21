@@ -10,21 +10,30 @@ import { AddPagesProgressCloseConfirmationDialogComponent } from './../add-pages
 import { AddPagesErrorsDialogComponent } from './../add-pages-errors-dialog/add-pages-errors-dialog.component';
 
 @Component({
-  selector: 'app-re-evaluate-website-pages-progress-dialog',
-  templateUrl: './re-evaluate-website-pages-progress-dialog.component.html',
-  styleUrls: ['./re-evaluate-website-pages-progress-dialog.component.css']
+  selector: 'app-re-evaluate-tag-websites-progress-dialog',
+  templateUrl: './re-evaluate-tag-websites-progress-dialog.component.html',
+  styleUrls: ['./re-evaluate-tag-websites-progress-dialog.component.css']
 })
-export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, OnDestroy {
+export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnDestroy {
 
   finished: boolean;
+  skipping: boolean;
+  current_website: string;
   current_uri: string;
+  n_websites: number;
   n_uris: number;
+  elapsed_websites: number;
   elapsed_uris: number;
+  remaining_websites: number;
   remaining_uris: number;
+  success_websites: number;
   success_uris: number;
+  error_websites: number;
   error_uris: number;
-  progress: number;
+  progress_websites: number;
+  progress_uris: number;
 
+  websitesWithErrors: Array<string>;
   urisWithErrors: Array<string>;
 
   socket: socketIo.SocketIo;
@@ -34,37 +43,59 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
     private update: UpdateService,
     private config: ConfigService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<ReEvaluateWebsitePagesProgressDialogComponent>,
+    private dialogRef: MatDialogRef<ReEvaluateTagWebsitesProgressDialogComponent>,
     private cd: ChangeDetectorRef
   ) {
     this.finished = false;
-    this.current_uri = '';
-    this.n_uris = 0;
-    this.elapsed_uris = 0;
-    this.remaining_uris = 0;
-    this.success_uris = 0;
-    this.error_uris = 0;
-    this.progress = 0;
+    this.skipping = true;
 
+    this.current_website = '';
+    this.current_uri = '';
+    this.n_websites = 0;
+    this.n_uris = 0;
+    this.elapsed_websites = 0;
+    this.elapsed_uris = 0;
+    this.remaining_websites = 0;
+    this.remaining_uris = 0;
+    this.success_websites = 0;
+    this.success_uris = 0;
+    this.error_websites = 0;
+    this.error_uris = 0;
+    this.progress_websites = 0;
+    this.progress_uris = 0;
+
+    this.websitesWithErrors = new Array<string>();
     this.urisWithErrors = new Array<string>();
 
     this.socket = null;
   }
 
   ngOnInit(): void {
-    this.update.reEvaluateWebsitePages({domainId: this.data})
+    this.update.reEvaluateTagWebsites({tagId: this.data})
       .subscribe(success => {
         if (success) {
           this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });
           this.socket.on('connect', () => {
-            this.socket.on('startup', data => {
-              this.n_uris = _.clone(data);
+            this.socket.on('startup_tag', data => {
+              this.n_websites = _.clone(data);
+              this.remaining_websites = _.clone(this.n_websites);
+              this.cd.detectChanges();
+            });
+
+            this.socket.on('startup_website', data => {
+              this.skipping = false;
+              this.current_website = _.clone(data.current_website);
+              this.n_uris = _.clone(data.n_uris);
               this.remaining_uris = _.clone(this.n_uris);
+              this.elapsed_uris = 0;
+              this.success_uris = 0;
+              this.error_uris = 0;
+              this.progress_uris = 0;
               this.cd.detectChanges();
             });
 
             this.socket.on('current_uri', data => {
-              this.current_uri = _.clone(decodeURIComponent(data));
+              this.current_uri = decodeURIComponent(data);
               this.cd.detectChanges();
             });
 
@@ -75,13 +106,32 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
                 } else {
                   this.error_uris++;
                   this.urisWithErrors.push(decodeURIComponent(data.uri));
+                  if (!_.includes(this.websitesWithErrors, this.current_website)) {
+                    this.websitesWithErrors.push(_.clone(this.current_website));
+                  }
                 }
 
                 this.elapsed_uris = this.success_uris + this.error_uris;
                 this.remaining_uris = this.n_uris - this.elapsed_uris;
-                this.progress = (this.elapsed_uris * 100) / this.n_uris;
+                this.progress_uris = (this.elapsed_uris * 100) / this.n_uris;
 
-                if (this.elapsed_uris === this.n_uris) {
+                this.cd.detectChanges();
+              }
+            });
+
+            this.socket.on('website_finished', data => {
+              if (this.current_website === data) {
+                if (!_.includes(this.websitesWithErrors, this.current_website)) {
+                  this.success_websites++;
+                } else {
+                  this.error_websites++;
+                }
+
+                this.elapsed_websites = this.success_websites - this.error_websites;
+                this.remaining_websites = this.n_websites - this.elapsed_websites;
+                this.progress_websites = (this.elapsed_websites * 100) / this.n_websites;
+
+                if (this.elapsed_websites === this.n_websites) {
                   this.finished = true;
                 }
 
@@ -91,6 +141,11 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
           });
         }
       });
+  }
+
+  skipWebsite(): void {
+    this.skipping = true;
+    this.socket.emit('message', 'skip');
   }
 
   openUrisWithErrorsDialog(): void {

@@ -33,7 +33,6 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
     private location: Location,
     private cd: ChangeDetectorRef
   ) {
-
     this.thresholdConfig = {
       '0': {color: 'red'},
       '2.5': {color: 'orange'},
@@ -68,19 +67,35 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.evaluation_id = params.evaluation_id;
       this.url = params.page;
+      const userType = params.tag ? 'studies' : 'monitor';
 
-      this.evaluation.getEvaluation(this.url, this.evaluation_id)
-        .subscribe(data => {
-          if (!data) {
-            this.error = true;
-          } else {
-            this.eval = data;
-            this.eval.metadata.url = decodeURIComponent(this.eval.metadata.url);
-          }
+      if (this.evaluation_id) {
+        this.evaluation.getEvaluation(this.url, this.evaluation_id)
+          .subscribe(data => {
+            if (!data) {
+              this.error = true;
+            } else {
+              this.eval = data;
+              this.eval.metadata.url = decodeURIComponent(this.eval.metadata.url);
+            }
 
-          this.loading = false;
-          this.cd.detectChanges();
-        });
+            this.loading = false;
+            this.cd.detectChanges();
+          });
+      } else {
+        this.evaluation.getUserPageEvaluation(this.url, userType)
+          .subscribe(data => {
+            if (!data) {
+              this.error = true;
+            } else {
+              this.eval = data;
+              this.eval.metadata.url = decodeURIComponent(this.eval.metadata.url);
+            }
+
+            this.loading = false;
+            this.cd.detectChanges();
+          });
+      }
     });
   }
 

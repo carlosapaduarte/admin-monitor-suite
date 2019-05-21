@@ -35,4 +35,8 @@ export class ConfigService {
   getServer(service: string): string {
     return `${this.URI}${service}`;
   }
+
+  getWSServer(namespace: string): string {
+    return this.URI + namespace;
+  }
 }

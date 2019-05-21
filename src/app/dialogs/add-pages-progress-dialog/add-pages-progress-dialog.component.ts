@@ -46,6 +46,8 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
     this.progress = 0;
 
     this.urisWithErrors = new Array<string>();
+
+    this.socket = null;
   }
 
   ngOnInit(): void {
@@ -63,7 +65,7 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
     this.create.newPages(formData)
       .subscribe(success => {
         if (success) {
-          this.socket = socketIo(this.config.getServer(''), { 'forceNew': true });
+          this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });
           this.socket.on('connect', () => {
             this.socket.on('message', data => {
               if (decodeURIComponent(data.uri) === this.current_uri) {
@@ -74,8 +76,8 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
                   this.urisWithErrors.push(decodeURIComponent(data.uri));
                 }
 
-                this.elapsed_uris++;
-                this.remaining_uris--;
+                this.elapsed_uris = this.success_uris + this.error_uris;
+                this.remaining_uris = this.n_uris - this.elapsed_uris;
                 this.current_uri = this.data.uris[this.elapsed_uris];
                 this.progress = (this.elapsed_uris * 100) / this.n_uris;
 

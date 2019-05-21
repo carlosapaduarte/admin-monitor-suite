@@ -1,0 +1,69 @@
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>
+    {{ "TAGS_PAGE.ADD.progress.title" | translate }}
+  </h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" (click)="closeDialog()">
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <ul>
+      <li><span class="bold">{{ "TAGS_PAGE.ADD.progress.total_websites" | translate }}</span> {{ n_websites }}</li>
+      <li><span class="bold">{{ "TAGS_PAGE.ADD.progress.elapsed_websites" | translate }}</span> {{ elapsed_websites }}</li>
+      <li><span class="bold">{{ "TAGS_PAGE.ADD.progress.remaining_websites" | translate }}</span> {{ remaining_websites }}</li>
+    </ul>
+    <ul>
+      <li><span class="bold success_uri">{{ "TAGS_PAGE.ADD.progress.success_websites" | translate }}</span>
+        {{ success_websites }}</li>
+      <li><span class="bold error_uri">{{ "TAGS_PAGE.ADD.progress.error_websites" | translate }}</span> {{ error_websites }}
+      </li>
+    </ul>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <ul>
+      <li><span class="bold">{{ "TAGS_PAGE.ADD.progress.total_uris" | translate }}</span> {{ n_uris }}</li>
+      <li><span class="bold">{{ "TAGS_PAGE.ADD.progress.elapsed_uris" | translate }}</span> {{ elapsed_uris }}</li>
+      <li><span class="bold">{{ "TAGS_PAGE.ADD.progress.remaining_uris" | translate }}</span> {{ remaining_uris }}</li>
+    </ul>
+    <ul>
+      <li><span class="bold success_uri">{{ "TAGS_PAGE.ADD.progress.success_uris" | translate }}</span>
+        {{ success_uris }}</li>
+      <li><span class="bold error_uri">{{ "TAGS_PAGE.ADD.progress.error_uris" | translate }}</span> {{ error_uris }}
+      </li>
+    </ul>
+  </div>
+  <br>
+  <div fxLayout="column" *ngIf="current_uri">
+    <span class="bold">{{ "TAGS_PAGE.ADD.progress.current_uri" | translate }}</span>
+    <span class="uri">{{ current_uri }}</span>
+  </div>
+  <br>
+  <mat-progress-bar mode="determinate" [value]="progress_uris"></mat-progress-bar>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <span>{{ progress_uris | toFixed }} %</span>
+  </div>
+  <div fxLayout="column" *ngIf="current_website">
+    <span class="bold">{{ "TAGS_PAGE.ADD.progress.current_website" | translate }}</span>
+    <span class="website">{{ current_website }}</span>
+  </div>
+  <br>
+  <mat-progress-bar mode="determinate" [value]="progress_websites"></mat-progress-bar>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <span>{{ progress_websites | toFixed }} %</span>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+  <button mat-flat-button color="primary" type="button" (click)="skipWebsite()" *ngIf="!finished" [disabled]="skipping">
+    {{ "TAGS_PAGE.ADD.progress.skip_website" | translate }}
+  </button>
+  <button *ngIf="finished && error_uris > 0" color="warn" mat-flat-button type="button" (click)="openUrisWithErrorsDialog()">
+    {{ "TAGS_PAGE.ADD.progress.uris_with_errors" | translate }}
+  </button>
+  <button mat-flat-button color="primary" type="button" (click)="closeDialog()" *ngIf="finished">
+    {{ "TAGS_PAGE.ADD.progress.close" | translate }}
+  </button>
+</mat-dialog-actions>

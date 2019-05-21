@@ -60,6 +60,17 @@
         <mat-cell *matCellDef="let element" fxFlex="10"> {{element.Websites}} </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="re-evaluate">
+        <mat-header-cell *matHeaderCellDef fxFlex="10">
+          {{ "ENTITIES_PAGE.LIST.table.re_evaluate_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          <button mat-icon-button matTooltip="{{ 'ENTITIES_PAGE.LIST.table.re_evaluate_tooltip' | translate }}" (click)="reEvaluateEntityWebsites(element.EntityId)">
+            <mat-icon class="md-24" aria-label="">autorenew</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="edit">
         <mat-header-cell *matHeaderCellDef fxFlex="10">
           {{ "ENTITIES_PAGE.LIST.table.edit_label" | translate }}

@@ -204,6 +204,7 @@ export class AddPageDialogComponent implements OnInit {
         if (!result.cancel) {
           this.dialog.open(AddPagesProgressDialogComponent, {
             width: '40vw',
+            disableClose: true,
             data: {
               domainId: domainId,
               uris: JSON.parse(uris),
@@ -217,6 +218,7 @@ export class AddPageDialogComponent implements OnInit {
     } else {
       this.dialog.open(AddPagesProgressDialogComponent, {
         width: '40vw',
+        disableClose: true,
         data: {
           domainId: domainId,
           uris: JSON.parse(uris),

@@ -194,6 +194,8 @@
         "user_label": "Utilizador",
         "creation_label": "Data de criação",
         "websites_label": "Nº Websites",
+        "re_evaluate_label": "Re-avaliar",
+        "re_evaluate_tooltip": "Re-avaliar os websites da tag",
         "edit_label": "Editar",
         "edit_tooltip": "Editar esta tag",
         "see_tooltip": "Ver tag"
@@ -210,6 +212,30 @@
       "messages": {
         "success": "Tag criada com sucesso",
         "error": "Erro ao criar a tag"
+      },
+      "progress": {
+        "title": "Re-avaliar tag - progresso",
+        "total_websites": "Total websites:",
+        "elapsed_websites": "Websites decorridos:",
+        "remaining_websites": "Websites em falta:",
+        "success_websites": "Websites com sucesso:",
+        "error_websites": "Websites com erro:",
+        "current_website": "Website atual:",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Uris decorridos:",
+        "remaining_uris": "Uris em falta:",
+        "success_uris": "Uris com sucesso:",
+        "error_uris": "Uris com erro:",
+        "current_uri": "Uri atual:",
+        "uris_with_errors": "Ver uris com erros",
+        "skip_website": "Saltar website",
+        "close": "Fechar",
+        "close_dialog": {
+          "title": "Terminar processo",
+          "description": "Fechar a janela irá terminar o processo em execução. Pretende terminar o processo?",
+          "no": "Não",
+          "yes": "Sim"
+        }
       }
     },
     "UPDATE": {
@@ -262,6 +288,8 @@
         "long_name_label": "Nome completo",
         "creation_label": "Data de criação",
         "websites_label": "Nº Websites",
+        "re_evaluate_label": "Re-avaliar",
+        "re_evaluate_tooltip": "Re-avaliar os websites da entidade",
         "edit_label": "Editar",
         "edit_tooltip": "Editar esta entidade",
         "see_tooltip": "Ver entidade"
@@ -279,6 +307,30 @@
       "messages": {
         "success": "Entidade criada com sucesso",
         "error": "Erro ao criar a entidade"
+      },
+      "progress": {
+        "title": "Re-avaliar entidade - progresso",
+        "total_websites": "Total websites:",
+        "elapsed_websites": "Websites decorridos:",
+        "remaining_websites": "Websites em falta:",
+        "success_websites": "Websites com sucesso:",
+        "error_websites": "Websites com erro:",
+        "current_website": "Website atual:",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Uris decorridos:",
+        "remaining_uris": "Uris em falta:",
+        "success_uris": "Uris com sucesso:",
+        "error_uris": "Uris com erro:",
+        "current_uri": "Uri atual:",
+        "uris_with_errors": "Ver uris com erros",
+        "skip_website": "Saltar website",
+        "close": "Fechar",
+        "close_dialog": {
+          "title": "Terminar processo",
+          "description": "Fechar a janela irá terminar o processo em execução. Pretende terminar o processo?",
+          "no": "Não",
+          "yes": "Sim"
+        }
       }
     },
     "UPDATE": {
@@ -416,6 +468,8 @@
         "pages_label": "Nº páginas",
         "start_date_label": "Data de início",
         "end_date_label": "Data de fim",
+        "re_evaluate_label": "Re-avaliar",
+        "re_evaluate_tooltip": "Re-avaliar as páginas do domínio",
         "edit_label": "Editar",
         "edit_tooltip": "Editar este domínio",
         "delete_label": "Apagar",
@@ -515,7 +569,7 @@
         "total_uris": "Total uris:",
         "elapsed_uris": "Uris decorridos:",
         "remaining_uris": "Uris em falta:",
-        "success_uris": "Uris com suceso:",
+        "success_uris": "Uris com sucesso:",
         "error_uris": "Uris com erro:",
         "current_uri": "Uri atual:",
         "uris_with_errors": "Ver uris com erros",

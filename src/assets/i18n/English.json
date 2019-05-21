@@ -194,6 +194,8 @@
         "user_label": "User",
         "creation_label": "Creation date",
         "websites_label": "Nº Websites",
+        "re_evaluate_label": "Re-evaluate",
+        "re_evaluate_tooltip": "Re-evaluate all tag websites",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this tag",
         "see_tooltip": "See tag"
@@ -210,6 +212,30 @@
       "messages": {
         "success": "Tag successfully created",
         "error": "Error creating tag"
+      },
+      "progress": {
+        "title": "Re-evaluate tag - progress",
+        "total_websites": "Total websites:",
+        "elapsed_websites": "Elapsed websites:",
+        "remaining_websites": "Remaining websites:",
+        "success_websites": "Success websites:",
+        "error_websites": "Error websites:",
+        "current_website": "Current website:",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Elapsed uris:",
+        "remaining_uris": "Remaining uris:",
+        "success_uris": "Success uris:",
+        "error_uris": "Error uris:",
+        "current_uri": "Current uri:",
+        "uris_with_errors": "See uris with errors",
+        "skip_website": "Skip website",
+        "close": "Close",
+        "close_dialog": {
+          "title": "End process",
+          "description": "Closing the dialog will stop the current process. Do you want to stop the process?",
+          "no": "No",
+          "yes": "Yes"
+        }
       }
     },
     "UPDATE": {
@@ -262,6 +288,8 @@
         "long_name_label": "Long name",
         "creation_label": "Creation date",
         "websites_label": "Nº Websites",
+        "re_evaluate_label": "Re-evaluate",
+        "re_evaluate_tooltip": "Re-evaluate all entity websites",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this entity",
         "see_tooltip": "See entity"
@@ -279,6 +307,30 @@
       "messages": {
         "success": "Entity created successfully",
         "error": "Error creating entity"
+      },
+      "progress": {
+        "title": "Re-evaluate entity - progress",
+        "total_websites": "Total websites:",
+        "elapsed_websites": "Elapsed websites:",
+        "remaining_websites": "Remaining websites:",
+        "success_websites": "Success websites:",
+        "error_websites": "Error websites:",
+        "current_website": "Current website:",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Elapsed uris:",
+        "remaining_uris": "Remaining uris:",
+        "success_uris": "Success uris:",
+        "error_uris": "Error uris:",
+        "current_uri": "Current uri:",
+        "uris_with_errors": "See uris with errors",
+        "skip_website": "Skip website",
+        "close": "Close",
+        "close_dialog": {
+          "title": "End process",
+          "description": "Closing the dialog will stop the current process. Do you want to stop the process?",
+          "no": "No",
+          "yes": "Yes"
+        }
       }
     },
     "UPDATE": {
@@ -418,6 +470,8 @@
         "pages_label": "Nº pages",
         "start_date_label": "Start date",
         "end_date_label": "End date",
+        "re_evaluate_label": "Re-evaluate",
+        "re_evaluate_tooltip": "Re-evaluate all domain pages",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this domain",
         "delete_label": "Delete",

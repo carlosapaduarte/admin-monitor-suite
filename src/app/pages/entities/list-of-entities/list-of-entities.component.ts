@@ -4,9 +4,9 @@ import { MatDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { GetService } from '../../../services/get.service';
-import { MessageService } from '../../../services/message.service';
 
 import { EditEntityDialogComponent } from '../../../dialogs/edit-entity-dialog/edit-entity-dialog.component';
+import { ReEvaluateEntityWebsitesProgressDialogComponent } from '../../../dialogs/re-evaluate-entity-websites-progress-dialog/re-evaluate-entity-websites-progress-dialog.component';
 
 @Component({
   selector: 'app-list-of-entities',
@@ -24,6 +24,7 @@ export class ListOfEntitiesComponent implements OnInit {
     'Long_Name',
     'Creation_Date',
     'Websites',
+    're-evaluate',
     'edit',
     //'see'
   ];
@@ -68,6 +69,14 @@ export class ListOfEntitiesComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  reEvaluateEntityWebsites(entityId: number): void {
+    this.dialog.open(ReEvaluateEntityWebsitesProgressDialogComponent, {
+      width: '40vw',
+      disableClose: true,
+      data: entityId
+    });
   }
 
   edit(id: number): void {
