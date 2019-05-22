@@ -671,6 +671,8 @@
   "CRAWLER_PAGE": {
     "title": "Automatic page searches",
     "subtitle": "List of all page searches still executing and already terminated",
+    "change_config": "Change settings",
+    "go_to_domain": "List of domains",
     "LIST": {
       "domain": "Domain",
       "subdomain": "Sub-domain",
@@ -685,6 +687,10 @@
     },
     "DELETE": {
       "error": "It was not possible to delete this search result!"
+    },
+    "EMPTY": {
+      "part1": "This list is empty!",
+      "part2": "To do an automatic page search, go to list of domains and press "
     }
   },
   "CRAWLER_CONFIG": {

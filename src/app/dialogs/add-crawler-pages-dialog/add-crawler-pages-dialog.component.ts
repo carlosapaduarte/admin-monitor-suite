@@ -54,7 +54,6 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.submitted = false;
-    //TODO verificacao dos resultados e do texto a apresentar.. tais como falha de crawler ou numero de links = 0
   }
 
   private getUrisFromCrawlId() {

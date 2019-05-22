@@ -10,3 +10,7 @@
 .table-filter {
   justify-content: space-evenly;
 }
+
+.listEmptyHeader{
+  margin-bottom: 0;
+}

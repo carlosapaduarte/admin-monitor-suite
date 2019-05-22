@@ -670,6 +670,7 @@
     "title": "Procuras automáticas de páginas",
     "subtitle": "Lista de todas as procuras de páginas a executar e terminadas",
     "change_config": "Alterar configurações",
+    "go_to_domain": "Lista de domínios",
     "LIST": {
       "domain": "Domínio",
       "subdomain": "Sub-domínio",
@@ -684,6 +685,10 @@
     },
     "DELETE": {
       "error": "Não foi possível apagar o resultado da pesquisa!"
+    },
+    "EMPTY": {
+      "part1": "A lista encontra-se vazia!",
+      "part2": "Para usar a procura automática de páginas, dirija-se à lista de domínios e carregue no "
     }
   },
   "CRAWLER_CONFIG": {
