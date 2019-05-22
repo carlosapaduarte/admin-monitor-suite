@@ -878,4 +878,27 @@ export class GetService {
       })
     );
   }
+
+  getCrawlerConfig(): Observable<any> {
+    return ajax.post(this.config.getServer('/admin/crawler/getConfig'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <any> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
 }

@@ -1,6 +1,4 @@
 <mat-card class="mat-typography">
-  <!-- TODO tudo o que for translate -->
-  <!-- TODO cruz para fechar -->
   <mat-card-header>
     <mat-card-title>
       <h1>{{ "CRAWLER_PAGE.title" | translate }}</h1>
@@ -10,12 +8,22 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <mat-form-field appearance="outline">
-      <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)"
-             placeholder='{{ "MISC.filter" | translate }}'>
-    </mat-form-field>
+    <div class="table-filter" fxLayout="row">
+      <mat-form-field appearance="outline">
+        <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)"
+               placeholder='{{ "MISC.filter" | translate }}'>
+      </mat-form-field>
 
-    <mat-table #table [dataSource]="dataSource" matSort>
+      <span fxFlex></span>
+
+      <button mat-raised-button class="openCrawlerButton" type="button" color="primary"
+              (click)="openCrawlerConfigDialog()">
+        {{ "CRAWLER_PAGE.change_config" | translate }}
+      </button>
+    </div>
+
+    <mat-table [dataSource]="dataSource" matSort>
+
       <ng-container matColumnDef="Domain">
         <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex>
           {{ "CRAWLER_PAGE.LIST.domain" | translate }}

@@ -3,7 +3,6 @@ import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {MatTableDataSource} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as _ from 'lodash';
-import {CrawlerDialogComponent} from '../crawler-dialog/crawler-dialog.component';
 import {GetService} from '../../services/get.service';
 import {CreateService} from '../../services/create.service';
 import {MessageService} from '../../services/message.service';
@@ -19,12 +18,14 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
 
   displayedColumns = [
     'Uri',
-    'select'
+    'import',
+    'observatorio'
   ];
 
   pages: Array<any>;
   dataSource: MatTableDataSource<any>;
-  selection: any;
+  selectionImport: any;
+  selectionObserv: any;
 
   crawlDomainId: number;
   domainUri: string;
@@ -44,10 +45,11 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
     private location: Location
   ) {
     this.crawlDomainId = this.data.crawlDomainId;
+    this.getUrisFromCrawlId();
     this.domainUri = this.data.domainUri;
     this.domainId = this.data.domainId;
-    this.getUrisFromCrawlId();
-    this.selection = new SelectionModel<any>(true, []);
+    this.selectionImport = new SelectionModel<any>(true, []);
+    this.selectionObserv = new SelectionModel<any>(true, []);
   }
 
   ngOnInit(): void {
@@ -81,23 +83,43 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
   choosePages(e): void {
     e.preventDefault();
     this.submitted = true;
-    this.addPages(JSON.stringify(_.map(this.selection.selected, 'Uri')), JSON.stringify([]));
+    this.addPages(JSON.stringify(_.map(this.selectionImport.selected, 'Uri')), JSON.stringify(_.map(this.selectionObserv.selected, 'Uri')));
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
+  isAllSelectedImport() {
+    const numSelected = this.selectionImport.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  isAllSelectedObserv() {
+    const numSelected = this.selectionObserv.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+  masterToggleImport() {
+    this.isAllSelectedImport() ?
+      this.dataSource.data.forEach(row => {
+        if (!this.selectionObserv.isSelected(row)) {
+          this.selectionImport.deselect(row);
+        }
+      }) : this.dataSource.data.forEach(row => this.selectionImport.select(row));
   }
 
+  masterToggleObserv() {
+    this.isAllSelectedObserv() ?
+      this.selectionObserv.clear() :
+      this.dataSource.data.forEach(row => this.selectionObserv.select(row));
+    this.masterToggleImport();
+  }
+
+  toggleBoth(row: any) {
+    this.selectionImport.select(row);
+    this.selectionObserv.toggle(row);
+  }
 
   private addPages(uris: any, observatorio: any): void {
     const domainId = this.domainId;

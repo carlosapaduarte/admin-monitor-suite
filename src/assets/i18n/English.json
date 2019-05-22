@@ -653,7 +653,10 @@
       "failed": "Unexpected error!"
     },
     "RESULT_LIST": {
+      "title": "Choose pages to import",
       "uri_label": "Pages",
+      "import": "Import",
+      "observ": "Observatory",
       "cancel": "Cancel",
       "submit": "Submit",
       "submitting": "Submitting..."
@@ -682,9 +685,21 @@
     },
     "DELETE": {
       "error": "It was not possible to delete this search result!"
+    }
+  },
+  "CRAWLER_CONFIG": {
+    "title": "Configuration of default values for automatic page search",
+    "reset": "Reset",
+    "submit": "Update values",
+    "PARAMETERS": {
+      "old_depth": "Actual maximum depth",
+      "depth": "Desired maximum depth",
+      "old_pages": "Actual maximum number of pages",
+      "pages": "Desired maximum number of pages"
     },
-    "ADD": {
-      "title": "Choose pages to add"
+    "TOOLTIP": {
+      "depth": "Type 1 to only search for pages directly linked to the homepage",
+      "pages": "Type 0 to search for all pages"
     }
   },
   "IMPORT": {

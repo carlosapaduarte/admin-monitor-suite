@@ -1,0 +1,73 @@
+<div fxLayout="row">
+  <h1 mat-dialog-title>{{ "CRAWLER_CONFIG.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
+<form (submit)="updateConfig()" [formGroup]="pageForm" novalidate>
+
+  <mat-dialog-content>
+
+    <div fxLayout="row">
+
+      <div class="previous-max-depth" fxLayout="column" fxFlex="40%">
+        <mat-form-field>
+          <label>{{ "CRAWLER_CONFIG.PARAMETERS.old_depth" | translate }}</label>
+          <input matInput formControlName="oldMaxDepth" type="number" min="0" autocomplete="off">
+        </mat-form-field>
+      </div>
+
+      <span fxFlex="5%"></span>
+
+      <div class="max-depth-input" fxLayout="column"fxFlex="55%">
+        <mat-form-field hintLabel="{{'CRAWLER_CONFIG.TOOLTIP.depth' | translate}}">
+          <label>{{ "CRAWLER_CONFIG.PARAMETERS.depth" | translate }}</label>
+          <input matInput formControlName="maxDepth" type="number" min="0" autocomplete="off">
+          <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.maxDepth"
+                  (click)="pageForm.controls.maxDepth.reset()">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div fxLayout="row">
+
+      <div class="previous-max-pages" fxLayout="column" fxFlex="40%">
+        <mat-form-field>
+          <label>{{ "CRAWLER_CONFIG.PARAMETERS.old_pages" | translate }}</label>
+          <input matInput formControlName="oldMaxPages" type="number" min="0" autocomplete="off">
+        </mat-form-field>
+      </div>
+
+      <span fxFlex="5%"></span>
+
+      <div class="max-pages-input" fxLayout="column" fxFlex="55%">
+        <mat-form-field hintLabel="{{'CRAWLER_CONFIG.TOOLTIP.pages' | translate}}">
+          <label>{{"CRAWLER_CONFIG.PARAMETERS.pages" | translate}}</label>
+          <input matInput formControlName="maxPages" type="number" min="0" autocomplete="off">
+          <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.maxPages"
+                  (click)="pageForm.controls.maxPages.reset()">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row">
+    <button mat-raised-button color="warn" type="button" (click)="resetForm()">
+      {{ "CRAWLER_CONFIG.reset" | translate }}
+    </button>
+    <span fxFlex></span>
+    <button mat-raised-button color="primary" type="submit"
+            [disabled]="pageForm.value.maxDepth === '' && pageForm.value.maxPages === ''">
+      {{ "CRAWLER_CONFIG.submit" | translate }}
+    </button>
+  </mat-dialog-actions>
+
+</form>
