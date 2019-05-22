@@ -33,6 +33,8 @@ export class ListOfCrawlsComponent implements OnInit {
 
   crawls: Array<any>;
 
+  isListEmpty: boolean;
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -53,6 +55,7 @@ export class ListOfCrawlsComponent implements OnInit {
     this.get.listOfCrawls()
       .subscribe(crawls => {
         if (crawls !== null) {
+          this.isListEmpty = crawls.length === 0;
           this.crawls = crawls;
           this.dataSource = new MatTableDataSource(crawls);
           this.dataSource.sort = this.sort;
