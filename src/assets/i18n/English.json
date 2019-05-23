@@ -419,6 +419,7 @@
         "delete_label": "Delete",
         "delete_tooltip": "Delete domain",
         "see_tooltip": "See domain",
+        "add_pages_label": "Crawler",
         "add_pages_tooltip": "Automatically add pages"
       }
     },

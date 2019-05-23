@@ -417,6 +417,7 @@
         "delete_label": "Apagar",
         "delete_tooltip": "Apagar domínio",
         "see_tooltip": "Ver domínio",
+        "add_pages_label": "Crawler",
         "add_pages_tooltip": "Adicionar páginas automaticamente"
       }
     },

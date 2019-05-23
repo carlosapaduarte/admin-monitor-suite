@@ -10,8 +10,9 @@
   <mat-card-content>
     <div class="table-filter" fxLayout="row">
       <mat-form-field appearance="outline">
-        <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)"
-               placeholder='{{ "MISC.filter" | translate }}'>
+        <label>{{ "MISC.filter" | translate }}
+          <input id="crawler_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+        </label>
       </mat-form-field>
 
       <span fxFlex></span>

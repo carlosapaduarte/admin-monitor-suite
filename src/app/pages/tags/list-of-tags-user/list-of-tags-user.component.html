@@ -9,11 +9,16 @@
   </mat-card-header>
   <mat-card-content>
     <div class="table-filter">
-      <mat-form-field appearance="outline" fxFlex>
+      <!--<mat-form-field appearance="outline" fxFlex>
         <label for="tag_table_filter">
           {{ "MISC.filter" | translate }}
         </label>
         <input id="tag_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>-->
+      <mat-form-field appearance="outline">
+        <label>{{ "MISC.filter" | translate }}
+          <input id="tag_user_table_filter" matInput (keyup)="applyFilter($event.target.value)">
+        </label>
       </mat-form-field>
     </div>
 
