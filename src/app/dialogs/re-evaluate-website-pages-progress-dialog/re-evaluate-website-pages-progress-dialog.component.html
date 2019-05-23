@@ -1,6 +1,6 @@
 <div fxLayout="row">
   <h1 class="mat-display-1" mat-dialog-title>
-    {{ "PAGES_PAGE.ADD.progress.title" | translate }}
+    {{ "WEBSITES_PAGE.ADD.progress.title" | translate }}
   </h1>
   <span fxFlex></span>
   <button mat-icon-button aria-label="Close dialog" (click)="closeDialog()">
@@ -10,20 +10,20 @@
 <mat-dialog-content>
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <ul>
-      <li><span class="bold">{{ "PAGES_PAGE.ADD.progress.total_uris" | translate }}</span> {{ n_uris }}</li>
-      <li><span class="bold">{{ "PAGES_PAGE.ADD.progress.elapsed_uris" | translate }}</span> {{ elapsed_uris }}</li>
-      <li><span class="bold">{{ "PAGES_PAGE.ADD.progress.remaining_uris" | translate }}</span> {{ remaining_uris }}</li>
+      <li><span class="bold">{{ "WEBSITES_PAGE.ADD.progress.total_uris" | translate }}</span> {{ n_uris }}</li>
+      <li><span class="bold">{{ "WEBSITES_PAGE.ADD.progress.elapsed_uris" | translate }}</span> {{ elapsed_uris }}</li>
+      <li><span class="bold">{{ "WEBSITES_PAGE.ADD.progress.remaining_uris" | translate }}</span> {{ remaining_uris }}</li>
     </ul>
     <ul>
-      <li><span class="bold success_uri">{{ "PAGES_PAGE.ADD.progress.success_uris" | translate }}</span>
+      <li><span class="bold success_uri">{{ "WEBSITES_PAGE.ADD.progress.success_uris" | translate }}</span>
         {{ success_uris }}</li>
-      <li><span class="bold error_uri">{{ "PAGES_PAGE.ADD.progress.error_uris" | translate }}</span> {{ error_uris }}
+      <li><span class="bold error_uri">{{ "WEBSITES_PAGE.ADD.progress.error_uris" | translate }}</span> {{ error_uris }}
       </li>
     </ul>
   </div>
   <br>
   <div fxLayout="column" *ngIf="current_uri">
-    <span class="bold">{{ "PAGES_PAGE.ADD.progress.current_uri" | translate }}</span>
+    <span class="bold">{{ "WEBSITES_PAGE.ADD.progress.current_uri" | translate }}</span>
     <span class="uri">{{ current_uri }}</span>
   </div>
   <br>
@@ -34,9 +34,9 @@
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
   <button *ngIf="finished && error_uris > 0" color="warn" mat-flat-button type="button" (click)="openUrisWithErrorsDialog()">
-    {{ "PAGES_PAGE.ADD.progress.uris_with_errors" | translate }}
+    {{ "WEBSITES_PAGE.ADD.progress.uris_with_errors" | translate }}
   </button>
   <button mat-flat-button color="primary" type="button" (click)="closeDialog()" *ngIf="finished">
-    {{ "PAGES_PAGE.ADD.progress.close" | translate }}
+    {{ "WEBSITES_PAGE.ADD.progress.close" | translate }}
   </button>
 </mat-dialog-actions>

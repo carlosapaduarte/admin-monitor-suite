@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as socketIo from 'socket.io-client';
 
@@ -33,8 +33,7 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
     private create: CreateService,
     private config: ConfigService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<AddPagesProgressDialogComponent>,
-    private cd: ChangeDetectorRef
+    private dialogRef: MatDialogRef<AddPagesProgressDialogComponent>
   ) {
     this.finished = false;
     this.current_uri = this.data.uris[0];
@@ -84,8 +83,6 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
                 if (this.elapsed_uris === this.n_uris) {
                   this.finished = true;
                 }
-
-                this.cd.detectChanges();
               }
             });
           });

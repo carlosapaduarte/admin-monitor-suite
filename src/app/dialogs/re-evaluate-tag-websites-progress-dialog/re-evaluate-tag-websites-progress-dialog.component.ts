@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as socketIo from 'socket.io-client';
 import * as _ from 'lodash';
@@ -43,8 +43,7 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
     private update: UpdateService,
     private config: ConfigService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<ReEvaluateTagWebsitesProgressDialogComponent>,
-    private cd: ChangeDetectorRef
+    private dialogRef: MatDialogRef<ReEvaluateTagWebsitesProgressDialogComponent>
   ) {
     this.finished = false;
     this.skipping = true;
@@ -79,7 +78,6 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
             this.socket.on('startup_tag', data => {
               this.n_websites = _.clone(data);
               this.remaining_websites = _.clone(this.n_websites);
-              this.cd.detectChanges();
             });
 
             this.socket.on('startup_website', data => {
@@ -91,12 +89,10 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
               this.success_uris = 0;
               this.error_uris = 0;
               this.progress_uris = 0;
-              this.cd.detectChanges();
             });
 
             this.socket.on('current_uri', data => {
               this.current_uri = decodeURIComponent(data);
-              this.cd.detectChanges();
             });
 
             this.socket.on('message', data => {
@@ -114,8 +110,6 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
                 this.elapsed_uris = this.success_uris + this.error_uris;
                 this.remaining_uris = this.n_uris - this.elapsed_uris;
                 this.progress_uris = (this.elapsed_uris * 100) / this.n_uris;
-
-                this.cd.detectChanges();
               }
             });
 
@@ -134,8 +128,6 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
                 if (this.elapsed_websites === this.n_websites) {
                   this.finished = true;
                 }
-
-                this.cd.detectChanges();
               }
             });
           });

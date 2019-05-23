@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as socketIo from 'socket.io-client';
 import * as _ from 'lodash';
@@ -34,8 +34,7 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
     private update: UpdateService,
     private config: ConfigService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<ReEvaluateWebsitePagesProgressDialogComponent>,
-    private cd: ChangeDetectorRef
+    private dialogRef: MatDialogRef<ReEvaluateWebsitePagesProgressDialogComponent>
   ) {
     this.finished = false;
     this.current_uri = '';
@@ -55,17 +54,15 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
     this.update.reEvaluateWebsitePages({domainId: this.data})
       .subscribe(success => {
         if (success) {
-          this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });
-          this.socket.on('connect', () => {
+          this.socket = socketIo(this.config.getWSServer('/'), { 'forceNew': true });
+          this.socket.once('connect', () => {
             this.socket.on('startup', data => {
               this.n_uris = _.clone(data);
               this.remaining_uris = _.clone(this.n_uris);
-              this.cd.detectChanges();
             });
 
             this.socket.on('current_uri', data => {
               this.current_uri = _.clone(decodeURIComponent(data));
-              this.cd.detectChanges();
             });
 
             this.socket.on('message', data => {
@@ -84,8 +81,6 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
                 if (this.elapsed_uris === this.n_uris) {
                   this.finished = true;
                 }
-
-                this.cd.detectChanges();
               }
             });
           });
@@ -116,6 +111,7 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
   }
 
   ngOnDestroy(): void {
+    this.socket.removeAllListeners();
     this.socket.disconnect();
   }
 }

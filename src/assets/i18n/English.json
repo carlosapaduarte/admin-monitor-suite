@@ -399,6 +399,23 @@
       "messages": {
         "success": "Website created successfully",
         "error": "Error creating website"
+      },
+      "progress": {
+        "title": "Re-evaluate website - progress",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Elapsed uris:",
+        "remaining_uris": "Remaining uris:",
+        "success_uris": "Success uris:",
+        "error_uris": "Error uris:",
+        "current_uri": "Current uri:",
+        "uris_with_errors": "See uris with errors",
+        "close": "Close",
+        "close_dialog": {
+          "title": "End process",
+          "description": "Closing the dialog will stop the current process. Do you want to stop the process?",
+          "no": "No",
+          "yes": "Yes"
+        }
       }
     },
     "UPDATE": {

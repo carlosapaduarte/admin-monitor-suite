@@ -399,6 +399,23 @@
       "messages": {
         "success": "Website criado com sucesso",
         "error": "Erro ao criar o website"
+      },
+      "progress": {
+        "title": "Re-avaliar website - progresso",
+        "total_uris": "Total uris:",
+        "elapsed_uris": "Uris decorridos:",
+        "remaining_uris": "Uris em falta:",
+        "success_uris": "Uris com sucesso:",
+        "error_uris": "Uris com erro:",
+        "current_uri": "Uri atual:",
+        "uris_with_errors": "Ver uris com erros",
+        "close": "Fechar",
+        "close_dialog": {
+          "title": "Terminar processo",
+          "description": "Fechar a janela irá terminar o processo em execução. Pretende terminar o processo?",
+          "no": "Não",
+          "yes": "Sim"
+        }
       }
     },
     "UPDATE": {
