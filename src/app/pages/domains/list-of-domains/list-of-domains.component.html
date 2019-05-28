@@ -117,6 +117,17 @@
         </mat-cell>
       </ng-container>-->
 
+      <ng-container matColumnDef="re-evaluate">
+        <mat-header-cell *matHeaderCellDef fxFlex="10">
+          {{ "DOMAINS_PAGE.LIST.table.re_evaluate_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          <button *ngIf="element.Active === 1" mat-icon-button matTooltip="{{ 'DOMAINS_PAGE.LIST.table.re_evaluate_tooltip' | translate }}" (click)="reEvaluateWebsitePages(element.DomainId)">
+            <mat-icon class="md-24" aria-label="">autorenew</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="Edit">
         <mat-header-cell *matHeaderCellDef fxFlex="8">
           {{ "DOMAINS_PAGE.LIST.table.edit_label" | translate }}

@@ -88,6 +88,11 @@ import { ListOfWebsitesUserComponent } from './pages/websites/list-of-websites-u
 import { ImportWebsiteDialogComponent } from './dialogs/import-website-dialog/import-website-dialog.component';
 import { ImportTagDialogComponent } from './dialogs/import-tag-dialog/import-tag-dialog.component';
 import { EditDomainDialogComponent } from './dialogs/edit-domain-dialog/edit-domain-dialog.component';
+import { AddPagesProgressDialogComponent } from './dialogs/add-pages-progress-dialog/add-pages-progress-dialog.component';
+import { AddPagesProgressCloseConfirmationDialogComponent } from './dialogs/add-pages-progress-close-confirmation-dialog/add-pages-progress-close-confirmation-dialog.component';
+import { ReEvaluateWebsitePagesProgressDialogComponent } from './dialogs/re-evaluate-website-pages-progress-dialog/re-evaluate-website-pages-progress-dialog.component';
+import { ReEvaluateTagWebsitesProgressDialogComponent } from './dialogs/re-evaluate-tag-websites-progress-dialog/re-evaluate-tag-websites-progress-dialog.component';
+import { ReEvaluateEntityWebsitesProgressDialogComponent } from './dialogs/re-evaluate-entity-websites-progress-dialog/re-evaluate-entity-websites-progress-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -103,15 +108,15 @@ const appRoutes: Routes = [
     { path: 'websites', component: WebsitesComponent, canActivate: [AdminAuthGuard] },
     { path: 'website/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
     { path: 'website/:user/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
-    { path: 'website/:user/:website/:page', component: PageComponent, canActivate: [AdminAuthGuard] },
-    { path: 'website/:user/:website/:page/:evaluation_id', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
-    { path: 'website/:user/:website/:page/:evaluation_id/code', component: WebpageCodeComponent, canActivate: [AdminAuthGuard] },
-    { path: 'website/:user/:website/:page/:evaluation_id/:ele', component: ElementResultComponent, canActivate: [AdminAuthGuard] },
+    { path: 'website/:user/:website/:page', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
+    //{ path: 'website/:user/:website/:page/:evaluation_id', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
+    { path: 'website/:user/:website/:page/code', component: WebpageCodeComponent, canActivate: [AdminAuthGuard] },
+    { path: 'website/:user/:website/:page/:ele', component: ElementResultComponent, canActivate: [AdminAuthGuard] },
     { path: 'tag/website/:tag/:user/:website', component: WebsiteComponent, canActivate: [AdminAuthGuard] },
-    { path: 'tag/website/:tag/:user/:website/:page', component: PageComponent, canActivate: [AdminAuthGuard] },
-    { path: 'tag/website/:tag/:user/:website/:page/:evaluation_id', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
-    { path: 'tag/website/:tag/:user/:website/:page/:evaluation_id/code', component: WebpageCodeComponent, canActivate: [AdminAuthGuard] },
-    { path: 'tag/website/:tag/:user/:website/:page/:evaluation_id/:ele', component: ElementResultComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tag/website/:tag/:user/:website/:page', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
+    //{ path: 'tag/website/:tag/:user/:website/:page/', component: EvaluationResultsComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tag/website/:tag/:user/:website/:page/code', component: WebpageCodeComponent, canActivate: [AdminAuthGuard] },
+    { path: 'tag/website/:tag/:user/:website/:page/:ele', component: ElementResultComponent, canActivate: [AdminAuthGuard] },
     { path: 'domains', component: DomainsComponent, canActivate: [AdminAuthGuard] },
     { path: 'domain/:domain', component: DomainComponent, canActivate: [AdminAuthGuard] },
     { path: 'pages', component: PagesComponent, canActivate: [AdminAuthGuard] },
@@ -199,7 +204,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     ListOfWebsitesUserComponent,
     ImportWebsiteDialogComponent,
     ImportTagDialogComponent,
-    EditDomainDialogComponent
+    EditDomainDialogComponent,
+    AddPagesProgressDialogComponent,
+    AddPagesProgressCloseConfirmationDialogComponent,
+    ReEvaluateWebsitePagesProgressDialogComponent,
+    ReEvaluateTagWebsitesProgressDialogComponent,
+    ReEvaluateEntityWebsitesProgressDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -252,7 +262,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeleteTagConfirmationDialogComponent,
     ImportTagDialogComponent,
     ImportWebsiteDialogComponent,
-    EditDomainDialogComponent
+    EditDomainDialogComponent,
+    AddPagesProgressDialogComponent,
+    AddPagesProgressCloseConfirmationDialogComponent,
+    ReEvaluateWebsitePagesProgressDialogComponent,
+    ReEvaluateTagWebsitesProgressDialogComponent,
+    ReEvaluateEntityWebsitesProgressDialogComponent
   ],
   providers: [
     AdminAuthGuard,

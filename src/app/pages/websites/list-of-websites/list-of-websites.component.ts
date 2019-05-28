@@ -5,6 +5,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import * as _ from 'lodash';
 
 import { EditWebsiteDialogComponent } from '../../../dialogs/edit-website-dialog/edit-website-dialog.component';
+import { ReEvaluateWebsitePagesProgressDialogComponent } from '../../../dialogs/re-evaluate-website-pages-progress-dialog/re-evaluate-website-pages-progress-dialog.component';
 
 @Component({
   selector: 'app-list-of-websites',
@@ -22,6 +23,7 @@ export class ListOfWebsitesComponent implements OnInit {
     'Entity',
     //'User',
     'Creation_Date',
+    're-evaluate',
     'edit',
     //'see'
   ];
@@ -49,6 +51,14 @@ export class ListOfWebsitesComponent implements OnInit {
     filterValue = _.trim(filterValue);
     filterValue = _.toLower(filterValue);
     this.dataSource.filter = filterValue;
+  }
+
+  reEvaluateWebsitePages(domainId: number): void {
+    this.dialog.open(ReEvaluateWebsitePagesProgressDialogComponent, {
+      width: '40vw',
+      disableClose: true,
+      data: domainId
+    });
   }
 
   edit(id: number, userType: string): void {
