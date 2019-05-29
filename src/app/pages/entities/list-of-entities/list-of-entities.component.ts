@@ -24,7 +24,7 @@ export class ListOfEntitiesComponent implements OnInit {
     'Long_Name',
     'Creation_Date',
     'Websites',
-    're-evaluate',
+    //'re-evaluate',
     'edit',
     //'see'
   ];

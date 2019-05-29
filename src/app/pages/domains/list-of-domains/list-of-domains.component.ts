@@ -31,7 +31,7 @@ export class ListOfDomainsComponent implements OnInit {
     'End_Date',
     //'delete',
     //'see',
-    're-evaluate',
+    //'re-evaluate',
     'Edit'
   ];
 
