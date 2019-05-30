@@ -53,6 +53,7 @@
     "entities": "Entidades",
     "websites": "Websites",
     "domains": "Domínios",
+    "crawler": "Crawler",
     "pages": "Páginas",
     "settings": "Definições"
   },
@@ -492,6 +493,7 @@
         "delete_label": "Apagar",
         "delete_tooltip": "Apagar domínio",
         "see_tooltip": "Ver domínio",
+        "add_pages_label": "Crawler",
         "add_pages_tooltip": "Adicionar páginas automaticamente"
       }
     },
@@ -738,11 +740,14 @@
     "error2": "Apenas permitido zero e números inteiros positivos",
     "PARAMETERS": {
       "depth": "Profundidade máxima",
-      "pages": "Número máximo de páginas"
+      "pages": "Número máximo de páginas",
+      "subdomain": "Sub-domínio desejado"
     },
     "TOOLTIP": {
-      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial",
-      "pages": "Escreva 0 para procurar todas as páginas"
+      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial (ou sub-domínio desejado)",
+      "pages": "Escreva 0 para procurar todas as páginas",
+      "subdomain": "Se deseja procurar páginas no domínio '",
+      "subdomain2": "/abc', escreva apenas 'abc'"
     },
     "MESSAGE": {
       "success": "Páginas adicionadas com sucesso!",
@@ -750,12 +755,60 @@
       "failed": "Aconteceu um erro!"
     },
     "RESULT_LIST": {
+      "title": "Escolha as páginas a importar",
       "uri_label": "Páginas",
+      "import":  "Importar",
+      "observ": "Observatório",
       "cancel": "Cancelar",
-      "submit": "Adicionar"
+      "submit": "Adicionar",
+      "submitting": "A adicionar..."
     },
     "reset": "Limpar",
-    "submit": "Procurar"
+    "submit": "Procurar",
+    "close": "Fechar",
+    "executing": "A procura automática de páginas pode demorar algum tempo a terminar!",
+    "executing2": "Por favor, visite periodicamente a lista de procuras executadas, para verificar os seus resultados.",
+    "crawlerList": "Ir para lista de procuras"
+  },
+  "CRAWLER_PAGE": {
+    "title": "Procuras automáticas de páginas",
+    "subtitle": "Lista de todas as procuras de páginas a executar e terminadas",
+    "change_config": "Alterar configurações",
+    "go_to_domain": "Lista de domínios",
+    "LIST": {
+      "domain": "Domínio",
+      "subdomain": "Sub-domínio",
+      "date": "Data de início",
+      "status": "Estado",
+      "delete": "Apagar",
+      "result": "Resultados"
+    },
+    "TOOLTIP": {
+      "show_result": "Mostrar páginas encontradas",
+      "delete_result": "Apagar resultados"
+    },
+    "DELETE": {
+      "error": "Não foi possível apagar o resultado da pesquisa!"
+    },
+    "EMPTY": {
+      "part1": "A lista encontra-se vazia!",
+      "part2": "Para usar a procura automática de páginas, dirija-se à lista de domínios e carregue no "
+    }
+  },
+  "CRAWLER_CONFIG": {
+    "title": "Configuração dos valores pré-definidos na procura automática de páginas",
+    "reset": "Limpar",
+    "submit": "Atualizar dados",
+    "PARAMETERS": {
+      "old_depth": "Atual profundidade máxima",
+      "depth": "Profundidade máximo desejada",
+      "old_pages": "Atual número máximo de páginas",
+      "pages": "Número máximo de páginas desejado"
+    },
+    "TOOLTIP": {
+      "depth": "Escreva 1 para procurar páginas diretamente ligadas à página inicial",
+      "pages": "Escreva 0 para procurar todas as páginas"
+    }
   },
   "IMPORT": {
     "import": "Importar",

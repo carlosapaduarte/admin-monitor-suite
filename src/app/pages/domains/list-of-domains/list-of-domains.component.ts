@@ -25,14 +25,14 @@ export class ListOfDomainsComponent implements OnInit {
     //'DomainId',
     'Url',
     'Active',
-    //'User',
     'Pages',
     'Start_Date',
     'End_Date',
     //'delete',
     //'see',
     //'re-evaluate',
-    'Edit'
+    'Edit',
+    'see'
   ];
 
   user: string;

@@ -30,7 +30,6 @@ export class ImportWebsiteDialogComponent implements OnInit {
     private update: UpdateService,
     private formBuilder: FormBuilder,
   ) {
-    console.log(data);
     this.website = this.data.website;
     this.websiteId = this.data.websiteId;
     this.hasDomain = this.data.hasDomain;

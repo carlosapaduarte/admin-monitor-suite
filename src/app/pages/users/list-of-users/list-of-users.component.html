@@ -10,11 +10,15 @@
 
   <mat-card-content>
     <div class="table-filter">
-      <mat-form-field appearance="outline">
+      <!--<mat-form-field appearance="outline">
         <label for="user_list_filter">
           {{ "MISC.filter" | translate }}
         </label>
         <input id="user_list_filter" matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>-->
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "MISC.filter" | translate }}</mat-label>
+        <input id="user_table_filter" matInput (keyup)="applyFilter($event.target.value)">
       </mat-form-field>
     </div>
 

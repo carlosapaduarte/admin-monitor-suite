@@ -36,7 +36,7 @@
   <button *ngIf="finished && error_uris > 0" color="warn" mat-flat-button type="button" (click)="openUrisWithErrorsDialog()">
     {{ "PAGES_PAGE.ADD.progress.uris_with_errors" | translate }}
   </button>
-  <button mat-flat-button color="primary" type="button" mat-dialog-close *ngIf="finished">
+  <button mat-flat-button color="primary" type="button" (click)="closeDialog()" *ngIf="finished">
     {{ "PAGES_PAGE.ADD.progress.close" | translate }}
   </button>
 </mat-dialog-actions>

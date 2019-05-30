@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as socketIo from 'socket.io-client';
 
@@ -30,6 +32,8 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router,
+    private location: Location,
     private create: CreateService,
     private config: ConfigService,
     private dialog: MatDialog,
@@ -77,7 +81,7 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
 
                 this.elapsed_uris = this.success_uris + this.error_uris;
                 this.remaining_uris = this.n_uris - this.elapsed_uris;
-                this.current_uri = this.data.uris[this.elapsed_uris];
+                this.current_uri = decodeURIComponent(this.data.uris[this.elapsed_uris]);
                 this.progress = (this.elapsed_uris * 100) / this.n_uris;
 
                 if (this.elapsed_uris === this.n_uris) {
@@ -100,6 +104,11 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
 
   closeDialog(): void {
     if (this.finished) {
+      if (this.location.path() !== '/console/pages') {
+        this.router.navigateByUrl('/console/pages');
+      } else {
+        window.location.reload();
+      }
       this.dialogRef.close();
     } else {
       const dialog = this.dialog.open(AddPagesProgressCloseConfirmationDialogComponent);

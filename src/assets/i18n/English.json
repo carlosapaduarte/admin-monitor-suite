@@ -53,6 +53,7 @@
     "entities": "Entities",
     "websites": "Websites",
     "domains": "Domains",
+    "crawler": "Crawler",
     "pages": "Pages",
     "settings": "Settings"
   },
@@ -494,6 +495,7 @@
         "delete_label": "Delete",
         "delete_tooltip": "Delete domain",
         "see_tooltip": "See domain",
+        "add_pages_label": "Crawler",
         "add_pages_tooltip": "Automatically add pages"
       }
     },
@@ -740,11 +742,14 @@
     "error2": "Only allowed zero and positive integer numbers",
     "PARAMETERS": {
       "depth": "Maximum depth",
-      "pages": "Maximum number of pages"
+      "pages": "Maximum number of pages",
+      "subdomain": "Desired sub-domain"
     },
     "TOOLTIP": {
-      "depth": "Type 1 to only search for pages directly linked to the homepage",
-      "pages": "Type 0 to search for all pages"
+      "depth": "Type 1 to only search for pages directly linked to the homepage (or desired sub-domain)",
+      "pages": "Type 0 to search for all pages",
+      "subdomain": "If you want to search for pages in '",
+      "subdomain2": "/abc', only type 'abc'"
     },
     "MESSAGE": {
       "success": "Pages added successfully!",
@@ -752,12 +757,60 @@
       "failed": "Unexpected error!"
     },
     "RESULT_LIST": {
+      "title": "Choose pages to import",
       "uri_label": "Pages",
+      "import": "Import",
+      "observ": "Observatory",
       "cancel": "Cancel",
-      "submit": "Submit"
+      "submit": "Submit",
+      "submitting": "Submitting..."
     },
     "reset": "Reset",
-    "submit": "Search"
+    "submit": "Search",
+    "close": "Close",
+    "executing": "Automatic page search can take a while to finish!",
+    "executing2": "Periodically visit the list of automatic page searches to check its results.",
+    "crawlerList": "Go to list of searches"
+  },
+  "CRAWLER_PAGE": {
+    "title": "Automatic page searches",
+    "subtitle": "List of all page searches still executing and already terminated",
+    "change_config": "Change settings",
+    "go_to_domain": "List of domains",
+    "LIST": {
+      "domain": "Domain",
+      "subdomain": "Sub-domain",
+      "date": "Initial date",
+      "status": "Status",
+      "delete": "Delete",
+      "result": "Results"
+    },
+    "TOOLTIP": {
+      "show_result": "Show found pages",
+      "delete_result": "Delete search result"
+    },
+    "DELETE": {
+      "error": "It was not possible to delete this search result!"
+    },
+    "EMPTY": {
+      "part1": "This list is empty!",
+      "part2": "To do an automatic page search, go to list of domains and press "
+    }
+  },
+  "CRAWLER_CONFIG": {
+    "title": "Configuration of default values for automatic page search",
+    "reset": "Reset",
+    "submit": "Update values",
+    "PARAMETERS": {
+      "old_depth": "Actual maximum depth",
+      "depth": "Desired maximum depth",
+      "old_pages": "Actual maximum number of pages",
+      "pages": "Desired maximum number of pages"
+    },
+    "TOOLTIP": {
+      "depth": "Type 1 to only search for pages directly linked to the homepage",
+      "pages": "Type 0 to search for all pages"
+    }
   },
   "IMPORT": {
     "import": "Import",

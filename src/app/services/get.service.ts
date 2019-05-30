@@ -626,6 +626,52 @@ export class GetService {
     );
   }
 
+  listOfCrawls(): Observable<Array<any>> {
+    return ajax.post(this.config.getServer('/admin/crawler/getAll'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<any>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  listOfUrisFromCrawlDomainId(crawlDomainId: number): Observable<Array<any>> {
+    return ajax.post(this.config.getServer('/admin/crawler/getByCrawlDomainID'), {crawlDomainId, cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<any>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   websitesWithoutUser(): Observable<Array<Website>> {
     return ajax.post(this.config.getServer('/admin/websites/withoutUser'), {cookie: this.user.getUserData()}).pipe(
       retry(3),
@@ -819,6 +865,29 @@ export class GetService {
         }
 
         const response = <Response> res.response;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <any> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  getCrawlerConfig(): Observable<any> {
+    return ajax.post(this.config.getServer('/admin/crawler/getConfig'), {cookie: this.user.getUserData()}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);

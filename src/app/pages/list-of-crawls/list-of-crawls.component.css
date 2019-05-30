@@ -1,0 +1,16 @@
+.openCrawlerButton{
+  height: 55px;
+}
+
+.table-filter mat-form-field,
+.table-filter input {
+  width: 80%;
+}
+
+.table-filter {
+  justify-content: space-evenly;
+}
+
+.listEmptyHeader{
+  margin-bottom: 0;
+}

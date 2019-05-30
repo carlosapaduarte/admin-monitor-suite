@@ -1,11 +1,30 @@
-.mat-column-Uri{
-  flex: 0 0 80%;
+.cdk-column-header-uri,
+.cdk-column-Uri{
+  flex: 1 0 60%;
 }
-.mat-column-select{
-  padding-left: 10%;
-  flex: 0 0 20%;
+
+.cdk-column-header-import,
+.cdk-column-header-observ{
+  flex: 1 0 10%;
+}
+
+.cdk-column-import{
+  padding-left: 1%;
+  flex: 1 0 10%;
+}
+.cdk-column-observatorio{
+  padding-left: 3%;
+  flex: 1 0 10%;
 }
 
 .mat-checkbox label{
   margin: 0 !important;
+}
+
+.header-group-row {
+  border: none;
+  align-items: stretch;
+}
+.header-group {
+  align-items: center;
 }
