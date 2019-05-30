@@ -10,17 +10,7 @@
   <mat-dialog-content>
 
     <div fxLayout="row">
-
-      <div class="previous-max-depth" fxLayout="column" fxFlex="40%">
-        <mat-form-field>
-          <label>{{ "CRAWLER_CONFIG.PARAMETERS.old_depth" | translate }}</label>
-          <input matInput formControlName="oldMaxDepth" type="number" min="0" autocomplete="off">
-        </mat-form-field>
-      </div>
-
-      <span fxFlex="5%"></span>
-
-      <div class="max-depth-input" fxLayout="column"fxFlex="55%">
+      <div class="max-depth-input" fxLayout="column" fxFlex="100%">
         <mat-form-field hintLabel="{{'CRAWLER_CONFIG.TOOLTIP.depth' | translate}}">
           <label>{{ "CRAWLER_CONFIG.PARAMETERS.depth" | translate }}</label>
           <input matInput formControlName="maxDepth" type="number" min="0" autocomplete="off">
@@ -30,21 +20,10 @@
           </button>
         </mat-form-field>
       </div>
-
     </div>
 
     <div fxLayout="row">
-
-      <div class="previous-max-pages" fxLayout="column" fxFlex="40%">
-        <mat-form-field>
-          <label>{{ "CRAWLER_CONFIG.PARAMETERS.old_pages" | translate }}</label>
-          <input matInput formControlName="oldMaxPages" type="number" min="0" autocomplete="off">
-        </mat-form-field>
-      </div>
-
-      <span fxFlex="5%"></span>
-
-      <div class="max-pages-input" fxLayout="column" fxFlex="55%">
+      <div class="max-pages-input" fxLayout="column" fxFlex="100%">
         <mat-form-field hintLabel="{{'CRAWLER_CONFIG.TOOLTIP.pages' | translate}}">
           <label>{{"CRAWLER_CONFIG.PARAMETERS.pages" | translate}}</label>
           <input matInput formControlName="maxPages" type="number" min="0" autocomplete="off">
@@ -54,7 +33,6 @@
           </button>
         </mat-form-field>
       </div>
-
     </div>
 
   </mat-dialog-content>

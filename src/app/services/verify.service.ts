@@ -204,4 +204,26 @@ export class VerifyService {
       })
     );
   }
+
+  crawlerSearchExists(subDomain: string): Observable<boolean> {
+    return ajax(this.config.getServer('/admin/crawler/isSubdomainDone/' + subDomain)).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.response;
+
+        if (!res.response || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+        return response.result ? { 'existsCrawlerWithSubdomain': true } : null;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
 }

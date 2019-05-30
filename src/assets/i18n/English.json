@@ -740,6 +740,7 @@
     "title": "Automatic page search in domain ",
     "error1": "Only allowed positive integer numbers",
     "error2": "Only allowed zero and positive integer numbers",
+    "errorSubdomain": "This subdomain was already searched!",
     "PARAMETERS": {
       "depth": "Maximum depth",
       "pages": "Maximum number of pages",
@@ -802,9 +803,7 @@
     "reset": "Reset",
     "submit": "Update values",
     "PARAMETERS": {
-      "old_depth": "Actual maximum depth",
       "depth": "Desired maximum depth",
-      "old_pages": "Actual maximum number of pages",
       "pages": "Desired maximum number of pages"
     },
     "TOOLTIP": {

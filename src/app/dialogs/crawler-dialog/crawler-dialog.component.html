@@ -47,10 +47,12 @@
         <mat-label></mat-label>
         <input matInput formControlName="subDomain" type="text" autocomplete="off">
         <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.subDomain"
-                (click)="pageForm.controls.subDomain.reset()">
+                (click)="pageForm.controls.subDomain.setValue('')">
           <!-- TODO evitar espaços e enters -->
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
+        <mat-error *ngIf="pageForm.controls.subDomain.hasError('existsCrawlerWithSubdomain')"
+                   [innerHTML]="'CRAWLER.errorSubdomain' | translate"></mat-error>
       </mat-form-field>
     </div>
 
