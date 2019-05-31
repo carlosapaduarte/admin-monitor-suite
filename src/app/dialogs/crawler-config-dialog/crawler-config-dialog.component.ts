@@ -39,11 +39,9 @@ export class CrawlerConfigDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<CrawlerConfigDialogComponent>
   ) {
     this.pageForm = this.formBuilder.group({
-      oldMaxDepth: new FormControl({value: '', disabled: true}),
       maxDepth: new FormControl('', [
         Validators.pattern('^[0-9]*[1-9][0-9]*$')
       ]),
-      oldMaxPages: new FormControl({value: '', disabled: true}),
       maxPages: new FormControl('', [
         Validators.pattern('^[0-9]*$')
       ]),
@@ -56,8 +54,8 @@ export class CrawlerConfigDialogComponent implements OnInit {
       .subscribe(result => {
         if (result !== null) {
           this.getConfig = result;
-          this.pageForm.controls.oldMaxDepth.setValue(result.maxDepth);
-          this.pageForm.controls.oldMaxPages.setValue(result.maxPages);
+          this.pageForm.controls.maxDepth.setValue(result.maxDepth);
+          this.pageForm.controls.maxPages.setValue(result.maxPages);
         }
       });
   }

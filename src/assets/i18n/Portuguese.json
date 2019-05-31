@@ -738,6 +738,7 @@
     "title": "Procura automática de páginas do domínio ",
     "error1": "Apenas permitido números inteiros positivos",
     "error2": "Apenas permitido zero e números inteiros positivos",
+    "errorSubdomain": "Este sub-domínio já foi procurado!",
     "PARAMETERS": {
       "depth": "Profundidade máxima",
       "pages": "Número máximo de páginas",
@@ -800,9 +801,7 @@
     "reset": "Limpar",
     "submit": "Atualizar dados",
     "PARAMETERS": {
-      "old_depth": "Atual profundidade máxima",
-      "depth": "Profundidade máximo desejada",
-      "old_pages": "Atual número máximo de páginas",
+      "depth": "Profundidade máxima desejada",
       "pages": "Número máximo de páginas desejado"
     },
     "TOOLTIP": {
