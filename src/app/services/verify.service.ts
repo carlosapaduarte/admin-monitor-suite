@@ -206,7 +206,7 @@ export class VerifyService {
   }
 
   crawlerSearchExists(subDomain: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/crawler/isSubdomainDone/' + subDomain)).pipe(
+    return ajax(this.config.getServer('/admin/crawler/isSubdomainDone/' + encodeURIComponent(subDomain))).pipe(
       retry(3),
       map(res => {
         const response = <Response> res.response;
@@ -218,6 +218,7 @@ export class VerifyService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
+        console.log(response.result)
         return response.result ? { 'existsCrawlerWithSubdomain': true } : null;
       }),
       catchError(err => {

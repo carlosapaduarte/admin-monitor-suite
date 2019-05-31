@@ -13,11 +13,11 @@
         <mat-label></mat-label>
         <input matInput formControlName="maxDepth" type="number" min="0" autocomplete="off">
         <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.maxDepth"
-                (click)="pageForm.controls.maxDepth.reset()">
+          (click)="pageForm.controls.maxDepth.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.maxDepth.hasError('required')"
-                   [innerHTML]="'MISC.required_field' | translate"></mat-error>
+          [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="pageForm.controls.maxDepth.hasError('pattern')">
           {{"CRAWLER.error1" | translate}}
         </mat-error>
@@ -30,11 +30,11 @@
         <mat-label></mat-label>
         <input matInput formControlName="maxPages" type="number" min="0" autocomplete="off">
         <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.maxPages"
-                (click)="pageForm.controls.maxPages.reset()">
+          (click)="pageForm.controls.maxPages.reset()">
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.maxPages.hasError('required')"
-                   [innerHTML]="'MISC.required_field' | translate"></mat-error>
+          [innerHTML]="'MISC.required_field' | translate"></mat-error>
         <mat-error *ngIf="pageForm.controls.maxPages.hasError('pattern')">
           {{"CRAWLER.error2" | translate}}
         </mat-error>
@@ -42,17 +42,18 @@
     </div>
 
     <div class="subdomain-input" fxLayout="column" *ngIf="!crawlExecuting">
-      <mat-form-field hintLabel="{{'CRAWLER.TOOLTIP.subdomain' | translate}}{{url}}{{'CRAWLER.TOOLTIP.subdomain2' | translate}}">
+      <mat-form-field
+        hintLabel="{{'CRAWLER.TOOLTIP.subdomain' | translate}}{{url}}{{'CRAWLER.TOOLTIP.subdomain2' | translate}}">
         <label>{{"CRAWLER.PARAMETERS.subdomain" | translate}}</label>
         <mat-label></mat-label>
         <input matInput formControlName="subDomain" type="text" autocomplete="off">
         <button type="button" matSuffix mat-icon-button *ngIf="pageForm.value.subDomain"
-                (click)="pageForm.controls.subDomain.setValue('')">
+          (click)="pageForm.controls.subDomain.setValue('')">
           <!-- TODO evitar espaços e enters -->
           <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <mat-error *ngIf="pageForm.controls.subDomain.hasError('existsCrawlerWithSubdomain')"
-                   [innerHTML]="'CRAWLER.errorSubdomain' | translate"></mat-error>
+          [innerHTML]="'CRAWLER.errorSubdomain' | translate"></mat-error>
       </mat-form-field>
     </div>
 
@@ -67,9 +68,7 @@
       {{ "CRAWLER.reset" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="submit"
-            [disabled]="pageForm.controls.maxDepth.hasError('pattern') || pageForm.controls.maxPages.hasError('pattern') ||
-                        pageForm.controls.maxDepth.hasError('required') || pageForm.controls.maxPages.hasError('required')">
+    <button mat-raised-button color="primary" type="submit" [disabled]="pageForm.invalid">
       {{ "CRAWLER.submit" | translate }}
     </button>
   </mat-dialog-actions>
@@ -79,7 +78,8 @@
       {{ "CRAWLER.close" | translate }}
     </button>
     <span fxFlex></span>
-    <button mat-raised-button color="primary" type="button" (click)="goToCrawlerList()">{{"CRAWLER.crawlerList" | translate }}</button>
+    <button mat-raised-button color="primary" type="button"
+      (click)="goToCrawlerList()">{{"CRAWLER.crawlerList" | translate }}</button>
   </mat-dialog-actions>
 
 </form>

@@ -56,7 +56,7 @@ export class CrawlerDialogComponent implements OnInit {
         Validators.pattern('^[0-9]*$'),
         Validators.required
       ]),
-      subDomain: new FormControl('', this.subDomainValidator.bind(this))
+      subDomain: new FormControl('', null, this.subDomainValidator.bind(this))
     });
     this.error = false;
     this.crawlExecuting = false;
@@ -83,8 +83,9 @@ export class CrawlerDialogComponent implements OnInit {
   }
 
   resetForm() {
-    this.pageForm.controls.maxDepth.setValue('1');
-    this.pageForm.controls.maxPages.setValue('0');
+    //this.pageForm.controls.maxDepth.setValue('1');
+    //this.pageForm.controls.maxPages.setValue('0');
+    this.pageForm.reset();
     this.verify.crawlerSearchExists(this.pageForm.value.subDomain);
   }
 
@@ -98,7 +99,15 @@ export class CrawlerDialogComponent implements OnInit {
   }
 
   subDomainValidator(control: AbstractControl): Observable<any> {
-    const subDomain = _.trim(this.url + '/' + control.value);
+    let v = _.trim(control.value);
+    if (v[0] === '/') {
+      v = v.substring(1, v.length);
+    }
+    if (v[v.length - 1] === '/') {
+      v = v.substring(0, v.length - 1);
+    }
+
+    const subDomain = v === '' ? this.url : this.url + '/' + v ;
     return this.verify.crawlerSearchExists(subDomain);
   }
 }
