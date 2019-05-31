@@ -65,7 +65,7 @@ export class AddTagDialogComponent implements OnInit {
       name: new FormControl('', [
         Validators.required
       ], this.nameValidator.bind(this)),
-      observatorio: new FormControl(),
+      observatory: new FormControl(),
       websites: new FormControl()
     });
 
@@ -97,12 +97,12 @@ export class AddTagDialogComponent implements OnInit {
     e.preventDefault();
 
     const name = this.tagForm.value.name;
-    const observatorio = this.tagForm.value.observatorio ? 1 : 0;
+    const observatory = this.tagForm.value.observatory ? 1 : 0;
     const websites = JSON.stringify(_.map(this.selectedWebsites, 'WebsiteId'));
 
     const formData = {
       name,
-      observatorio,
+      observatory,
       websites
     };
 

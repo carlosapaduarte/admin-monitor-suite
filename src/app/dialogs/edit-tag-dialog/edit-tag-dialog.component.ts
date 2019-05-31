@@ -72,7 +72,7 @@ export class EditTagDialogComponent implements OnInit {
 
     this.tagForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      observatorio: new FormControl(),
+      observatory: new FormControl(),
       websites: new FormControl()
     });
 
@@ -94,7 +94,7 @@ export class EditTagDialogComponent implements OnInit {
           this.defaultTag = _.cloneDeep(tag);
 
           this.tagForm.controls.name.setValue(tag.Name);
-          this.tagForm.controls.observatorio.setValue(tag.Show_in_Observatorio);
+          this.tagForm.controls.observatory.setValue(tag.Show_in_Observatorio);
           this.selectedWebsites = tag.websites;
 
           this.copyTagForm.controls.name.setValue(tag.Name);
@@ -122,7 +122,7 @@ export class EditTagDialogComponent implements OnInit {
 
   setDefault(): void {
     this.tagForm.controls.name.setValue(this.defaultTag.Name);
-    this.tagForm.controls.observatorio.setValue(this.defaultTag.Show_in_Observatorio);
+    this.tagForm.controls.observatory.setValue(this.defaultTag.Show_in_Observatorio);
     this.selectedWebsites = _.clone(this.defaultTag.websites);
   }
 
@@ -140,7 +140,7 @@ export class EditTagDialogComponent implements OnInit {
     e.preventDefault();
 
     const name = this.tagForm.value.name;
-    const observatorio = this.tagForm.value.observatorio ? 1 : 0;
+    const observatory = this.tagForm.value.observatory ? 1 : 0;
 
     const defaultWebsites = JSON.stringify(_.map(this.defaultTag.websites, 'WebsiteId'));
     const websites = JSON.stringify(_.map(this.selectedWebsites, 'WebsiteId'));
@@ -148,7 +148,7 @@ export class EditTagDialogComponent implements OnInit {
     const formData = {
       tagId: this.data.id,
       name,
-      observatorio,
+      observatory,
       defaultWebsites,
       websites
     };
