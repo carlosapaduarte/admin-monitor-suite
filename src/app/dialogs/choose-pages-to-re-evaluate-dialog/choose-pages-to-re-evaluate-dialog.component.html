@@ -1,0 +1,24 @@
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "DIALOGS.re_evaluate.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
+<form (submit)="reEvaluatePages($event)" novalidate>
+  <mat-dialog-content>
+    <mat-radio-group [formControl]="pages" fxLayout="column" required>
+      <mat-radio-button color="primary" value="all">
+        {{ "DIALOGS.re_evaluate.all" | translate }}
+      </mat-radio-button>
+      <mat-radio-button color="primary" value="observatory">
+        {{ "DIALOGS.re_evaluate.observatory" | translate }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+    <button mat-flat-button color="primary" type="submit" [disabled]="pages.invalid">
+      {{ "DIALOGS.re_evaluate.submit" | translate }}
+    </button>
+  </mat-dialog-actions>
+</form>

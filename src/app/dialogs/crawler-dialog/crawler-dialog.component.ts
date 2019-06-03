@@ -74,8 +74,17 @@ export class CrawlerDialogComponent implements OnInit {
 
   executeCrawler() {
     if (this.subDomainValidator(this.pageForm.controls.subDomain) !== null) {
-      this.crawl.callCrawler(this.url, this.domainId, (!this.pageForm.value.subDomain ? this.url : this.url + '/' +
-        this.pageForm.value.subDomain), this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
+      let v = _.trim(this.pageForm.value.subDomain);
+      if (v[0] === '/') {
+        v = v.substring(1, v.length);
+      }
+      if (v[v.length - 1] === '/') {
+        v = v.substring(0, v.length - 1);
+      }
+
+      const subDomain = v === '' ? this.url : this.url + '/' + v ;
+      this.crawl.callCrawler(this.url, this.domainId, (!this.pageForm.value.subDomain ? this.url : subDomain),
+        this.pageForm.value.maxDepth, this.pageForm.value.maxPages)
         .subscribe(response => {
           this.crawlExecuting = response; //always true
         });

@@ -71,7 +71,7 @@ export class ReEvaluateEntityWebsitesProgressDialogComponent implements OnInit, 
   }
 
   ngOnInit(): void {
-    this.update.reEvaluateEntityWebsites({entityId: this.data})
+    this.update.reEvaluateEntityWebsites({entityId: this.data.info, option: this.data.option})
       .subscribe(success => {
         if (success) {
           this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });

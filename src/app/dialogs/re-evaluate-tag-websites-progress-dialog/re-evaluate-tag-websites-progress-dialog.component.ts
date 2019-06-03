@@ -70,7 +70,7 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
   }
 
   ngOnInit(): void {
-    this.update.reEvaluateTagWebsites({tagId: this.data})
+    this.update.reEvaluateTagWebsites({tagId: this.data.info, option: this.data.option})
       .subscribe(success => {
         if (success) {
           this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });

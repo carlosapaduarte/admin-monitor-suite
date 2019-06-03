@@ -5,7 +5,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import * as _ from 'lodash';
 
 import { EditWebsiteDialogComponent } from '../../../dialogs/edit-website-dialog/edit-website-dialog.component';
-import { ReEvaluateWebsitePagesProgressDialogComponent } from '../../../dialogs/re-evaluate-website-pages-progress-dialog/re-evaluate-website-pages-progress-dialog.component';
+import { ChoosePagesToReEvaluateDialogComponent } from '../../../dialogs/choose-pages-to-re-evaluate-dialog/choose-pages-to-re-evaluate-dialog.component';
 
 @Component({
   selector: 'app-list-of-websites',
@@ -23,7 +23,7 @@ export class ListOfWebsitesComponent implements OnInit {
     'Entity',
     //'User',
     'Creation_Date',
-    //'re-evaluate',
+    're-evaluate',
     'edit',
     //'see'
   ];
@@ -54,10 +54,12 @@ export class ListOfWebsitesComponent implements OnInit {
   }
 
   reEvaluateWebsitePages(domainId: number): void {
-    this.dialog.open(ReEvaluateWebsitePagesProgressDialogComponent, {
+    this.dialog.open(ChoosePagesToReEvaluateDialogComponent, {
       width: '40vw',
-      disableClose: true,
-      data: domainId
+      data: {
+        info: domainId,
+        dialog: 'website'
+      }
     });
   }
 

@@ -112,6 +112,12 @@
       "tests_label": "Tests",
       "situations_label": "Nº of pages"
     },
+    "re_evaluate": {
+      "title": "Choose which pages to re-evaluate",
+      "all": "All pages",
+      "observatory": "Only observatory pages",
+      "submit": "Re-evaluate"
+    },
     "close": "Close"
   },
   "USERS_PAGE": {
@@ -196,7 +202,7 @@
         "creation_label": "Creation date",
         "websites_label": "Nº Websites",
         "re_evaluate_label": "Re-evaluate",
-        "re_evaluate_tooltip": "Re-evaluate all tag websites",
+        "re_evaluate_tooltip": "Re-evaluate tag websites",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this tag",
         "see_tooltip": "See tag"
@@ -290,7 +296,7 @@
         "creation_label": "Creation date",
         "websites_label": "Nº Websites",
         "re_evaluate_label": "Re-evaluate",
-        "re_evaluate_tooltip": "Re-evaluate all entity websites",
+        "re_evaluate_tooltip": "Re-evaluate entity websites",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this entity",
         "see_tooltip": "See entity"
@@ -377,7 +383,7 @@
         "user_label": "User",
         "creation_label": "Creation date",
         "re_evaluate_label": "Re-evaluate",
-        "re_evaluate_tooltip": "Re-evaluate all website pages",
+        "re_evaluate_tooltip": "Re-evaluate website pages",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this website",
         "see_tooltip": "See website"
@@ -489,7 +495,7 @@
         "start_date_label": "Start date",
         "end_date_label": "End date",
         "re_evaluate_label": "Re-evaluate",
-        "re_evaluate_tooltip": "Re-evaluate all domain pages",
+        "re_evaluate_tooltip": "Re-evaluate domain pages",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this domain",
         "delete_label": "Delete",

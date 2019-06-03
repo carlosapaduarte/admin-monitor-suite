@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { GetService } from '../../../services/get.service';
 
 import { EditEntityDialogComponent } from '../../../dialogs/edit-entity-dialog/edit-entity-dialog.component';
-import { ReEvaluateEntityWebsitesProgressDialogComponent } from '../../../dialogs/re-evaluate-entity-websites-progress-dialog/re-evaluate-entity-websites-progress-dialog.component';
+import { ChoosePagesToReEvaluateDialogComponent } from './../../../dialogs/choose-pages-to-re-evaluate-dialog/choose-pages-to-re-evaluate-dialog.component';
 
 @Component({
   selector: 'app-list-of-entities',
@@ -24,7 +24,7 @@ export class ListOfEntitiesComponent implements OnInit {
     'Long_Name',
     'Creation_Date',
     'Websites',
-    //'re-evaluate',
+    're-evaluate',
     'edit',
     //'see'
   ];
@@ -72,10 +72,12 @@ export class ListOfEntitiesComponent implements OnInit {
   }
 
   reEvaluateEntityWebsites(entityId: number): void {
-    this.dialog.open(ReEvaluateEntityWebsitesProgressDialogComponent, {
+    this.dialog.open(ChoosePagesToReEvaluateDialogComponent, {
       width: '40vw',
-      disableClose: true,
-      data: entityId
+      data: {
+        info: entityId,
+        dialog: 'entity'
+      }
     });
   }
 
