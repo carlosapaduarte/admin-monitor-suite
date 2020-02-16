@@ -15,7 +15,7 @@ import {Location} from '@angular/common';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {NgxXml2jsonService} from 'ngx-xml2json';
+//import {NgxXml2jsonService} from 'ngx-xml2json';
 import * as _ from 'lodash';
 
 import {GetService} from '../../services/get.service';
@@ -118,7 +118,7 @@ export class AddPageDialogComponent implements OnInit {
     private location: Location,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddPageDialogComponent>,
-    private xml2Json: NgxXml2jsonService
+    //private xml2Json: NgxXml2jsonService
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -327,7 +327,7 @@ export class AddPageDialogComponent implements OnInit {
     reader.onload = () => {
       const parser = new DOMParser();
       const xml = parser.parseFromString(reader.result.toString(), 'text/xml');
-      const json = this.xml2Json.xmlToJson(xml);
+      const json = {}; // this.xml2Json.xmlToJson(xml);
       const urlJson = json['urlset']['url'];
 
       this.urisFromFile = _.clone(_.map(urlJson, u => u.loc));
