@@ -49,7 +49,7 @@ export class AddEntityDialogComponent implements OnInit {
 
   entityForm: FormGroup;
 
-  @ViewChild('websiteInput') websiteInput: ElementRef;
+  @ViewChild('websiteInput', { static: false }) websiteInput: ElementRef;
 
   constructor(
     private create: CreateService,

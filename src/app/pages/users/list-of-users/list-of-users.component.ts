@@ -15,9 +15,9 @@ import { EditUserDialogComponent } from '../../../dialogs/edit-user-dialog/edit-
 })
 export class ListOfUsersComponent implements OnInit {
 
-  @ViewChild('input') input: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   loading: boolean;
   error: boolean;

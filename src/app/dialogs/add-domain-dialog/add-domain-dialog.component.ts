@@ -49,7 +49,7 @@ export class AddDomainDialogComponent implements OnInit {
 
   domainForm: FormGroup;
 
-  @ViewChild('tagInput') tagInput: ElementRef;
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef;
 
   constructor(
     private get: GetService,

@@ -70,7 +70,7 @@ export class EditWebsiteDialogComponent implements OnInit {
 
   defaultWebsite: any;
 
-  @ViewChild('tagInput') tagInput: ElementRef;
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

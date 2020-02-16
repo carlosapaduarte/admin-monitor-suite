@@ -45,7 +45,7 @@ export class PasswordValidation {
 })
 export class AddUserDialogComponent implements OnInit {
 
-  @ViewChild('emailsChipList') emailsChipList: MatChipList;
+  @ViewChild('emailsChipList', { static: true }) emailsChipList: MatChipList;
 
   loadingCreate: boolean;
   loadingWebsites: boolean;
@@ -73,7 +73,7 @@ export class AddUserDialogComponent implements OnInit {
   hide2: boolean;
   userForm: FormGroup;
 
-  @ViewChild('websiteInput') websiteInput: ElementRef;
+  @ViewChild('websiteInput', { static: false }) websiteInput: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,

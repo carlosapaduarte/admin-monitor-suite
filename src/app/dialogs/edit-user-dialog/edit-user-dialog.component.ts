@@ -45,7 +45,7 @@ export class PasswordValidation {
 })
 export class EditUserDialogComponent implements OnInit {
 
-  @ViewChild('emailsChipList') emailsChipList: MatChipList;
+  @ViewChild('emailsChipList', { static: true }) emailsChipList: MatChipList;
 
   matcher: ErrorStateMatcher;
 
@@ -74,7 +74,7 @@ export class EditUserDialogComponent implements OnInit {
 
   defaultUser: any;
 
-  @ViewChild('websiteInput') websiteInput: ElementRef;
+  @ViewChild('websiteInput', { static: false }) websiteInput: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

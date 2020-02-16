@@ -55,7 +55,7 @@ export class AddWebsiteDialogComponent implements OnInit {
 
   websiteForm: FormGroup;
 
-  @ViewChild('tagInput') tagInput: ElementRef;
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef;
 
   constructor(
     private create: CreateService,

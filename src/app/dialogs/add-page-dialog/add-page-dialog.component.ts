@@ -107,7 +107,7 @@ export class AddPageDialogComponent implements OnInit {
 
   fileLoading: boolean;
 
-  @ViewChild('tagInput') tagInput: ElementRef;
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef;
 
   constructor(
     private get: GetService,

@@ -14,7 +14,7 @@ import { EvaluationService } from '../../services/evaluation.service';
 })
 export class ElementResultComponent implements OnInit, OnDestroy {
 
-  @ViewChild('iframe') iframe: ElementRef;
+  @ViewChild('iframe', { static: false }) iframe: ElementRef;
 
   sub: Subscription;
 

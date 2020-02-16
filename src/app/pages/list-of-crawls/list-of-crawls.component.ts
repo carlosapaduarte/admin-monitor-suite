@@ -36,8 +36,8 @@ export class ListOfCrawlsComponent implements OnInit {
 
   isListEmpty: boolean;
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   constructor(private dialog: MatDialog,
               private activatedRoute: ActivatedRoute,

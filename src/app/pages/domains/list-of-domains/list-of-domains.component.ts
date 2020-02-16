@@ -40,9 +40,9 @@ export class ListOfDomainsComponent implements OnInit {
   dataSource: any;
   selection: any;
 
-  @ViewChild('input') input: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
