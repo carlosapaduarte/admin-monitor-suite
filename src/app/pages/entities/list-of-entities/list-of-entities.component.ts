@@ -34,9 +34,9 @@ export class ListOfEntitiesComponent implements OnInit {
   dataSource: any;
   selection: any;
 
-  @ViewChild('input', { static: false }) input: ElementRef;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild('input') input: ElementRef;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private dialog: MatDialog,

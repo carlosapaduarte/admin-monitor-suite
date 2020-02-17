@@ -50,7 +50,7 @@ export class AddDomainDialogComponent implements OnInit {
 
   domainForm: FormGroup;
 
-  @ViewChild('tagInput', { static: false }) tagInput: ElementRef;
+  @ViewChild('tagInput') tagInput: ElementRef;
 
   constructor(
     private get: GetService,

@@ -74,7 +74,7 @@ export class AddUserDialogComponent implements OnInit {
   hide2: boolean;
   userForm: FormGroup;
 
-  @ViewChild('websiteInput', { static: false }) websiteInput: ElementRef;
+  @ViewChild('websiteInput') websiteInput: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,

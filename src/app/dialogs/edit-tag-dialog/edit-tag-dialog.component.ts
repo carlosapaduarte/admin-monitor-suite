@@ -55,7 +55,7 @@ export class EditTagDialogComponent implements OnInit {
 
   defaultTag: any;
 
-  @ViewChild('websiteInput', { static: false }) websiteInput: ElementRef;
+  @ViewChild('websiteInput') websiteInput: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

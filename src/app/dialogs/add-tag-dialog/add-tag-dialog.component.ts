@@ -45,7 +45,7 @@ export class AddTagDialogComponent implements OnInit {
 
   filteredWebsites: Observable<any[]>;
 
-  @ViewChild('websiteInput', { static: false }) websiteInput: ElementRef;
+  @ViewChild('websiteInput') websiteInput: ElementRef;
 
   tagForm: FormGroup;
   websites: any;

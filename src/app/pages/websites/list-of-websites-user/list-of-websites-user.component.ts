@@ -52,7 +52,7 @@ export class ListOfWebsitesUserComponent implements OnInit {
   tag: string;
   userType: string;
 
-  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild('input') input: ElementRef;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 

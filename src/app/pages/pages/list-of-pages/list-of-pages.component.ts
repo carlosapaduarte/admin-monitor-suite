@@ -41,7 +41,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   fileErrorMessage: string;
   jsonFromFile: string;
 
-  @ViewChild('input', { static: false }) input: ElementRef;
+  @ViewChild('input') input: ElementRef;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
