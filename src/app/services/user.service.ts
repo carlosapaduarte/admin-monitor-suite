@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
@@ -19,21 +20,22 @@ export class UserService {
 
   constructor(
     private router: Router,
+    private http: HttpClient,
     private message: MessageService,
     private config: ConfigService,
     private dialog: MatDialog
   ) { }
 
   login(username: string, password: string): Observable<boolean> {
-    const app = 'nimda';
-    return ajax.post(this.config.getServer('/session/login'), {username, password, app}).pipe(
+    const type = 'nimda';
+    return this.http.post<any>(this.config.getServer('/auth/login'), {username, password, type}, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = new Response(res.response);
+        const response = new Response(res.body);
 
         if (response.hasError()) {
           throw new AdminError(response.success, response.message);

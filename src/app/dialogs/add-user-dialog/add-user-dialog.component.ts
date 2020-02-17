@@ -163,7 +163,7 @@ export class AddUserDialogComponent implements OnInit {
     const confirmPassword = this.userForm.value.confirmPassword;
     const names = _.join(this.names, ';');
     const emails = _.join(this.emails, ';');
-    const app = this.userForm.value.app;
+    const type = this.userForm.value.app;
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
     const transfer = this.userForm.value.transfer;
     const formData = {
@@ -172,7 +172,7 @@ export class AddUserDialogComponent implements OnInit {
       confirmPassword,
       names,
       emails,
-      app,
+      type,
       websites: JSON.stringify(websites),
       transfer
     };

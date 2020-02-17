@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
@@ -24,6 +25,7 @@ export class GetService {
 
   constructor(
     private user: UserService,
+    private http: HttpClient,
     private message: MessageService,
     private config: ConfigService
   ) { }
@@ -190,12 +192,12 @@ export class GetService {
   }
 
   listOfUsers(): Observable<Array<User>> {
-    return ajax.post(this.config.getServer('/admin/users/all'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/user/all'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
-
-        if (!res.response || res.status === 404) {
+        const response = <Response> res.body;
+        
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -673,12 +675,12 @@ export class GetService {
   }
 
   websitesWithoutUser(): Observable<Array<Website>> {
-    return ajax.post(this.config.getServer('/admin/websites/withoutUser'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/website/withoutUser'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
