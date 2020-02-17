@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { MatBottomSheetRef } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { AddTagDialogComponent } from '../add-tag-dialog/add-tag-dialog.component';

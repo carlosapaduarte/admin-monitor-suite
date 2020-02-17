@@ -5,14 +5,10 @@ import {
   ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
-import {
-  MatTableDataSource,
-  MatPaginator,
-  MatSort
-} from '@angular/material';
-import {
-  MatDialog
-} from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import {
