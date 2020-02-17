@@ -11,8 +11,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ObserversModule } from '@angular/cdk/observers';
 import { NgxGaugeModule } from 'ngx-gauge';
 
-import { CookieService } from 'ngx-cookie-service';
-
 import { MaterialModule } from './material/material.module';
 
 import { AppComponent } from './app.component';
@@ -282,8 +280,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     AdminAuthGuard,
-    NoAuthGuard,
-    CookieService
+    NoAuthGuard
   ],
   bootstrap: [AppComponent]
 })

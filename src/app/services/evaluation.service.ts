@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AngularCsv } from 'angular7-csv';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
-
+import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
 
 import { Response } from '../models/response';
@@ -224,7 +223,13 @@ export class EvaluationService {
       labels.push(res['CSV.desc']);
       labels.push(res['CSV.count']);
 
-      new AngularCsv(data, this.url + '-' + _eval.metadata.last_update, {headers: labels});
+      let csvContent = labels.join(',') + '\r\n';
+      for (const row of data || []) {
+        csvContent += row.join(',') + '\r\n';
+      }
+      
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      saveAs(blob, 'eval.csv');
     });
   }
 

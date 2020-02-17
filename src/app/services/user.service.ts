@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { ConfigService } from './config.service';
-import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from './message.service';
 
 import { Response } from '../models/response';
@@ -20,7 +19,6 @@ export class UserService {
 
   constructor(
     private router: Router,
-    private cookieService: CookieService,
     private message: MessageService,
     private config: ConfigService,
     private dialog: MatDialog
@@ -47,7 +45,9 @@ export class UserService {
         tomorrow.setTime(tomorrow.getTime() + 1 * 86400000);
 
         sessionStorage.setItem('AMS-username', username);
-        this.cookieService.set('AMS-SSID', btoa(cookie), tomorrow, '/', host, false);
+        localStorage.setItem('AMS-SSID', cookie);
+        localStorage.setItem('expires-at', tomorrow.toString());
+        //this.cookieService.set('AMS-SSID', btoa(cookie), tomorrow, '/', host, false);
         this.router.navigateByUrl('/console');
         return true;
       }),
@@ -71,11 +71,13 @@ export class UserService {
   }
 
   isUserLoggedIn(): boolean {
-    return this.cookieService.check('AMS-SSID');
+    const token = localStorage.getItem('AMS-SSID');
+    const expires = localStorage.getItem('expires-at');
+    return token && new Date() < new Date(expires);
   }
 
   getUserData(): {} {
-    return atob(this.cookieService.get('AMS-SSID'));
+    return localStorage.getItem('AMS-SSID'); //atob(this.cookieService.get('AMS-SSID'));
   }
 
   getUsername(): string {
@@ -84,7 +86,9 @@ export class UserService {
 
   logout(location: string = '/'): void {
     sessionStorage.removeItem('AMS-username');
-    this.cookieService.delete('AMS-SSID', '/', this.getEnv());
+    localStorage.removeItem('AMS-SSID');
+    localStorage.removeItem('expires-at');
+    //this.cookieService.delete('AMS-SSID', '/', this.getEnv());
     this.router.navigateByUrl(location);
   }
 
