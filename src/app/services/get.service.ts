@@ -196,7 +196,7 @@ export class GetService {
       retry(3),
       map(res => {
         const response = <Response> res.body;
-        
+
         if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
@@ -238,12 +238,12 @@ export class GetService {
   }
 
   listOfOfficialTags(): Observable<Array<Tag>> {
-    return ajax.post(this.config.getServer('/admin/tags/allOfficial'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/tag/allOfficial'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -698,12 +698,12 @@ export class GetService {
   }
 
   websitesWithoutEntity(): Observable<Array<Website>> {
-    return ajax.post(this.config.getServer('/admin/websites/withoutEntity'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/website/withoutEntity'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -721,12 +721,12 @@ export class GetService {
   }
 
   listOfMyMonitorUsers(): Observable<Array<User>> {
-    return ajax.post(this.config.getServer('/admin/users/monitor'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/user/myMonitor'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 

@@ -75,14 +75,13 @@ export class CreateService {
   }
 
   newEntity(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/entities/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/entity/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -99,14 +98,13 @@ export class CreateService {
   }
 
   newWebsite(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/websites/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/website/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);

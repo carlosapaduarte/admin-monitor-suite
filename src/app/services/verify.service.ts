@@ -91,12 +91,12 @@ export class VerifyService {
   }
 
   entityShortNameExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/entities/exists/shortName/' + name)).pipe(
+    return this.http.get<any>(this.config.getServer('/entity/exists/shortName/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -114,12 +114,12 @@ export class VerifyService {
   }
 
   entityLongNameExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/entities/exists/longName/' + name)).pipe(
+    return this.http.get<any>(this.config.getServer('/entity/exists/longName/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -137,12 +137,12 @@ export class VerifyService {
   }
 
   websiteNameExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/websites/exists/' + name)).pipe(
+    return this.http.get<any>(this.config.getServer('/website/exists/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -160,13 +160,12 @@ export class VerifyService {
   }
 
   domainExists(domain: string): Observable<boolean> {
-    domain = encodeURIComponent(domain);
-    return ajax(this.config.getServer('/admin/domains/exists/' + domain)).pipe(
+    return this.http.get<any>(this.config.getServer('/domain/exists/' + encodeURIComponent(domain)), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
