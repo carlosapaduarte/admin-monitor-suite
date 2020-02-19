@@ -215,12 +215,12 @@ export class GetService {
   }
 
   listOfTags(): Observable<Array<Tag>> {
-    return ajax.post(this.config.getServer('/admin/tags/all'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/tag/all'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -261,12 +261,12 @@ export class GetService {
   }
 
   listOfEntities(): Observable<Array<Entity>> {
-    return ajax.post(this.config.getServer('/admin/entities/all'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/entity/all'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -284,12 +284,12 @@ export class GetService {
   }
 
   listOfWebsites(): Observable<Array<Website>> {
-    return ajax.post(this.config.getServer('/admin/websites/all'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/website/all'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -307,12 +307,12 @@ export class GetService {
   }
 
   listOfOfficialWebsites(): Observable<Array<Website>> {
-    return ajax.post(this.config.getServer('/admin/websites/allOfficial'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/website/official'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -491,12 +491,12 @@ export class GetService {
   }
 
   listOfDomains(): Observable<Array<Domain>> {
-    return ajax.post(this.config.getServer('/admin/domains/all'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/domain/all'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -560,12 +560,12 @@ export class GetService {
   }
 
   listOfPages(): Observable<Array<Page>> {
-    return ajax.post(this.config.getServer('/admin/pages/all'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/page/all'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 

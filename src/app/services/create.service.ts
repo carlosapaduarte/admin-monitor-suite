@@ -52,14 +52,13 @@ export class CreateService {
   }
 
   newTag(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/tags/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/tag/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);

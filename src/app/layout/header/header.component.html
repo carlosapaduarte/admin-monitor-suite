@@ -1,7 +1,7 @@
 <header class="drop_content">
   <mat-toolbar color="primary">
     <span fxFlex>Admin Monitor Suite - {{ "HEADER.name" | translate }}</span>
-    <button mat-button *ngIf="user.isUserLoggedIn()" (click)="user.logout()">
+    <button mat-button *ngIf="user.isUserLoggedIn()" (click)="logout()">
       {{ "HEADER.logout" | translate }}
     </button>
   </mat-toolbar>
