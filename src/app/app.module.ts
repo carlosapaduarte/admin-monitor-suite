@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ObserversModule } from '@angular/cdk/observers';
 import { NgxGaugeModule } from 'ngx-gauge';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth.interceptor';
 
@@ -134,6 +135,8 @@ const appRoutes: Routes = [
   { path: '**', component: NotFound404Component }
 ];
 
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -241,7 +244,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    NgxGaugeModule
+    NgxGaugeModule,
+    SocketIoModule.forRoot(config)
   ],
   entryComponents: [
     UserAuthErrorDialogComponent,

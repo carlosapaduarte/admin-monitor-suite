@@ -12,6 +12,6 @@ export class ConfigService {
   }
 
   getWSServer(namespace: string): string {
-    return 'http://localhost:3000' + namespace;
+    return 'http://localhost:3001' + namespace;
   }
 }

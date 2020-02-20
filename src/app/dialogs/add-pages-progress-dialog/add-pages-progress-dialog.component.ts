@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as socketIo from 'socket.io-client';
+//import * as socketIo from 'socket.io-client';
+import { Socket } from 'ngx-socket-io';
 
 import { ConfigService } from './../../services/config.service';
 import { CreateService } from './../../services/create.service';
@@ -26,14 +27,16 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
   error_uris: number;
   progress: number;
 
+  cancel: boolean;
   urisWithErrors: Array<string>;
 
-  socket: socketIo.SocketIo;
+  //socket: socketIo.SocketIo;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private router: Router,
     private location: Location,
+    private socket: Socket,
     private create: CreateService,
     private config: ConfigService,
     private dialog: MatDialog,
@@ -48,50 +51,41 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
     this.error_uris = 0;
     this.progress = 0;
 
+    this.cancel = false;
     this.urisWithErrors = new Array<string>();
-
-    this.socket = null;
+    this.socket.connect();
   }
 
   ngOnInit(): void {
-    this.addPages(this.data.domainId, JSON.stringify(this.data.uris), JSON.stringify(this.data.observatory_uris));
+    this.addPages(this.data.domainId, this.data.uris, this.data.observatory_uris);
   }
 
-  private addPages(domainId: number, uris: any, observatory: any): void {
+  private addPages(domainId: number, uris: any, observatory_uris: any): void {
 
-    const formData = {
-      domainId,
-      uris,
-      observatory
-    };
+    for (let uri of uris || []) {
+      if (!this.cancel) {
+        const observatory = observatory_uris[uri] !== undefined;
+        uri = uri.replace('https://', '').replace('http://', '').replace('www.', '')
+        uri = encodeURIComponent(uri);
+        this.socket.emit('page', { domainId, uri, observatory, token: localStorage.getItem('AMS-SSID') }, (success: boolean) => {
+          if (success) {
+            this.success_uris++;
+          } else {
+            this.error_uris++;
+            this.urisWithErrors.push(decodeURIComponent(uri));
+          }
 
-    this.create.newPages(formData)
-      .subscribe(success => {
-        if (success) {
-          this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });
-          this.socket.on('connect', () => {
-            this.socket.on('message', data => {
-              if (decodeURIComponent(data.uri) === this.current_uri) {
-                if (data.success) {
-                  this.success_uris++;
-                } else {
-                  this.error_uris++;
-                  this.urisWithErrors.push(decodeURIComponent(data.uri));
-                }
+          this.elapsed_uris = this.success_uris + this.error_uris;
+          this.remaining_uris = this.n_uris - this.elapsed_uris;
+          this.current_uri = decodeURIComponent(this.data.uris[this.elapsed_uris]);
+          this.progress = (this.elapsed_uris * 100) / this.n_uris;
 
-                this.elapsed_uris = this.success_uris + this.error_uris;
-                this.remaining_uris = this.n_uris - this.elapsed_uris;
-                this.current_uri = decodeURIComponent(this.data.uris[this.elapsed_uris]);
-                this.progress = (this.elapsed_uris * 100) / this.n_uris;
-
-                if (this.elapsed_uris === this.n_uris) {
-                  this.finished = true;
-                }
-              }
-            });
-          });
-        }
-      });
+          if (this.elapsed_uris === this.n_uris) {
+            this.finished = true;
+          }
+        });
+      }
+    }
   }
 
   openUrisWithErrorsDialog(): void {
@@ -114,7 +108,7 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
       const dialog = this.dialog.open(AddPagesProgressCloseConfirmationDialogComponent);
       dialog.afterClosed().subscribe(result => {
         if (result === 'true') {
-          this.socket.emit('message', 'cancel');
+          this.cancel = true;
           this.dialogRef.close();
         }
       });

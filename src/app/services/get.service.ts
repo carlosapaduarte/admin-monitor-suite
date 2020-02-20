@@ -514,12 +514,12 @@ export class GetService {
   }
 
   listOfOfficialDomains(): Observable<Array<Domain>> {
-    return ajax.post(this.config.getServer('/admin/domains/allOfficial'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/domain/allOfficial'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
