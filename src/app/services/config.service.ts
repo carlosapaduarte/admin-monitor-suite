@@ -33,11 +33,12 @@ export class ConfigService {
   }
 
   getServer(service: string): string {
-    return `${this.URI}${service}`;
+    return '/server' + service; //`${this.URI}${service}`;
   }
 
   getWSServer(namespace: string): string {
     //return this.URI + namespace;
-    return this.PROTOCOL + this.HOST + ':' + this.PORT;
+    //return this.PROTOCOL + this.HOST + ':' + this.PORT;
+    return '/';
   }
 }

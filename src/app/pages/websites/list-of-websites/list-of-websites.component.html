@@ -21,6 +21,10 @@
           <input id="website_table_filter" matInput (keyup)="applyFilter($event.target.value)">
         </label>
       </mat-form-field>
+      <span fxFlex></span>
+      <button mat-raised-button class="stampsButton" type="button" color="primary" (click)="generateDigitalStamps()">
+        {{ "WEBSITES_PAGE.LIST.generate_stamps" | translate }}
+      </button>
     </div>
 
     <mat-table #table [dataSource]="dataSource" matSort>
@@ -93,6 +97,17 @@
         <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.edit_tooltip' | translate }}" (click)="edit(element.WebsiteId, element.Type)">
             <mat-icon class="md-24" aria-label="">mode_edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="stamp">
+        <mat-header-cell *matHeaderCellDef fxFlex="10">
+          {{ "WEBSITES_PAGE.LIST.table.stamp_label" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10">
+          <button *ngIf="element.Observatory > 0" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.stamp_tooltip' | translate }}" (click)="generateWebsiteDigitalStamp(element.WebsiteId, element.Name)">
+            <mat-icon class="md-24" aria-label="">verified_user</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

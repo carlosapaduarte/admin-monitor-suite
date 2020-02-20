@@ -90,6 +90,14 @@
     "pages_without_errors_a_aa_aaa": "Conforming AAA: without errors of level A+AA+AAA",
     "note": "Data used from the active domain"
   },
+  "DIGITAL_STAMP": {
+    "messages": {
+      "generate_all_success": "Digital stamps generated successfully",
+      "generate_website_success": "Website digital stamp generated successfully",
+      "generate_all_error": "Error generating some digital stamps",
+      "generate_website_error": "Error generating website digital stamp"
+    }
+  },
   "DIALOGS": {
     "chart": "Chart",
     "table": "Table",
@@ -376,6 +384,7 @@
     "LIST": {
       "title": "Websites",
       "subtitle": "List of all websites",
+      "generate_stamps": "Create/update digital stamps",
       "table": {
         "id_label": "ID",
         "name_label": "Name",
@@ -386,7 +395,9 @@
         "re_evaluate_tooltip": "Re-evaluate website pages",
         "edit_label": "Edit",
         "edit_tooltip": "Edit this website",
-        "see_tooltip": "See website"
+        "see_tooltip": "See website",
+        "stamp_label": "Digital stamps",
+        "stamp_tooltip": "Create/update digital stamp"
       }
     },
     "ADD": {

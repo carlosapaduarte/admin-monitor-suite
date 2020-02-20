@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as socketIo from 'socket.io-client';
+import { Socket } from 'ngx-socket-io';
 
 import { ConfigService } from './../../services/config.service';
 import { CreateService } from './../../services/create.service';
@@ -28,7 +29,7 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
 
   urisWithErrors: Array<string>;
 
-  socket: socketIo.SocketIo;
+  //socket: socketIo.SocketIo;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -37,7 +38,8 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
     private create: CreateService,
     private config: ConfigService,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<AddPagesProgressDialogComponent>
+    private dialogRef: MatDialogRef<AddPagesProgressDialogComponent>,
+    private socket: Socket
   ) {
     this.finished = false;
     this.current_uri = this.data.uris[0];
@@ -50,7 +52,7 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
 
     this.urisWithErrors = new Array<string>();
 
-    this.socket = null;
+    //this.socket = null;
   }
 
   ngOnInit(): void {
@@ -68,7 +70,8 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
     this.create.newPages(formData)
       .subscribe(success => {
         if (success) {
-          this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });
+          //this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });
+          this.socket.connect();
           this.socket.on('connect', () => {
             this.socket.on('message', data => {
               if (decodeURIComponent(data.uri) === this.current_uri) {
