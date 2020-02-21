@@ -112,17 +112,14 @@
         </mat-cell>
       </ng-container>
 
-      <!--<ng-container matColumnDef="see">
+      <ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <button *ngIf="element.User" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'website', element.User, element.Name]">
+          <a target="_blank" href="/server/stamps/{{element.WebsiteId}}.svg" *ngIf="element.Observatory > 0" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
-          </button>
-          <button *ngIf="!element.User" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}" [routerLink]="['/console', 'website', 'admin', element.Name]">
-            <mat-icon class="md-24" aria-label="">visibility</mat-icon>
-          </button>
+          </a>
         </mat-cell>
-      </ng-container>-->
+      </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

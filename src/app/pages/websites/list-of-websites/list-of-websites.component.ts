@@ -28,8 +28,8 @@ export class ListOfWebsitesComponent implements OnInit {
     'Creation_Date',
     're-evaluate',
     'edit',
-    'stamp'
-    //'see'
+    'stamp',
+    'see'
   ];
 
   // data source of domains
