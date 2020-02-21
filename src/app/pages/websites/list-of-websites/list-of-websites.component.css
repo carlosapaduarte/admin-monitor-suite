@@ -1,5 +1,12 @@
-.table-filter, 
+.stampsButton {
+  height: 55px;
+}
+
+.table-filter {
+  width: 100%;
+}
+
 .table-filter mat-form-field,
 .table-filter input {
-  width: 100%;
+  width: 80%;
 }

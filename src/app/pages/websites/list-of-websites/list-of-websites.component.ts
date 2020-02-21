@@ -6,6 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
 import * as _ from 'lodash';
 
+import { MessageService } from './../../../services/message.service';
+import { DigitalStampService } from './../../../services/digital-stamp.service';
+
 import { EditWebsiteDialogComponent } from '../../../dialogs/edit-website-dialog/edit-website-dialog.component';
 import { ChoosePagesToReEvaluateDialogComponent } from '../../../dialogs/choose-pages-to-re-evaluate-dialog/choose-pages-to-re-evaluate-dialog.component';
 
@@ -27,7 +30,8 @@ export class ListOfWebsitesComponent implements OnInit {
     'Creation_Date',
     're-evaluate',
     'edit',
-    //'see'
+    'stamp',
+    'see'
   ];
 
   // data source of domains
@@ -40,7 +44,9 @@ export class ListOfWebsitesComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private overlay: Overlay
+    private overlay: Overlay,
+    private message: MessageService,
+    private digitalStamp: DigitalStampService
   ) { }
 
   ngOnInit(): void {
@@ -78,6 +84,24 @@ export class ListOfWebsitesComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           this.refreshWebsites.next(true);
+        }
+      });
+  }
+
+  generateDigitalStamps(): void {
+    this.digitalStamp.generateForAll()
+      .subscribe(errors => {
+        if (_.size(errors) === 0) {
+          this.message.show('DIGITAL_STAMP.messages.generate_all_success');
+        }
+      });
+  }
+
+  generateWebsiteDigitalStamp(websiteId: number, name: string): void {
+    this.digitalStamp.generateForWebsite({websiteId, name})
+      .subscribe(success => {
+        if (success) {
+          this.message.show('DIGITAL_STAMP.messages.generate_website_success');
         }
       });
   }

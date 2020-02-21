@@ -90,6 +90,14 @@
     "pages_without_errors_a_aa_aaa": "Conformes AAA: sem erros de nível A+AA+AAA",
     "note": "Os dados usados pertecem ao domínio ativo"
   },
+  "DIGITAL_STAMP": {
+    "messages": {
+      "generate_all_success": "Selos digitais gerados com sucesso",
+      "generate_website_success": "Selo digital do website gerado com sucesso",
+      "generate_all_error": "Erro ao gerar selos digitais",
+      "generate_website_error": "Erro ao gerar o selo digital do website"
+    }
+  },
   "DIALOGS": {
     "chart": "Gráfico",
     "table": "Tabela",
@@ -376,6 +384,7 @@
     "LIST": {
       "title": "Websites",
       "subtitle": "Lista de todos os websites",
+      "generate_stamps": "Criar/atualizar selos digitais",
       "table": {
         "id_label": "ID",
         "name_label": "Nome",
@@ -386,7 +395,9 @@
         "re_evaluate_tooltip": "Reavaliar as páginas do website",
         "edit_label": "Editar",
         "edit_tooltip": "Editar este website",
-        "see_tooltip": "Ver website"
+        "see_tooltip": "Ver selo digital",
+        "stamp_label": "Selos digitais",
+        "stamp_tooltip": "Criar/atualizar selo digital"
       }
     },
     "ADD": {

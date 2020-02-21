@@ -30,13 +30,13 @@ export class GetService {
     private config: ConfigService
   ) { }
 
-  numberOfAcessStudiesUsers(): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/users/studies/total'), {cookie: this.user.getUserData()}).pipe(
+  numberOfStudyMonitorUsers(): Observable<number> {
+    return this.http.get<any>(this.config.getServer('/user/studyMonitor/total'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -54,12 +54,12 @@ export class GetService {
   }
 
   numberOfMyMonitorUsers(): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/users/monitor/total'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/user/myMonitor/total'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -76,13 +76,13 @@ export class GetService {
     );
   }
 
-  numberOfAccessStudiesTags(): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/tags/studies/total'), {cookie: this.user.getUserData()}).pipe(
+  numberOfStudyMonitorTags(): Observable<number> {
+    return this.http.get<any>(this.config.getServer('/tag/studyMonitor/total'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -99,13 +99,13 @@ export class GetService {
     );
   }
 
-  numberOfObservatorioTags(): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/tags/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
+  numberOfObservatoryTags(): Observable<number> {
+    return this.http.get<any>(this.config.getServer('/tag/observatory/total'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -122,13 +122,13 @@ export class GetService {
     );
   }
 
-  numberOfAccessStudiesWebsites(): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/websites/studies/total'), {cookie: this.user.getUserData()}).pipe(
+  numberOfStudyMonitorWebsites(): Observable<number> {
+    return this.http.get<any>(this.config.getServer('/website/studyMonitor/total'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -146,12 +146,12 @@ export class GetService {
   }
 
   numberOfMyMonitorWebsites(): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/websites/monitor/total'), {cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/website/myMonitor/total'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -168,13 +168,13 @@ export class GetService {
     );
   }
 
-  numberOfObservatorioWebsites(): Observable<number> {
-    return ajax.post(this.config.getServer('/admin/websites/observatorio/total'), {cookie: this.user.getUserData()}).pipe(
+  numberOfObservatoryWebsites(): Observable<number> {
+    return this.http.get<any>(this.config.getServer('/website/observatory/total'), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
