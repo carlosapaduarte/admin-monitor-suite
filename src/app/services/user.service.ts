@@ -42,14 +42,13 @@ export class UserService {
         }
 
         const cookie = response.result;
-        const host = this.getEnv();
         const tomorrow = new Date();
         tomorrow.setTime(tomorrow.getTime() + 1 * 86400000);
 
         sessionStorage.setItem('AMS-username', username);
         localStorage.setItem('AMS-SSID', cookie);
         localStorage.setItem('expires-at', tomorrow.toString());
-        //this.cookieService.set('AMS-SSID', btoa(cookie), tomorrow, '/', host, false);
+        
         this.router.navigateByUrl('/console');
         return true;
       }),
@@ -79,7 +78,7 @@ export class UserService {
   }
 
   getUserData(): {} {
-    return localStorage.getItem('AMS-SSID'); //atob(this.cookieService.get('AMS-SSID'));
+    return localStorage.getItem('AMS-SSID');
   }
 
   getUsername(): string {
@@ -123,9 +122,5 @@ export class UserService {
         return of(false);
       })
     );
-  }
-
-  private getEnv(): string {
-    return _.split(location.host, ':')[0];
   }
 }
