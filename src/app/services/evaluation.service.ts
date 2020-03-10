@@ -53,12 +53,12 @@ export class EvaluationService {
         this.evaluation = <Evaluation> JSON.parse(sessionStorage.getItem('evaluation'));
         return of(this.evaluation.processed);
       } else {
-        return ajax.post(this.config.getServer('/admin/page/evaluation'), {evaluation_id, url, cookie: this.user.getUserData()}).pipe(
+        return this.http.get<any>(this.config.getServer(`/evaluation/${encodeURIComponent(url)}/${evaluation_id}`), {observe: 'response'}).pipe(
           retry(3),
           map(res => {
-            const response = <Response> res.response;
+            const response = <Response> res.body;
 
-            if (!res.response || res.status === 404) {
+            if (!res.body || res.status === 404) {
               throw new AdminError(404, 'Service not found', 'SERIOUS');
             }
 
@@ -86,12 +86,12 @@ export class EvaluationService {
   }
 
   getUserPageEvaluation(url: string, userType: string): Observable<Evaluation> {
-    return ajax.post(this.config.getServer('/admin/user/page/evaluation'), {userType, url, cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer(`/evaluation/user/${userType}/${encodeURIComponent(url)}`), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -112,12 +112,12 @@ export class EvaluationService {
   }
 
   evaluateUrl(url: string): Observable<any> {
-    return ajax.post(this.config.getServer('/admin/page/evaluate/'), {url: encodeURIComponent(url), cookie: this.user.getUserData()}).pipe(
+    return this.http.post<any>(this.config.getServer('/evaluation/page/evaluate'), {url: encodeURIComponent(url)}, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 

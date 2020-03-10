@@ -75,6 +75,10 @@ export class WebsiteStatisticsComponent implements OnInit {
       .subscribe(pages => {
         if (pages !== null) {
           this.pages = pages;
+          this.pages = this.pages.map(p => {
+            p.Score = Number(p.Score);
+            return p;
+          });
           const size = _.size(this.pages);
           this.newest_page = this.pages[0].Evaluation_Date;
           this.oldest_page = this.pages[0].Evaluation_Date;

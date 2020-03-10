@@ -9,7 +9,7 @@
   </mat-card-header>
   <mat-card-content fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign="space-around center">
     <div>
-      <!--<ngx-gauge
+      <ngx-gauge
         [type]="'semi'"
         [thick]="'10'"
         [value]="score | toFixed"
@@ -18,7 +18,7 @@
         [max]="10"
         [duration]="2000"
         [thresholds]="thresholdConfig">
-      </ngx-gauge>-->
+      </ngx-gauge>
     </div>
     <div>
       <mat-list>
@@ -34,7 +34,7 @@
       </mat-list>
     </div>
     <div>
-      <table class="table table-bordered">
+      <table border="1" frame="void" rules="rows">
         <tr>
           <td scope="row">{{ "STATISTICS.pages_with_errors" | translate }}</td>
           <td>{{ pagesWithErrors }}</td>

@@ -29,7 +29,6 @@ export class AdminAuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable < boolean > | Promise < boolean > | boolean {
 
     const login = this.user.isUserLoggedIn();
-    console.log(login)
 
     if (!login) {
       this.dialog.open(UserAuthErrorDialogComponent);
