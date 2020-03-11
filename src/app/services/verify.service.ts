@@ -206,12 +206,12 @@ export class VerifyService {
   }
 
   crawlerSearchExists(subDomain: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/crawler/isSubdomainDone/' + encodeURIComponent(subDomain))).pipe(
+    return this.http.get<any>(this.config.getServer('/crawler/isSubdomainDone/' + encodeURIComponent(subDomain)), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 

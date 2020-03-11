@@ -138,7 +138,7 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
       data: {
         domainId: domainId,
         uris: JSON.parse(uris),
-        observatory_uris: observatorio
+        observatory_uris: JSON.parse(observatorio)
       }
     });
 

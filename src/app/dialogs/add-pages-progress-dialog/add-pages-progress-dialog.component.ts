@@ -62,30 +62,36 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
 
   private addPages(domainId: number, uris: any, observatory_uris: any): void {
 
-    for (let uri of uris || []) {
-      if (!this.cancel) {
-        const observatory = observatory_uris[uri] !== undefined;
-        uri = uri.replace('https://', '').replace('http://', '').replace('www.', '')
-        uri = encodeURIComponent(uri);
-        this.socket.emit('page', { domainId, uri, observatory, token: localStorage.getItem('AMS-SSID') }, (success: boolean) => {
-          if (success) {
-            this.success_uris++;
-          } else {
-            this.error_uris++;
-            this.urisWithErrors.push(decodeURIComponent(uri));
-          }
+    uris = uris.map(uri => {
+      uri = uri.replace('https://', '').replace('http://', '').replace('www.', '')
+      uri = encodeURIComponent(uri);
+      return uri;
+    });
+    
+    observatory_uris = observatory_uris.map(uri => {
+      uri = uri.replace('https://', '').replace('http://', '').replace('www.', '')
+      uri = encodeURIComponent(uri);
+      return uri;
+    });
 
-          this.elapsed_uris = this.success_uris + this.error_uris;
-          this.remaining_uris = this.n_uris - this.elapsed_uris;
-          this.current_uri = decodeURIComponent(this.data.uris[this.elapsed_uris]);
-          this.progress = (this.elapsed_uris * 100) / this.n_uris;
-
-          if (this.elapsed_uris === this.n_uris) {
-            this.finished = true;
-          }
-        });
+    this.socket.emit('pages', { domainId, uris: JSON.stringify(uris), observatory: JSON.stringify(observatory_uris), token: localStorage.getItem('AMS-SSID')});
+    this.socket.on('evaluated', (data: any) => {
+      if (data.success) {
+        this.success_uris++;
+      } else {
+        this.error_uris++;
+        this.urisWithErrors.push(decodeURIComponent(data.uri));
       }
-    }
+
+      this.elapsed_uris = this.success_uris + this.error_uris;
+      this.remaining_uris = this.n_uris - this.elapsed_uris;
+      this.current_uri = decodeURIComponent(this.data.uris[this.elapsed_uris]);
+      this.progress = (this.elapsed_uris * 100) / this.n_uris;
+
+      if (this.elapsed_uris === this.n_uris) {
+        this.finished = true;
+      }
+    });
   }
 
   openUrisWithErrorsDialog(): void {

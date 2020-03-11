@@ -208,7 +208,7 @@ export class AddPageDialogComponent implements OnInit {
             data: {
               domainId: domainId,
               uris: JSON.parse(uris),
-              observatory_uris: result.uris
+              observatory_uris: JSON.parse(result.uris)
             }
           });
           //this.addPages(domainId, uris, result.uris);

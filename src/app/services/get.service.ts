@@ -653,12 +653,12 @@ export class GetService {
   }
 
   listOfUrisFromCrawlDomainId(crawlDomainId: number): Observable<Array<any>> {
-    return ajax.post(this.config.getServer('/admin/crawler/getByCrawlDomainID'), {crawlDomainId, cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/crawler/getByCrawlDomainID/' + crawlDomainId), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -791,14 +791,14 @@ export class GetService {
   }
 
   userInfo(userId: number): Observable<any> {
-    return ajax.post(this.config.getServer('/admin/users/info'), { userId, cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/user/info/' + userId), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -814,14 +814,14 @@ export class GetService {
   }
 
   tagInfo(tagId: number): Observable<any> {
-    return ajax.post(this.config.getServer('/admin/tags/info'), { tagId, cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/tag/info/' + tagId), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -837,14 +837,14 @@ export class GetService {
   }
 
   entityInfo(entityId: number): Observable<any> {
-    return ajax.post(this.config.getServer('/admin/entities/info'), { entityId, cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/entity/info/' + entityId), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -860,14 +860,14 @@ export class GetService {
   }
 
   websiteInfo(websiteId: number): Observable<any> {
-    return ajax.post(this.config.getServer('/admin/websites/info'), { websiteId, cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer('/website/info/' + websiteId), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
