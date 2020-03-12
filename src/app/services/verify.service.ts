@@ -69,12 +69,12 @@ export class VerifyService {
   }
 
   tagNameDialogExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/tags/exists/' + name)).pipe(
+    return this.http.get(this.config.getServer('/tag/exists/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -149,7 +149,7 @@ export class VerifyService {
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-
+        
         return response.result ? { 'notTakenName': true } : null;
       }),
       catchError(err => {

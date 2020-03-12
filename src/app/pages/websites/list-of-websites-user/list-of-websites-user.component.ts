@@ -106,6 +106,7 @@ export class ListOfWebsitesUserComponent implements OnInit {
     this.get.listOfUserWebsites(this.user)
       .subscribe(websites => {
         if (websites !== null) {
+          this.websites = websites;
           this.dataSource = new MatTableDataSource(websites);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
