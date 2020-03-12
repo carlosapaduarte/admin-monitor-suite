@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as socketIo from 'socket.io-client';
+//import * as socketIo from 'socket.io-client';
+import { Socket } from 'ngx-socket-io';
 import * as _ from 'lodash';
 
 import { ConfigService } from './../../services/config.service';
@@ -36,13 +37,14 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
   websitesWithErrors: Array<string>;
   urisWithErrors: Array<string>;
 
-  socket: socketIo.SocketIo;
+  //socket: socketIo.SocketIo;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private update: UpdateService,
     private config: ConfigService,
     private dialog: MatDialog,
+    private socket: Socket,
     private dialogRef: MatDialogRef<ReEvaluateTagWebsitesProgressDialogComponent>
   ) {
     this.finished = false;
@@ -66,78 +68,69 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
     this.websitesWithErrors = new Array<string>();
     this.urisWithErrors = new Array<string>();
 
-    this.socket = null;
+    //this.socket = null;
+    this.socket.connect();
   }
 
   ngOnInit(): void {
-    this.update.reEvaluateTagWebsites({tagId: this.data.info, option: this.data.option})
-      .subscribe(success => {
-        if (success) {
-          this.socket = socketIo(this.config.getWSServer(''), { 'forceNew': true });
-          this.socket.on('connect', () => {
-            this.socket.on('startup_tag', data => {
-              this.n_websites = _.clone(data);
-              this.remaining_websites = _.clone(this.n_websites);
-            });
-
-            this.socket.on('startup_website', data => {
-              this.skipping = false;
-              this.current_website = _.clone(data.current_website);
-              this.n_uris = _.clone(data.n_uris);
-              this.remaining_uris = _.clone(this.n_uris);
-              this.elapsed_uris = 0;
-              this.success_uris = 0;
-              this.error_uris = 0;
-              this.progress_uris = 0;
-            });
-
-            this.socket.on('current_uri', data => {
-              this.current_uri = decodeURIComponent(data);
-            });
-
-            this.socket.on('message', data => {
-              if (decodeURIComponent(data.uri) === this.current_uri) {
-                if (data.success) {
-                  this.success_uris++;
-                } else {
-                  this.error_uris++;
-                  this.urisWithErrors.push(decodeURIComponent(data.uri));
-                  if (!_.includes(this.websitesWithErrors, this.current_website)) {
-                    this.websitesWithErrors.push(_.clone(this.current_website));
-                  }
-                }
-
-                this.elapsed_uris = this.success_uris + this.error_uris;
-                this.remaining_uris = this.n_uris - this.elapsed_uris;
-                this.progress_uris = (this.elapsed_uris * 100) / this.n_uris;
-              }
-            });
-
-            this.socket.on('website_finished', data => {
-              if (this.current_website === data) {
-                if (!_.includes(this.websitesWithErrors, this.current_website)) {
-                  this.success_websites++;
-                } else {
-                  this.error_websites++;
-                }
-
-                this.elapsed_websites = this.success_websites - this.error_websites;
-                this.remaining_websites = this.n_websites - this.elapsed_websites;
-                this.progress_websites = (this.elapsed_websites * 100) / this.n_websites;
-
-                if (this.elapsed_websites === this.n_websites) {
-                  this.finished = true;
-                }
-              }
-            });
-          });
+    this.socket.emit('tag', { tagId: this.data.info, option: this.data.option, token: localStorage.getItem('AMS-SSID')});
+    this.socket.on('startupTag', data => {
+      this.n_websites = data;
+      this.remaining_websites = this.n_websites;
+    });
+    this.socket.on('startupWebsite', data => {
+      this.skipping = false;
+      this.current_website = data.current_website;
+      this.n_uris = data.n_uris;
+      this.remaining_uris = this.n_uris;
+      this.elapsed_uris = 0;
+      this.success_uris = 0;
+      this.error_uris = 0;
+      this.progress_uris = 0;
+    });
+    this.socket.on('currentUri', data => {
+      this.current_uri = decodeURIComponent(data);
+    });
+    this.socket.on('websiteFinished', data => {
+      if (this.current_website === data) {
+        if (!_.includes(this.websitesWithErrors, this.current_website)) {
+          this.success_websites++;
+        } else {
+          this.error_websites++;
         }
-      });
+
+        this.elapsed_websites = this.success_websites - this.error_websites;
+        this.remaining_websites = this.n_websites - this.elapsed_websites;
+        this.progress_websites = (this.elapsed_websites * 100) / this.n_websites;
+
+        if (this.elapsed_websites === this.n_websites) {
+          this.finished = true;
+        }
+      }
+    });
+    this.socket.on('evaluated', data => {
+      if (decodeURIComponent(data.uri) === this.current_uri) {
+        if (data.success) {
+          this.success_uris++;
+        } else {
+          this.error_uris++;
+          this.urisWithErrors.push(decodeURIComponent(data.uri));
+        }
+
+        this.elapsed_uris = this.success_uris + this.error_uris;
+        this.remaining_uris = this.n_uris - this.elapsed_uris;
+        this.progress_uris = (this.elapsed_uris * 100) / this.n_uris;
+
+        if (this.elapsed_uris === this.n_uris) {
+          this.finished = true;
+        }
+      }
+    });
   }
 
   skipWebsite(): void {
     this.skipping = true;
-    this.socket.emit('message', 'skip');
+    this.socket.emit('skip', true);
   }
 
   openUrisWithErrorsDialog(): void {
@@ -155,7 +148,7 @@ export class ReEvaluateTagWebsitesProgressDialogComponent implements OnInit, OnD
       const dialog = this.dialog.open(AddPagesProgressCloseConfirmationDialogComponent);
       dialog.afterClosed().subscribe(result => {
         if (result === 'true') {
-          this.socket.emit('message', 'cancel');
+          this.socket.emit('cancel', true);
           this.dialogRef.close();
         }
       });

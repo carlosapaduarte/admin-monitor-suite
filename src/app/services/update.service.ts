@@ -146,15 +146,14 @@ export class UpdateService {
   }
 
   domain(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/domains/update'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/domain/update'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -297,7 +296,7 @@ export class UpdateService {
     );
   }
 
-  reEvaluateTagWebsites(data: any): Observable<boolean> {
+  /*reEvaluateTagWebsites(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
 
     return ajax.post(this.config.getServer('/admin/tag/reEvaluate'), data).pipe(
@@ -370,7 +369,7 @@ export class UpdateService {
         return of(null);
       })
     );
-  }
+  }*/
 
   crawlerConfig(data: any): Observable<boolean> {
     return this.http.post<any>(this.config.getServer('/crawler/setConfig'), data, {observe: 'response'}).pipe(

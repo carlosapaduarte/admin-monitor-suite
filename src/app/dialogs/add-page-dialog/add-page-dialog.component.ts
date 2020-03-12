@@ -230,7 +230,7 @@ export class AddPageDialogComponent implements OnInit {
     }
   }
 
-  private addPages(domainId: number, uris: any, observatorio: any): void {
+  /*private addPages(domainId: number, uris: any, observatorio: any): void {
     this.loadingCreate = true;
 
     const formData = {
@@ -256,7 +256,7 @@ export class AddPageDialogComponent implements OnInit {
         }
         this.loadingCreate = false;
       });
-  }
+  }*/
 
   filterDomain(val: any): string[] {
     return this.domains.filter(domain =>

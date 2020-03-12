@@ -140,7 +140,7 @@
           {{ "DOMAINS_PAGE.LIST.table.edit_label" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="8">
-          <button *ngIf="element.Pages === 0" mat-icon-button (click)="openEditDomainDialog(element.DomainId, element.Url)" matTooltip="{{ 'DOMAINS_PAGE.LIST.table.edit_tooltip' | translate }}">
+          <button *ngIf="element.Pages === '0'" mat-icon-button (click)="openEditDomainDialog(element.DomainId, element.Url)" matTooltip="{{ 'DOMAINS_PAGE.LIST.table.edit_tooltip' | translate }}">
             <mat-icon class="md-24" aria-label="">edit</mat-icon>
           </button>
         </mat-cell>

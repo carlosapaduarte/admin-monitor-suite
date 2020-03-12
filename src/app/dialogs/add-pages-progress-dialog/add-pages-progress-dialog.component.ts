@@ -114,7 +114,7 @@ export class AddPagesProgressDialogComponent implements OnInit, OnDestroy {
       const dialog = this.dialog.open(AddPagesProgressCloseConfirmationDialogComponent);
       dialog.afterClosed().subscribe(result => {
         if (result === 'true') {
-          this.cancel = true;
+          this.socket.emit('cancel', true);
           this.dialogRef.close();
         }
       });

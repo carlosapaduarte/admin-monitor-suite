@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as socketIo from 'socket.io-client';
+//import * as socketIo from 'socket.io-client';
+import { Socket } from 'ngx-socket-io';
 import * as _ from 'lodash';
 
 import { ConfigService } from './../../services/config.service';
@@ -27,13 +28,14 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
 
   urisWithErrors: Array<string>;
 
-  socket: socketIo.SocketIo;
+  //socket: socketIo.SocketIo;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private update: UpdateService,
     private config: ConfigService,
     private dialog: MatDialog,
+    private socket: Socket,
     private dialogRef: MatDialogRef<ReEvaluateWebsitePagesProgressDialogComponent>
   ) {
     this.finished = false;
@@ -47,45 +49,37 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
 
     this.urisWithErrors = new Array<string>();
 
-    this.socket = null;
+    //this.socket = null;
+    this.socket.connect();
   }
 
   ngOnInit(): void {
-    this.update.reEvaluateWebsitePages({domainId: this.data.info, option: this.data.option})
-      .subscribe(success => {
-        if (success) {
-          this.socket = socketIo(this.config.getWSServer('/'), { 'forceNew': true });
-          this.socket.once('connect', () => {
-            this.socket.on('startup', data => {
-              this.n_uris = _.clone(data);
-              this.remaining_uris = _.clone(this.n_uris);
-            });
-
-            this.socket.on('current_uri', data => {
-              this.current_uri = _.clone(decodeURIComponent(data));
-            });
-
-            this.socket.on('message', data => {
-              if (decodeURIComponent(data.uri) === this.current_uri) {
-                if (data.success) {
-                  this.success_uris++;
-                } else {
-                  this.error_uris++;
-                  this.urisWithErrors.push(decodeURIComponent(data.uri));
-                }
-
-                this.elapsed_uris = this.success_uris + this.error_uris;
-                this.remaining_uris = this.n_uris - this.elapsed_uris;
-                this.progress = (this.elapsed_uris * 100) / this.n_uris;
-
-                if (this.elapsed_uris === this.n_uris) {
-                  this.finished = true;
-                }
-              }
-            });
-          });
+    this.socket.emit('website', { domainId: this.data.info, option: this.data.option, token: localStorage.getItem('AMS-SSID')});
+    this.socket.on('startup', data => {
+      this.n_uris = data;
+      this.remaining_uris = this.n_uris;
+    });
+    this.socket.on('currentUri', data => {
+      this.current_uri = decodeURIComponent(data);
+    });
+    this.socket.on('evaluated', data => {
+      if (decodeURIComponent(data.uri) === this.current_uri) {
+        if (data.success) {
+          this.success_uris++;
+        } else {
+          this.error_uris++;
+          this.urisWithErrors.push(decodeURIComponent(data.uri));
         }
-      });
+
+        this.elapsed_uris = this.success_uris + this.error_uris;
+        this.remaining_uris = this.n_uris - this.elapsed_uris;
+        this.progress = (this.elapsed_uris * 100) / this.n_uris;
+
+        if (this.elapsed_uris === this.n_uris) {
+          this.finished = true;
+        }
+      }
+    });
   }
 
   openUrisWithErrorsDialog(): void {
@@ -103,7 +97,7 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
       const dialog = this.dialog.open(AddPagesProgressCloseConfirmationDialogComponent);
       dialog.afterClosed().subscribe(result => {
         if (result === 'true') {
-          this.socket.emit('message', 'cancel');
+          this.socket.emit('cancel', true);
           this.dialogRef.close();
         }
       });
@@ -111,7 +105,6 @@ export class ReEvaluateWebsitePagesProgressDialogComponent implements OnInit, On
   }
 
   ngOnDestroy(): void {
-    this.socket.removeAllListeners();
     this.socket.disconnect();
   }
 }

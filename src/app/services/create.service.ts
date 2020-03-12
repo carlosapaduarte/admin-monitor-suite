@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
 import { map, catchError } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
@@ -121,14 +120,13 @@ export class CreateService {
   }
 
   newDomain(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/domains/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/domain/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -144,7 +142,7 @@ export class CreateService {
     );
   }
 
-  newPages(data: any): Observable<boolean> {
+  /*newPages(data: any): Observable<boolean> {
     data.cookie = this.user.getUserData();
     return ajax.post(this.config.getServer('/admin/pages/create'), data).pipe(
       map(res => {
@@ -172,5 +170,5 @@ export class CreateService {
         return of(null);
       })
     );
-  }
+  }*/
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
@@ -745,14 +744,14 @@ export class GetService {
   }
 
   websiteCurrentDomain(websiteId: number): Observable<string> {
-    return ajax(this.config.getServer('/admin/websites/currentDomain/' + websiteId)).pipe(
+    return this.http.get<any>(this.config.getServer('/website/currentDomain/' + websiteId), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
