@@ -135,7 +135,7 @@ const appRoutes: Routes = [
   { path: '**', component: NotFound404Component }
 ];
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
+const config: SocketIoConfig = { url: '/', options: {}};
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
