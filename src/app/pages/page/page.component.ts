@@ -3,10 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
+import { MatDialog } from '@angular/material/dialog';
+
 import { EvaluationService } from '../../services/evaluation.service';
 import { GetService } from '../../services/get.service';
 import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
+
+import { BackgroundEvaluationsInformationDialogComponent } from '../../dialogs/background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 
 @Component({
   selector: 'app-page',
@@ -32,7 +36,8 @@ export class PageComponent implements OnInit, OnDestroy {
     private get: GetService,
     private deleteService: DeleteService,
     private message: MessageService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private dialog: MatDialog,
   ) {
     this.loading = true;
     this.error = false;
@@ -66,16 +71,15 @@ export class PageComponent implements OnInit, OnDestroy {
   }
 
   evaluate(): void {
-    this.loading = true;
-
-    this.evaluation.evaluateUrl(this.page)
-      .subscribe(data => {
-        if (data === null) {
-          this.error = true;
-          this.loading = false;
-          this.cd.detectChanges();
+    this.evaluation.reEvaluatePage({ page: this.page })
+      .subscribe(result => {
+        if (result) {
+          const data = {
+            width: '40vw',
+          };
+          this.dialog.open(BackgroundEvaluationsInformationDialogComponent, data);
         } else {
-          this.getListOfPageEvaluations();
+          alert('Error');
         }
       });
   }

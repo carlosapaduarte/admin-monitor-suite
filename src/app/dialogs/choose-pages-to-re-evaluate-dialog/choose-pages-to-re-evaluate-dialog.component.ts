@@ -2,9 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 
-import { ReEvaluateWebsitePagesProgressDialogComponent } from '../re-evaluate-website-pages-progress-dialog/re-evaluate-website-pages-progress-dialog.component';
-import { ReEvaluateEntityWebsitesProgressDialogComponent } from '../re-evaluate-entity-websites-progress-dialog/re-evaluate-entity-websites-progress-dialog.component';
-import { ReEvaluateTagWebsitesProgressDialogComponent } from '../re-evaluate-tag-websites-progress-dialog/re-evaluate-tag-websites-progress-dialog.component';
+import { EvaluationService } from '../../services/evaluation.service';
+
+import { BackgroundEvaluationsInformationDialogComponent } from '../background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 
 @Component({
   selector: 'app-choose-pages-to-re-evaluate-dialog',
@@ -17,6 +17,7 @@ export class ChoosePagesToReEvaluateDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
+    private readonly evaluation: EvaluationService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<ChoosePagesToReEvaluateDialogComponent>
   ) {
@@ -26,25 +27,44 @@ export class ChoosePagesToReEvaluateDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  reEvaluatePages(e): void {
+  reEvaluatePages(e: any): void {
     e.preventDefault();
 
-    const data = {
-      width: '40vw',
-      disableClose: true,
-      data: {
-        option: this.pages.value,
-        info: this.data.info
-      }
-    };
-
     if (this.data.dialog === 'website') {
-      this.dialog.open(ReEvaluateWebsitePagesProgressDialogComponent, data);
-    } else if (this.data.dialog === 'tag') {
-      this.dialog.open(ReEvaluateTagWebsitesProgressDialogComponent, data);
+      this.evaluation.reEvaluateWebsitePages({ domainId: this.data.info, option: this.pages.value })
+        .subscribe(result => {
+          if (result) {
+            this.openInformationDialog();
+          } else {
+            alert('Error');
+          }
+        });
     } else if (this.data.dialog === 'entity') {
-      this.dialog.open(ReEvaluateEntityWebsitesProgressDialogComponent, data);
+      this.evaluation.reEvaluateEntityWebsitePages({ entityId: this.data.info, option: this.pages.value })
+        .subscribe(result => {
+          if (result) {
+            this.openInformationDialog();
+          } else {
+            alert('Error');
+          }
+        });
+    } else if (this.data.dialog === 'tag') {
+      this.evaluation.reEvaluateTagWebsitePages({ tagId: this.data.info, option: this.pages.value })
+        .subscribe(result => {
+          if (result) {
+            this.openInformationDialog();
+          } else {
+            alert('Error');
+          }
+        });
     }
     this.dialogRef.close();
+  }
+
+  private openInformationDialog(): void {
+    const data = {
+      width: '40vw',
+    };
+    this.dialog.open(BackgroundEvaluationsInformationDialogComponent, data);
   }
 }

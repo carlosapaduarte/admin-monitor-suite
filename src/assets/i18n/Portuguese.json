@@ -66,7 +66,8 @@
     "sentence": "Total de {{value}}",
     "observatory": "Observatório",
     "monitor": "My Monitor",
-    "studies": "Study Monitor"
+    "studies": "Study Monitor",
+    "evaluations": "Nº de páginas à espera de avaliação"
   },
   "STATISTICS": {
     "title": "Estatísticas",
@@ -669,6 +670,11 @@
         "success": "Avaliação apagada com sucesso",
         "error": "Erro ao apagar avaliação"
       }
+    },
+    "DIALOG": {
+      "title": "Informação",
+      "message": "As páginas irão ser avaliadas em segundo plano, e a sua informação estará disponível assim que possível.",
+      "close": "Fechar"
     }
   },
   "RESULTS": {

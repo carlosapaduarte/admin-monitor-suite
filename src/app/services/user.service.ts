@@ -118,8 +118,13 @@ export class UserService {
             break;
         }
 
+        sessionStorage.removeItem('AMS-username');
+        localStorage.removeItem('AMS-SSID');
+        localStorage.removeItem('expires-at');
+        this.router.navigateByUrl(location);
+
         console.log(err);
-        return of(false);
+        return of(true);
       })
     );
   }

@@ -10,8 +10,8 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 
 import {
-  AddPagesProgressDialogComponent
-} from '../add-pages-progress-dialog/add-pages-progress-dialog.component';
+  BackgroundEvaluationsInformationDialogComponent
+} from '../background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 
 @Component({
   selector: 'app-add-crawler-pages-dialog',
@@ -126,39 +126,25 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
 
   private addPages(uris: any, observatorio: any): void {
     const domainId = this.domainId;
-    /*const formData = {
+
+    const formData = {
       domainId,
       uris,
-      observatorio
-    };*/
-
-    this.dialog.open(AddPagesProgressDialogComponent, {
-      width: '40vw',
-      disableClose: true,
-      data: {
-        domainId: domainId,
-        uris: JSON.parse(uris),
-        observatory_uris: JSON.parse(observatorio)
-      }
-    });
+      observatory: observatorio
+    };
 
     this.dialogRef.close();
 
-    /*this.loading = true;
     this.create.newPages(formData)
       .subscribe(success => {
         if (success !== null) {
           if (success) {
             this.dialogRef.close();
-            this.loading = false;
-            this.msg.show('CRAWLER.MESSAGE.success');
-            if (this.location.path() !== '/console/pages') {
-              this.router.navigateByUrl('/console/pages');
-            } else {
-              window.location.reload();
-            }
+            this.dialog.open(BackgroundEvaluationsInformationDialogComponent, {
+              width: '40vw'
+            });
           }
         }
-      });*/
+      });
   }
 }

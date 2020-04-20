@@ -27,8 +27,8 @@ import {
 } from '../choose-observatory-pages-dialog/choose-observatory-pages-dialog.component';
 
 import {
-  AddPagesProgressDialogComponent
-} from '../add-pages-progress-dialog/add-pages-progress-dialog.component';
+  BackgroundEvaluationsInformationDialogComponent
+} from '../background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -202,32 +202,27 @@ export class AddPageDialogComponent implements OnInit {
 
       chooseDialog.afterClosed().subscribe(result => {
         if (!result.cancel) {
-          this.dialog.open(AddPagesProgressDialogComponent, {
-            width: '40vw',
-            disableClose: true,
-            data: {
-              domainId: domainId,
-              uris: JSON.parse(uris),
-              observatory_uris: JSON.parse(result.uris)
-            }
-          });
-          //this.addPages(domainId, uris, result.uris);
-          this.dialogRef.close();
+          this.openAddPagesInformationDialog(domainId, uris, result.uris);
         }
       });
     } else {
-      this.dialog.open(AddPagesProgressDialogComponent, {
-        width: '40vw',
-        disableClose: true,
-        data: {
-          domainId: domainId,
-          uris: JSON.parse(uris),
-          observatory_uris: []
+      this.openAddPagesInformationDialog(domainId, uris, JSON.stringify([]));
+    }
+  }
+
+  private openAddPagesInformationDialog(domainId: number, uris: string, observatory: string): void {
+    this.create.newPages({ domainId, uris, observatory })
+      .subscribe(result => {
+        if (result) {
+          this.dialog.open(BackgroundEvaluationsInformationDialogComponent, {
+            width: '40vw',
+            disableClose: true
+          });
+          this.dialogRef.close();
+        } else {
+          alert('Error');
         }
       });
-      //this.addPages(domainId, uris, JSON.stringify([]));
-      this.dialogRef.close();
-    }
   }
 
   /*private addPages(domainId: number, uris: any, observatorio: any): void {
@@ -354,7 +349,7 @@ export class AddPageDialogComponent implements OnInit {
         url = _.replace(url, 'https://', '');
         url = _.replace(url, 'www.', '');
         if (!_.startsWith(url, domain)) {
-          console.log(url);
+          //console.log(url);
           this.fileErrorMessage = 'invalidDomain';
           return;
         } else {

@@ -142,15 +142,14 @@ export class CreateService {
     );
   }
 
-  /*newPages(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/create'), data).pipe(
+  newPages(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/page/add'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message, 'NORMAL', response.errors, response.result);
@@ -170,5 +169,5 @@ export class CreateService {
         return of(null);
       })
     );
-  }*/
+  }
 }

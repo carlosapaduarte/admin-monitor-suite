@@ -66,7 +66,8 @@
     "sentence": "Total of {{value}}",
     "observatory": "Observatory",
     "monitor": "My Monitor",
-    "studies": "Study Monitor"
+    "studies": "Study Monitor",
+    "evaluations": "Nº of pages waiting for evaluation"
   },
   "STATISTICS": {
     "title": "Statistics",
@@ -671,6 +672,11 @@
         "success": "Evaluation deleted successfully",
         "error": "Error deleting evaluation"
       }
+    },
+    "DIALOG": {
+      "title": "Information",
+      "message": "The pages will be evaluated in the background and their information will be available as soon as possible.",
+      "close": "Close"
     }
   },
   "RESULTS": {

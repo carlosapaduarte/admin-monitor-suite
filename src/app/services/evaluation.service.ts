@@ -40,6 +40,90 @@ export class EvaluationService {
     private translate: TranslateService
   ) { }
 
+  reEvaluatePage(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/page/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
+  reEvaluateWebsitePages(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/website/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
+  reEvaluateEntityWebsitePages(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/entity/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
+  reEvaluateTagWebsitePages(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/tag/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
   getEvaluation(url: string, evaluation_id: number): Observable<Evaluation> {
     if (this.url && this.evaluation_id && _.isEqual(this.url, url) &&
         _.isEqual(evaluation_id, this.evaluation_id) && this.evaluation) {

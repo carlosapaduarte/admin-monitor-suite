@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   observatorio_tags: number;
   observatorio_websites: number;
 
+  evaluations: number;
+
   constructor(
     private get: GetService,
     private cd: ChangeDetectorRef
@@ -30,6 +32,8 @@ export class HomeComponent implements OnInit {
     this.access_studies_websites = 0;
     this.my_monitor_websites = 0;
     this.observatorio_websites = 0;
+
+    this.evaluations = 0;
   }
 
   ngOnInit(): void {
@@ -72,6 +76,12 @@ export class HomeComponent implements OnInit {
     this.get.numberOfObservatoryWebsites()
       .subscribe(total => {
         this.observatorio_websites = total;
+        this.cd.detectChanges();
+      });
+    
+    this.get.numberOfPagesWaitingForEvaluation()
+      .subscribe(total => {
+        this.evaluations = total;
         this.cd.detectChanges();
       });
   }
