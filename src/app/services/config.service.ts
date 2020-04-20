@@ -5,14 +5,19 @@ import { Injectable } from '@angular/core';
 })
 export class ConfigService {
 
-  constructor() { }
+  private server: string;
 
-  getServer(service: string): string {
-    //return '/api' + service;
-    return 'http://localhost:3000' + service;
+  constructor() {
+    const host = location.hostname;
+
+    if (host === 'localhost') {
+      this.server = 'http://localhost:3000';
+    } else {
+      this.server = '/api';
+    }
   }
 
-  getWSServer(namespace: string): string {
-    return 'http://localhost:3001' + namespace;
+  getServer(service: string): string {
+    return this.server + service;
   }
 }
