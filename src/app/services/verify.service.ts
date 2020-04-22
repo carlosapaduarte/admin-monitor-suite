@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError, delay } from 'rxjs/operators';
@@ -17,18 +18,18 @@ import { AdminError } from '../models/error';
 export class VerifyService {
 
   constructor(
+    private http: HttpClient,
     private user: UserService,
     private message: MessageService,
     private config: ConfigService
   ) { }
 
   userExists(username: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/users/exists/' + username)).pipe(
+    return this.http.get<any>(this.config.getServer('/user/exists/' + username), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
-
-        if (!res.response || res.status === 404) {
+        const response = <Response> res.body;
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -36,7 +37,7 @@ export class VerifyService {
           throw new AdminError(response.success, response.message);
         }
 
-        return response.result ? { 'notTakenUsername': true } : null;
+        return <boolean> response.result ? { 'notTakenUsername': true } : null;
       }),
       catchError(err => {
         console.log(err);
@@ -46,12 +47,12 @@ export class VerifyService {
   }
 
   tagNameExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/tags/exists/' + name)).pipe(
+    return this.http.get<any>(this.config.getServer('/tag/exists/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -68,12 +69,12 @@ export class VerifyService {
   }
 
   tagNameDialogExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/tags/exists/' + name)).pipe(
+    return this.http.get(this.config.getServer('/tag/exists/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -90,12 +91,12 @@ export class VerifyService {
   }
 
   entityShortNameExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/entities/exists/shortName/' + name)).pipe(
+    return this.http.get<any>(this.config.getServer('/entity/exists/shortName/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -113,12 +114,12 @@ export class VerifyService {
   }
 
   entityLongNameExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/entities/exists/longName/' + name)).pipe(
+    return this.http.get<any>(this.config.getServer('/entity/exists/longName/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -136,19 +137,19 @@ export class VerifyService {
   }
 
   websiteNameExists(name: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/websites/exists/' + name)).pipe(
+    return this.http.get<any>(this.config.getServer('/website/exists/' + name), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
         }
-
+        
         return response.result ? { 'notTakenName': true } : null;
       }),
       catchError(err => {
@@ -159,13 +160,12 @@ export class VerifyService {
   }
 
   domainExists(domain: string): Observable<boolean> {
-    domain = encodeURIComponent(domain);
-    return ajax(this.config.getServer('/admin/domains/exists/' + domain)).pipe(
+    return this.http.get<any>(this.config.getServer('/domain/exists/' + encodeURIComponent(domain)), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -206,12 +206,12 @@ export class VerifyService {
   }
 
   crawlerSearchExists(subDomain: string): Observable<boolean> {
-    return ajax(this.config.getServer('/admin/crawler/isSubdomainDone/' + encodeURIComponent(subDomain))).pipe(
+    return this.http.get<any>(this.config.getServer('/crawler/isSubdomainDone/' + encodeURIComponent(subDomain)), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 

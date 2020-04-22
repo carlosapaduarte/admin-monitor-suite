@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { GetService } from '../../services/get.service';
 import { DeleteService } from '../../services/delete.service';
@@ -7,7 +7,8 @@ import { MessageService } from '../../services/message.service';
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.css']
+  styleUrls: ['./pages.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PagesComponent implements OnInit {
 

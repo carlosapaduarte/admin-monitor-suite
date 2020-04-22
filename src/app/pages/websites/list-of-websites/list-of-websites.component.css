@@ -10,3 +10,11 @@
 .table-filter input {
   width: 80%;
 }
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   observatorio_tags: number;
   observatorio_websites: number;
 
+  evaluations: number;
+
   constructor(
     private get: GetService,
     private cd: ChangeDetectorRef
@@ -30,22 +32,24 @@ export class HomeComponent implements OnInit {
     this.access_studies_websites = 0;
     this.my_monitor_websites = 0;
     this.observatorio_websites = 0;
+
+    this.evaluations = 0;
   }
 
   ngOnInit(): void {
-    this.get.numberOfAcessStudiesUsers()
+    this.get.numberOfStudyMonitorUsers()
       .subscribe(total => {
         this.access_studies_users = total;
         this.cd.detectChanges();
       });
 
-    this.get.numberOfAccessStudiesTags()
+    this.get.numberOfStudyMonitorTags()
       .subscribe(total => {
         this.access_studies_tags = total;
         this.cd.detectChanges();
       });
 
-    this.get.numberOfAccessStudiesWebsites()
+    this.get.numberOfStudyMonitorWebsites()
       .subscribe(total => {
         this.access_studies_websites = total;
         this.cd.detectChanges();
@@ -63,15 +67,21 @@ export class HomeComponent implements OnInit {
         this.cd.detectChanges();
       });
 
-    this.get.numberOfObservatorioTags()
+    this.get.numberOfObservatoryTags()
       .subscribe(total => {
         this.observatorio_tags = total;
         this.cd.detectChanges();
       });
 
-    this.get.numberOfObservatorioWebsites()
+    this.get.numberOfObservatoryWebsites()
       .subscribe(total => {
         this.observatorio_websites = total;
+        this.cd.detectChanges();
+      });
+    
+    this.get.numberOfPagesWaitingForEvaluation()
+      .subscribe(total => {
+        this.evaluations = total;
         this.cd.detectChanges();
       });
   }

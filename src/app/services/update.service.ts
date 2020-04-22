@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
+import { HttpClient } from '@angular/common/http';
 import { map, retry, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
@@ -17,21 +18,21 @@ import { AdminError } from '../models/error';
 export class UpdateService {
 
   constructor(
-    private userService: UserService,
-    private message: MessageService,
-    private config: ConfigService
+    private readonly userService: UserService,
+    private readonly message: MessageService,
+    private readonly config: ConfigService,
+    private readonly http: HttpClient
   ) { }
 
   user(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/users/update'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/user/update'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -48,15 +49,14 @@ export class UpdateService {
   }
 
   tag(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/tags/update'), data).pipe(
+    return this.http.post(this.config.getServer('/tag/update'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -98,15 +98,14 @@ export class UpdateService {
   }
 
   entity(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/entities/update'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/entity/update'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -123,15 +122,14 @@ export class UpdateService {
   }
 
   website(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/websites/update'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/website/update'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -148,15 +146,14 @@ export class UpdateService {
   }
 
   domain(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/domains/update'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/domain/update'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -173,15 +170,14 @@ export class UpdateService {
   }
 
   page(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/update'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/page/update'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -197,16 +193,15 @@ export class UpdateService {
     );
   }
 
-importPage(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/updateAdminPage'), data).pipe(
+  importPage(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/page/import'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -223,15 +218,14 @@ importPage(data: any): Observable<boolean> {
   }
 
   importWebsite(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/updateAdminWebsite'), data).pipe(
+    return this.http.post(this.config.getServer('/website/import'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -248,15 +242,14 @@ importPage(data: any): Observable<boolean> {
   }
 
   importTag(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/updateAdminTag'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/tag/import'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -275,17 +268,16 @@ importPage(data: any): Observable<boolean> {
   observatoryPages(pages: Array<any>, pagesId: Array<number>): Observable<boolean> {
     const data = {
       pages: JSON.stringify(pages),
-      pagesId: JSON.stringify(pagesId),
-      cookie: this.userService.getUserData()
+      pagesId: JSON.stringify(pagesId)
     };
 
-    return ajax.post(this.config.getServer('/admin/pages/updateObservatorio'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/website/pages/updateObservatory'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -301,7 +293,7 @@ importPage(data: any): Observable<boolean> {
     );
   }
 
-  reEvaluateTagWebsites(data: any): Observable<boolean> {
+  /*reEvaluateTagWebsites(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
 
     return ajax.post(this.config.getServer('/admin/tag/reEvaluate'), data).pipe(
@@ -374,18 +366,17 @@ importPage(data: any): Observable<boolean> {
         return of(null);
       })
     );
-  }
+  }*/
 
   crawlerConfig(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/crawler/setConfig'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/crawler/setConfig'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);

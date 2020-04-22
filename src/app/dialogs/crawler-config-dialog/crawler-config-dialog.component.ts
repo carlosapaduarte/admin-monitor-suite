@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';

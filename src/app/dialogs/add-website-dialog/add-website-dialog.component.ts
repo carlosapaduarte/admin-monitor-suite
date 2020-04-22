@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators, ValidationErrors, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -74,7 +75,8 @@ export class AddWebsiteDialogComponent implements OnInit {
       ], this.nameValidator.bind(this)),
       domain: new FormControl('', [
         Validators.required,
-        domainValidator
+        domainValidator,
+        domainMissingProtocol
       ], this.domainValidator.bind(this)),
       entity: new FormControl('', [
         this.entityValidator.bind(this)
@@ -251,18 +253,35 @@ export class AddWebsiteDialogComponent implements OnInit {
 }
 
 function domainValidator(control: FormControl): ValidationErrors | null {
-  let domain = _.trim(control.value);
-  domain = _.replace(domain, 'http://', '');
-  domain = _.replace(domain, 'https://', '');
-  domain = _.replace(domain, 'www.', '');
+  try {
+    const domain = _.trim(control.value);
 
-  let invalid = false;
-  if (domain === '') {
+    if (domain === '') {
+      return null;
+    }
+
+    const invalid = domain.endsWith('.') || domain.endsWith('/');
+
+    return invalid ? { invalidDomain: true } : null;
+  } catch(err) {
+    console.log(err);
     return null;
   }
+}
 
-  invalid = !_.includes(domain, '.');
-  invalid = invalid || _.includes(domain, '/');
+function domainMissingProtocol(control: FormControl): ValidationErrors | null {
+  try {
+    const domain = _.trim(control.value);
 
-  return invalid ? { invalidDomain: true } : null;
+    if (domain === '') {
+      return null;
+    }
+
+    const invalid = !domain.startsWith('http://') && !domain.startsWith('https://')
+
+    return invalid ? { domainMissingProtocol: true } : null;
+  } catch(err) {
+    console.log(err);
+    return null;
+  }
 }

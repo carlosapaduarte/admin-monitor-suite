@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
 export class LoginComponent implements OnInit {
 
 	// creates a reference to the first input element
-  @ViewChild('usernameEle') private usernameElement: ElementRef;
+  @ViewChild('usernameEle', { static: true }) private usernameElement: ElementRef;
 
   // shows and hides the password
   hide: boolean;

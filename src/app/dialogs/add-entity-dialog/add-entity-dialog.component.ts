@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';

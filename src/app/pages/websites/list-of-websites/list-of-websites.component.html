@@ -115,7 +115,7 @@
       <ng-container matColumnDef="see">
         <mat-header-cell *matHeaderCellDef fxFlex="10"></mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
-          <a target="_blank" href="/server/stamps/{{element.WebsiteId}}.svg" *ngIf="element.Observatory > 0" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}">
+          <a target="_blank" href="http://localhost:3000/stamps/{{element.WebsiteId}}.svg" *ngIf="element.Observatory > 0" mat-icon-button matTooltip="{{ 'WEBSITES_PAGE.LIST.table.see_tooltip' | translate }}">
             <mat-icon class="md-24" aria-label="">visibility</mat-icon>
           </a>
         </mat-cell>

@@ -1,44 +1,23 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
 
-  PROTOCOL: string;
-  PORT: number;
-  HOST: string;
-  PATH: string;
-  URI: string;
+  private server: string;
 
   constructor() {
-    this.PROTOCOL = location.protocol + '//'; // 'http://';
-    this.HOST = _.split(location.host, ':')[0];
+    const host = location.hostname;
 
-    if (this.HOST === 'localhost') {
-      this.PORT = 3443;
-      this.PATH = '';
+    if (host === 'localhost') {
+      this.server = 'http://localhost:3000';
     } else {
-      if (this.PROTOCOL === 'http://') {
-        this.PORT = 80;
-      } else {
-        this.PORT = 443;
-      }
-
-      this.PATH = '/server';
+      this.server = '/api';
     }
-
-    this.URI = `${this.PROTOCOL}${this.HOST}:${this.PORT}${this.PATH}`;
   }
 
   getServer(service: string): string {
-    return '/server' + service; //`${this.URI}${service}`;
-  }
-
-  getWSServer(namespace: string): string {
-    //return this.URI + namespace;
-    //return this.PROTOCOL + this.HOST + ':' + this.PORT;
-    return '/';
+    return this.server + service;
   }
 }

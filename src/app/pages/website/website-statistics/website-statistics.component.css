@@ -1,0 +1,7 @@
+::ng-deep .reading-block {
+  line-height: 40px;;
+}
+
+th, td {
+  padding: 0.5em;
+}

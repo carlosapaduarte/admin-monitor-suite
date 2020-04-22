@@ -66,7 +66,8 @@
     "sentence": "Total of {{value}}",
     "observatory": "Observatory",
     "monitor": "My Monitor",
-    "studies": "Study Monitor"
+    "studies": "Study Monitor",
+    "evaluations": "Nº of pages waiting for evaluation"
   },
   "STATISTICS": {
     "title": "Statistics",
@@ -407,6 +408,7 @@
       "domain_label": "Domain",
       "domain_exists": "The inserted domain already exists",
       "domain_invalid": "Invalid domain",
+      "domain_missing_protocol": "The domain protocol is missing (http or https)",
       "entity_label": "Entity (optional)",
       "entity_invalid": "The inserted entity is invalid",
       "user_label": "User (optional)",
@@ -671,6 +673,11 @@
         "success": "Evaluation deleted successfully",
         "error": "Error deleting evaluation"
       }
+    },
+    "DIALOG": {
+      "title": "Information",
+      "message": "The pages will be evaluated in the background and their information will be available as soon as possible.",
+      "close": "Close"
     }
   },
   "RESULTS": {

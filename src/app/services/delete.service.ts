@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
+import { HttpClient } from '@angular/common/http';
 import { map, retry, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
@@ -16,21 +17,21 @@ import { AdminError } from '../models/error';
 export class DeleteService {
 
   constructor(
-    private userService: UserService,
-    private message: MessageService,
-    private config: ConfigService
+    private readonly userService: UserService,
+    private readonly message: MessageService,
+    private readonly config: ConfigService,
+    private readonly http: HttpClient
   ) { }
 
   user(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/users/delete'), data).pipe(
+    return this.http.post(this.config.getServer('/user/delete'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -47,15 +48,14 @@ export class DeleteService {
   }
 
   tag(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/tags/delete'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/tag/delete'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -72,15 +72,14 @@ export class DeleteService {
   }
 
   entity(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/entities/delete'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/entity/delete'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -97,15 +96,14 @@ export class DeleteService {
   }
 
   website(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/websites/delete'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/website/delete'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -147,15 +145,14 @@ export class DeleteService {
   }
 
   pages(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/delete'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/page/delete'), data, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -197,14 +194,14 @@ export class DeleteService {
   }
 
   crawl(crawlDomainId: any): Observable<boolean> {
-    return ajax.post(this.config.getServer('/admin/crawler/delete'), {crawlDomainId}).pipe(
+    return this.http.post<any>(this.config.getServer('/crawler/delete'), {crawlDomainId}, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);

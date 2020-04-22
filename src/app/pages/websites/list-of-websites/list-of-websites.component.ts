@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { MatDialog } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
 import * as _ from 'lodash';
 
@@ -37,8 +39,8 @@ export class ListOfWebsitesComponent implements OnInit {
   selection: any;
 
   @ViewChild('input') input: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private dialog: MatDialog,

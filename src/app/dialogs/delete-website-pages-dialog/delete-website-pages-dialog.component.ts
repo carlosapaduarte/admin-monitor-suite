@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import * as _ from 'lodash';
 

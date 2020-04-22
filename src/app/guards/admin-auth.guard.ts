@@ -10,7 +10,7 @@ import {
 import {
   Observable
 } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import {
   UserService
@@ -32,7 +32,7 @@ export class AdminAuthGuard implements CanActivate {
 
     if (!login) {
       this.dialog.open(UserAuthErrorDialogComponent);
-      this.user.logout();
+      this.user.logout().subscribe();
     }
 
     return login;

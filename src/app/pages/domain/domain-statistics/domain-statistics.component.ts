@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { ScoreDistributionDialogComponent } from '../../../dialogs/score-distribution-dialog/score-distribution-dialog.component';
@@ -50,6 +50,10 @@ export class DomainStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pages = this.pages.map(p => {
+      p.Score = Number(p.Score);
+      return p;
+    });
     const size = _.size(this.pages);
     this.newest_page = this.pages[0].Evaluation_Date;
     this.oldest_page = this.pages[0].Evaluation_Date;

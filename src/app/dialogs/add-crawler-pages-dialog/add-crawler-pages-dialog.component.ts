@@ -1,6 +1,6 @@
 import {Component, OnInit, Inject} from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {MatTableDataSource} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as _ from 'lodash';
 import {GetService} from '../../services/get.service';
@@ -10,8 +10,8 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 
 import {
-  AddPagesProgressDialogComponent
-} from '../add-pages-progress-dialog/add-pages-progress-dialog.component';
+  BackgroundEvaluationsInformationDialogComponent
+} from '../background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 
 @Component({
   selector: 'app-add-crawler-pages-dialog',
@@ -66,10 +66,6 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
         if (uris !== null) {
           const cleanUris = JSON.stringify(_.map(uris, p => {
             let uriToClean = p['Uri'];
-            uriToClean = _.replace(uriToClean, 'http://', '');
-            uriToClean = _.replace(uriToClean, 'https://', '');
-            uriToClean = _.replace(uriToClean, 'www.', '');
-
             if (uriToClean[_.size(uriToClean) - 1] === '/') {
               uriToClean = uriToClean.substring(0, _.size(uriToClean) - 1);
             }
@@ -126,39 +122,25 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
 
   private addPages(uris: any, observatorio: any): void {
     const domainId = this.domainId;
-    /*const formData = {
+
+    const formData = {
       domainId,
       uris,
-      observatorio
-    };*/
-
-    this.dialog.open(AddPagesProgressDialogComponent, {
-      width: '40vw',
-      disableClose: true,
-      data: {
-        domainId: domainId,
-        uris: JSON.parse(uris),
-        observatory_uris: observatorio
-      }
-    });
+      observatory: observatorio
+    };
 
     this.dialogRef.close();
 
-    /*this.loading = true;
     this.create.newPages(formData)
       .subscribe(success => {
         if (success !== null) {
           if (success) {
             this.dialogRef.close();
-            this.loading = false;
-            this.msg.show('CRAWLER.MESSAGE.success');
-            if (this.location.path() !== '/console/pages') {
-              this.router.navigateByUrl('/console/pages');
-            } else {
-              window.location.reload();
-            }
+            this.dialog.open(BackgroundEvaluationsInformationDialogComponent, {
+              width: '40vw'
+            });
           }
         }
-      });*/
+      });
   }
 }

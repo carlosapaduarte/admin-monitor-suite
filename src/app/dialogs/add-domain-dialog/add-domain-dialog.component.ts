@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -70,7 +69,8 @@ export class AddDomainDialogComponent implements OnInit {
       current_domain: new FormControl({value: '', disabled: true}),
       url: new FormControl('', [
         Validators.required,
-        this.urlValidator.bind(this)
+        domainValidator,
+        domainMissingProtocol
       ], this.domainValidator.bind(this))
     });
 
@@ -157,45 +157,6 @@ export class AddDomainDialogComponent implements OnInit {
     }
   }
 
-  urlValidator(control: AbstractControl): any {
-    let url = control.value;
-
-    if (url === '' || url === null) {
-      return null;
-    }
-
-    if (!_.startsWith(url, 'http://') && !_.startsWith(url, 'https://') && !_.startsWith(url, 'www.')) {
-      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
-        if (!_.includes(url, '/')) {
-          return null;
-        }
-      }
-    } else if (_.startsWith(url, 'http://')) {
-      url = _.replace(url, 'http://', '');
-      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
-        if (!_.includes(url, '/')) {
-          return null;
-        }
-      }
-    } else if (_.startsWith(url, 'https://')) {
-      url = _.replace(url, 'https://', '');
-      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
-        if (!_.includes(url, '/')) {
-          return null;
-        }
-      }
-    } else if (_.startsWith(url, 'www.')) {
-      url = _.replace(url, 'www.', '');
-      if (_.includes(url, '.') && url[_.size(url) - 1] !== '.') {
-        if (!_.includes(url, '/')) {
-          return null;
-        }
-      }
-    }
-
-    return { 'url': true };
-  }
-
   domainValidator(control: AbstractControl): Observable<any> {
     const domain = _.trim(control.value);
 
@@ -204,5 +165,39 @@ export class AddDomainDialogComponent implements OnInit {
     } else {
       return null;
     }
+  }
+}
+
+function domainValidator(control: FormControl): ValidationErrors | null {
+  try {
+    const domain = _.trim(control.value);
+
+    if (domain === '') {
+      return null;
+    }
+
+    const invalid = domain.endsWith('.') || domain.endsWith('/');
+
+    return invalid ? { invalidDomain: true } : null;
+  } catch(err) {
+    console.log(err);
+    return null;
+  }
+}
+
+function domainMissingProtocol(control: FormControl): ValidationErrors | null {
+  try {
+    const domain = _.trim(control.value);
+
+    if (domain === '') {
+      return null;
+    }
+
+    const invalid = !domain.startsWith('http://') && !domain.startsWith('https://')
+
+    return invalid ? { domainMissingProtocol: true } : null;
+  } catch(err) {
+    console.log(err);
+    return null;
   }
 }

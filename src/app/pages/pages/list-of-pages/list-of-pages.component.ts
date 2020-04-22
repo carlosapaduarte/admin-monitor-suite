@@ -1,8 +1,10 @@
 import { Component, OnInit, AfterViewInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { DeletePageDialogComponent } from '../../../dialogs/delete-page-dialog/delete-page-dialog.component';
@@ -40,8 +42,8 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
   jsonFromFile: string;
 
   @ViewChild('input') input: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private dialog: MatDialog,

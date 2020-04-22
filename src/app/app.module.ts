@@ -10,9 +10,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ObserversModule } from '@angular/cdk/observers';
 import { NgxGaugeModule } from 'ngx-gauge';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-
-import { CookieService } from 'ngx-cookie-service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 import { MaterialModule } from './material/material.module';
 
@@ -90,15 +89,11 @@ import { ImportWebsiteDialogComponent } from './dialogs/import-website-dialog/im
 import { ImportTagDialogComponent } from './dialogs/import-tag-dialog/import-tag-dialog.component';
 
 import { EditDomainDialogComponent } from './dialogs/edit-domain-dialog/edit-domain-dialog.component';
-import { AddPagesProgressDialogComponent } from './dialogs/add-pages-progress-dialog/add-pages-progress-dialog.component';
-import { AddPagesProgressCloseConfirmationDialogComponent } from './dialogs/add-pages-progress-close-confirmation-dialog/add-pages-progress-close-confirmation-dialog.component';
-import { ReEvaluateWebsitePagesProgressDialogComponent } from './dialogs/re-evaluate-website-pages-progress-dialog/re-evaluate-website-pages-progress-dialog.component';
-import { ReEvaluateTagWebsitesProgressDialogComponent } from './dialogs/re-evaluate-tag-websites-progress-dialog/re-evaluate-tag-websites-progress-dialog.component';
-import { ReEvaluateEntityWebsitesProgressDialogComponent } from './dialogs/re-evaluate-entity-websites-progress-dialog/re-evaluate-entity-websites-progress-dialog.component';
 
 import { ListOfCrawlsComponent } from './pages/list-of-crawls/list-of-crawls.component';
 import { CrawlerConfigDialogComponent } from './dialogs/crawler-config-dialog/crawler-config-dialog.component';
 import { ChoosePagesToReEvaluateDialogComponent } from './dialogs/choose-pages-to-re-evaluate-dialog/choose-pages-to-re-evaluate-dialog.component';
+import { BackgroundEvaluationsInformationDialogComponent } from './dialogs/background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -134,8 +129,6 @@ const appRoutes: Routes = [
   ]},
   { path: '**', component: NotFound404Component }
 ];
-
-const config: SocketIoConfig = { url: '/', options: {} };
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -214,14 +207,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ImportWebsiteDialogComponent,
     ImportTagDialogComponent,
     EditDomainDialogComponent,
-    AddPagesProgressDialogComponent,
-    AddPagesProgressCloseConfirmationDialogComponent,
-    ReEvaluateWebsitePagesProgressDialogComponent,
-    ReEvaluateTagWebsitesProgressDialogComponent,
-    ReEvaluateEntityWebsitesProgressDialogComponent,
     ListOfCrawlsComponent,
     CrawlerConfigDialogComponent,
-    ChoosePagesToReEvaluateDialogComponent
+    ChoosePagesToReEvaluateDialogComponent,
+    BackgroundEvaluationsInformationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -244,8 +233,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    NgxGaugeModule,
-    SocketIoModule.forRoot(config)
+    NgxGaugeModule
   ],
   entryComponents: [
     UserAuthErrorDialogComponent,
@@ -276,18 +264,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     ImportTagDialogComponent,
     ImportWebsiteDialogComponent,
     EditDomainDialogComponent,
-    AddPagesProgressDialogComponent,
-    AddPagesProgressCloseConfirmationDialogComponent,
-    ReEvaluateWebsitePagesProgressDialogComponent,
-    ReEvaluateTagWebsitesProgressDialogComponent,
-    ReEvaluateEntityWebsitesProgressDialogComponent,
     CrawlerConfigDialogComponent,
-    ChoosePagesToReEvaluateDialogComponent
+    ChoosePagesToReEvaluateDialogComponent,
+    BackgroundEvaluationsInformationDialogComponent
   ],
   providers: [
     AdminAuthGuard,
     NoAuthGuard,
-    CookieService
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

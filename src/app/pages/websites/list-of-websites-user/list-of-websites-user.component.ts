@@ -5,12 +5,10 @@ import {
   ViewChild,
   ChangeDetectorRef
 } from '@angular/core';
-import {
-  MatDialog,
-  MatPaginator,
-  MatSort,
-  MatTableDataSource
-} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import {
   ActivatedRoute
 } from '@angular/router';
@@ -55,8 +53,8 @@ export class ListOfWebsitesUserComponent implements OnInit {
   userType: string;
 
   @ViewChild('input') input: ElementRef;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -108,6 +106,7 @@ export class ListOfWebsitesUserComponent implements OnInit {
     this.get.listOfUserWebsites(this.user)
       .subscribe(websites => {
         if (websites !== null) {
+          this.websites = websites;
           this.dataSource = new MatTableDataSource(websites);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

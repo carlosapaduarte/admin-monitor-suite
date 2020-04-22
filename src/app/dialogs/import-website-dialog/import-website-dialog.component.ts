@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+  import {Component, Inject, OnInit} from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Observable } from 'rxjs';
 import * as _ from 'lodash';

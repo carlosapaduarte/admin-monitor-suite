@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
+import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
@@ -17,19 +17,20 @@ import { AdminError } from '../models/error';
 export class DigitalStampService {
 
   constructor(
+    private http: HttpClient,
     private userService: UserService,
     private message: MessageService,
     private config: ConfigService
   ) { }
 
   generateForAll(): Observable<Array<string>> {
-    return ajax.post(this.config.getServer('/digitalStamp/generateAll'), {cookie: this.userService.getUserData()}).pipe(
+    return this.http.post<any>(this.config.getServer('/stamp/all'), {}, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1 && response.success !== 0) {
           throw new AdminError(response.success, response.message);
@@ -46,14 +47,13 @@ export class DigitalStampService {
   }
 
   generateForWebsite(data: any): Observable<boolean> {
-    data.cookie = this.userService.getUserData();
-    return ajax.post(this.config.getServer('/digitalStamp/website/generate'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/stamp/website'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1 && response.success !== 0) {
           throw new AdminError(response.success, response.message);

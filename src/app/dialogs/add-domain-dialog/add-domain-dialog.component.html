@@ -53,12 +53,10 @@
         </mat-error>
         <mat-error *ngIf="domainForm.controls.url.hasError('required')" [innerHTML]="'MISC.required_field' | translate">
         </mat-error>
-        <mat-error *ngIf="domainForm.controls.url.hasError('url')">
-          {{ "DOMAINS_PAGE.ADD.domain_invalid" | translate }}
-        </mat-error>
         <mat-error *ngIf="domainForm.controls.url.hasError('notTakenDomain')">
           {{ "DOMAINS_PAGE.ADD.domain_exists" | translate }}
         </mat-error>
+        <mat-error *ngIf="domainForm.controls.url.hasError('domainMissingProtocol')" [innerHTML]="'WEBSITES_PAGE.ADD.domain_missing_protocol' | translate"></mat-error>
       </mat-form-field>
     </div>
   </mat-dialog-content>

@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable, of } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipList } from '@angular/material';
+import { MatChipList } from '@angular/material/chips';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
@@ -45,7 +46,7 @@ export class PasswordValidation {
 })
 export class AddUserDialogComponent implements OnInit {
 
-  @ViewChild('emailsChipList') emailsChipList: MatChipList;
+  @ViewChild('emailsChipList', { static: true }) emailsChipList: MatChipList;
 
   loadingCreate: boolean;
   loadingWebsites: boolean;
@@ -162,7 +163,7 @@ export class AddUserDialogComponent implements OnInit {
     const confirmPassword = this.userForm.value.confirmPassword;
     const names = _.join(this.names, ';');
     const emails = _.join(this.emails, ';');
-    const app = this.userForm.value.app;
+    const type = this.userForm.value.app;
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
     const transfer = this.userForm.value.transfer;
     const formData = {
@@ -171,7 +172,7 @@ export class AddUserDialogComponent implements OnInit {
       confirmPassword,
       names,
       emails,
-      app,
+      type,
       websites: JSON.stringify(websites),
       transfer
     };

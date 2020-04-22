@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AngularCsv } from 'angular7-csv';
 import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
-
+import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
 
 import { Response } from '../models/response';
@@ -41,6 +40,90 @@ export class EvaluationService {
     private translate: TranslateService
   ) { }
 
+  reEvaluatePage(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/page/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
+  reEvaluateWebsitePages(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/website/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
+  reEvaluateEntityWebsitePages(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/entity/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
+  reEvaluateTagWebsitePages(data: any): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/tag/reEvaluate'), data, {observe: 'response'}).pipe(
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(false);
+      }));
+  }
+
   getEvaluation(url: string, evaluation_id: number): Observable<Evaluation> {
     if (this.url && this.evaluation_id && _.isEqual(this.url, url) &&
         _.isEqual(evaluation_id, this.evaluation_id) && this.evaluation) {
@@ -54,12 +137,12 @@ export class EvaluationService {
         this.evaluation = <Evaluation> JSON.parse(sessionStorage.getItem('evaluation'));
         return of(this.evaluation.processed);
       } else {
-        return ajax.post(this.config.getServer('/admin/page/evaluation'), {evaluation_id, url, cookie: this.user.getUserData()}).pipe(
+        return this.http.get<any>(this.config.getServer(`/evaluation/${encodeURIComponent(url)}/${evaluation_id}`), {observe: 'response'}).pipe(
           retry(3),
           map(res => {
-            const response = <Response> res.response;
+            const response = <Response> res.body;
 
-            if (!res.response || res.status === 404) {
+            if (!res.body || res.status === 404) {
               throw new AdminError(404, 'Service not found', 'SERIOUS');
             }
 
@@ -87,12 +170,12 @@ export class EvaluationService {
   }
 
   getUserPageEvaluation(url: string, userType: string): Observable<Evaluation> {
-    return ajax.post(this.config.getServer('/admin/user/page/evaluation'), {userType, url, cookie: this.user.getUserData()}).pipe(
+    return this.http.get<any>(this.config.getServer(`/evaluation/user/${userType}/${encodeURIComponent(url)}`), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -113,12 +196,12 @@ export class EvaluationService {
   }
 
   evaluateUrl(url: string): Observable<any> {
-    return ajax.post(this.config.getServer('/admin/page/evaluate/'), {url: encodeURIComponent(url), cookie: this.user.getUserData()}).pipe(
+    return this.http.post<any>(this.config.getServer('/evaluation/page/evaluate'), {url: encodeURIComponent(url)}, {observe: 'response'}).pipe(
       retry(3),
       map(res => {
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
@@ -224,7 +307,13 @@ export class EvaluationService {
       labels.push(res['CSV.desc']);
       labels.push(res['CSV.count']);
 
-      new AngularCsv(data, this.url + '-' + _eval.metadata.last_update, {headers: labels});
+      let csvContent = labels.join(',') + '\r\n';
+      for (const row of data || []) {
+        csvContent += row.join(',') + '\r\n';
+      }
+      
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      saveAs(blob, 'eval.csv');
     });
   }
 

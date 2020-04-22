@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
 import { map, catchError } from 'rxjs/operators';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { ConfigService } from './config.service';
@@ -20,6 +20,7 @@ import { AddPagesErrorsDialogComponent } from '../dialogs/add-pages-errors-dialo
 export class CreateService {
 
   constructor(
+    private http: HttpClient,
     private user: UserService,
     private message: MessageService,
     private config: ConfigService,
@@ -27,14 +28,13 @@ export class CreateService {
   ) { }
 
   newUser(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/users/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/user/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -51,14 +51,13 @@ export class CreateService {
   }
 
   newTag(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/tags/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/tag/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -75,14 +74,13 @@ export class CreateService {
   }
 
   newEntity(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/entities/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/entity/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -99,14 +97,13 @@ export class CreateService {
   }
 
   newWebsite(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/websites/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/website/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -123,14 +120,13 @@ export class CreateService {
   }
 
   newDomain(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/domains/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/domain/create'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message);
@@ -147,14 +143,13 @@ export class CreateService {
   }
 
   newPages(data: any): Observable<boolean> {
-    data.cookie = this.user.getUserData();
-    return ajax.post(this.config.getServer('/admin/pages/create'), data).pipe(
+    return this.http.post<any>(this.config.getServer('/page/add'), data, {observe: 'response'}).pipe(
       map(res => {
-        if (!res.response || res.status === 404) {
+        if (!res.body || res.status === 404) {
           throw new AdminError(404, 'Service not found', 'SERIOUS');
         }
 
-        const response = <Response> res.response;
+        const response = <Response> res.body;
 
         if (response.success !== 1) {
           throw new AdminError(response.success, response.message, 'NORMAL', response.errors, response.result);

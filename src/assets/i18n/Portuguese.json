@@ -66,7 +66,8 @@
     "sentence": "Total de {{value}}",
     "observatory": "Observatório",
     "monitor": "My Monitor",
-    "studies": "Study Monitor"
+    "studies": "Study Monitor",
+    "evaluations": "Nº de páginas à espera de avaliação"
   },
   "STATISTICS": {
     "title": "Estatísticas",
@@ -398,7 +399,6 @@
         "see_tooltip": "Ver selo digital",
         "stamp_label": "Selos digitais",
         "stamp_tooltip": "Criar/atualizar selo digital"
-
       }
     },
     "ADD": {
@@ -408,6 +408,7 @@
       "domain_label": "Domínio",
       "domain_exists": "O domínio inserido já existe",
       "domain_invalid": "Domínio inválido",
+      "domain_missing_protocol": "O protocolo do domínio está em falta (http or https)",
       "entity_label": "Entidade (opcional)",
       "entity_invalid": "A entidade inserida é inválida",
       "user_label": "Utilizador (opcional)",
@@ -670,6 +671,11 @@
         "success": "Avaliação apagada com sucesso",
         "error": "Erro ao apagar avaliação"
       }
+    },
+    "DIALOG": {
+      "title": "Informação",
+      "message": "As páginas irão ser avaliadas em segundo plano, e a sua informação estará disponível assim que possível.",
+      "close": "Fechar"
     }
   },
   "RESULTS": {
