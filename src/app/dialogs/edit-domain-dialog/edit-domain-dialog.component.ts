@@ -40,7 +40,7 @@ export class EditDomainDialogComponent implements OnInit {
     this.matcher = new MyErrorStateMatcher();
 
     this.domainForm = new FormGroup({
-      url: new FormControl(data.url, [Validators.required, domainValidator], this.domainValidator.bind(this))
+      url: new FormControl(data.url, [Validators.required, domainValidator, domainMissingProtocol], this.domainValidator.bind(this))
     });
 
     this.loadingUpdate = false;
@@ -83,18 +83,35 @@ export class EditDomainDialogComponent implements OnInit {
 }
 
 function domainValidator(control: FormControl): ValidationErrors | null {
-  let domain = _.trim(control.value);
-  domain = _.replace(domain, 'http://', '');
-  domain = _.replace(domain, 'https://', '');
-  domain = _.replace(domain, 'www.', '');
+  try {
+    const domain = _.trim(control.value);
 
-  let invalid = false;
-  if (domain === '') {
+    if (domain === '') {
+      return null;
+    }
+
+    const invalid = domain.endsWith('.') || domain.endsWith('/');
+
+    return invalid ? { invalidDomain: true } : null;
+  } catch(err) {
+    console.log(err);
     return null;
   }
+}
 
-  invalid = !_.includes(domain, '.');
-  invalid = invalid || _.includes(domain, '/');
+function domainMissingProtocol(control: FormControl): ValidationErrors | null {
+  try {
+    const domain = _.trim(control.value);
 
-  return invalid ? { invalidDomain: true } : null;
+    if (domain === '') {
+      return null;
+    }
+
+    const invalid = !domain.startsWith('http://') && !domain.startsWith('https://')
+
+    return invalid ? { domainMissingProtocol: true } : null;
+  } catch(err) {
+    console.log(err);
+    return null;
+  }
 }

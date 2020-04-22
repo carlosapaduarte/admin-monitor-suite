@@ -408,6 +408,7 @@
       "domain_label": "Domínio",
       "domain_exists": "O domínio inserido já existe",
       "domain_invalid": "Domínio inválido",
+      "domain_missing_protocol": "O protocolo do domínio está em falta (http or https)",
       "entity_label": "Entidade (opcional)",
       "entity_invalid": "A entidade inserida é inválida",
       "user_label": "Utilizador (opcional)",

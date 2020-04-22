@@ -10,17 +10,13 @@ import {
 } from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-//import {NgxXml2jsonService} from 'ngx-xml2json';
 import * as _ from 'lodash';
 
 import {GetService} from '../../services/get.service';
 import {CreateService} from '../../services/create.service';
-import {MessageService} from '../../services/message.service';
 
 import {
   ChooseObservatoryPagesDialogComponent
@@ -52,11 +48,7 @@ export class UriValidation {
       const size = _.size(uris);
       let hasError = false;
       for (let i = 0; i < size; i++) {
-        let url = _.replace(uris[i], 'http://', '');
-        url = _.replace(url, 'https://', '');
-        url = _.replace(url, 'www.', '');
-
-        if (!_.startsWith(url, domain)) {
+        if (!_.startsWith(uris[i], domain)) {
           AC.get('uris').setErrors({'invalidUri': true});
           hasError = true;
         }
@@ -112,13 +104,9 @@ export class AddPageDialogComponent implements OnInit {
   constructor(
     private get: GetService,
     private create: CreateService,
-    private message: MessageService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private location: Location,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<AddPageDialogComponent>,
-    //private xml2Json: NgxXml2jsonService
   ) {
     this.matcher = new MyErrorStateMatcher();
 
@@ -180,11 +168,6 @@ export class AddPageDialogComponent implements OnInit {
     // this.urisFromFile.join('\n') + this.pageForm.value.uris;
 
     const uris = JSON.stringify(_.without(_.uniq(_.map(urisWithFileUris, p => {
-      p = _.trim(p);
-      p = _.replace(p, 'http://', '');
-      p = _.replace(p, 'https://', '');
-      p = _.replace(p, 'www.', '');
-
       if (p[_.size(p) - 1] === '/') {
         p = p.substring(0, _.size(p) - 1);
       }
@@ -215,8 +198,7 @@ export class AddPageDialogComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           this.dialog.open(BackgroundEvaluationsInformationDialogComponent, {
-            width: '40vw',
-            disableClose: true
+            width: '40vw'
           });
           this.dialogRef.close();
         } else {
@@ -224,34 +206,6 @@ export class AddPageDialogComponent implements OnInit {
         }
       });
   }
-
-  /*private addPages(domainId: number, uris: any, observatorio: any): void {
-    this.loadingCreate = true;
-
-    const formData = {
-      domainId,
-      uris,
-      observatorio
-    };
-
-    this.create.newPages(formData)
-      .subscribe(success => {
-        if (success !== null) {
-          if (success) {
-            this.message.show('PAGES_PAGE.ADD.messages.success');
-
-            if (this.location.path() !== '/console/pages') {
-              this.router.navigateByUrl('/console/pages');
-            } else {
-              window.location.reload();
-            }
-
-            this.dialogRef.close();
-          }
-        }
-        this.loadingCreate = false;
-      });
-  }*/
 
   filterDomain(val: any): string[] {
     return this.domains.filter(domain =>
@@ -321,17 +275,10 @@ export class AddPageDialogComponent implements OnInit {
     reader.readAsText(file);
     reader.onload = () => {
       const parser = new DOMParser();
-      const xml = parser.parseFromString(reader.result.toString(), 'text/xml');
       const json = {}; // this.xml2Json.xmlToJson(xml);
       const urlJson = json['urlset']['url'];
 
       this.urisFromFile = _.clone(_.map(urlJson, u => u.loc));
-      /*console.log(this.urisFromFile);
-      this.urisFromFile = [];
-      for (let i = 1; i < urlJson.length; i++) {
-        result.push(urlJson[i]['loc']);
-        this.urisFromFile.push(urlJson[i]['loc']);
-      }*/
       this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
       this.fileLoading = false;
     };
@@ -345,11 +292,7 @@ export class AddPageDialogComponent implements OnInit {
     }
     if (uris !== undefined || uris !== []) {
       for (let url of uris) {
-        url = _.replace(url, 'http://', '');
-        url = _.replace(url, 'https://', '');
-        url = _.replace(url, 'www.', '');
         if (!_.startsWith(url, domain)) {
-          //console.log(url);
           this.fileErrorMessage = 'invalidDomain';
           return;
         } else {

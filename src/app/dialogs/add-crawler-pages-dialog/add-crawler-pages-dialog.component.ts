@@ -66,10 +66,6 @@ export class AddCrawlerPagesDialogComponent implements OnInit {
         if (uris !== null) {
           const cleanUris = JSON.stringify(_.map(uris, p => {
             let uriToClean = p['Uri'];
-            uriToClean = _.replace(uriToClean, 'http://', '');
-            uriToClean = _.replace(uriToClean, 'https://', '');
-            uriToClean = _.replace(uriToClean, 'www.', '');
-
             if (uriToClean[_.size(uriToClean) - 1] === '/') {
               uriToClean = uriToClean.substring(0, _.size(uriToClean) - 1);
             }

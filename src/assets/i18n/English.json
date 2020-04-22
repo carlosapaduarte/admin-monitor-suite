@@ -408,6 +408,7 @@
       "domain_label": "Domain",
       "domain_exists": "The inserted domain already exists",
       "domain_invalid": "Invalid domain",
+      "domain_missing_protocol": "The domain protocol is missing (http or https)",
       "entity_label": "Entity (optional)",
       "entity_invalid": "The inserted entity is invalid",
       "user_label": "User (optional)",
