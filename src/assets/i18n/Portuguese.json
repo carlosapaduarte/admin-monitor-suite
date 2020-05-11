@@ -33,8 +33,8 @@
         "subtitle": "Criar uma nova entidade"
       },
       "website": {
-        "title": "Website",
-        "subtitle": "Criar um novo website"
+        "title": "Sítio web",
+        "subtitle": "Criar um novo sítio web"
       },
       "domain": {
         "title": "Domínio",
@@ -51,7 +51,7 @@
     "users": "Utilizadores",
     "tags": "Tags",
     "entities": "Entidades",
-    "websites": "Websites",
+    "websites": "Sítios web",
     "domains": "Domínios",
     "crawler": "Crawler",
     "pages": "Páginas",
@@ -62,7 +62,7 @@
     "subtitle": "Sumário das aplicações",
     "users_label": "Utilizadores",
     "tags_label": "Tags",
-    "websites_label": "Websites",
+    "websites_label": "Sítios web",
     "sentence": "Total de {{value}}",
     "observatory": "Observatório",
     "monitor": "My Monitor",
@@ -76,7 +76,7 @@
       "label": "Pontuação média"
     },
     "tags": "Nº de categorias",
-    "websites": "Nº de websites",
+    "websites": "Nº de sítios web",
     "pages": "Nº de páginas",
     "score": "Pontuação",
     "newest_page_updated": "Avaliação mais recente duma página",
@@ -94,9 +94,9 @@
   "DIGITAL_STAMP": {
     "messages": {
       "generate_all_success": "Selos digitais gerados com sucesso",
-      "generate_website_success": "Selo digital do website gerado com sucesso",
+      "generate_website_success": "Selo digital do sítio web gerado com sucesso",
       "generate_all_error": "Erro ao gerar selos digitais",
-      "generate_website_error": "Erro ao gerar o selo digital do website"
+      "generate_website_error": "Erro ao gerar o selo digital do sítio web"
     }
   },
   "DIALOGS": {
@@ -115,9 +115,9 @@
       "common_errors": "Nº de páginas",
       "level": "Nível",
       "description": "Descrição",
-      "websites": "Websites",
+      "websites": "Sítios web",
       "pages": "Paǵinas",
-      "situations": "Ocurrências",
+      "situations": "Ocorrências",
       "tests_label": "Testes",
       "situations_label": "Nº de páginas"
     },
@@ -138,7 +138,7 @@
         "id_label": "ID",
         "username_label": "Utilizador",
         "app_label": "Aplicação",
-        "websites_label": "Nº Websites",
+        "websites_label": "Nº de sítios web",
         "register_label": "Data de registo",
         "last_login_label": "Última sessão",
         "edit_label": "Editar",
@@ -160,7 +160,7 @@
       "emails_error": "Email é <strong>inválido</strong>",
       "choose_app": "Aplicação a que se destina",
       "transfer_label": "Transferir páginas do observatório",
-      "websites_label": "Associar Websites",
+      "websites_label": "Associar sítios web",
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {
@@ -180,7 +180,7 @@
         "list": {
           "title": "Importante:",
           "item1": "O utilizador e toda a sua informação serão apagados",
-          "item2": "Se o utilizador pertencer à aplicação Study Monitor, os seus websites e tags serão apagados",
+          "item2": "Se o utilizador pertencer à aplicação Study Monitor, os seus sítios web e tags serão apagados",
           "item3": "Esta acção não pode ser revertida"
         },
         "submit": "Apagar utilizador"
@@ -209,9 +209,9 @@
         "observatorio_label": "Observatório",
         "user_label": "Utilizador",
         "creation_label": "Data de criação",
-        "websites_label": "Nº Websites",
+        "websites_label": "Nº de sítios web",
         "re_evaluate_label": "Reavaliar",
-        "re_evaluate_tooltip": "Reavaliar os websites da tag",
+        "re_evaluate_tooltip": "Reavaliar os sítios web da tag",
         "edit_label": "Editar",
         "edit_tooltip": "Editar esta tag",
         "see_tooltip": "Ver tag"
@@ -222,7 +222,7 @@
       "name_label": "Nome",
       "name_exists": "O nome inserido já existe",
       "observatorio_label": "Mostrar esta Tag no Observatório",
-      "websites_label": "Associar Websites (opcional)",
+      "websites_label": "Associar sítios web (opcional)",
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {
@@ -231,12 +231,12 @@
       },
       "progress": {
         "title": "Reavaliar tag - progresso",
-        "total_websites": "Total websites:",
-        "elapsed_websites": "Websites decorridos:",
-        "remaining_websites": "Websites em falta:",
-        "success_websites": "Websites com sucesso:",
-        "error_websites": "Websites com erro:",
-        "current_website": "Website atual:",
+        "total_websites": "Total sítios web:",
+        "elapsed_websites": "Sítios web decorridos:",
+        "remaining_websites": "Sítios web em falta:",
+        "success_websites": "Sítios web com sucesso:",
+        "error_websites": "Sítios web com erro:",
+        "current_website": "Sítio web atual:",
         "total_uris": "Total uris:",
         "elapsed_uris": "Uris decorridos:",
         "remaining_uris": "Uris em falta:",
@@ -244,7 +244,7 @@
         "error_uris": "Uris com erro:",
         "current_uri": "Uri atual:",
         "uris_with_errors": "Ver uris com erros",
-        "skip_website": "Saltar website",
+        "skip_website": "Saltar sítio web",
         "close": "Fechar",
         "close_dialog": {
           "title": "Terminar processo",
@@ -258,7 +258,7 @@
       "title": "Tag",
       "subtitle": "Editar",
       "description": "Editar esta tag",
-      "websites_label": "Associar Websites",
+      "websites_label": "Associar sítios web",
       "default": "Reverter alterações",
       "submit": "Atualizar",
       "delete": {
@@ -267,7 +267,7 @@
         "list": {
           "title": "Importante:",
           "item1": "Apenas esta tag será apagada",
-          "item2": "Os websites que pertencem a esta tag ficarão sem tag",
+          "item2": "Os sítios web que pertencem a esta tag ficarão sem tag",
           "item3": "Esta acção não pode ser revertida"
         },
         "submit": "Apagar tag"
@@ -303,9 +303,9 @@
         "short_name_label": "Nome abreviado",
         "long_name_label": "Nome completo",
         "creation_label": "Data de criação",
-        "websites_label": "Nº Websites",
+        "websites_label": "Nº sítios web",
         "re_evaluate_label": "Reavaliar",
-        "re_evaluate_tooltip": "Reavaliar os websites da entidade",
+        "re_evaluate_tooltip": "Reavaliar os sítios web da entidade",
         "edit_label": "Editar",
         "edit_tooltip": "Editar esta entidade",
         "see_tooltip": "Ver entidade"
@@ -317,7 +317,7 @@
       "short_name_exists": "O nome inserido já existe",
       "long_name_label": "Nome completo",
       "long_name_exists": "O nome inserido já existe",
-      "websites_label": "Associar Websites (opcional)",
+      "websites_label": "Associar sítios web (opcional)",
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {
@@ -326,12 +326,12 @@
       },
       "progress": {
         "title": "Reavaliar entidade - progresso",
-        "total_websites": "Total websites:",
-        "elapsed_websites": "Websites decorridos:",
-        "remaining_websites": "Websites em falta:",
-        "success_websites": "Websites com sucesso:",
-        "error_websites": "Websites com erro:",
-        "current_website": "Website atual:",
+        "total_websites": "Total sítios web:",
+        "elapsed_websites": "Sítios web decorridos:",
+        "remaining_websites": "Sítios web em falta:",
+        "success_websites": "Sítios web com sucesso:",
+        "error_websites": "Sítios web com erro:",
+        "current_website": "Sítio web atual:",
         "total_uris": "Total uris:",
         "elapsed_uris": "Uris decorridos:",
         "remaining_uris": "Uris em falta:",
@@ -339,7 +339,7 @@
         "error_uris": "Uris com erro:",
         "current_uri": "Uri atual:",
         "uris_with_errors": "Ver uris com erros",
-        "skip_website": "Saltar website",
+        "skip_website": "Saltar sítio web",
         "close": "Fechar",
         "close_dialog": {
           "title": "Terminar processo",
@@ -353,7 +353,7 @@
       "title": "Entidade",
       "subtitle": "Editar",
       "description": "Editar esta entidade",
-      "websites_label": "Associar Websites",
+      "websites_label": "Associar sítios web",
       "default": "Reverter alterações",
       "submit": "Atualizar",
       "delete": {
@@ -362,7 +362,7 @@
         "list": {
           "title": "Importante:",
           "item1": "Apenas esta entidade será apagada",
-          "item2": "Os websites que pertencem a esta entidade ficarão sem entidade",
+          "item2": "Os sítios web que pertencem a esta entidade ficarão sem entidade",
           "item3": "Esta acção não pode ser revertida"
         },
         "submit": "Apagar entidade"
@@ -380,11 +380,11 @@
     }
   },
   "WEBSITES_PAGE": {
-    "title": "Website:",
+    "title": "Sítio web:",
     "subtitle": "Utilizador:",
     "LIST": {
-      "title": "Websites",
-      "subtitle": "Lista de todos os websites",
+      "title": "Sítios web",
+      "subtitle": "Lista de todos os sítios web",
       "generate_stamps": "Criar/atualizar selos digitais",
       "table": {
         "id_label": "ID",
@@ -393,16 +393,16 @@
         "user_label": "Utilizador",
         "creation_label": "Data de criação",
         "re_evaluate_label": "Reavaliar",
-        "re_evaluate_tooltip": "Reavaliar as páginas do website",
+        "re_evaluate_tooltip": "Reavaliar as páginas do sítio web",
         "edit_label": "Editar",
-        "edit_tooltip": "Editar este website",
+        "edit_tooltip": "Editar este sítio web",
         "see_tooltip": "Ver selo digital",
         "stamp_label": "Selos digitais",
         "stamp_tooltip": "Criar/atualizar selo digital"
       }
     },
     "ADD": {
-      "title": "Criar um novo website",
+      "title": "Criar um novo sítio web",
       "name_label": "Nome",
       "name_exists": "O nome inserido já existe",
       "domain_label": "Domínio",
@@ -417,11 +417,11 @@
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {
-        "success": "Website criado com sucesso",
-        "error": "Erro ao criar o website"
+        "success": "Sítio web criado com sucesso",
+        "error": "Erro ao criar o sítio web"
       },
       "progress": {
-        "title": "Reavaliar website - progresso",
+        "title": "Reavaliar sítio web - progresso",
         "total_uris": "Total uris:",
         "elapsed_uris": "Uris decorridos:",
         "remaining_uris": "Uris em falta:",
@@ -439,9 +439,9 @@
       }
     },
     "UPDATE": {
-      "title": "Website",
+      "title": "Sítio web",
       "subtitle": "Editar",
-      "description": "Editar este website",
+      "description": "Editar este sítio web",
       "entity_label": "Entidade",
       "user_label": "Utilizador",
       "tags_label": "Associar tags",
@@ -451,7 +451,7 @@
       },
       "default": "Reverter alterações",
       "submit": "Atualizar",
-      "cant_edit": "Este website não pode ser editado pois pertence a um utilizador da aplicação Study Monitor.",
+      "cant_edit": "Este sítio web não pode ser editado pois pertence a um utilizador da aplicação Study Monitor.",
       "observatorio": {
         "title": "Escolher páginas para mostrar no observatório",
         "cancel": "Cancelar",
@@ -459,35 +459,35 @@
         "success": "Observatório atualizado com sucesso"
       },
       "delete_pages": {
-        "title": "Apagar páginas do website",
+        "title": "Apagar páginas do sítio web",
         "submit": "Apagar",
         "cancel": "Cancelar",
         "success": "Páginas apagadas com sucesso"
       },
       "delete": {
         "title": "Apagar",
-        "description": "Apagar este website",
+        "description": "Apagar este sítio web",
         "list": {
           "title": "Importante:",
-          "item1": "Este website será apagado",
-          "item2": "Todos os domínios que pertencem a este website serão apagados",
-          "item3": "As páginas deste website não serão apagadas",
+          "item1": "Este sítio web será apagado",
+          "item2": "Todos os domínios que pertencem a este sítio web serão apagados",
+          "item3": "As páginas deste sítio web não serão apagadas",
           "item4": "Esta acção não pode ser revertida"
         },
-        "submit": "Apagar website"
+        "submit": "Apagar sítio web"
       },
       "messages": {
-        "success": "Website atualizado com sucesso",
-        "error": "Erro ao atualizar website"
+        "success": "Sítio web atualizado com sucesso",
+        "error": "Erro ao atualizar sítio web"
       }
     },
     "DELETE": {
-      "title": "Apagar website",
-      "description": "Este website pertence a um utilizador do My Monitor. Por favor remova o website do utilizador antes de pode apagar o website.",
+      "title": "Apagar sítio web",
+      "description": "Este sítio web pertence a um utilizador do My Monitor. Por favor remova o sítio web do utilizador antes de pode apagar o sítio web.",
       "button": "Ok",
       "messages": {
-        "success": "Website apagado com sucesso",
-        "error": "Erro ao apagar website"
+        "success": "Sítio web apagado com sucesso",
+        "error": "Erro ao apagar sítio web"
       }
     }
   },
@@ -518,8 +518,8 @@
     },
     "ADD": {
       "title": "Criar um novo domínio",
-      "website_label": "Website",
-      "website_invalid": "Website inválido",
+      "website_label": "Sítio web",
+      "website_invalid": "Sítio web inválido",
       "current_domain_label": "Domínio atual",
       "domain_label": "Novo domínio",
       "domain_exists": "O domínio inserido já existe",
@@ -546,9 +546,9 @@
       "list": {
         "title": "Importante:",
         "item1": "O domínio selecionado será apagado",
-        "item2": "O website do domínio não será apagado",
+        "item2": "O sítio web do domínio não será apagado",
         "item3": "As paginas deste domínio não serão apagadas",
-        "item4": "Se este é o único domínio do website, ou se for o domínio activo, poderão ocorrer erros durante o cálculo de alguns dados",
+        "item4": "Se este é o único domínio do sítio web, ou se for o domínio activo, poderão ocorrer erros durante o cálculo de alguns dados",
         "item5": "Esta acção não pode ser revertida"
       },
       "submit": "Apagar domínio",
@@ -598,7 +598,7 @@
         "message": "Ocorreram alguns erros ao tentar adicionar as seguintes páginas:"
       },
       "add_sitemap": "Adicionar sitemap (ficheiro .xml ou .txt)",
-      "sitemap_warning": "Os ficheiros sitemap necessitam que a sua primeira página seja igual ao domínio do website",
+      "sitemap_warning": "Os ficheiros sitemap necessitam que a sua primeira página seja igual ao domínio do sítio web",
       "sitemap_uris_invalid": "Um dos uris no ficheiro dado é inválido",
       "sitemap_type_invalid": "O ficheiro dado não é do tipo .xml ou .txt",
       "file_input": "Escolha o ficheiro",
@@ -629,9 +629,9 @@
       "title": "Apagar páginas",
       "list": {
         "title": "Importante:",
-        "item1": "As páginas selecionadas seram apagadas",
-        "item2": "O website e domínio da página não serão apagados",
-        "item3": "Todo o histórico de avaliações da página será apagado",
+        "item1": "As páginas selecionadas irão ser apagadas",
+        "item2": "O sítio web e domínio da página não irão ser apagados",
+        "item3": "Todo o histórico de avaliações da página irá ser apagado",
         "item4": "A remoção poderá afetar os dados das aplicações Observatório, My Monitor e Study Monitor",
         "item5": "Esta acção não pode ser revertida"
       },
@@ -837,27 +837,27 @@
     "import": "Importar",
     "title": "Atenção!",
     "WEBSITE": {
-      "title": "Importar o website",
+      "title": "Importar o sítio web",
       "list": {
-        "item1": "Esta operação irá importar o website e o seu domínio (",
+        "item1": "Esta operação irá importar o sítio web e o seu domínio (",
         "item2": ") associado, bem como todas as suas páginas.",
-        "item3": "Se pretender importar este domínio para outro website existente, crie primeiro esse domínio no respetivo website.",
+        "item3": "Se pretender importar este domínio para outro sítio web existente, crie primeiro esse domínio no respetivo sítio web.",
         "item4": "Esta operação irá importar o domínio (",
-        "item5": ") associado a este website para o website ",
+        "item5": ") associado a este sítio web para o sítio web ",
         "item6": ", bem como todas as suas páginas.",
         "item7": "Esta ação não pode ser revertida!"
       },
       "warning": {
-        "item1": "Já existe um website com este nome!",
-        "item2": "Por favor, insira um novo nome para o website a importar:",
+        "item1": "Já existe um sítio web com este nome!",
+        "item2": "Por favor, insira um novo nome para o sítio web a importar:",
         "item3": "Novo nome"
       }
     },
     "TAG": {
       "title": "Importar a tag",
       "list": {
-        "item1": "Esta operação irá importar todos os websites e os seus domínios associados, bem como todas as suas páginas.",
-        "item2": "Se pretender importar algum domínio para um website existente, crie primeiro esse domínio no respetivo website.",
+        "item1": "Esta operação irá importar todos os sítios web e os seus domínios associados, bem como todas as suas páginas.",
+        "item2": "Se pretender importar algum domínio para um sítio web existente, crie primeiro esse domínio no respetivo sítio web.",
         "item3": "Esta ação não pode ser revertida!"
       },
       "warning": {
@@ -867,7 +867,7 @@
       },
       "errors": {
         "page": "Erro ao importar página",
-        "website": "Erro ao importar website",
+        "website": "Erro ao importar sítio web",
         "tag": "Erro ao importar tag"
       }
     }
