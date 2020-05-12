@@ -94,6 +94,7 @@ import { ListOfCrawlsComponent } from './pages/list-of-crawls/list-of-crawls.com
 import { CrawlerConfigDialogComponent } from './dialogs/crawler-config-dialog/crawler-config-dialog.component';
 import { ChoosePagesToReEvaluateDialogComponent } from './dialogs/choose-pages-to-re-evaluate-dialog/choose-pages-to-re-evaluate-dialog.component';
 import { BackgroundEvaluationsInformationDialogComponent } from './dialogs/background-evaluations-information-dialog/background-evaluations-information-dialog.component';
+import { EvaluationErrorDialogComponent } from './dialogs/evaluation-error-dialog/evaluation-error-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -210,7 +211,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ListOfCrawlsComponent,
     CrawlerConfigDialogComponent,
     ChoosePagesToReEvaluateDialogComponent,
-    BackgroundEvaluationsInformationDialogComponent
+    BackgroundEvaluationsInformationDialogComponent,
+    EvaluationErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -266,7 +268,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditDomainDialogComponent,
     CrawlerConfigDialogComponent,
     ChoosePagesToReEvaluateDialogComponent,
-    BackgroundEvaluationsInformationDialogComponent
+    BackgroundEvaluationsInformationDialogComponent,
+    EvaluationErrorDialogComponent
   ],
   providers: [
     AdminAuthGuard,

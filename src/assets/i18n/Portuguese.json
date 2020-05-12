@@ -676,6 +676,20 @@
         "error": "Erro ao apagar avaliação"
       }
     },
+    "ERROR": {
+      "DIALOG": {
+        "title": "Erro na avaliação",
+        "message": "A avalição desta página resultou em erro. Por favor verifique que:",
+        "item1": "o URL existe",
+        "item2": "o URL é igual ao URL final depois de todos os redirecionamentos",
+        "item3": "o certificado é válido, caso esteja a usar https",
+        "message2": "Se tudo estiver correto, por favor contacte a equipa de suporte para ajudar a identificar o problema.",
+        "message3": "Caso queira tentar avaliar novamente, carregue no botão abaixo.",
+        "try_again": "Tentar novamente",
+        "close": "Fechar",
+        "error": "Ocorreu um erro ao tentar atualizar a lista de espera de avaliações."
+      }
+    },
     "DIALOG": {
       "title": "Informação",
       "message": "As páginas irão ser avaliadas em segundo plano, e a sua informação estará disponível assim que possível.",

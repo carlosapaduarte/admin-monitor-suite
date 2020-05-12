@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { DeletePageDialogComponent } from '../../../dialogs/delete-page-dialog/delete-page-dialog.component';
+import { EvaluationErrorDialogComponent } from '../../../dialogs/evaluation-error-dialog/evaluation-error-dialog.component';
 
 import { UpdateService } from '../../../services/update.service';
 import { OpenDataService } from '../../../services/open-data.service';
@@ -103,6 +104,15 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
           this.deletePages.next(_.map(this.selection.selected, 'PageId'));
         }
       });
+  }
+
+  openErrorDialog(evaluationListId: number): void {
+    this.dialog.open(EvaluationErrorDialogComponent, {
+      width: '40vw',
+      data: {
+        evaluationListId
+      }
+    });
   }
 
   sendFile() {

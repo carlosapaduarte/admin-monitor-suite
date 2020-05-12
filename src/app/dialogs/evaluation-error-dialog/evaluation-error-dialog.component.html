@@ -1,0 +1,25 @@
+<div fxLayout="row">
+  <h1 class="mat-display-1" mat-dialog-title>{{ "EVALUATIONS_PAGE.ERROR.DIALOG.title" | translate }}</h1>
+  <span fxFlex></span>
+  <button mat-icon-button aria-label="Close dialog" mat-dialog-close>
+    <mat-icon aria-hidden="false">close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <p>{{ "EVALUATIONS_PAGE.ERROR.DIALOG.message" | translate }}</p>
+  <ul>
+    <li>{{ "EVALUATIONS_PAGE.ERROR.DIALOG.item1" | translate }}</li>
+    <li>{{ "EVALUATIONS_PAGE.ERROR.DIALOG.item2" | translate }}</li>
+    <li>{{ "EVALUATIONS_PAGE.ERROR.DIALOG.item3" | translate }}</li>
+  </ul>
+  <p>{{ "EVALUATIONS_PAGE.ERROR.DIALOG.message2" | translate }}</p>
+  <p>{{ "EVALUATIONS_PAGE.ERROR.DIALOG.message3" | translate }}</p>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+  <button mat-flat-button color="primary" (click)="tryAgain()">
+    {{ "EVALUATIONS_PAGE.ERROR.DIALOG.try_again" | translate }}
+  </button>
+  <button mat-flat-button color="warn" type="button" mat-dialog-close>
+    {{ "EVALUATIONS_PAGE.ERROR.DIALOG.close" | translate }}
+  </button>
+</mat-dialog-actions>

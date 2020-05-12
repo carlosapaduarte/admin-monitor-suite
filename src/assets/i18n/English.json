@@ -678,6 +678,20 @@
         "error": "Error deleting evaluation"
       }
     },
+    "ERROR": {
+      "DIALOG": {
+        "title": "Evaluation error",
+        "message": "This page evaluation resulted in error. Please check that:",
+        "item1": "the URL exists",
+        "item2": "the URL is the final URL after the redirects",
+        "item3": "the certificate is valid if using https",
+        "message2": "If everything is correct, please contact the support team to help identify the problem.",
+        "message3": "In case you want to try again the evaluation, click the button below.",
+        "try_again": "Try again",
+        "close": "Close",
+        "error": "An error as occurred while trying to updating the evaluation list."
+      }
+    },
     "DIALOG": {
       "title": "Information",
       "message": "The pages will be evaluated in the background and their information will be available as soon as possible.",

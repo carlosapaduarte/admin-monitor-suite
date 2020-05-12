@@ -293,6 +293,30 @@ export class UpdateService {
     );
   }
 
+  evaluationListError(evaluationListId: number): Observable<boolean> {
+    return this.http.post<any>(this.config.getServer('/evaluation/list/tryAgain'), { evaluationListId }, {observe: 'response'}).pipe(
+      retry(3),
+      map(res => {
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        const response = <Response> res.body;
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <boolean> response.result;
+      }),
+      catchError(err => {
+        this.message.show('EVALUATIONS_PAGE.ERROR.DIALOG.error');
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   /*reEvaluateTagWebsites(data: any): Observable<boolean> {
     data.cookie = this.userService.getUserData();
 
