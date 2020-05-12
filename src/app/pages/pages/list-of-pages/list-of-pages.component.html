@@ -86,11 +86,22 @@
         </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="State">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="5">
+          {{ "PAGES_PAGE.LIST.table.state" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="5">
+          <mat-icon *ngIf="element.Is_Evaluating === 1" class="md-24" matTooltip="{{ 'PAGES_PAGE.LIST.table.state_evaluating' | translate }}" aria-label="">watch_later</mat-icon>
+          <mat-icon *ngIf="element.Is_Evaluating === 0 && element.Error === null" class="md-24" matTooltip="{{ 'PAGES_PAGE.LIST.table.state_waiting' | translate }}" aria-label="">schedule</mat-icon>
+          <mat-icon *ngIf="element.Error !== null" class="md-24" matTooltip="{{ 'PAGES_PAGE.LIST.table.state_error' | translate }}" aria-label="">error_outline</mat-icon>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="Show_In">
-        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="7">
           {{ "PAGES_PAGE.LIST.table.observatory_label" | translate }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="10">
+        <mat-cell *matCellDef="let element" fxFlex="7">
           <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="setPageInObservatory($event, element)"
             [checked]="element.Show_In[2] === '1'">
           </mat-checkbox>
@@ -98,13 +109,13 @@
       </ng-container>
 
       <ng-container matColumnDef="delete">
-        <mat-header-cell *matHeaderCellDef fxFlex="10">
+        <mat-header-cell *matHeaderCellDef fxFlex="5">
           <mat-checkbox color="warn" (change)="$event ? masterToggle() : null"
             [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
           </mat-checkbox>
         </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="10">
+        <mat-cell *matCellDef="let element" fxFlex="5">
           <mat-checkbox color="warn" (click)="$event.stopPropagation()"
             (change)="$event ? selection.toggle(element) : null" [checked]="selection.isSelected(element)"
             [aria-label]="checkboxLabel(element)">

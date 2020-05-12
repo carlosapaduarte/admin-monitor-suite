@@ -25,8 +25,8 @@
         "subtitle": "Criar um novo utilizador"
       },
       "tag": {
-        "title": "Tag",
-        "subtitle": "Criar uma nova tag"
+        "title": "Categoria",
+        "subtitle": "Criar uma nova categoria"
       },
       "entity": {
         "title": "Entidade",
@@ -49,7 +49,7 @@
   "MENU": {
     "home": "Início",
     "users": "Utilizadores",
-    "tags": "Tags",
+    "tags": "Categorias",
     "entities": "Entidades",
     "websites": "Sítios web",
     "domains": "Domínios",
@@ -61,7 +61,7 @@
     "title": "Bem vindo",
     "subtitle": "Sumário das aplicações",
     "users_label": "Utilizadores",
-    "tags_label": "Tags",
+    "tags_label": "Categorias",
     "websites_label": "Sítios web",
     "sentence": "Total de {{value}}",
     "observatory": "Observatório",
@@ -180,7 +180,7 @@
         "list": {
           "title": "Importante:",
           "item1": "O utilizador e toda a sua informação serão apagados",
-          "item2": "Se o utilizador pertencer à aplicação Study Monitor, os seus sítios web e tags serão apagados",
+          "item2": "Se o utilizador pertencer à aplicação Study Monitor, os seus sítios web e categorias serão apagados",
           "item3": "Esta acção não pode ser revertida"
         },
         "submit": "Apagar utilizador"
@@ -198,11 +198,11 @@
     }
   },
   "TAGS_PAGE": {
-    "title": "Tag:",
+    "title": "Categoria:",
     "subtitle": "Utilizador:",
     "LIST": {
-      "title": "Tags",
-      "subtitle": "Lista de todas as Tags",
+      "title": "Categorias",
+      "subtitle": "Lista de todas as categorias",
       "table": {
         "id_label": "ID",
         "name_label": "Nome",
@@ -211,26 +211,26 @@
         "creation_label": "Data de criação",
         "websites_label": "Nº de sítios web",
         "re_evaluate_label": "Reavaliar",
-        "re_evaluate_tooltip": "Reavaliar os sítios web da tag",
+        "re_evaluate_tooltip": "Reavaliar os sítios web da categoria",
         "edit_label": "Editar",
-        "edit_tooltip": "Editar esta tag",
-        "see_tooltip": "Ver tag"
+        "edit_tooltip": "Editar esta categoria",
+        "see_tooltip": "Ver categoria"
       }
     },
     "ADD": {
-      "title": "Criar uma nova Tag",
+      "title": "Criar uma nova categoria",
       "name_label": "Nome",
       "name_exists": "O nome inserido já existe",
-      "observatorio_label": "Mostrar esta Tag no Observatório",
+      "observatorio_label": "Mostrar esta categoria no Observatório",
       "websites_label": "Associar sítios web (opcional)",
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {
-        "success": "Tag criada com sucesso",
-        "error": "Erro ao criar a tag"
+        "success": "Categoria criada com sucesso",
+        "error": "Erro ao criar a categoria"
       },
       "progress": {
-        "title": "Reavaliar tag - progresso",
+        "title": "Reavaliar categoria - progresso",
         "total_websites": "Total sítios web:",
         "elapsed_websites": "Sítios web decorridos:",
         "remaining_websites": "Sítios web em falta:",
@@ -255,41 +255,41 @@
       }
     },
     "UPDATE": {
-      "title": "Tag",
+      "title": "Categoria",
       "subtitle": "Editar",
-      "description": "Editar esta tag",
+      "description": "Editar esta categoria",
       "websites_label": "Associar sítios web",
       "default": "Reverter alterações",
       "submit": "Atualizar",
       "delete": {
         "title": "Apagar",
-        "description": "Apagar esta tag",
+        "description": "Apagar esta categoria",
         "list": {
           "title": "Importante:",
-          "item1": "Apenas esta tag será apagada",
-          "item2": "Os sítios web que pertencem a esta tag ficarão sem tag",
+          "item1": "Apenas esta categoria será apagada",
+          "item2": "Os sítios web que pertencem a esta categoria ficarão sem categoria",
           "item3": "Esta acção não pode ser revertida"
         },
-        "submit": "Apagar tag"
+        "submit": "Apagar categoria"
       },
       "messages": {
-        "success": "Tag atualizada com sucesso",
-        "error": "Erro ao atualizar tag"
+        "success": "Categoria atualizada com sucesso",
+        "error": "Erro ao atualizar categoria"
       },
       "user_tag": {
-        "description": "Esta tag pertence a um utilizador da aplicação Study Monitor. Pretende realizar uma cópia e transformá-la numa tag oficial?",
-        "tag_name": "Novo nome da tag oficial",
+        "description": "Esta categoria pertence a um utilizador da aplicação Study Monitor. Pretende realizar uma cópia e transformá-la numa categoria oficial?",
+        "tag_name": "Novo nome da categoria oficial",
         "submit": "Transformar",
         "messages": {
-          "success": "Tag copiada com sucesso",
-          "error": "Erro ao copiar tag"
+          "success": "Categoria copiada com sucesso",
+          "error": "Erro ao copiar categoria"
         }
       }
     },
     "DELETE": {
       "messages": {
-        "success": "Tag apagada com sucesso",
-        "error": "Erro ao apagar a tag"
+        "success": "Categoria apagada com sucesso",
+        "error": "Erro ao apagar a categoria"
       }
     }
   },
@@ -413,7 +413,7 @@
       "entity_invalid": "A entidade inserida é inválida",
       "user_label": "Utilizador (opcional)",
       "user_invalid": "O utilizador inserido é inválido",
-      "tags_label": "Associar tags (opcional)",
+      "tags_label": "Associar categorias (opcional)",
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {
@@ -444,7 +444,7 @@
       "description": "Editar este sítio web",
       "entity_label": "Entidade",
       "user_label": "Utilizador",
-      "tags_label": "Associar tags",
+      "tags_label": "Associar categorias",
       "manage": {
         "observatory": "Escolher páginas para o observatório",
         "delete": "Apagar páginas"
@@ -570,6 +570,10 @@
         "uri_label": "Uri",
         "score_label": "Pontuação",
         "last_updated_label": "Última avaliação",
+        "state": "Estado",
+        "state_evaluating": "A página está a ser avaliada",
+        "state_waiting": "A página está à espera de ser avaliada",
+        "state_error": "A avaliação da página resultou em erro",
         "observatory_label": "Observatório",
         "delete_label": "Apagar",
         "delete_tooltip": "Apagar esta página",
@@ -853,22 +857,22 @@
         "item3": "Novo nome"
       }
     },
-    "TAG": {
-      "title": "Importar a tag",
+    "categoria": {
+      "title": "Importar a categoria",
       "list": {
         "item1": "Esta operação irá importar todos os sítios web e os seus domínios associados, bem como todas as suas páginas.",
         "item2": "Se pretender importar algum domínio para um sítio web existente, crie primeiro esse domínio no respetivo sítio web.",
         "item3": "Esta ação não pode ser revertida!"
       },
       "warning": {
-        "item1": "Já existe uma tag com este nome!",
-        "item2": "Por favor, insira um novo nome para a tag a importar:",
+        "item1": "Já existe uma categoria com este nome!",
+        "item2": "Por favor, insira um novo nome para a categoria a importar:",
         "item3": "Novo nome"
       },
       "errors": {
         "page": "Erro ao importar página",
         "website": "Erro ao importar sítio web",
-        "tag": "Erro ao importar tag"
+        "tag": "Erro ao importar categoria"
       }
     }
   },

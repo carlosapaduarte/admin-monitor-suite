@@ -27,6 +27,7 @@ export class ListOfPagesComponent implements OnInit, AfterViewInit {
     'Uri',
     'Score',
     'Evaluation_Date',
+    'State',
     'Show_In',
     'delete',
     //'see'
