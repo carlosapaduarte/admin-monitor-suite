@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { GetService } from '../../services/get.service';
 import { DeleteService } from '../../services/delete.service';
 
+import { Website } from '../../models/website.object';
+
 @Component({
   selector: 'app-domain',
   templateUrl: './domain.component.html',
@@ -21,6 +23,8 @@ export class DomainComponent implements OnInit, OnDestroy {
   user: string;
   domain: string;
   pages: Array<any>;
+
+  websiteObject: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,7 +53,14 @@ export class DomainComponent implements OnInit, OnDestroy {
     this.get.listOfDomainPages(this.user, encodeURIComponent(this.domain))
       .subscribe(pages => {
         if (pages !== null) {
-          this.pages = pages;
+          this.pages = _.clone(pages);
+
+          pages = pages.filter(p => p.Score !== null);
+
+          this.websiteObject = new Website();
+          for (const page of pages) {
+            this.websiteObject.addPage(page.Score, page.Errors, page.Tot, page.A, page.AA, page.AAA, page.Evaluation_Date);
+          }
         } else {
           this.error = true;
         }

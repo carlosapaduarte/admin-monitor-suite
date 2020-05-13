@@ -95,6 +95,9 @@ import { CrawlerConfigDialogComponent } from './dialogs/crawler-config-dialog/cr
 import { ChoosePagesToReEvaluateDialogComponent } from './dialogs/choose-pages-to-re-evaluate-dialog/choose-pages-to-re-evaluate-dialog.component';
 import { BackgroundEvaluationsInformationDialogComponent } from './dialogs/background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 import { EvaluationErrorDialogComponent } from './dialogs/evaluation-error-dialog/evaluation-error-dialog.component';
+import { TopFiveErrorsComponent } from './global/top-five-errors/top-five-errors.component';
+import { TopFiveBestPracticesComponent } from './global/top-five-best-practices/top-five-best-practices.component';
+import { AccessibilityPlotComponent } from './global/accessibility-plot/accessibility-plot.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -212,7 +215,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     CrawlerConfigDialogComponent,
     ChoosePagesToReEvaluateDialogComponent,
     BackgroundEvaluationsInformationDialogComponent,
-    EvaluationErrorDialogComponent
+    EvaluationErrorDialogComponent,
+    TopFiveErrorsComponent,
+    TopFiveBestPracticesComponent,
+    AccessibilityPlotComponent
   ],
   imports: [
     BrowserModule,

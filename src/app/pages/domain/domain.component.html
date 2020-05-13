@@ -13,6 +13,10 @@
 </mat-card>
 <br>
 <app-domain-statistics *ngIf="!loading && !error" [pages]="pages"></app-domain-statistics>
+<app-top-five-errors *ngIf="!loading && !error" [data]="websiteObject.errors"></app-top-five-errors>
+<app-top-five-best-practices *ngIf="!loading && !error" [data]="websiteObject.success"></app-top-five-best-practices>
+<br>
+<app-accessibility-plot *ngIf="!loading && !error" [data]="websiteObject.getAllScores()"></app-accessibility-plot>
 <br>
 <app-list-of-pages *ngIf="!loading && !error" [pages]="pages" (deletePage)="deletePage($event)"></app-list-of-pages>
 <app-loading *ngIf="loading"></app-loading>

@@ -7,6 +7,8 @@ import { GetService } from '../../services/get.service';
 import { DeleteService } from '../../services/delete.service';
 import { MessageService } from '../../services/message.service';
 
+import { Website } from '../../models/website.object';
+
 @Component({
   selector: 'app-website',
   templateUrl: './website.component.html',
@@ -26,6 +28,8 @@ export class WebsiteComponent implements OnInit, OnDestroy {
   domains: Array<any>;
   activeDomain: string;
   pages: Array<any>;
+
+  websiteObject: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -75,12 +79,25 @@ export class WebsiteComponent implements OnInit, OnDestroy {
             this.errorNoActiveDomains = true;
           } else {
             this.activeDomain = _.find(this.domains, ['Active', 1 ]).Url;
+
+            this.get.listOfDomainPages(this.user, encodeURIComponent(this.activeDomain))
+              .subscribe(pages => {
+                this.pages = _.clone(pages);
+
+                pages = pages.filter(p => p.Score !== null);
+
+                this.websiteObject = new Website();
+                for (const page of pages) {
+                  this.websiteObject.addPage(page.Score, page.Errors, page.Tot, page.A, page.AA, page.AAA, page.Evaluation_Date);
+                }
+                this.loading = false;
+                this.cd.detectChanges();
+              });
           }
         } else {
           this.error = true;
         }
 
-        this.loading = false;
         this.cd.detectChanges();
       });
   }

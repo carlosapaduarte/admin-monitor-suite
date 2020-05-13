@@ -604,7 +604,7 @@ export class GetService {
     );
   }
 
-  listOfDomainPages(user: string, domain: string): Observable<Array<Page>> {
+  listOfDomainPages(user: string, domain: string): Observable<Array<any>> {
     return this.http.get<any>(this.config.getServer(`/domain/${encodeURIComponent(domain)}/user/${user}/pages`), {observe: 'response'}).pipe(
       retry(3),
       map(res => {
@@ -618,7 +618,7 @@ export class GetService {
           throw new AdminError(response.success, response.message);
         }
 
-        return <Array<Page>> response.result;
+        return <Array<any>> response.result;
       }),
       catchError(err => {
         console.log(err);
