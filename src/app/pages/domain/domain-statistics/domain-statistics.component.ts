@@ -50,7 +50,7 @@ export class DomainStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pages = this.pages.map(p => {
+    this.pages = this.pages.filter(p => p.Score !== null).map(p => {
       p.Score = Number(p.Score);
       return p;
     });

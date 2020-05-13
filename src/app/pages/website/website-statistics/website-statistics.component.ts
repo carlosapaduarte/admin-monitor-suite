@@ -75,7 +75,7 @@ export class WebsiteStatisticsComponent implements OnInit {
       .subscribe(pages => {
         if (pages !== null) {
           this.pages = pages;
-          this.pages = this.pages.map(p => {
+          this.pages = this.pages.filter(p => p.Score !== null).map(p => {
             p.Score = Number(p.Score);
             return p;
           });

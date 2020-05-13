@@ -89,7 +89,8 @@
     "pages_without_errors_a": "Conformes A: sem erros de nível A",
     "pages_without_errors_a_aa": "Conformes AA: sem erros de nível A+AA",
     "pages_without_errors_a_aa_aaa": "Conformes AAA: sem erros de nível A+AA+AAA",
-    "note": "Os dados usados pertecem ao domínio ativo"
+    "note": "Os dados usados pertecem ao domínio ativo. Apenas as páginas com avaliações foram contabilizadas",
+    "note2": "Apenas as páginas com avaliações foram contabilizadas"
   },
   "DIGITAL_STAMP": {
     "messages": {
