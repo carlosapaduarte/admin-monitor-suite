@@ -105,4 +105,8 @@ export class ListOfWebsitesComponent implements OnInit {
         }
       });
   }
+
+  getDigitalStampUrl(websiteId: number): string {
+    return this.digitalStamp.getDigitalStampUrl(websiteId);
+  }
 }

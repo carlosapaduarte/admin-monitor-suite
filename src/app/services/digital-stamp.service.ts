@@ -5,7 +5,6 @@ import { map, catchError } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { ConfigService } from './config.service';
-import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
 import { Response } from '../models/response';
@@ -18,10 +17,13 @@ export class DigitalStampService {
 
   constructor(
     private http: HttpClient,
-    private userService: UserService,
     private message: MessageService,
     private config: ConfigService
   ) { }
+
+  getDigitalStampUrl(websiteId: number): string {
+    return this.config.getServer('/stamps/' + websiteId + '.svg');
+  }
 
   generateForAll(): Observable<Array<string>> {
     return this.http.post<any>(this.config.getServer('/stamp/all'), {}, {observe: 'response'}).pipe(
