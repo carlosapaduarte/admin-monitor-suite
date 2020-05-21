@@ -49,6 +49,7 @@ export class AddUserDialogComponent implements OnInit {
   @ViewChild('emailsChipList', { static: true }) emailsChipList: MatChipList;
 
   loadingCreate: boolean;
+  loadingTags: boolean;
   loadingWebsites: boolean;
 
   matcher: ErrorStateMatcher;
@@ -65,7 +66,11 @@ export class AddUserDialogComponent implements OnInit {
   emails: Array<string>;
   siteTransferList: Array<String>;
 
+  filteredTags: Observable<any[]>;
   filteredWebsites: Observable<any[]>;
+
+  tags: any;
+  selectedTags: any;
 
   websites: any;
   selectedWebsites: any;
@@ -75,6 +80,7 @@ export class AddUserDialogComponent implements OnInit {
   userForm: FormGroup;
 
   @ViewChild('websiteInput') websiteInput: ElementRef;
+  @ViewChild('tagInput') tagInput: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -107,6 +113,7 @@ export class AddUserDialogComponent implements OnInit {
       app: new FormControl('', [
         Validators.required
       ]),
+      tags: new FormControl({value: '', disabled: true}),
       transfer: new FormControl({value: '', disabled: true}),
       websites: new FormControl({value: '', disabled: true})
     },
@@ -116,7 +123,10 @@ export class AddUserDialogComponent implements OnInit {
 
     this.names = [];
     this.emails = [];
+    this.selectedTags = [];
     this.selectedWebsites = [];
+    this.loadingWebsites = true;
+    this.loadingTags = true;
   }
 
   ngOnInit(): void {
@@ -132,6 +142,18 @@ export class AddUserDialogComponent implements OnInit {
         this.loadingWebsites = false;
       });
 
+    this.get.listOfOfficialTags()
+      .subscribe(tags => {
+        if (tags !== null) {
+          this.tags = tags;
+          this.filteredTags = this.userForm.controls.tags.valueChanges.pipe(
+            startWith(null),
+            map((tag: any | null) => tag ? this.filterTag(tag) : this.tags.slice()));
+        }
+
+        this.loadingTags = false;
+      });
+
     this.userForm.get('emails').statusChanges.subscribe(status =>
      this.emailsChipList.errorState = status === 'INVALID' ? true : false);
   }
@@ -139,18 +161,32 @@ export class AddUserDialogComponent implements OnInit {
   changeApp(): void {
     if (_.isEqual(this.userForm.value.app, 'monitor')) {
       this.userForm.controls.websites.enable();
+      this.userForm.controls.tags.reset();
+      this.userForm.controls.tags.disable();
+      this.selectedTags = [];
+    } if (_.isEqual(this.userForm.value.app, 'studies')) {
+      this.userForm.controls.tags.enable();
+      this.userForm.controls.websites.reset();
+      this.userForm.controls.websites.disable();
+      this.userForm.controls.transfer.disable();
+      this.selectedWebsites = [];
+      this.userForm.controls.transfer.setValue(false);
     } else {
       this.userForm.controls.websites.reset();
       this.userForm.controls.websites.disable();
       this.userForm.controls.transfer.disable();
       this.selectedWebsites = [];
       this.userForm.controls.transfer.setValue(false);
+      this.userForm.controls.tags.reset();
+      this.userForm.controls.tags.disable();
+      this.selectedTags = [];
     }
   }
 
   resetForm(): void {
     this.userForm.reset();
     this.selectedWebsites = [];
+    this.selectedTags = [];
     this.emails = [];
     this.names = [];
   }
@@ -164,6 +200,7 @@ export class AddUserDialogComponent implements OnInit {
     const names = _.join(this.names, ';');
     const emails = _.join(this.emails, ';');
     const type = this.userForm.value.app;
+    const tags = _.map(this.selectedTags, 'TagId');
     const websites = _.map(this.selectedWebsites, 'WebsiteId');
     const transfer = this.userForm.value.transfer;
     const formData = {
@@ -173,6 +210,7 @@ export class AddUserDialogComponent implements OnInit {
       names,
       emails,
       type,
+      tags: JSON.stringify(tags),
       websites: JSON.stringify(websites),
       transfer
     };
@@ -258,14 +296,31 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
+  removeTag(tag: any): void {
+    const index = _.findIndex(this.selectedTags, tag);
+
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    }
+  }
+
   removeWebsites(): void {
     this.selectedWebsites = [];
     this.userForm.controls.transfer.disable();
     this.userForm.controls.transfer.setValue(false);
   }
 
+  removeTags(): void {
+    this.selectedTags = [];
+  }
+
   removeTransferList(website: any): void {
     this.siteTransferList = null;
+  }
+
+  filterTag(name: string) {
+    return this.tags.filter(tag =>
+        _.includes(tag.Name.toLowerCase(), name.toLowerCase()));
   }
 
   filterWebsite(name: string) {
@@ -285,6 +340,14 @@ export class AddUserDialogComponent implements OnInit {
     }
   }
 
+  selectedTag(event: MatAutocompleteSelectedEvent): void {
+    const index = _.findIndex(this.tags, t => t['Name'] === event.option.viewValue);
+    if (!_.includes(this.selectedTags, this.tags[index])) {
+      this.selectedTags.push(this.tags[index]);
+      this.tagInput.nativeElement.value = '';
+      this.userForm.controls.tags.setValue(null);
+    }
+  }
 
   usernameValidator(control: AbstractControl): Observable<any> {
     const username = _.trim(control.value);

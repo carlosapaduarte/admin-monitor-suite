@@ -112,6 +112,33 @@
         <mat-radio-button color="primary" value="monitor">My Monitor</mat-radio-button>
       </mat-radio-group>
     </div>
+    <div class="add-tags-block" *ngIf="!loadingTags && userForm.value.app && userForm.value.app === 'studies'"
+      fxLayout="column" fxLayoutAlign="start stretch">
+      <mat-form-field>
+        <label for="user_tags_input">
+          {{ "USERS_PAGE.ADD.tags_label" | translate }}
+        </label>
+        <mat-chip-list #tagsChipList>
+          <mat-chip *ngFor="let tag of selectedTags" [selectable]="selectable" [removable]="removable"
+            (removed)="removeTag(tag)">
+            {{tag.Name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input id="user_tags_input" #tagInput formControlName="tags" [matAutocomplete]="auto2"
+            [matChipInputFor]="tagsChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur" />
+          <button type="button" *ngIf="selectedTags.length > 0" matSuffix mat-icon-button aria-label="Clear"
+            (click)="removeTags()">
+            <mat-icon aria-hidden="false">close</mat-icon>
+          </button>
+        </mat-chip-list>
+        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="selectedTag($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.Name">
+            {{ tag.Name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
     <div class="add-websites-block" *ngIf="!loadingWebsites && userForm.value.app && userForm.value.app === 'monitor'"
       fxLayout="column" fxLayoutAlign="start stretch">
       <mat-form-field>

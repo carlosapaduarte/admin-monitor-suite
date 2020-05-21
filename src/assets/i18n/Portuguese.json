@@ -183,6 +183,7 @@
       "choose_app": "Aplicação a que se destina",
       "transfer_label": "Transferir páginas do observatório",
       "websites_label": "Associar sítios web",
+      "tags_label": "Associar categorias",
       "reset": "Limpar",
       "submit": "Criar",
       "messages": {

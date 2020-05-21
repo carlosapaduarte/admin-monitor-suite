@@ -183,6 +183,7 @@
       "choose_app": "Application",
       "transfer_label": "Transfer pages from observatory",
       "websites_label": "Choose websites",
+      "tags_label": "Choose tags",
       "reset": "Reset",
       "submit": "Create",
       "messages": {
