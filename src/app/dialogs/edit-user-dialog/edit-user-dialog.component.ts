@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, Validators, FormGroupDirective, NgForm } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormControlName, FormBuilder, ValidationErrors, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -96,7 +96,7 @@ export class EditUserDialogComponent implements OnInit {
 
     this.userForm = this.formBuilder.group({
       username: new FormControl({value: '', disabled: true}),
-      password: new FormControl(),
+      password: new FormControl('', [passwordValidator]),
       confirmPassword: new FormControl(),
       names: new FormControl(),
       emails: new FormControl(),
@@ -329,4 +329,53 @@ export class EditUserDialogComponent implements OnInit {
 
     return error;
   }
+}
+
+function passwordValidator(control: FormControl): ValidationErrors | null {
+  try {
+    const password = control.value;
+
+    if (password.length > 0) {
+      const errors = {};
+      const isShort = password.length < 8;
+
+      if (isShort) {
+        errors['isShort'] = true;
+      }
+
+      const hasUpperCase = password.toLowerCase() !== password;
+
+      if (!hasUpperCase) {
+        errors['doesNotHaveUpperCase'] = true;
+      }
+
+      const hasLowerCase = password.toUpperCase() !== password;
+
+      if (!hasLowerCase) {
+        errors['doesNotHaveLowerCase'] = true;
+      }
+
+      const specialFormat = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+      const hasSpecial = specialFormat.test(password);
+
+      if (!hasSpecial) {
+        errors['doesNotHaveSpecial'] = true;
+      }
+
+      const numberFormat = /\d/g;
+      const hasNumber = numberFormat.test(password);
+
+      if (!hasNumber) {
+        errors['doesNotHaveNumber'] = true;
+      }
+
+      if (Object.keys(errors).length > 0) {
+        return errors;
+      }
+    }
+  } catch(err) {
+    console.log(err);
+  }
+
+  return null;
 }

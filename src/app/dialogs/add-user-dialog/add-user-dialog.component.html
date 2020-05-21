@@ -30,17 +30,22 @@
         <label for="user_password_input">
           {{ "USERS_PAGE.ADD.password_label" | translate }}
         </label>
-        <input id="user_password_input" matInput [type]="hide ? 'password' : 'text'" formControlName="password"
-          required>
+        <input id="user_password_input" matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
         <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
           <mat-icon *ngIf="hide" aria-hidden="false" attr.aria-label="{{ 'LOGIN.hide_password' | translate }}">
             visibility</mat-icon>
           <mat-icon *ngIf="!hide" aria-hidden="false" attr.aria-label="{{ 'LOGIN.show_password' | translate }}">
             visibility_off</mat-icon>
         </button>
-        <mat-error *ngIf="userForm.controls.password.hasError('required')"
-          [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-hint>{{ "USERS_PAGE.ADD.password_hint" | translate }}</mat-hint>
+        <mat-error *ngIf="userForm.controls.password.hasError('required')" [innerHTML]="'MISC.required_field' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.password.hasError('isShort')" [innerHTML]="'USERS_PAGE.ADD.password_short' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.password.hasError('doesNotHaveUpperCase')" [innerHTML]="'USERS_PAGE.ADD.password_uppercase' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.password.hasError('doesNotHaveLowerCase')" [innerHTML]="'USERS_PAGE.ADD.password_lowercase' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.password.hasError('doesNotHaveNumber')" [innerHTML]="'USERS_PAGE.ADD.password_number' | translate"></mat-error>
+        <mat-error *ngIf="userForm.controls.password.hasError('doesNotHaveSpecial')" [innerHTML]="'USERS_PAGE.ADD.password_special' | translate"></mat-error>
       </mat-form-field>
+      <div class="password-errors"></div>
       <mat-form-field>
         <label for="user_confirm_password_input">
           {{ "USERS_PAGE.ADD.confirm_password_label" | translate }}
