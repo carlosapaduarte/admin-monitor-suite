@@ -388,7 +388,6 @@ export class AddUserDialogComponent implements OnInit {
   }
 }
 
-
 function passwordValidator(control: FormControl): ValidationErrors | null {
   try {
     const password = control.value;

@@ -70,11 +70,12 @@ export class DomainComponent implements OnInit, OnDestroy {
       });
   }
 
-  deletePages(pages): void {
+  deletePages(pages: number[]): void {
     this.deleteService.pages({pages})
       .subscribe(success => {
         if (success !== null) {
           this.loading = true;
+          this.cd.detectChanges();
           this.getListOfDomainPages();
         }
       });
