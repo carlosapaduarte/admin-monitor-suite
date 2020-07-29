@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { EvaluationService } from '../../services/evaluation.service';
+import { MatDialog } from '@angular/material/dialog';
+import { BackgroundEvaluationsInformationDialogComponent } from 'app/dialogs/background-evaluations-information-dialog/background-evaluations-information-dialog.component';
 
 @Component({
   selector: 'app-evaluation-results',
@@ -31,6 +33,7 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
     private evaluation: EvaluationService,
     private route: ActivatedRoute,
     private location: Location,
+    private dialog: MatDialog,
     private cd: ChangeDetectorRef
   ) {
     this.thresholdConfig = {
@@ -103,18 +106,17 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  evaluate(): void {
-    this.loading = true;
-
-    this.evaluation.evaluateUrl(this.url)
-      .subscribe(data => {
-        if (!data) {
-          this.error = true;
+  reEvaluate(): void {
+    this.evaluation.reEvaluatePage({ page: this.url })
+      .subscribe(result => {
+        if (result) {
+          const data = {
+            width: '40vw',
+          };
+          this.dialog.open(BackgroundEvaluationsInformationDialogComponent, data);
         } else {
-          this.eval = data;
+          alert('Error');
         }
-
-        this.loading = false;
       });
   }
 
@@ -122,8 +124,12 @@ export class EvaluationResultsComponent implements OnInit, OnDestroy {
     return _.keys(this.eval.tabs);
   }
 
-  downloadEvaluation(): void {
+  downloadCSV(): void {
     this.evaluation.downloadCSV();
+  }
+
+  downloadEARL(): void {
+    this.evaluation.downloadEARL();
   }
 
   goBack(): Array<string> {

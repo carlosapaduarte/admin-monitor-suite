@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
 import { map, retry, catchError } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
+
+import { Parser } from 'htmlparser2';
+import DomHandler from 'domhandler';
+import * as DomUtils from 'domutils';
+import * as CSSSelect from 'css-select';
 
 import { Response } from '../models/response';
 import { Evaluation } from '../models/evaluation';
 import { AdminError } from '../models/error';
 
 import { ConfigService } from './config.service';
-import { UserService } from './user.service';
 import { MessageService } from './message.service';
 
 import tests from './tests.new';
-import techs from './techs';
 import scs from './scs';
 import xpath from './xpath';
 import tests_colors from './tests_colors';
@@ -32,10 +33,8 @@ export class EvaluationService {
   evaluation: Evaluation;
 
   constructor(
-    private router: Router,
     private http: HttpClient,
     private message: MessageService,
-    private user: UserService,
     private config: ConfigService,
     private translate: TranslateService
   ) { }
@@ -154,6 +153,9 @@ export class EvaluationService {
             this.evaluation_id = evaluation_id;
             this.evaluation = <Evaluation> response.result;
             this.evaluation.processed = this.processData();
+            this.fixImgSrc();
+            this.fixStyleSheet();
+            this.fixScripts();
 
             sessionStorage.setItem('url', url);
             sessionStorage.setItem('evaluation_id', evaluation_id.toString());
@@ -186,6 +188,9 @@ export class EvaluationService {
         this.url = url;
         this.evaluation = <Evaluation> response.result;
         this.evaluation.processed = this.processData();
+        this.fixImgSrc();
+        this.fixStyleSheet();
+        this.fixScripts();
 
         return this.evaluation.processed;
       }),
@@ -195,36 +200,6 @@ export class EvaluationService {
       }));
   }
 
-  evaluateUrl(url: string): Observable<any> {
-    return this.http.post<any>(this.config.getServer('/evaluation/page/evaluate'), {url: encodeURIComponent(url)}, {observe: 'response'}).pipe(
-      retry(3),
-      map(res => {
-        const response = <Response> res.body;
-
-        if (!res.body || res.status === 404) {
-          throw new AdminError(404, 'Service not found', 'SERIOUS');
-        }
-
-        if (response.success !== 1) {
-          throw new AdminError(response.success, response.message);
-        }
-
-        this.url = url;
-        this.evaluation = <Evaluation> response.result;
-        this.evaluation.processed = this.processData();
-
-        sessionStorage.setItem('url', url);
-        sessionStorage.setItem('evaluation', JSON.stringify(this.evaluation));
-
-        return this.evaluation.processed;
-      }),
-      catchError(err => {
-        console.log(err);
-        return of(null);
-      })
-    );
-  }
-
   getTestResults(test: string): any {
     if (!this.url || !this.evaluation) {
       this.url = sessionStorage.getItem('url');
@@ -232,40 +207,60 @@ export class EvaluationService {
     }
 
     const data = this.evaluation.data;
-    const tot = data.tot;
     const allNodes = data.nodes;
-    const webpage = this.evaluation.pagecode;
-    const url = this.url;
     const ele = test;
 
     const testSee = {
       'css': ['colorContrast', 'colorFgBgNo', 'cssBlink', 'fontAbsVal', 'fontValues',
-              'justifiedCss', 'layoutFixed', 'lineHeightNo', 'valueAbsCss', 'valueRelCss'
+        'justifiedCss', 'layoutFixed', 'lineHeightNo', 'valueAbsCss', 'valueRelCss'
       ],
       'div': ['aGroupNo', 'applet', 'appletAltNo', 'blink', 'brSec', 'ehandBoth', 'ehandBothNo',
-              'ehandMouse', 'ehandTagNo', 'ehandler', 'charSpacing', 'embed', 'embedAltNo',
-              'fieldLegNo', 'fieldNoForm', 'form', 'formSubmitNo', 'hx', 'hxSkip', 'id', 'idRep',
-              'iframe', 'iframeTitleNo', 'justifiedTxt', 'liNoList', 'marquee', 'object', 'objectAltNo',
-              'table', 'tableCaptionSummary', 'tableComplex', 'tableComplexError', 'tableData',
-              'tableDataCaption', 'tableLayout', 'tableLayoutCaption', 'tableNested', 'valueAbsHtml',
-              'valueRelHtml'
+        'ehandMouse', 'ehandTagNo', 'ehandler', 'charSpacing', 'embed', 'embedAltNo',
+        'fieldLegNo', 'fieldNoForm', 'form', 'formSubmitNo', 'hx', 'hxSkip', 'id', 'idRep',
+        'iframe', 'iframeTitleNo', 'justifiedTxt', 'liNoList', 'marquee', 'object', 'objectAltNo',
+        'table', 'tableCaptionSummary', 'tableComplex', 'tableComplexError', 'tableData',
+        'tableDataCaption', 'tableLayout', 'tableLayoutCaption', 'tableNested', 'valueAbsHtml',
+        'valueRelHtml'
       ],
       'span': ['a', 'abbrNo', 'aJs', 'aSameText', 'aAdjacent', 'aAdjacentSame', 'aImgAltNo',
-               'aSkip', 'aSkipFirst', 'aTitleMatch', 'deprecElem', 'fontHtml', 'img', 'imgAltLong',
-               'imgAltNo', 'imgAltNot', 'imgAltNull', 'inpImg', 'inpImgAltNo', 'inputAltNo',
-               'inputIdTitleNo', 'inputLabel', 'inputLabelNo', 'label', 'labelForNo', 'labelPosNo',
-               'labelTextNo', 'layoutElem', 'longDImg', 'longDNo'
+        'aSkip', 'aSkipFirst', 'aTitleMatch', 'deprecElem', 'fontHtml', 'img', 'imgAltLong',
+        'imgAltNo', 'imgAltNot', 'imgAltNull', 'inpImg', 'inpImgAltNo', 'inputAltNo',
+        'inputIdTitleNo', 'inputLabel', 'inputLabelNo', 'label', 'labelForNo', 'labelPosNo',
+        'labelTextNo', 'layoutElem', 'longDImg', 'longDNo'
       ]
     };
 
     let results = {};
-    if (_.includes(testSee['css'], ele)) {
-      results = this.getCSS(webpage, ele);
+    if (ele !== 'fontAbsVal' && ele !== 'justifiedCss' && ele !== 'lineHeightNo' && ele !== 'colorContrast' && ele !== 'colorFgBgNo' && testSee['css'].includes(ele)) {
+      results = this.getCSSList(ele, JSON.parse(allNodes[ele]));
     } else {
-      results = this.getElements(url, webpage, allNodes, ele, _.includes(testSee['div'], ele) || _.includes(testSee['span'], ele));
+      results = this.getElements(allNodes, ele, ele !== 'titleOk' && ele !== 'lang' /*testSee['div'].includes(ele) || testSee['span'].includes(ele)*/);
     }
 
     return results;
+  }
+
+  private getCSSList(ele: string, cssResults: any): any {
+    const results = new Array();
+    
+    for (const result of cssResults || []) {
+      results.push({
+        file: result.stylesheetFile,
+        property: ele === 'colorFgBgNo' ? result.resultCode === 'RC2' ? 'color' : 'background-color' : result.property.name,
+        value: result.property.value,
+        location: result.selector.value,
+        line: result.property.position?.start.line,
+        description: ele === 'colorFgBgNo' ? result.description : undefined
+      });
+    }
+
+    return {
+      type: 'css',
+      elements: results,
+      size: results.length,
+      page: undefined,
+      finalUrl: _.clone(this.evaluation.processed.metadata.url)
+    };
   }
 
   downloadCSV(): void {
@@ -278,28 +273,32 @@ export class EvaluationService {
     const _eval = this.evaluation.processed;
 
     for (const row in _eval['results']) {
-      const rowData = [];
-      error = 'CSV.' + (_eval['results'][row]['prio'] === 3 ? 'scoreok' : _eval['results'][row]['prio'] === 2 ? 'scorewar': 'scorerror');
-      level = _eval['results'][row]['lvl'];
-      //sc = _eval['scoreBoard'][row]['sc'];
-      num = _eval['results'][row]['value'];
-      desc = 'TESTS_RESULTS.' + _eval['results'][row]['msg'] + ((num === 1) ? '.s' : '.p');
+      if (_eval['results'][row]) {
+        const rowData = [];
+        error = 'CSV.' + (_eval['results'][row]['prio'] === 3 ? 'scoreok' : _eval['results'][row]['prio'] === 2 ? 'scorewar' : 'scorerror');
+        level = _eval['results'][row]['lvl'];
+        //sc = _eval['scoreBoard'][row]['sc'];
+        num = _eval['results'][row]['value'];
+        desc = 'TESTS_RESULTS.' + _eval['results'][row]['msg'] + ((num === 1) ? '.s' : '.p');
 
-      descs.push(desc, error);
-      rowData.push(error, level, /*sc,*/ desc, num);
-      data.push(rowData);
+        descs.push(desc, error);
+        rowData.push(error, level, /*sc,*/ desc, num);
+        data.push(rowData);
+      }
     }
 
     this.translate.get(descs).subscribe(res => {
-      const labels = new Array<string>();
+      const labels = new Array <string>();
 
       for (const row in data) {
-        data[row][2] = res[data[row][2]].replace('{{value}}', data[row][3]);
-        data[row][2] = data[row][2].replace(new RegExp('<mark>', 'g'), '');
-        data[row][2] = data[row][2].replace(new RegExp('</mark>', 'g'), '');
-        data[row][2] = data[row][2].replace(new RegExp('<code>', 'g'), '');
-        data[row][2] = data[row][2].replace(new RegExp('</code>', 'g'), '');
-        data[row][0] = res[data[row][0]];
+        if (data[row]) {
+          data[row][2] = res[data[row][2]].replace('{{value}}', data[row][3]);
+          data[row][2] = data[row][2].replace(new RegExp('<mark>', 'g'), '');
+          data[row][2] = data[row][2].replace(new RegExp('</mark>', 'g'), '');
+          data[row][2] = data[row][2].replace(new RegExp('<code>', 'g'), '');
+          data[row][2] = data[row][2].replace(new RegExp('</code>', 'g'), '');
+          data[row][0] = res[data[row][0]];
+        }
       }
       labels.push(res['CSV.errorType']);
       labels.push(res['CSV.level']);
@@ -311,613 +310,452 @@ export class EvaluationService {
       for (const row of data || []) {
         csvContent += row.join(',') + '\r\n';
       }
-      
+
       const blob = new Blob([csvContent], { type: 'text/csv' });
       saveAs(blob, 'eval.csv');
     });
   }
 
-  //EMBEBED
-  private highLightCss(styles: any, ele: string): any {
-    const begin = '<em style=\'background-color: yellow;border: 0.3em solid Yellow;font-weight: bold;\'>';
-    const end =  '}</em>\n';
-    let lines = '';
-    for (const s in styles) {
-      if (!isNaN(parseInt(s))) {
-        const node = styles[s].firstChild.nodeValue;
-        const nodes = node.split('}');
+  downloadEARL(): void {
+    const data = {
+      '@context': 'https://act-rules.github.io/earl-context.json',
+      '@graph': new Array<any>()
+    };
 
-        if ( ele === 'valueRelCss') {
-          for ( const line in nodes) {
-            if (nodes[line].match(/width:[0-9]+(%|em|ex)/)) {
-              lines += begin + nodes[line] + end;
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-          }
-        } else if (ele === 'valueAbsCss') {
-          for (const line in nodes ) {
-            if (nodes[line].match(/width:[0-9]+(cm|mm|in|pt|pc)/)) {
-              lines += begin + nodes[line] + end;
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-          }
-        } else if (ele === 'layoutFixed') {
-         for ( const line in nodes) {
-            const w = nodes[line].split(';');
-            let t = false;
-            for ( const i in w) {
-              if ( w[i].match(/width:/) || w[i].match(/min-width/)) {
-                const px = w[i].split(':')[1].replace('px', '');
-                if ( new Number(px) > 120) {
-                    t = true;
-                   lines += begin + nodes[line] + end;
-                }
-              }
-            }
-            if (!t) {
-              lines += nodes[line] +  '}\n';
-            }
-          }
-        } else if ( ele === 'justifiedCss') {
-          for ( const line in nodes) {
-            if (nodes[line].match(/text-align:justify/)) {
-              lines += begin + nodes[line] + end;
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-          }
-        } else if (ele === 'cssBlink') {
-          for (const line in nodes) {
-            if (nodes[line].match(/text-decoration:blink/)) {
-              lines += begin + nodes[line] + end;
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-          }
-        } else if (ele === 'fontValues') {
-          for (const line in nodes) {
-            if (nodes[line].match(/font:/) || nodes[line].match(/font-size:/)) {
-              lines += begin + nodes[line] + end;
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-          }
-
-        } else if (ele === 'fontAbsVal') {
-          for (const line in nodes) {
-            if (nodes[line].match(/font:[0-9]+(cm|mm|in|pt|pc|px)/) || nodes[line].match(/font-size:[0-9]+(cm|mm|in|pt|pc|px)/)) {
-              lines += begin + nodes[line] + end;
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-          }
-
-        } else if (ele === 'lineHeightNo') {
-          for (const line in nodes) {
-            if (nodes[line].match(/line-height:([0-9]+)(%|em|ex)+/)) {
-              lines += begin + nodes[line] + end;
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-          }
-        } else if (ele === 'colorFgBgNo') {
-          for (const line in nodes) {
-            let color = false;
-            let bg = false;
-            let ok = false;
-            if (nodes[line].match(/[;{\s]color/)) {
-              color = true;
-              ok = true;
-            }
-
-            if (nodes[line].match(/[;{\s]background:/)  || nodes[line].match(/[;{\s]background-color:/)) {
-              bg = true;
-              ok = true;
-            }
-            if ( ok && bg && color) {
-              lines += nodes[line] + '}\n';
-
-            } else if ( !ok ) {
-              lines += nodes[line] + '}\n';
-            } else {
-              lines += begin + nodes[line] + end;
-            }
-          }
-        } else if (ele === 'colorContrast') {
-          for (const line in nodes) {
-            let color = false;
-            let bg = false;
-            let ok = false;
-            if (_.trim(nodes[line]).match(/[;{\s]color:/)) {
-              const colorElem = _.trim(nodes[line]).split(/[;{\s]color:/)[1].split(/[;}]/)[0];
-
-              const color_array = this.evaluation.data.tot['elems']['color_array'];
-              for ( const c in color_array ) {
-                if ( _.trim(color_array[c]['c'].split(':')[1]) === colorElem ) {
-                  color = true;
-                  ok = true;
-
-                  break;
-                }
-              }
-            }
-            if (nodes[line].trim().match(/[;{\s]background-color:/) || nodes[line].match(/[;{\s]background:/)) {
-              let b = nodes[line].trim().split(/[;{\s]background-color:/);
-              if ( !b[1] ) {
-                b = nodes[line].trim().split(/[;{\s]background:/);
-              }
-              const colorElem = b[1].trim().split(/[;}]/)[0];
-              const color_array = this.evaluation.data.tot['elems']['color_array'];
-              for ( const c in color_array ) {
-                if ( _.trim(color_array[c]['b'].split(':')[1]) === colorElem ) {
-                  bg = true;
-                  ok = true;
-
-                  break;
-                }
-              }
-            }
-            if ( ok && bg && color) {
-              lines += begin + nodes[line] + end;
-
-            } else if ( ok ) {
-              lines += nodes[line] + '}\n';
-            } else {
-              lines += nodes[line] + '}\n';
-            }
-
-          }
-        }
-
+    const assertor = {
+      '@id': 'Access Monitor',
+      '@type': 'Software',
+      homepage: 'http://accessmonitor.acessibilidade.gov.pt/amp/'
+    };
+  
+    const testSubject = {
+      '@type': 'TestSubject',
+      source: this.url,
+      assertor,
+      assertions: new Array<any>()
+    };
+    
+    for (const test in this.evaluation.data.tot.results || {}) {
+      
+      const value = this.evaluation.processed.results.filter(r => r.msg === test)[0].tech_list.tot;
+      
+      const sources = new Array<any>();
+      
+      let pointers = new Array<any>(); 
+      
+      if (test === 'img_01a') {
+        pointers = typeof this.evaluation.data.nodes['img'] === 'string' ?
+          this.evaluation.data.nodes['img'].split(',') :
+          this.evaluation.data.nodes['img'][0].split(',');
+      } else if (this.evaluation.data.nodes[tests[test].test] !== undefined) {
+        pointers = typeof this.evaluation.data.nodes[tests[test].test] === 'string' ?
+          this.evaluation.data.nodes[tests[test].test].split(',') : 
+          this.evaluation.data.nodes[tests[test].test][0].split(',');
       }
-    }
-    return lines;
 
+      for (const pointer of pointers || []) {
+
+        const source = {
+          result: {
+            pointer: pointer.trim(),
+            outcome: 'earl:' + (tests_colors[test] !== 'Y' ? tests_colors[test] === 'G' ? 'passed' : 'failed' : 'cantTell'),
+          }
+        };
+
+        sources.push(source);
+      }
+
+      const result = {
+        '@type': 'TestResult',
+        outcome: 'earl:' + (tests_colors[test] !== 'Y' ? tests_colors[test] === 'G' ? 'passed' : 'failed' : 'cantTell'),
+        source: sources,
+        description: this.translate.instant('TESTS_RESULTS.' + test + (value === 1 ? '.s' : '.p'), { value })
+                      .replace('<mark>', '')
+                      .replace('</mark>', '')
+                      .replace('<code>', '')
+                      .replace('</code>', ''),
+        date: this.evaluation.data.date
+      };
+      
+      const assertion = {
+        '@type': 'Assertion',
+        test: {
+          '@id': test,
+          '@type': 'TestCase',
+          title: this.translate.instant('TECHS.' + tests[test].ref),
+          description: this.translate.instant('TXT_TECHNIQUES.' + tests[test].ref)
+                        .replace('<p>', '')
+                        .replace('</p>', '')
+                        .replace('<code>', '')
+                        .replace('</code>', '')
+                        .replace('&lt;', '')
+                        .replace('&gt;', '')
+        },
+        mode: 'earl:automatic',
+        result
+      };
+
+      testSubject.assertions.push(assertion);
+    }
+
+    data['@graph'].push(testSubject);
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'text/json' });
+    saveAs(blob, 'eval.json');
   }
 
-  //INLINE
-  private highLightCss2(styles: any, ele: string): any {
-    const begin = '<em style=\'background-color: yellow;border: 0.3em solid Yellow;font-weight: bold;\'>';
-    const end =  '}</em>\n';
-    let inline = '';
-    for ( const s in styles) {
-      if ( ele === 'fontValues' && (styles[s].match(/font:/) || styles[s].match(/font-size:/))) {
-       inline += begin + styles[s] + end;
+  private getElements(allNodes: Array < string > , ele: string, inpage: boolean): any {
+    let path: string;
 
-      } else if ( ele === 'fontAbsVal' && (styles[s].match(/font:[0-9]+(cm|mm|in|pt|pc|px)/) || styles[s].match(/font-size:[0-9]+(cm|mm|in|pt|pc|px)/))  ) {
-        inline += begin + styles[s] + end;
-      } else if ( ele === 'cssBlink' && styles[s].match(/text-decoration:blink/) ) {
-        inline += begin + styles[s] + end;
-      } else if ( ele === 'justifiedCss' && styles[s].match(/text-align:justify/) ) {
-        inline += begin + styles[s] + end;
-      } else if ( ele === 'valueRelCss' && styles[s].match(/width:[0-9]+(%|em|ex)/) ) {
-        inline += begin + styles[s] + end;
-      } else if ( ele === 'valueAbsCss' && styles[s].match(/width:[0-9]+(cm|mm|in|pt|pc)/) ) {
-        inline += begin + styles[s] + end;
-
-      } else if (ele === 'layoutFixed') {
-        if (styles[s].match(/[;{\s]width:[0-9]+(px)/)) {
-          const matchs = styles[s].match(/[;{\s]width:[0-9]+(px)/);
-          const px = matchs[0].split(':')[1].replace('px', '').replace(' ', '');
-          if (new Number(px) > 120) {
-             inline += begin + styles[s] + end;
-          } else {
-            inline += styles[s] + '\n';
-          }
-        } else if (styles[s].match(/min-width:[0-9]+(px)/)) {
-          const matchs = styles[s].match(/min-width:[0-9]+(px)/);
-          const px = matchs[0].split(':')[1].replace('px', '').replace(' ', '');
-          if (new Number(px) > 120) {
-             inline += begin + styles[s] + end;
-          } else {
-            inline += styles[s] + '\n';
-          }
-        } else {
-          inline += styles[s] + '\n';
-        }
-      } else if (ele === 'lineHeightNo' && (styles[s].match(/line-height:([0-9]+)(%|em|ex)+/))) {
-        inline += begin + styles[s] + end;
-      } else if (ele === 'colorFgBgNo' ) {
-        let color = false;
-        let bg = false;
-        let ok = false;
-        if (styles[s].match(/[;{\s]color/)) {
-          color = true;
-          ok = true;
-        }
-        if (styles[s].match(/[;{\s]background:/)  || styles[s].match(/[;{\s]background-color:/)) {
-          bg = true;
-          ok = true;
-        }
-        if ( ok && bg && color) {
-          inline += styles[s] + '\n';
-        } else if ( !ok ) {
-          inline += styles[s] + '\n';
-        } else {
-          inline += begin + styles[s] + end;
-        }
-      } else if ( ele === 'colorContrast') {
-        const color = false;
-        const bg = false;
-        let ok = false;
-        if (styles[s].match(/[;{\s]color/)) {
-
-          let color = styles[s].split(/[;{\s]color:/)[1].split(/[;}]/)[0];
-          const color_array = this.evaluation.data.tot['elems']['color_array'];
-          for ( const c in color_array) {
-            if ( _.trim(color_array[c]['c'].split(':')[1]) === color ) {
-              color = true;
-              ok = true;
-              break;
-            }
-          }
-
-        }
-        if (styles[s].match(/[;{\s]background:/)  || styles[s].match(/[;{\s]background-color:/)) {
-          let color = styles[s].split(/[;{\s]background:/);
-          if ( !color[1] ) {
-            color = styles[s].split(/[;{\s]background-color:/);
-          }
-          color = color[1].split(/[;}]/)[0];
-          const color_array = this.evaluation.data.tot['elems']['color_array'];
-          for ( const c in color_array) {
-            if ( _.trim(color_array[c]['b'].split(':')[1]) === color ) {
-              color = true;
-              ok = true;
-              break;
-            }
-          }
-        }
-      } else {
-        inline += styles[s] + '\n';
+    var sub_regexes = {
+      "tag": "([a-zA-Z][a-zA-Z0-9]{0,10}|\\*)",
+      "attribute": "[.a-zA-Z_:][-\\w:.]*(\\(\\))?)",
+      "value": "\\s*[\\w/:][-/\\w\\s,:;.]*"
+  };
+  
+  var validation_re =
+      "(?P<node>"+
+        "("+
+          "^id\\([\"\\']?(?P<idvalue>%(value)s)[\"\\']?\\)"+// special case! `id(idValue)`
+        "|"+
+          "(?P<nav>//?(?:following-sibling::)?)(?P<tag>%(tag)s)" + //  `//div`
+          "(\\[("+
+            "(?P<matched>(?P<mattr>@?%(attribute)s=[\"\\'](?P<mvalue>%(value)s))[\"\\']"+ // `[@id="well"]` supported and `[text()="yes"]` is not
+          "|"+
+            "(?P<contained>contains\\((?P<cattr>@?%(attribute)s,\\s*[\"\\'](?P<cvalue>%(value)s)[\"\\']\\))"+// `[contains(@id, "bleh")]` supported and `[contains(text(), "some")]` is not 
+          ")\\])?"+
+          "(\\[\\s*(?P<nth>\\d|last\\(\\s*\\))\\s*\\])?"+
+        ")"+
+      ")";
+  
+  for(var prop in sub_regexes) 
+      validation_re = validation_re.replace(new RegExp('%\\(' + prop + '\\)s', 'gi'), sub_regexes[prop]);
+  validation_re = validation_re.replace(/\?P<node>|\?P<idvalue>|\?P<nav>|\?P<tag>|\?P<matched>|\?P<mattr>|\?P<mvalue>|\?P<contained>|\?P<cattr>|\?P<cvalue>|\?P<nth>/gi, '');
+  
+  function XPathException(message) {
+      this.message = message;
+      this.name = "[XPathException]";
+  }
+  
+  function cssify(xpath) {
+      var prog, match, result, nav, tag, attr, nth, nodes, css, node_css = '', csses = [], xindex = 0, position = 0;
+  
+      // preparse xpath: 
+      // `contains(concat(" ", @class, " "), " classname ")` => `@class=classname` => `.classname`
+      xpath = xpath.replace(/contains\s*\(\s*concat\(["']\s+["']\s*,\s*@class\s*,\s*["']\s+["']\)\s*,\s*["']\s+([a-zA-Z0-9-_]+)\s+["']\)/gi, '@class="$1"');
+      
+      if (typeof xpath == 'undefined' || (
+              xpath.replace(/[\s-_=]/g,'') === '' || 
+              xpath.length !== xpath.replace(/[-_\w:.]+\(\)\s*=|=\s*[-_\w:.]+\(\)|\sor\s|\sand\s|\[(?:[^\/\]]+[\/\[]\/?.+)+\]|starts-with\(|\[.*last\(\)\s*[-\+<>=].+\]|number\(\)|not\(|count\(|text\(|first\(|normalize-space|[^\/]following-sibling|concat\(|descendant::|parent::|self::|child::|/gi,'').length)) {
+          //`number()=` etc or `=normalize-space()` etc, also `a or b` or `a and b` (to fix?) or other unsupported keywords
+          throw new XPathException('Invalid or unsupported XPath: ' + xpath);
       }
+      
+      var xpatharr = xpath.split('|');
+      while(xpatharr[xindex]) {
+          prog = new RegExp(validation_re,'gi');
+          css = [];
+          
+          while(nodes = prog.exec(xpatharr[xindex])) {
+              if(!nodes && position === 0) {
+                  throw new XPathException('Invalid or unsupported XPath: ' + xpath);
+              }
+      
+              match = {
+                  node: nodes[5],
+                  idvalue: nodes[12] || nodes[3],
+                  nav: nodes[4],
+                  tag: nodes[5],
+                  matched: nodes[7],
+                  mattr: nodes[10] || nodes[14],
+                  mvalue: nodes[12] || nodes[16],
+                  contained: nodes[13],
+                  cattr: nodes[14],
+                  cvalue: nodes[16],
+                  nth: nodes[18]
+              };
+      
+              if(position != 0 && match['nav']) {
+                  if (~match['nav'].indexOf('following-sibling::')) nav = ' + ';
+                  else nav = (match['nav'] == '//') ? ' ' : ' > ';
+              } else {
+                  nav = '';
+              }
+              tag = (match['tag'] === '*') ? '' : (match['tag'] || '');
+      
+              if(match['contained']) {
+                  if(match['cattr'].indexOf('@') === 0) {
+                      attr = '[' + match['cattr'].replace(/^@/, '') + '*=' + match['cvalue'] + ']';
+                  } else { //if(match['cattr'] === 'text()')
+                      throw new XPathException('Invalid or unsupported XPath attribute: ' + match['cattr']);
+                  }
+              } else if(match['matched']) {
+                  switch (match['mattr']){
+                      case '@id':
+                          attr = '#' + match['mvalue'].replace(/^\s+|\s+$/,'').replace(/\s/g, '#');
+                          break;
+                      case '@class':
+                          attr = '.' + match['mvalue'].replace(/^\s+|\s+$/,'').replace(/\s/g, '.');
+                          break;
+                      case 'text()':
+                      case '.':
+                          throw new XPathException('Invalid or unsupported XPath attribute: ' + match['mattr']);
+                      default:
+                          if (match['mattr'].indexOf('@') !== 0) {
+                              throw new XPathException('Invalid or unsupported XPath attribute: ' + match['mattr']);
+                          }
+                          if(match['mvalue'].indexOf(' ') !== -1) {
+                              match['mvalue'] = '\"' + match['mvalue'].replace(/^\s+|\s+$/,'') + '\"';
+                          }
+                          attr = '[' + match['mattr'].replace('@', '') + '=' + match['mvalue'] + ']';
+                          break;
+                  }
+              } else if(match['idvalue'])
+                  attr = '#' + match['idvalue'].replace(/\s/, '#');
+              else
+                  attr = '';
+      
+              if(match['nth']) {
+                  if (match['nth'].indexOf('last') === -1){
+                      if (isNaN(parseInt(match['nth'], 10))) {
+                          throw new XPathException('Invalid or unsupported XPath attribute: ' + match['nth']);
+                      }
+                      nth = parseInt(match['nth'], 10) !== 1 ? ':nth-of-type(' + match['nth'] + ')' : ':first-of-type';
+                  } else {
+                      nth = ':last-of-type';
+                  }
+              } else {
+                  nth = '';
+              }
+              node_css = nav + tag + attr + nth;
+      
+              css.push(node_css);
+              position++;
+          } //while(nodes
+          
+          result = css.join('');
+    if (result === '') {
+        throw new XPathException('Invalid or unsupported XPath: ' + match['node']);
     }
-    return inline;
+          csses.push(result);
+          xindex++;
+  
+      } //while(xpatharr
+  
+      return csses.join(', ');
   }
 
-  private getCSS(pagecode: string, ele: string): any {
-    if (!this.url || !this.evaluation) {
-      this.url = sessionStorage.getItem('url');
-      this.evaluation = JSON.parse(sessionStorage.getItem('evaluation'));
-    }
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(pagecode, 'text/html');
-    //INLINE
-    const n = doc.evaluate('//*[@style][normalize-space(@style)!=\'\']', doc, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
-
-    let val = n.iterateNext();
-    let inline = '';
-    const classes = [];
-    while (val) {
-      inline = ' ' + _.toLower(val['tagName']) + '{';
-      let i = 0;
-      while ( i < _.size(val['style'])) {
-        inline += val['style'][i] + ':' + val['style'][val['style'][i]] + ';';
-        i += 1;
-      }
-      classes.push(inline);
-      val = n.iterateNext();
-
-    }
-
-    const styles = doc.getElementsByTagName('style');
-    return { 'embedded_css': this.highLightCss(styles, ele), 'inline_css': this.highLightCss2(classes, ele)};
-  }
-
-  private getElements(url: string, webpage: string, allNodes: Array < string > , ele: string, inpage: boolean): any {
-    let path;
-
-    if (allNodes[ele]) {
+    
+    if (ele !== 'aSkipFirst' && allNodes[ele] !== undefined) {
       path = allNodes[ele];
     } else {
-      path = xpath[ele];
+      path = !xpath[ele].includes('|') ? cssify(xpath[ele]) : xpath[ele].split('|').map(selector => cssify(selector)).join(', ');
     }
-
-    webpage = this.fixImgSrc(url, webpage);
-
-    const elements = this.getElementsList(ele, path, webpage);
+    
+    const elements = this.getElementsList(ele, path);
 
     return {
+      type: 'html',
       elements,
-      size: _.size(elements),
-      page: inpage ? this.showElementsHighlightedInPage(path, webpage, inpage) : undefined,
+      size: elements.length,
+      page: inpage ? this.showElementsHighlightedInPage(path, inpage, ele) : undefined,
       finalUrl: _.clone(this.evaluation.processed.metadata.url)
     };
   }
 
-  private fixImgSrc(url: string, webpage: string): string {
-    const parser = new DOMParser();
-    const imgDoc = parser.parseFromString(webpage, 'text/html');
+  private fixImgSrc(): void {
+    const protocol = this.evaluation.processed.metadata.url.startsWith('https://') ? 'https://' : 'http://';
+    const www = this.evaluation.processed.metadata.url.includes('www.') ? 'www.' : '';
 
-    const protocol = _.startsWith(this.evaluation.processed.metadata.url, 'https://') ? 'https://' : 'http://';
-    const www = _.includes(this.evaluation.processed.metadata.url, 'www.') ? 'www.' : '';
-
-    const imgNodes = imgDoc.evaluate('//*[@src]', imgDoc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-    let i = 0;
-    let n = imgNodes.snapshotItem(i);
-
-    let fixSrcUrl = _.clone(_.split(_.replace(_.replace(_.replace(this.evaluation.processed.metadata.url, 'http://', ''), 'https://', ''), 'www.', ''), '/')[0]);
-    if (fixSrcUrl[_.size(fixSrcUrl) - 1] === '/') {
-      fixSrcUrl = fixSrcUrl.substring(0, _.size(fixSrcUrl) - 2);
+    let fixSrcUrl = _.clone(this.evaluation.processed.metadata.url.replace('http://', '').replace('https://', '').replace('www.', '').split('/')[0]);
+    if (fixSrcUrl[fixSrcUrl.length - 1] === '/') {
+      fixSrcUrl = fixSrcUrl.substring(0, fixSrcUrl.length - 2);
     }
 
-    while (n) {
-      if (n['attributes']['src'] && !_.startsWith(n['attributes']['src'].value, 'http') && !_.startsWith(n['attributes']['src'].value, 'https')) {
-        if (_.startsWith(n['attributes']['src'].value, '/')) {
-          n['attributes']['src'].value = `${protocol}${www}${fixSrcUrl}${n['attributes']['src'].value}`;
+    const handler = new DomHandler(() => {}, { withStartIndices: true, withEndIndices: true });
+    const parser = new Parser(handler);
+
+    parser.write(this.evaluation.pagecode.replace(/(\r\n|\n|\r|\t)/gm, ''));
+    parser.end();
+
+    const dom = handler.dom;
+    const nodes = CSSSelect('img', dom);
+
+    for (const node of nodes || []) {
+      if (node['attribs']['src'] && !node['attribs']['src'].startsWith('http') && !node['attribs']['src'].startsWith('https')) {
+        if (node['attribs']['src'].startsWith('/')) {
+          node['attribs']['src'] = `${protocol}${www}${fixSrcUrl}${node['attribs']['src']}`;
         } else {
-          n['attributes']['src'].value = `${protocol}${www}${fixSrcUrl}/${n['attributes']['src'].value}`;
+          node['attribs']['src'] = `${protocol}${www}${fixSrcUrl}/${node['attribs']['src']}`;
         }
       }
-
-      if (n['attributes']['srcset']) {
-        let split = _.split(n['attributes']['srcset'].value, ', ');
-        if (_.size(split) > 0) {
+      if (node['attribs']['srcset']) {
+        const split = node['attribs']['srcset'].split(', ');
+        if (split.length > 0) {
           let value = '';
-          for (let u of split) {
-            if (!_.startsWith(u, 'http') && !_.startsWith(u, 'https')) {
-              if (_.startsWith(u, '/')) {
+          for (const u of split) {
+            if (!u.startsWith('http') && !u.startsWith('https')) {
+              if (u.startsWith('/')) {
                 value += `${protocol}${www}${fixSrcUrl}${u}, `;
               } else {
                 value += `${protocol}${www}${fixSrcUrl}/${u}, `;
               }
             }
           }
-          n['attributes']['srcset'].value = _.clone(value.substring(0, _.size(value) - 2));
+          node['attribs']['srcset'] = _.clone(value.substring(0, value.length - 2));
         } else {
-          n['attributes']['srcset'].value = `${protocol}${www}${fixSrcUrl}${n['attributes']['srcset'].value}`;
+          node['attribs']['srcset'] = `${protocol}${www}${fixSrcUrl}${node['attribs']['srcset']}`;
         }
       }
-
-      i++;
-      n = imgNodes.snapshotItem(i);
     }
 
-    return imgDoc.getElementsByTagName('html')[0]['outerHTML'];
+    this.evaluation.pagecode = DomUtils.getOuterHTML(dom);
   }
 
-  private showElementsHighlightedInPage(path: string, webpage: string, inpage: boolean): string {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(webpage, 'text/html');
-    const nodes = doc.evaluate(path, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+  private fixStyleSheet(): void {
+    const protocol = this.evaluation.processed.metadata.url.startsWith('https://') ? 'https://' : 'http://';
+    const www = this.evaluation.processed.metadata.url.includes('www.') ? 'www.' : '';
 
-    let i = 0;
-    let n = nodes.snapshotItem(i);
+    let fixSrcUrl = _.clone(this.evaluation.processed.metadata.url.replace('http://', '').replace('https://', '').replace('www.', '').split('/')[0]);
+    if (fixSrcUrl[fixSrcUrl.length - 1] === '/') {
+      fixSrcUrl = fixSrcUrl.substring(0, fixSrcUrl.length - 2);
+    }
 
-    while (n) {
+    const handler = new DomHandler(() => {}, { withStartIndices: true, withEndIndices: true });
+    const parser = new Parser(handler);
+
+    parser.write(this.evaluation.pagecode.replace(/(\r\n|\n|\r|\t)/gm, ''));
+    parser.end();
+
+    const dom = handler.dom;
+    const nodes = CSSSelect('link', dom);
+
+    for (const node of nodes || []) {
+      if (node['attribs']['href'] && !node['attribs']['href'].startsWith('http') && !node['attribs']['href'].startsWith('https')) {
+        if (node['attribs']['href'].startsWith('//')) {
+          node['attribs']['href'] = 'http:' + node['attribs']['href'];
+        } else if (node['attribs']['href'].startsWith('/')) {
+          node['attribs']['href'] = `${protocol}${www}${fixSrcUrl}${node['attribs']['href']}`;
+        } else {
+          node['attribs']['href'] = `${protocol}${www}${fixSrcUrl}/${node['attribs']['href']}`;
+        }
+      }
+    }
+
+    this.evaluation.pagecode = DomUtils.getOuterHTML(dom);
+  }
+
+  private fixScripts(): void {
+    const protocol = this.evaluation.processed.metadata.url.startsWith('https://') ? 'https://' : 'http://';
+    const www = this.evaluation.processed.metadata.url.includes('www.') ? 'www.' : '';
+
+    let fixSrcUrl = _.clone(this.evaluation.processed.metadata.url.replace('http://', '').replace('https://', '').replace('www.', '').split('/')[0]);
+    if (fixSrcUrl[fixSrcUrl.length - 1] === '/') {
+      fixSrcUrl = fixSrcUrl.substring(0, fixSrcUrl.length - 2);
+    }
+
+    const handler = new DomHandler(() => {}, { withStartIndices: true, withEndIndices: true });
+    const parser = new Parser(handler);
+
+    parser.write(this.evaluation.pagecode.replace(/(\r\n|\n|\r|\t)/gm, ''));
+    parser.end();
+
+    const dom = handler.dom;
+    const nodes = CSSSelect('script', dom);
+
+    for (const node of nodes || []) {
+      if (node['attribs']['src'] && !node['attribs']['src'].startsWith('http') && !node['attribs']['src'].startsWith('https')) {
+        if (node['attribs']['src'].startsWith('//')) {
+          node['attribs']['src'] = 'http:' + node['attribs']['src'];
+        } else if (node['attribs']['src'].startsWith('/')) {
+          node['attribs']['src'] = `${protocol}${www}${fixSrcUrl}${node['attribs']['src']}`;
+        } else {
+          node['attribs']['src'] = `${protocol}${www}${fixSrcUrl}/${node['attribs']['src']}`;
+        }
+      }
+    }
+
+    this.evaluation.pagecode = DomUtils.getOuterHTML(dom);
+  }
+
+  private showElementsHighlightedInPage(paths: string, inpage: boolean, test: string): string {
+    const handler = new DomHandler(() => {}, { withStartIndices: true, withEndIndices: true });
+    const parser = new Parser(handler);
+
+    parser.write(this.evaluation.pagecode.replace(/(\r\n|\n|\r|\t)/gm, ''));
+    parser.end();
+
+    const dom = handler.dom;
+    const nodes = CSSSelect(paths, dom);
+
+    for (const node of nodes || []) {
       if (inpage) {
-        n['style'] = 'background:#ff0 !important;border:2px dotted #900 !important;padding:2px !important;visibility:visible !important;display:inherit !important;';
+        node['attribs']['style'] = 'background:#ff0 !important;border:2px dotted #900 !important;padding:2px !important;visibility:visible !important;display:inherit !important;';
       }
 
-      i++;
-      n = nodes.snapshotItem(i);
+      if (test === 'aSkipFirst') {
+        break;
+      }
     }
 
-    return doc.getElementsByTagName('html')[0]['outerHTML'];
+    return DomUtils.getOuterHTML(dom);
   }
 
-  private getElementsList(test: string, path: string, webpage: string): Array < any > {
-    const parser = new DOMParser();
+  private getElementsList(test: string, paths: string): Array < any > {
+    const handler = new DomHandler(() => {}, { withStartIndices: true, withEndIndices: true });
+    const parser = new Parser(handler);
 
-    const imgDoc = parser.parseFromString(webpage, 'text/html');
-    const imgNodes = imgDoc.evaluate('//img', imgDoc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-    let i = 0;
-    let n = imgNodes.snapshotItem(i);
+    parser.write(this.evaluation.pagecode.replace(/(\r\n|\n|\r|\t)/gm, ''));
+    parser.end();
+    
+    const dom = handler.dom;
+    const nodes = CSSSelect(paths, dom);
 
-    /*while (n) {
-      if (n['attributes']['src']) {
-        let img = new Image();
-        img.onload = function () {
-          return true;
-        };
-        img.src = n['attributes']['src'].value;
-
-        if (img.width === 0) {
-          n['width'] = '500';
-          n['fixed'] = '';
-        }
-        if (img.height === 0) {
-          n['height'] = '200';
-          n['fixed'] = '';
-        }
-      }
-
-      if (n['attributes']['srcset']) {
-        let img = new Image();
-        img.onload = function () {
-          return true;
-        };
-        img.srcset = n['attributes']['srcset'].value;
-
-        if (img.width === 0) {
-          n['width'] = '500';
-          n['fixed'] = '';
-        }
-        if (img.height === 0) {
-          n['height'] = '200';
-          n['fixed'] = '';
-        }
-      }
-
-      i++;
-      n = imgNodes.snapshotItem(i);
-    }*/
-
-    const doc = parser.parseFromString(imgDoc.getElementsByTagName('html')[0]['outerHTML'], 'text/html');
     const elements = new Array();
-    const paths = _.split(path, '|') || [path];
 
-    for (let p of paths) {
-      if (_.includes(p, 'template')) {
-        let tPath = _.join(_.slice(_.split(p, '/'), 0, _.indexOf(_.split(p, '/'), 'template') + 1), '/');
-        let tNodes = doc.evaluate(tPath, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-        let tNode = tNodes.snapshotItem(0);
-        if (tNode) {
-          let newDoc = parser.parseFromString(tNode['innerHTML'], 'text/html');
-          let newPath = '//' + _.join(_.slice(_.split(p, '/'), _.indexOf(_.split(p, '/'), 'template') + 1), '/');
-          let fNodes = newDoc.evaluate(newPath, newDoc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-          let newNode = fNodes.snapshotItem(0);
-          if (newNode) {
-            let attrs = '';
-            const fixed = newNode['attributes']['fixed'];
-            for (let i = 0; i < _.size(_.keys(newNode['attributes'])); i++) {
-              const attr = < Attr > newNode['attributes'][i];
-              if ((attr.name === 'width' || attr.name === 'height' || attr.name === 'fixed') && fixed) {
-                continue;
-              }
-              if (attr.value) {
-                attrs += attr.name + '="' + attr.value + '" ';
-              } else {
-                attrs += attr.name + ' ';
-              }
-            }
-
-            let eleOuterHtml = _.clone(newNode['outerHTML']);
-
-            if (_.toLower(newNode.nodeName) === 'img') {
-              if (newNode['attributes']['src']) {
-                let img = new Image();
-                img.onload = function () {
-                  return true;
-                };
-                img.src = newNode['attributes']['src'].value;
-
-                if (img.width > 500 || img.height > 200) {
-                  if (img.width > img.height) {
-                    newNode['width'] = '500';
-                  } else {
-                    newNode['height'] = '200';
-                  }
-                }
-              }
-
-              if (newNode['attributes']['srcset']) {
-                let img = new Image();
-                img.onload = function () {
-                  return true;
-                };
-                img.src = newNode['attributes']['srcset'].value;
-
-                if (img.width > 500 || img.height > 200) {
-                  if (img.width > img.height) {
-                    newNode['width'] = '500';
-                  } else {
-                    newNode['height'] = '200';
-                  }
-                }
-              }
-            }
-
-            elements.push({
-              ele: _.toLower(newNode.nodeName),
-              attr: attrs,
-              code: newNode['outerHTML'],
-              showCode: eleOuterHtml
-            });
-          }
+    for (const node of nodes || []) {
+      let attrs = '';
+      for (const attr of Object.keys(node['attribs']) || []) {
+        const value = node['attribs'][attr];
+        
+        if (value) {
+          attrs += attr + '="' + value + '" ';
+        } else {
+          attrs += attr+ ' ';
         }
+      }
+
+      let eleOuterHtml = DomUtils.getOuterHTML(node);
+      let code = null;
+      if (node['tagName'].toLowerCase() === 'title') {
+        code = DomUtils.getText(node);
+      } else if (node['tagName'].toLowerCase() === 'html') {
+        code = node['attribs']['lang'];
+        const cloneNode = _.clone(node);
+        cloneNode['children'] = [];
+        eleOuterHtml = DomUtils.getOuterHTML(cloneNode);
       } else {
-        const nodes = doc.evaluate(p, doc, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+        code = DomUtils.getOuterHTML(node);
+      }
 
-        i = 0;
-        n = nodes.snapshotItem(i);
+      elements.push({
+        ele: node['tagName'].toLowerCase(),
+        attr: attrs,
+        code: code,
+        showCode: eleOuterHtml,
+        //pointer: paths.split(',')[elements.length]
+      });
 
-        while (n) {
-          let attrs = '';
-          const fixed = n['attributes']['fixed'];
-          for (let i = 0; i < _.size(_.keys(n['attributes'])); i++) {
-            const attr = < Attr > n['attributes'][i];
-            if ((attr.name === 'width' || attr.name === 'height' || attr.name === 'fixed') && fixed) {
-              continue;
-            }
-            if (attr.value) {
-              attrs += attr.name + '="' + attr.value + '" ';
-            } else {
-              attrs += attr.name + ' ';
-            }
-          }
-
-          let eleOuterHtml = _.clone(n['outerHTML']);
-
-          let code = null;
-          if (_.toLower(n.nodeName) === 'img') {
-            if (n['attributes']['src']) {
-              let img = new Image();
-              img.onload = function () {
-                return true;
-              };
-              img.src = n['attributes']['src'].value;
-
-              if (img.width > 500 || img.height > 200) {
-                if (img.width > img.height) {
-                  n['width'] = '500';
-                } else {
-                  n['height'] = '200';
-                }
-              }
-
-            }
-
-            if (n['attributes']['srcset']) {
-              let img = new Image();
-              img.onload = function () {
-                return true;
-              };
-              img.src = n['attributes']['srcset'].value;
-
-              if (img.width > 500 || img.height > 200) {
-                if (img.width > img.height) {
-                  n['width'] = '500';
-                } else {
-                  n['height'] = '200';
-                }
-              }
-            }
-            code = n['outerHTML'];
-          } else if (_.toLower(n.nodeName) === 'title') {
-            code = n.firstChild.nodeValue;
-          } else if (_.toLower(n.nodeName) === 'html') {
-            code = n['attributes']['lang'].nodeValue;
-            n['innerHTML'] = '';
-            eleOuterHtml = n['outerHTML'];
-          } else {
-            code = n['outerHTML'];
-          }
-
-          elements.push({
-            ele: _.toLower(n.nodeName),
-            attr: attrs,
-            code: code,
-            showCode: eleOuterHtml
-          });
-
-          i++;
-          n = nodes.snapshotItem(i);
-        }
+      if (test === 'aSkipFirst') {
+        break;
       }
     }
-
-    /*let tdoc = new dom().parseFromString(imgDoc.getElementsByTagName('html')[0]['outerHTML']);
-    let tnodes = _xpath.select(path, tdoc);
-    //console.log(tnodes.snapshotItem(0));
-    //console.log(tnodes.snapshotItem(1));
-    for (let tn of tnodes) {
-      console.log(tn['attributes']);
-    }*/
-
+    
     return elements;
   }
 
   private processData() {
     const tot = this.evaluation.data.tot;
-    //const pagecode = this.evaluation.pagecode;
-    //const nodes = this.evaluation.data.nodes;
-    //const url = this.url;
-
-    //console.log(this.evaluation.data);
 
     const data = {};
     data['metadata'] = {};
@@ -927,25 +765,11 @@ export class EvaluationService {
     data['metadata']['score'] = tot['info']['score'];
     data['metadata']['size'] = this.convertBytes(tot['info']['size']);
     data['metadata']['last_update'] = tot['info']['date'];
-    data['metadata']['count_results'] = _.size(tot['results']);
+    data['metadata']['count_results'] = tot['results'].length;
 
-    //data['tabs'] = {};
-    data['results'] = []; // {'A': [], 'B': [], 'C': [], 'D': [], 'E': [], 'F': []};
-    //data['scoreBoard'] = [];
-    //data['elems'] = [];
+    data['results'] = [];
 
-    //const tabsSize = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0};
-
-    //const hidden = ['all', 'w3cValidator'];
-
-    let infotot = {
-      'ok': 0,
-      'err': 0,
-      'war': 0,
-      'tot': 0
-    };
-
-    let infoak = {
+    const infoak = {
       'A': {
         'ok': 0,
         'err': 0,
@@ -977,58 +801,57 @@ export class EvaluationService {
             color = 'err';
           } else if (tests_colors[test] === 'Y') {
             color = 'war';
-          } else if (tests_colors[test] == 'G') {
+          } else if (tests_colors[test] === 'G') {
             color = 'ok';
           }
 
-          let level = _.toUpper(lev);
+          const level = lev.toUpperCase();
 
           infoak[level][color]++;
 
           let tnum;
-
+          
           if (tot.elems[tes]) {
             if (tes === 'titleOk') {
               tnum = tot.info.title;
             } else if (tes === 'lang') {
               tnum = tot.info.lang;
+            } else if (tes === 'titleLong') {
+              tnum = tot.info.title.length;
             } else {
               tnum = tot['elems'][tes];
             }
           } else {
             tnum = tot['elems'][ele];
           }
-
-
+          
           const result = {};
           result['ico'] = 'assets/images/ico' + color + '.png';
           result['color'] = color;
           result['lvl'] = level;
           result['msg'] = test;
           result['ref'] = ref;
-          //result['ref_website'] = 'http://www.acessibilidade.gov.pt/w3/TR/WCAG20-TECHS/' + ref + '.html';
-          result['ref_website'] = 'https://www.w3.org/TR/WCAG20-TECHS/' + ref + '.html';
+          result['ref_website'] = 'http://www.acessibilidade.gov.pt/w3/TR/WCAG20-TECHS/' + ref + '.html';
           result['relation'] = tests[test]['ref'] === 'F' ? 'relationF' : 'relationT';
           result['ref_related_sc'] = new Array();
           result['value'] = tnum;
           result['prio'] = color === 'ok' ? 3 : color === 'err' ? 1 : 2;
 
           const scstmp = tests[test]['scs'].split(',');
-          let li = {};
+          const li = {};
           for (let s in scstmp) {
             if (s) {
-              s = _.trim(scstmp[s]);
+              s = scstmp[s].trim();
               if (s !== '') {
                 li['sc'] = s;
                 li['lvl'] = scs[s]['1'];
-                //li['link'] = 'http://www.acessibilidade.gov.pt/w3/TR/UNDERSTANDING-WCAG20/' + scs[s]['0'] + '.html';
                 li['link'] = 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/' + scs[s]['0'] + '.html';
 
                 result['ref_related_sc'].push(_.clone(li));
               }
             }
           }
-
+          
           if (color === 'ok' && ele !== 'all') {
             result['tech_list'] = this.testView(ele, ele, tes, color, tnum);
           } else {
@@ -1043,173 +866,6 @@ export class EvaluationService {
     data['infoak'] = infoak;
 
     return data;
-
-    /*for (const ee in tot.results) {
-      //const r = tot.results[ee];
-
-      //const split = _.split(r, '@');
-      //const sco = parseInt(split[0]);
-      /*const pond = split[1];
-      const res = split[2];
-      const cant = split[3];
-
-      const elem = tests[ee]['elem'];
-      const tes = tests[ee]['test'];
-      const refs = tests[ee]['ref'];
-      const lev = tests[ee]['level'];
-      //console.log(elem);
-      //const techfail = refs[0] === 'F' ? 'relationF' : 'relationT';
-
-      let color;
-
-      if (tests_colors[ee] === 'R') {
-        color = 'err';
-      } else if (tests_colors[ee] === 'Y') {
-        color = 'war';
-      } else if (tests_colors[ee] == 'G') {
-        color = 'ok';
-      }
-
-      let level = _.toUpper(lev);
-
-      infoak[level][color]++;
-
-      let tnum;
-
-      if (tot.elems[tes]) {
-        if (tes === 'titleOk') {
-          tnum = tot.info.title;
-        } else if (tes === 'lang') {
-          tnum = tot.info.lang;
-        } else {
-          tnum = tot['elems'][tes];
-        }
-      }
-
-      //const scrcrd = this.resIcon(sco);
-
-      //tabsSize[scrcrd]++;
-
-      //const row = scrcrd + '' + scrcrd;
-
-      //const msg = ee;
-
-      const result = {};
-      result['ico'] = 'assets/images/ico' + color + '.png';
-      result['color'] = color;
-      result['lvl'] = level;
-      result['msg'] = ee;
-      result['value'] = tnum;
-      result['prio'] = color === 'ok' ? 3 : color === 'err' ? 1 : 2;
-      //result['tech_list'] = new Array();
-
-      /*if (!_.includes(hidden, ele)) {
-        result['tech_list'] = this.testView(ele, ele, tot['elems'][ele]);
-        if (!isNaN(tot['elems'][ele])) {
-          result['value'] += parseInt(tot['elems'][ele]);
-        }
-      }
-
-      result['tech_list'] = this.testView(tes, tes, tnum);
-
-      data['results'].push(result);
-      /*result['title'] = ee;
-      result['score'] = sco;
-      result['tech'] = refs;
-      result['tech_desc'] = techs[refs];
-      result['tech_website'] = 'http://www.acessibilidade.gov.pt/w3/TR/WCAG20-TECHS/' + refs + '.html';
-      result['tech_fail'] = techfail;
-      result['tech_related_sc'] = new Array();
-      result['tech_list'] = new Array();
-      result['tnum'] = 0;
-
-      const li = {};
-      let sctable = '';
-      const scstmp = tests[ee]['scs'].split(',');
-
-      for (let s in scstmp) {
-        s = _.trim(scstmp[s]);
-        if (s !== '') {
-          li['sc'] = s;
-          li['lvl'] = scs[s]['1'];
-          li['link'] = 'http://www.acessibilidade.gov.pt/w3/TR/UNDERSTANDING-WCAG20/' + scs[s]['0'] + '.html';
-          sctable += sctable === '' ? s : ', ' + s;
-
-          result['tech_related_sc'].push(li);
-        }
-      }
-
-      if (!_.includes(hidden, ele)) {
-        result['tech_list'].push(this.testView(ele, ele, tot['elems'][ele]));
-        if (!isNaN(tot['elems'][ele])) {
-          result['tnum'] += parseInt(tot['elems'][ele]);
-        }
-      }
-
-      result['tech_list'].push(this.testView(tes, tes, tnum));
-
-      if (!isNaN(tnum)) {
-        result['tnum'] += parseInt(tnum);
-      } else if (tnum) {
-        result['tnum'] = tnum;
-      }
-
-      data['results'][scrcrd].push(_.clone(result));
-      data['elems'].push(ele);
-      data['elems'].push(tes);
-
-      let key;
-      let _class;
-      let prio;
-
-      if (lev.indexOf('A') !== -1) {
-        key = lev;
-        if (sco === 10) {
-          _class = 'scoreok';
-          prio = 3;
-        } else {
-          if (sco < 6) {
-            _class = 'scorerror';
-            prio = 1;
-          } else {
-            _class = 'scorewar';
-            prio = 2;
-          }
-        }
-      } else {
-        key = _.toUpper(lev);
-        if (sco === 10) {
-          _class = 'scoreok';
-          prio = 3;
-        } else {
-          _class = 'scorewar';
-          prio = 2;
-        }
-      }
-
-      data['scoreBoard'].push({
-        'class': _class,
-        'level': _.toUpper(lev),
-        'sc': sctable,
-        'desc': msg,
-        'tnum': result['tnum'],
-        'prio': prio
-      });
-    }*/
-
-    data['results'] = _.orderBy(data['results'], ['lvl', 'prio'], ['asc', 'asc']);
-
-    //data['scoreBoard'] = _.orderBy(data['scoreBoard'], ['level', 'prio'], ['asc', 'asc']);
-    data['infoak'] = infoak;
-
-    /*for (const k in tabsSize) {
-      const v = tabsSize[k];
-      if (v > 0) {
-        data['tabs'][k] = v;
-      }
-    }
-    console.log(data);*/
-    return data;
   }
 
   private testView(ele: string, txt: string, test: string, color: string, tot: number): any {
@@ -1221,43 +877,34 @@ export class EvaluationService {
     if (ele === 'dtdOld') {
       return item;
     }
-
+    
     if (ele === 'w3cValidatorErrors') {
       item['html_validator'] = true;
       item['ele'] = 'http://validador-html.fccn.pt/check?uri=' + encodeURIComponent(this.url);
     } else if (tot || tot > 0) {
       item['ele'] = ele;
-
-      if ((test === 'aSkipFirst' || test === 'aSkip' || test === 'langNo' || test === 'h1' || test === 'titleNo') && color === 'err') {
+      
+      if ((/*test === 'aSkipFirst' ||*/ test === 'aSkip' || test === 'langNo' || test === 'h1' || test === 'titleNo') && color === 'err') {
         delete item['ele'];
       }
+    } else if (test === 'aSkipFirst') {
+      item['ele'] = ele;
     }
-    //console.log(item['ele'] + ' ' + tot);
-    //if (tot > 0 || ele === 'langNo' || ele === 'langCodeNo' || ele === 'langExtra' || ele === 'titleChars') {
-      //item['ele'] = ele;
-    //}
+    
+    if (test === 'ehandBoth' || test === 'ehandler') {
+      item['ele'] = 'ehandBoth';
+    }
 
     return item;
   }
 
   private convertBytes(length: number): string {
     if (length < 1024) {
-        return length + ' bytes';
+      return length + ' bytes';
     } else if (length < 1024000) {
-        return _.round((length / 1024), 1) + ' KB <em>(' + length + ' bytes)</em>';
+      return Math.round((length / 1024)) + ' KB <em>(' + length + ' bytes)</em>';
     } else {
-        return _.round((length / 1048576), 1) + ' MB <em>(' + length + ' bytes)</em>';
+      return Math.round((length / 1048576)) + ' MB <em>(' + length + ' bytes)</em>';
     }
   }
-
-  /*private resIcon(r: number): string {
-    switch (r) {
-      case 10: return 'A';
-      case 9: case 8: return 'B';
-      case 7: case 6: return 'C';
-      case 5: case 4: return 'D';
-      case 3: case 2: return 'E';
-      case 1: return 'F';
-    }
-  }*/
 }

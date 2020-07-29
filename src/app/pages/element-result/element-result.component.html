@@ -31,25 +31,27 @@
             </mat-card>
             <mat-card class="result">
               <mat-card-content>
-                  <table>
-                    <tr>
-                      <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.element" | translate }}</strong></td>
-                      <td><span class="element">{{ e.ele }}</span></td>
-                    </tr>
-                    <tr>
-                      <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.attributes" | translate }}</strong></td>
-                      <td><span>{{ e.attr }}</span></td>
-                    </tr>
-                    <tr>
-                      <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.content" | translate }}</strong></td>
-                      <td><div [innerHTML]="e.code | html"></div></td>
-                    </tr>
-                    <tr>
-                      <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.code" | translate }}</strong></td>
-                      <td><code>{{ e.showCode }}</code></td>
-                    </tr>
-                  </table>
-                </mat-card-content>
+                <table>
+                  <tr>
+                    <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.element" | translate }}</strong></td>
+                    <td><span class="element">{{ e.ele }}</span></td>
+                  </tr>
+                  <tr>
+                    <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.attributes" | translate }}</strong></td>
+                    <td><span>{{ e.attr }}</span></td>
+                  </tr>
+                  <tr>
+                    <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.content" | translate }}</strong></td>
+                    <td>
+                      <div [innerHTML]="e.code | html"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td scope="row"><strong>{{ "ELEMENT_RESULTS.result.code" | translate }}</strong></td>
+                    <td><code>{{ e.showCode }}</code></td>
+                  </tr>
+                </table>
+              </mat-card-content>
             </mat-card>
           </div>
           <br>
