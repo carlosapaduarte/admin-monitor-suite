@@ -21,7 +21,7 @@
       </button>
     </mat-menu>
     <mat-menu #allPages="matMenu">
-      <button mat-menu-item (click)="downloadAllPagesCSV()" disabled>
+      <button mat-menu-item (click)="downloadAllPagesCSV()">
         <a download="eval.csv">CSV</a>
       </button>
       <button mat-menu-item (click)="downloadAllPagesEARL()">
@@ -29,7 +29,7 @@
       </button>
     </mat-menu>
     <mat-menu #observatory="matMenu">
-      <button mat-menu-item (click)="downloadObservatoryCSV()" disabled>
+      <button mat-menu-item (click)="downloadObservatoryCSV()">
         <a download="eval.csv">CSV</a>
       </button>
       <button mat-menu-item (click)="downloadObservatoryEARL()">

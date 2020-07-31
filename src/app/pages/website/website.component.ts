@@ -106,11 +106,13 @@ export class WebsiteComponent implements OnInit, OnDestroy {
   }
 
   downloadAllPagesCSV(): void {
-
+    this.evaluation.downloadDomainCSV(this.activeDomain, true)
+      .subscribe();
   }
 
   downloadObservatoryCSV(): void {
-    
+    this.evaluation.downloadDomainCSV(this.activeDomain, false)
+      .subscribe();
   }
 
   downloadAllPagesEARL(): void {

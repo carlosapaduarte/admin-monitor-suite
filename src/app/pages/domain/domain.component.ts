@@ -84,11 +84,13 @@ export class DomainComponent implements OnInit, OnDestroy {
   }
 
   downloadAllPagesCSV(): void {
-
+    this.evaluation.downloadDomainCSV(this.domain, true)
+      .subscribe();
   }
 
   downloadObservatoryCSV(): void {
-    
+    this.evaluation.downloadDomainCSV(this.domain, false)
+      .subscribe();
   }
 
   downloadAllPagesEARL(): void {
