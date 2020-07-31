@@ -972,7 +972,7 @@ export class EvaluationService {
     } else if (tot || tot > 0) {
       item['ele'] = ele;
       
-      if ((/*test === 'aSkipFirst' ||*/ test === 'aSkip' || test === 'langNo' || test === 'h1' || test === 'titleNo') && color === 'err') {
+      if ((test === 'aSkip' || test === 'langNo' || test === 'h1' || test === 'titleNo') && color === 'err') {
         delete item['ele'];
       }
     } else if (test === 'aSkipFirst') {
