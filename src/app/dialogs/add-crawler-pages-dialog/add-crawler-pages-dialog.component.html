@@ -62,6 +62,8 @@
     {{ "CRAWLER.RESULT_LIST.cancel" | translate }}
     </button>
     <span fxFlex></span>
+    <span *ngIf="dataSource" fxFlex="10">{{ "CRAWLER.RESULT_LIST.total" | translate }} {{ dataSource.data.length  }}</span>
+    <span fxFlex="10">{{ "CRAWLER.RESULT_LIST.selected" | translate }} {{ selectionImport.selected.length  }}</span>
     <button *ngIf="!submitted" mat-raised-button color="primary" type="submit" [disabled]="this.selectionImport.selected.length === 0">
       {{ "CRAWLER.RESULT_LIST.submit" | translate }}
     </button>

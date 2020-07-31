@@ -9,6 +9,33 @@
       <mat-icon aria-label="'RESULTS.actions.back' | translate">arrow_back</mat-icon>
     </a>
     <span fxFlex></span>
+    <button mat-icon-button class="tools" [matMenuTriggerFor]="menu" matTooltip="{{ 'RESULTS.actions.download' | translate }}">
+      <mat-icon aria-label="'RESULTS.actions.download' | translate">file_download</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [matMenuTriggerFor]="allPages">
+        {{ "DOMAINS_PAGE.download.allPages" | translate }}
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="observatory">
+        {{ "DOMAINS_PAGE.download.observatory" | translate }}
+      </button>
+    </mat-menu>
+    <mat-menu #allPages="matMenu">
+      <button mat-menu-item (click)="downloadAllPagesCSV()" disabled>
+        <a download="eval.csv">CSV</a>
+      </button>
+      <button mat-menu-item (click)="downloadAllPagesEARL()">
+        <a download="eval.json">EARL</a>
+      </button>
+    </mat-menu>
+    <mat-menu #observatory="matMenu">
+      <button mat-menu-item (click)="downloadObservatoryCSV()" disabled>
+        <a download="eval.csv">CSV</a>
+      </button>
+      <button mat-menu-item (click)="downloadObservatoryEARL()">
+        <a download="eval.json">EARL</a>
+      </button>
+    </mat-menu>
   </mat-card-actions>
 </mat-card>
 <br>

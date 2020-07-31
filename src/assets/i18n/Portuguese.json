@@ -523,6 +523,10 @@
   "DOMAINS_PAGE": {
     "title": "Domínio:",
     "subtitle": "Utilizador:",
+    "download": {
+      "allPages": "Todas as páginas",
+      "observatory": "Observatório"
+    },
     "LIST": {
       "title": "Domínios",
       "subtitle": "Lista de todos os domínios",
@@ -833,7 +837,9 @@
       "observ": "Observatório",
       "cancel": "Cancelar",
       "submit": "Adicionar",
-      "submitting": "A adicionar..."
+      "submitting": "A adicionar...",
+      "total": "Total:",
+      "selected": "Selecionadas:" 
     },
     "reset": "Limpar",
     "submit": "Procurar",

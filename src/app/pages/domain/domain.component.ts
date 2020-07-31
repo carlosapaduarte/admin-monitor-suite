@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
 import { DeleteService } from '../../services/delete.service';
+import { EvaluationService } from '../../services/evaluation.service';;
 
 import { Website } from '../../models/website.object';
 
@@ -30,6 +31,7 @@ export class DomainComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private get: GetService,
     private deleteService: DeleteService,
+    private evaluation: EvaluationService,
     private cd: ChangeDetectorRef
   ) {
     this.loading = true;
@@ -79,5 +81,23 @@ export class DomainComponent implements OnInit, OnDestroy {
           this.getListOfDomainPages();
         }
       });
+  }
+
+  downloadAllPagesCSV(): void {
+
+  }
+
+  downloadObservatoryCSV(): void {
+    
+  }
+
+  downloadAllPagesEARL(): void {
+    this.evaluation.downloadDomainEARL(this.domain, true)
+      .subscribe();
+  }
+
+  downloadObservatoryEARL(): void {
+    this.evaluation.downloadDomainEARL(this.domain, false)
+      .subscribe();
   }
 }

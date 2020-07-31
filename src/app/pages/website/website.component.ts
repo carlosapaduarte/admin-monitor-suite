@@ -4,8 +4,7 @@ import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { GetService } from '../../services/get.service';
-import { DeleteService } from '../../services/delete.service';
-import { MessageService } from '../../services/message.service';
+import { EvaluationService } from '../../services/evaluation.service';
 
 import { Website } from '../../models/website.object';
 
@@ -34,8 +33,7 @@ export class WebsiteComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private get: GetService,
-    private deleteService: DeleteService,
-    private message: MessageService,
+    private evaluation: EvaluationService,
     private cd: ChangeDetectorRef
   ) {
     this.loading = true;
@@ -105,5 +103,23 @@ export class WebsiteComponent implements OnInit, OnDestroy {
   refreshDomains(): void {
     this.loading = true;
     this.getListOfWebsiteDomains();
+  }
+
+  downloadAllPagesCSV(): void {
+
+  }
+
+  downloadObservatoryCSV(): void {
+    
+  }
+
+  downloadAllPagesEARL(): void {
+    this.evaluation.downloadDomainEARL(this.activeDomain, true)
+      .subscribe();
+  }
+
+  downloadObservatoryEARL(): void {
+    this.evaluation.downloadDomainEARL(this.activeDomain, false)
+      .subscribe();
   }
 }

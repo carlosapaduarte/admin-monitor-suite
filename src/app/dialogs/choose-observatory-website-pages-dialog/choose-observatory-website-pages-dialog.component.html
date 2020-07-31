@@ -36,6 +36,8 @@
       {{ "WEBSITES_PAGE.UPDATE.observatorio.cancel" | translate }}
     </button>
     <span fxFlex></span>
+    <span *ngIf="dataSource" fxFlex="10">{{ "CRAWLER.RESULT_LIST.total" | translate }} {{ dataSource.data.length  }}</span>
+    <span fxFlex="10">{{ "CRAWLER.RESULT_LIST.selected" | translate }} {{ selection.selected.length  }}</span>
     <button mat-raised-button color="primary" type="submit" [disabled]="loading || error">
       {{ "WEBSITES_PAGE.UPDATE.observatorio.submit" | translate }}
     </button>
