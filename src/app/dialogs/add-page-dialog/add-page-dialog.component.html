@@ -62,6 +62,16 @@
         <mat-error *ngIf="fileErrorMessage == 'invalidType'">
           {{ "PAGES_PAGE.ADD.sitemap_type_invalid" | translate }}
         </mat-error>
+        <div fxLayout="row">
+          <a href="/assets/sitemap/example_sitemap.txt" target="_blank">
+            {{ "PAGES_PAGE.ADD.sitemap_txt_example" | translate }}
+          </a>
+          <span fxFlex="5"></span>
+          <a href="/assets/sitemap/example_sitemap.xml" target="_blank">
+            {{ "PAGES_PAGE.ADD.sitemap_xml_example" | translate }}
+          </a>
+        </div>
+        <br>
       </div>
     </div>
     <div class="add-observatorio-block">

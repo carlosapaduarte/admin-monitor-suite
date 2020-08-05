@@ -374,6 +374,29 @@ export class GetService {
     );
   }
 
+  listOfEntityWebsitePages(entity: string): Observable<Array<any>> {
+    return this.http.get<any>(this.config.getServer('/entity/websites/pages/' + entity), {observe: 'response'}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<any>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
   listOfStudiesTagWebsites(user: string, tag: string): Observable<Array<Website>> {
     return this.http.get<any>(this.config.getServer(`/tag/${tag}/user/${user}/websites/study`), {observe: 'response'}).pipe(
       retry(3),
@@ -458,6 +481,29 @@ export class GetService {
         }
 
         return <Array<Website>> response.result;
+      }),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      })
+    );
+  }
+
+  listOfTagWebsitePages(tag: string): Observable<Array<any>> {
+    return this.http.get(this.config.getServer(`/tag/${tag}/websites/pages`), {observe: 'response'}).pipe(
+      retry(3),
+      map(res => {
+        const response = <Response> res.body;
+
+        if (!res.body || res.status === 404) {
+          throw new AdminError(404, 'Service not found', 'SERIOUS');
+        }
+
+        if (response.success !== 1) {
+          throw new AdminError(response.success, response.message);
+        }
+
+        return <Array<any>> response.result;
       }),
       catchError(err => {
         console.log(err);

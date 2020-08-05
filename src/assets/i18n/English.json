@@ -78,21 +78,28 @@
     "tags": "Nº of categories",
     "websites": "Nº of websites",
     "pages": "Nº of pages",
+    "average_page": "Average nº of pages per website",
     "score": "Score",
     "newest_page_updated": "Most recently evaluated page",
     "oldest_page_updated": "Least recently evaluated page",
+    "newest_page_updated2": "Most recently evaluated website",
+    "oldest_page_updated2": "Least recently evaluated website",
     "last_updated": "Statistics last updated",
     "score_distribution": "Score distribution",
     "error_distribution": "Error distribution",
+    "correction_distribution": "Correction distribution",
+    "element_correction_distribution": "Element correction distribution",
     "pages_with_errors": "Pages non-conforming",
     "pages_without_errors": "Pages conforming",
+    "websites_with_errors": "Websites non-conforming",
+    "websites_without_errors": "Websites conforming",
     "pages_without_errors_a": "Conforming A: without errors of level A",
     "pages_without_errors_a_aa": "Conforming AA: without errors of level A+AA",
     "pages_without_errors_a_aa_aaa": "Conforming AAA: without errors of level A+AA+AAA",
     "note": "Data used from the active domain. Only pages with evaluations were accounted",
     "note2": "Only pages with evaluations were accounted",
     "top_5_errors": {
-      "title": "Top 5 common errors for each of the 3 WCAG 2.0 levels (nº of pages)",
+      "title": "Top 5 common errors for each of the 3 WCAG 2.1 levels (nº of pages)",
       "errorA_title": "Top 5 errors from level \"A\"",
       "errorAA_title": "Top 5 errors from level \"AA\"",
       "errorAAA_title": "Top 5 errors from level \"AAA\"",
@@ -122,18 +129,31 @@
     }
   },
   "DIALOGS": {
-    "chart": "Chart",
-    "table": "Table",
+    "chart_title": "Chart",
+    "table_title": "Table",
     "scores": {
       "title": "Score distribution",
       "frequency": "Frequency (nº of pages)",
       "percentage": "Percentage (nº of pages)",
+      "frequency2": "Frequency (nº of websites)",
+      "percentage2": "Percentage (nº of websites)",
       "percentage_label": "Percentage (%)",
       "range": "Range",
       "cumulative": "Cumulative frequency"
     },
+    "corrections": {
+      "title": "Good practices",
+      "table_title": "Good practices table",
+      "chart_title": "10 most frequent good practices",
+      "n_corrections": "Nº of pages",
+      "tests_label": "Results of passed tests",
+      "situations_label": "Nº of pages"
+    },
     "errors": {
       "title": "10 most frequent errors",
+      "table_title": "Bad practices table",
+      "chart_all_title": "Bad practices graph",
+      "chart_title": "10 most frequent bad practices",
       "common_errors": "Nº of pages",
       "level": "Level",
       "description": "Description",
@@ -143,6 +163,43 @@
       "tests_label": "Tests",
       "situations_label": "Nº of pages"
     },
+    "table": {
+      "title": "Element correction degree",
+      "pages": "Pages",
+      "pagesPercentage": "Pages (%)",
+      "websites": "Websites",
+      "description": "Description",
+      "scs": "Success criteria",
+      "elems": "Elements",
+      "level": "Level",
+      "element": "Element",
+      "n_corrections": "Nº of pages",
+      "tests_label": "Elements studied in passed tests",
+      "situations_label": "Nº of pages",
+      "quartiles": "Occurrences",
+      "occurrences": {
+        "single_error": "warning in",
+        "multi_error": "warnings in",
+        "single_page_tag": "page",
+        "single_page_listTags": "website",
+        "multi_page_tag": "pages",
+        "multi_page_listTags": "websites",
+        "from": "From",
+        "to": "to"
+      },
+      "select": "Type of element",
+      "FPS": "Functional perfomance statements",
+      "WV": "Usage without vision",
+      "LV": "Usage with limited vision",
+      "WPC": "Usage without perception of colour",
+      "WH": "Usage without hearing",
+      "LH": "Usage with limited hearing",
+      "WVC": "Usage without vocal capability",
+      "LMS": "Usage with limited manipulation or strength",
+      "LR": "Usage with limited reach",
+      "PST": "Minimize photosensitive seizure triggers",
+      "LC": "Usage with limited cognition"
+    },
     "re_evaluate": {
       "title": "Choose which pages to re-evaluate",
       "all": "All pages",
@@ -151,6 +208,13 @@
     },
     "close": "Close"
   },
+  "ITEMS_PER_PAGE_LABEL": "Items per page",
+  "NEXT_PAGE_LABEL": "Next page",
+  "PREVIOUS_PAGE_LABEL": "Previous page",
+  "FIRST_PAGE_LABEL": "First page",
+  "LAST_PAGE_LABEL": "Last page",
+  "RANGE_PAGE_LABEL_1": "0 of {{length}}",
+  "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} of {{length}}",
   "USERS_PAGE": {
     "title": "User:",
     "LIST": {
@@ -640,6 +704,8 @@
       "sitemap_warning": "Sitemaps files need to have the first page equal to website's domain",
       "sitemap_uris_invalid": "One of the given uris is invalid",
       "sitemap_type_invalid": "Given file's extension is not .xml or .txt",
+      "sitemap_txt_example": "Sitemap txt example",
+      "sitemap_xml_example": "Sitemap xml example",
       "file_input": "Choose File",
       "progress": {
         "title": "Add pages progress",
@@ -732,7 +798,7 @@
     }
   },
   "RESULTS": {
-    "title": "Web accessibility practices report (W3C WCAG 2.0)",
+    "title": "Web accessibility practices report (W3C WCAG 2.1)",
     "actions": {
       "back": "Go back",
       "re_evaluate": "Re-evaluate page",
@@ -1703,7 +1769,49 @@
     "H50": "<p>To group related links to each other is a facilitating action of navigation. To group, we can use lists - <code>&lt;ul&gt;</code>; <code>&lt;ol&gt;</code> - or the <code>&lt;map&gt;</code> element usual in the marking of images map.</p>"
   },
   "TECHFAIL": {
-    "relationF": "This WCAG 2.0 failure is related to:",
-    "relationT": "This WCAG 2.0 technique is related to:"
+    "relationF": "This WCAG 2.1 failure is related to:",
+    "relationT": "This WCAG 2.1 technique is related to:"
+  },
+  "ELEM_GROUPS": {
+    "area": "Area elements",
+    "ehandler": "Event handlers",
+    "form": "Forms",
+    "frame": "Frames",
+    "graphic": "Graphic buttons",
+    "heading": "Heading",
+    "headings": "Headings",
+    "image": "Images",
+    "link": "Links",
+    "object": "Embedded objects",
+    "other": "Attributes and other elements",
+    "table": "Tables",
+    "validator": "W3C Validator results",
+    "all_types": "Every type of element"
+  },
+  "TEST_ELEMENTS": {
+    "a": "<a>",
+    "all": "All",
+    "area": "<area>",
+    "applet": "<applet>",
+    "ehandler": "Event manipulators",
+    "embed": "<embed>",
+    "fontValues": "Font size",
+    "form": "<form>",
+    "frame": "<frame>",
+    "frameset": "<frameset>",
+    "hx": "Headings h1-h6",
+    "id": "id attribute",
+    "iframe": "<iframe>",
+    "img": "<img>",
+    "inpImg": "Graphic buttons",
+    "inputLabel": "<label> for <input>",
+    "label": "<label>",
+    "longDImg": "<img> longdesc",
+    "object": "<object>",
+    "table": "<table>",
+    "tableComplex": "Complex data tables",
+    "tableData": "Data tables",
+    "tableLayout": "Layout tables",
+    "w3cValidator": "W3C Validator"
   }
 }

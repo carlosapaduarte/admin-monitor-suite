@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as _ from 'lodash';
+import { html } from 'js-beautify';
 
 import { saveAs } from 'file-saver';
 
@@ -34,7 +35,7 @@ export class WebpageCodeComponent implements OnInit, OnDestroy {
       this.evaluation_date = params.evaluation_date;
       this.url = params.page;
 
-      this.pagecode = JSON.parse(sessionStorage.getItem('evaluation')).pagecode;
+      this.pagecode = html(JSON.parse(sessionStorage.getItem('evaluation')).pagecode, { indent_size: 2 });
       const blob = new Blob([this.pagecode], { type: 'text/html' });
       this.downloadHTML = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
     });

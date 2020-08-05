@@ -1,13 +1,13 @@
 import { Component, OnInit, AfterViewInit, Input, Output, ViewChild, ElementRef, EventEmitter, ChangeDetectorRef} from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { UpdateService } from '../../../services/update.service';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-of-pages-user',
@@ -42,9 +42,9 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
     private update: UpdateService,
     private formBuilder: FormBuilder,
+    private translate: TranslateService,
     private cd: ChangeDetectorRef
   ) {
     this.pagesForm = this.formBuilder.group({
@@ -55,6 +55,17 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(this.pages);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+
+    const paginatorIntl = new MatPaginatorIntl();
+    paginatorIntl.itemsPerPageLabel = this.translate.instant('ITEMS_PER_PAGE_LABEL');
+    paginatorIntl.nextPageLabel = this.translate.instant('NEXT_PAGE_LABEL');
+    paginatorIntl.previousPageLabel = this.translate.instant('PREVIOUS_PAGE_LABEL');
+    paginatorIntl.firstPageLabel = this.translate.instant('FIRST_PAGE_LABEL');
+    paginatorIntl.lastPageLabel = this.translate.instant('LAST_PAGE_LABEL');
+    paginatorIntl.getRangeLabel = this.getRangeLabel.bind(this);
+
+    this.dataSource.paginator._intl = paginatorIntl;
+
     this.activatedRoute.params.subscribe(params => {
       this.user = _.trim(params.user);
       this.tag = params.tag;
@@ -72,6 +83,17 @@ export class ListOfPagesUserComponent implements OnInit, AfterViewInit {
           return item[property];
       }
     };
+  }
+
+  private getRangeLabel(page: number, pageSize: number, length: number): string {
+    if (length === 0 || pageSize === 0) {
+        return this.translate.instant('RANGE_PAGE_LABEL_1', { length });
+    }
+    length = Math.max(length, 0);
+    const startIndex = page * pageSize;
+    // If the start index exceeds the list length, do not try and fix the end index to the end.
+    const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+    return this.translate.instant('RANGE_PAGE_LABEL_2', { startIndex: startIndex + 1, endIndex, length });
   }
 
   applyFilter(filterValue: string): void {

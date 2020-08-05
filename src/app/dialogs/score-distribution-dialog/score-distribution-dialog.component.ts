@@ -44,9 +44,17 @@ export class ScoreDistributionDialogComponent implements OnInit {
 
       const frequencies = new Array<number>(9).fill(0);
 
-      for (const p of this.data.pages) {
-        const floor = _.floor(p.Score);
-        frequencies[ floor >= 2 ? floor === 10 ? floor - 2 : floor - 1 : 0]++;
+      if (this.data.pages) {
+        for (const p of this.data.pages) {
+          const floor = _.floor(p.Score);
+          frequencies[ floor >= 2 ? floor === 10 ? floor - 2 : floor - 1 : 0]++;
+        }
+      }
+      if (this.data.tagEntity) {
+        for (const p of this.data.tagEntity.websites) {
+          const floor = _.floor(p.getScore());
+          frequencies[ floor >= 2 ? floor === 10 ? floor - 2 : floor - 1 : 0]++;
+        }
       }
 
       this.values = frequencies;

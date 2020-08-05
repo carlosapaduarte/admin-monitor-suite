@@ -258,10 +258,6 @@ export class AddPageDialogComponent implements OnInit {
       const urlFile = reader.result.toString();
       const lines = _.without(_.map(urlFile.split('\n'), l => _.trim(l)), '');
 
-      /*for (let i = 1; i < lines.length - 1; i++) {
-        result.push(lines[i]);
-        this.urisFromFile.push(lines[i]);
-      }*/
       this.urisFromFile = _.clone(lines);
       this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
       this.fileLoading = false;
@@ -275,10 +271,16 @@ export class AddPageDialogComponent implements OnInit {
     reader.readAsText(file);
     reader.onload = () => {
       const parser = new DOMParser();
-      const json = {}; // this.xml2Json.xmlToJson(xml);
-      const urlJson = json['urlset']['url'];
+      const doc = parser.parseFromString(reader.result.toString(), 'text/xml');
+      
+      const urls = doc.getElementsByTagName('loc');
 
-      this.urisFromFile = _.clone(_.map(urlJson, u => u.loc));
+      this.urisFromFile = new Array<string>();
+      for (let i = 0 ; i < urls.length ; i++) {
+        const url = urls.item(i);
+        this.urisFromFile.push(url.textContent.trim());
+      }
+
       this.validateFileUris(this.pageForm.value.domain, this.urisFromFile);
       this.fileLoading = false;
     };

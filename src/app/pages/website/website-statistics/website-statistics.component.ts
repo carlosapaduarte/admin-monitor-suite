@@ -6,6 +6,8 @@ import { ScoreDistributionDialogComponent } from '../../../dialogs/score-distrib
 import { ErrorDistributionDialogComponent } from '../../../dialogs/error-distribution-dialog/error-distribution-dialog.component';
 
 import { Page } from '../../../models/page';
+import { CorrectionDistributionDialogComponent } from 'app/dialogs/correction-distribution-dialog/correction-distribution-dialog.component';
+import { Website } from 'app/models/website.object';
 
 @Component({
   selector: 'app-website-statistics',
@@ -15,6 +17,7 @@ import { Page } from '../../../models/page';
 export class WebsiteStatisticsComponent implements OnInit {
 
   @Input('pages') pages: any[];
+  @Input('data') websiteObject: Website;
 
   loading: boolean;
   error: boolean;
@@ -120,9 +123,22 @@ export class WebsiteStatisticsComponent implements OnInit {
   openErrorDistributionDialog(): void {
     this.dialog.open(ErrorDistributionDialogComponent, {
       data: {
-        pages: this.pages
+        number: this.pages.length,
+        website: this.websiteObject,
+        inTagsPage: false
       },
-      width: '60vw'
+      width: '80vw'
+    });
+  }
+
+  openCorrectionDistributionDialog(): void {
+    this.dialog.open(CorrectionDistributionDialogComponent, {
+      data: {
+        number: this.pages.length,
+        website: this.websiteObject,
+        inTagsPage: false
+      },
+      width: '80vw'
     });
   }
 }

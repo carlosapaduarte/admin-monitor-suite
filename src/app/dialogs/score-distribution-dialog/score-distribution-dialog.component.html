@@ -1,18 +1,20 @@
 <h2 mat-dialog-title>{{ "DIALOGS.scores.title" | translate }}</h2>
 <mat-dialog-content>
   <mat-tab-group>
-    <mat-tab label="{{ 'DIALOGS.chart' | translate }}">
+    <mat-tab label="{{ 'DIALOGS.chart_title' | translate }}">
       <div class="chart">
         <canvas #chartDomains></canvas>
       </div>
     </mat-tab>
-    <mat-tab label="{{ 'DIALOGS.table' | translate }}">
+    <mat-tab label="{{ 'DIALOGS.table_title' | translate }}">
       <table border="1" frame="void" rules="rows">
         <thead>
           <tr>
             <th>{{ "DIALOGS.scores.range" | translate }}</th>
-            <th>{{ "DIALOGS.scores.frequency" | translate }}</th>
-            <th fxHide.lt-sm>{{ "DIALOGS.scores.frequency" | translate }} (%)</th>
+            <th *ngIf="data.pages">{{ "DIALOGS.scores.frequency" | translate }}</th>
+            <th *ngIf="data.pages" fxHide.lt-sm>{{ "DIALOGS.scores.frequency" | translate }} (%)</th>
+            <th *ngIf="data.tagEntity">{{ "DIALOGS.scores.frequency2" | translate }}</th>
+            <th *ngIf="data.tagEntity" fxHide.lt-sm>{{ "DIALOGS.scores.frequency2" | translate }} (%)</th>
             <th>{{ "DIALOGS.scores.cumulative" | translate }}</th>
             <th fxHide.lt-sm>{{ "DIALOGS.scores.cumulative" | translate }} (%)</th>
           </tr>

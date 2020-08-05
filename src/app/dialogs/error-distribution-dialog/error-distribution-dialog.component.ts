@@ -2,79 +2,135 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Chart } from 'chart.js';
+import tests from "../../tests";
+import users from '../../users';
+import {MatTableDataSource} from "@angular/material/table";
+import {CorrectionData} from "../correction-distribution-dialog/correction-distribution-dialog.component";
+import { MatSort } from '@angular/material/sort';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-error-distribution-dialog',
   templateUrl: './error-distribution-dialog.component.html',
-  styleUrls: ['./error-distribution-dialog.component.css']
+  styleUrls: ['./error-distribution-dialog.component.scss']
 })
 export class ErrorDistributionDialogComponent implements OnInit {
 
-  elems: any = {'a': 'Links', 'aAdjacentSame': 'Links adjacentes que nos conduzem a um mesmo destino', 'aImgAltNo': 'Links em que o \u00fanico conte\u00fado \u00e9 uma imagem com <code>alt<\/code> nulo ou sem legenda', 'aSameText': 'Links com o mesmo texto que apontam destinos diferentes', 'aSkip': 'Links para contornar blocos de conte\u00fado', 'aSkipFirst': 'Link para saltar para o conte\u00fado principal', 'aTitleMatch': 'Links com o mesmo texto afixado no conte\u00fado e no atributo <code>title<\/code>', 'abbrNo': 'Elementos <code>&lt;abbr&gt;<\/code> ou <code>&lt;acronym&gt;<\/code> sem defini\u00e7\u00e3o', 'acckeyRep': 'Atributos <code>accesskey<\/code> com valores duplicados', 'applet': 'Elementos <code>&lt;applet&gt;<\/code>', 'appletAltNo': 'Elementos <code>&lt;applet&gt;<\/code> sem texto alternativo', 'area': 'Zonas activas de um mapa de imagem', 'areaAltNo': '\u00c1reas de mapas de imagem sem <code>alt<\/code>', 'blink': 'Elementos <code>&lt;blink&gt;<\/code>', 'brSec': 'Sequ\u00eancia de elementos <code>&lt;br&gt;<\/code>', 'colorContrast': 'Combina\u00e7\u00f5es de cor com um r\u00e1cio de contraste inferior a 3:1', 'colorFgBgNo': 'Regras de CSS em que n\u00e3o se especifica simultaneamente a cor de fundo e\/ou cor da letra', 'cssBlink': 'Propriedade de CSS <code>text-decoration<\/code> com valor <code>blink<\/code>', 'dtd': 'DTD - Defini\u00e7\u00e3o de Tipo de Documento', 'ehandBoth': 'Manipuladores de eventos redundantes', 'ehandBothNo': 'Manipuladores de eventos n\u00e3o redundantes', 'ehandMouse': 'Manipuladores de eventos espec\u00edficos do rato', 'ehandTagNo': 'Eventos associados a elementos n\u00e3o interactivos', 'ehandler': 'Manipuladores de eventos', 'embed': 'Elementos <code>&lt;embed&gt;<\/code>', 'embedAltNo': 'Elementos <code>&lt;embed&gt;<\/code> sem <code>&lt;noembed&gt;<\/code>', 'fieldLegNo': 'Elementos <code>&lt;fieldset&gt;<\/code> sem descri\u00e7\u00e3o', 'fieldNoForm': 'Elementos <code>&lt;fieldset&gt;<\/code> usados fora de um formul\u00e1rio', 'focusBlur': 'Scripts para remover o foco', 'fontAbsVal': 'Tamanhos de letra definidos em unidades de medida absolutos', 'fontHtml': 'Elementos e Atributos (X)HTML para formatar o Texto das p\u00e1ginas (p.e. <code>&lt;basefont&gt;<\/code>, <code>&lt;font&gt;<\/code>, <code>link<\/code> e <code>alink<\/code>)', 'fontValues': 'Tamanhos de letra definidos nas CSS', 'form': 'Formul\u00e1rios', 'formSubmitNo': 'Formul\u00e1rios sem o bot\u00e3o de envio', 'frame': 'Elementos <code>&lt;frame&gt;<\/code>', 'frameDtdNo': 'Documento <code>&lt;frameset&gt;<\/code> com doctype incorrecto ou inexistente', 'frameTitleNo': 'Elementos <code>&lt;frame&gt;<\/code> sem <code>t\u00edtle<\/code>', 'frameset': 'Documento <code>&lt;frameset&gt;<\/code>', 'h1': 'Cabe\u00e7alho principal da p\u00e1gina (<code>&lt;h1&gt;<\/code>)', 'hx': 'Cabe\u00e7alhos (<code>&lt;h1&gt;<\/code>-<code>&lt;h6&gt;<\/code>)', 'hxNo': 'Cabe\u00e7alhos (<code>&lt;h1&gt;<\/code>~<code>&lt;h6&gt;<\/code>) sem conte\u00fado descritivo', 'hxSkip': 'Cabe\u00e7alhos com salto(s) de nivel hier\u00e1rquico incorrectos', 'id': 'Elementos com atributo <code>id<\/code>', 'idRep': 'Atributos <code>id<\/code> com valores duplicados', 'iframe': 'Elementos <code>iframe<\/code>', 'iframeTitleNo': 'Elementos <code>iframe<\/code> sem <code>title<\/code>', 'img': 'Imagens', 'imgAltLong': 'Imagens com um atributo <code>alt<\/code> longo', 'imgAltNo': 'Imagens sem <code>alt<\/code>', 'imgAltNot': 'Imagens com um texto alternativo incorrecto', 'imgAltNull': 'Imagens com <code>alt<\/code> nulo', 'inpImg': 'Bot\u00f5es gr\u00e1ficos', 'inpImgAltNo': 'Bot\u00f5es gr\u00e1ficos sem <code>alt<\/code>', 'inputAltNo': 'Elementos <code>&lt;input&gt;<\/code> com atributo <code>alt<\/code>', 'inputIdTitleNo': 'Controlos de formul\u00e1rio sem etiquetas [&lt;label&gt;] associadas e sem atributo <code>title<\/code>', 'inputLabel': 'Controlos de formul\u00e1rio que t\u00eam explicitamente associados uma etiqueta (<code>&lt;label&gt;<\/code>)', 'inputLabelNo': 'Controlos de formul\u00e1rio sem etiquetas associadas', 'justifiedCss': 'Texto justificado com CSS', 'justifiedTxt': 'Texto justificado com atributos (X)HTML', 'label': 'Elementos <code>&lt;label&gt;<\/code>', 'labelForNo': 'Elementos <code>&lt;label&gt;<\/code> sem associa\u00e7\u00e3o expl\u00edcita', 'labelPosNo': 'Elementos <code>&lt;label&gt;<\/code> posicionadas incorrectamente', 'labelTextNo': 'Elementos <code>&lt;label&gt;<\/code> sem conte\u00fado texto', 'lang': 'Idioma principal da p\u00e1gina', 'langCodeNo': 'C\u00f3digo de idioma incorrecto', 'langExtra': 'Atributos <code>lang<\/code> ou <code>xml:lang<\/code> n\u00e3o permitidos', 'langMatchNo': 'Indica\u00e7\u00f5es de idioma n\u00e3o coincidentes', 'langNo': 'Idioma principal n\u00e3o referenciado', 'layoutAttr': 'Atributos (X)HTML para formatar o Layout das p\u00e1ginas (p.e. <code>align<\/code>, <code>hspace<\/code> e <code>bgcolor<\/code>)', 'layoutElem': 'Elementos (x)HTML para formatar o Layout das p\u00e1ginas (p.e. <code>&lt;blink&gt;<\/code> e <code>&lt;center&gt;<\/code>)', 'layoutFixed': 'Elementos com valores absolutos na propriedade "width" da CSS', 'liNoList': 'Itens de lista utilizados fora das listas', 'lineHeightNo': 'Espa\u00e7amento entre linhas incorrecto', 'linkRel': 'Elementos <code>&lt;link&gt;<\/code> para navega\u00e7\u00e3o', 'longDImg': 'Atributos <code>longdesc<\/code> em <code>&lt;img&gt;<\/code>', 'longDNo': 'Atributos <code>longdesc<\/code> com valores incorrectos', 'marquee': 'Elementos <code>&lt;marquee&gt;<\/code>', 'metaRedir': 'Elemento <code>&lt;meta&gt;<\/code> para redireccionar os utilizadores', 'metaRefresh': 'Elemento <code>&lt;meta&gt;<\/code> para reiniciar a p\u00e1gina', 'newWinOnLoad': 'Nova janela assim que a p\u00e1gina \u00e9 carregada', 'object': 'Elementos <code>&lt;object&gt;<\/code>', 'objectAltNo': 'Elementos <code>&lt;object&gt;<\/code> sem textos alternativos', 'scopeNo': 'Valores inv\u00e1lidos para o atributo <code>scope<\/code>', 'table': 'Tabelas', 'tableCaptionSummary': 'Tabelas com o mesmo texto no elemento <code>&lt;caption&gt;<\/code> e no atributo <code>summary<\/code>', 'tableComplex': 'Tabelas de dados complexas', 'tableComplexError': 'Tabelas de dados complexas sem o atributo <code>headers<\/code> nas c\u00e9lulas de dados', 'tableData': 'Tabelas de dados', 'tableDataCaption': 'Tabelas de dados sem o elemento <code>&lt;caption&gt;<\/code> ou o atributo <code>summary<\/code>', 'tableLayout': 'Tabelas sem c\u00e9lulas de cabe\u00e7alhos (i.e. elementos <code>&lt;th&gt;<\/code>)', 'tableLayoutCaption': 'Tabelas sem c\u00e9lulas de cabe\u00e7alhos, mas com o elemento <code>&lt;caption&gt;<\/code> ou o atributo <code>summary<\/code>', 'tableNested': 'Tabelas encadeadas', 'titleChars': 'T\u00edtulo com cadeia de caracteres n\u00e3o textuais (provavelmente arte ASCII)', 'titleLong': 'Quantidade de caracteres no elemento <code>&lt;title&gt;<\/code>', 'titleNo': 'Elemento <code>&lt;title&gt;<\/code> inexistente', 'titleNull': 'Elemento <code>&lt;title&gt;<\/code> sem conte\u00fado textual', 'titleOk': 'T\u00edtulo da p\u00e1gina', 'titleSame': 'T\u00edtulo da p\u00e1gina repetido noutras p\u00e1ginas do s\u00edtio', 'titleVrs': 'Elementos <code>&lt;title&gt;<\/code>', 'valueAbsCss': 'Unidades de medida absolutas nas CSS', 'valueAbsHtml': 'Unidades de medida absolutas em (X)HTML', 'valueRelCss': 'Unidades de medida relativas em CSS', 'valueRelHtml': 'Unidades de medida relativas em (X)HTML', 'w3cValidator': 'Valida\u00e7\u00e3o (X)HTML', 'w3cValidatorErrors': 'Erros de valida\u00e7\u00e3o (X)HTML'};
-  elemStats: any = {'aImgAltNo': {'lev': 'A', 't': 0, 'p': 0}, 'a': {'lev': 'AA', 't': 0, 'p': 0}, 'aAdjacentSame': {'lev': 'A', 't': 0, 'p': 0}, 'aSameText': {'lev': 'AAA', 't': 0, 'p': 0}, 'abbrNo': {'lev': 'AAA', 't': 0, 'p': 0}, 'acckeyRep': {'lev': 'A', 't': 0, 'p': 0}, 'appletAltNo': {'lev': 'A', 't': 0, 'p': 0}, 'areaAltNo': {'lev': 'A', 't': 0, 'p': 0}, 'blink': {'lev': 'A', 't': 0, 'p': 0}, 'cssBlink': {'lev': 'A', 't': 0, 'p': 0}, 'colorContrast': {'lev': 'AA', 't': 0, 'p': 0}, 'ehandMouse': {'lev': 'A', 't': 0, 'p': 0}, 'ehandBothNo': {'lev': 'A', 't': 0, 'p': 0}, 'ehandTagNo': {'lev': 'A', 't': 0, 'p': 0}, 'embedAltNo': {'lev': 'A', 't': 0, 'p': 0}, 'fieldLegNo': {'lev': 'A', 't': 0, 'p': 0}, 'fieldNoForm': {'lev': 'A', 't': 0, 'p': 0}, 'fontHtml': {'lev': 'AA', 't': 0, 'p': 0}, 'fontAbsVal': {'lev': 'AA', 't': 0, 'p': 0}, 'formSubmitNo': {'lev': 'A', 't': 0, 'p': 0}, 'frameTitleNo': {'lev': 'A', 't': 0, 'p': 0}, 'frameDtdNo': {'lev': 'A', 't': 0, 'p': 0}, 'hx': {'lev': 'A', 't': 0, 'p': 0}, 'hxNo': {'lev': 'AA', 't': 0, 'p': 0}, 'hxSkip': {'lev': 'AAA', 't': 0, 'p': 0}, 'idRep': {'lev': 'A', 't': 0, 'p': 0}, 'iframeTitleNo': {'lev': 'A', 't': 0, 'p': 0}, 'imgAltNo': {'lev': 'A', 't': 0, 'p': 0}, 'imgAltNot': {'lev': 'A', 't': 0, 'p': 0}, 'inpImgAltNo': {'lev': 'A', 't': 0, 'p': 0}, 'inputIdTitleNo': {'lev': 'A', 't': 0, 'p': 0}, 'justifiedTxt': {'lev': 'AAA', 't': 0, 'p': 0}, 'justifiedCss': {'lev': 'AAA', 't': 0, 'p': 0}, 'labelForNo': {'lev': 'A', 't': 0, 'p': 0}, 'labelPosNo': {'lev': 'A', 't': 0, 'p': 0}, 'labelTextNo': {'lev': 'A', 't': 0, 'p': 0}, 'langCodeNo': {'lev': 'A', 't': 0, 'p': 0}, 'langNo': {'lev': 'A', 't': 0, 'p': 0}, 'langMatchNo': {'lev': 'A', 't': 0, 'p': 0}, 'langExtra': {'lev': 'A', 't': 0, 'p': 0}, 'layoutElem': {'lev': 'A', 't': 0, 'p': 0}, 'layoutAttr': {'lev': 'A', 't': 0, 'p': 0}, 'liNoList': {'lev': 'A', 't': 0, 'p': 0}, 'longDNo': {'lev': 'A', 't': 0, 'p': 0}, 'marquee': {'lev': 'A', 't': 0, 'p': 0}, 'metaRefresh': {'lev': 'A', 't': 0, 'p': 0}, 'metaRedir': {'lev': 'A', 't': 0, 'p': 0}, 'objectAltNo': {'lev': 'A', 't': 0, 'p': 0}, 'scopeNo': {'lev': 'A', 't': 0, 'p': 0}, 'tableLayoutCaption': {'lev': 'A', 't': 0, 'p': 0}, 'tableDataCaption': {'lev': 'A', 't': 0, 'p': 0}, 'tableCaptionSummary': {'lev': 'A', 't': 0, 'p': 0}, 'titleVrs': {'lev': 'A', 't': 0, 'p': 0}, 'titleNo': {'lev': 'A', 't': 0, 'p': 0}, 'titleNull': {'lev': 'A', 't': 0, 'p': 0}, 'titleSame': {'lev': 'A', 't': 0, 'p': 0}, 'valueAbsHtml': {'lev': 'AA', 't': 0, 'p': 0}, 'valueAbsCss': {'lev': 'AAA', 't': 0, 'p': 0}, 'w3cValidatorErrors': {'lev': 'A', 't': 0, 'p': 0}, 'newWinOnLoad': {'lev': 'A', 't': 0, 'p': 0}};
+  elemGroups: any = {
+    'a': 'link',
+    'all': 'other',
+    'id': 'other',
+    'img': 'image',
+    'longDImg': 'graphic',
+    'area': 'area',
+    'inpImg': 'graphic',
+    //graphic buttons
+    'applet': 'object',
+    'hx': 'heading',
+    'label': 'form',
+    'inputLabel': 'form',
+    'form': 'form',
+    'tableData': 'table',
+    'table': 'table',
+    'tableLayout': 'table',
+    'tableComplex': 'table',
+    'frameset': 'frame',
+    'iframe': 'frame',
+    'frame': 'frame',
+    'embed': 'object',
+    //embedded object
+    'object': 'object',
+    'fontValues': 'other',
+    'ehandler': 'ehandler',
+    'w3cValidator': 'validator'
+  };
 
   @ViewChild('chartErrors', { static: true }) chartErrors: any;
-  chart: any;
+  @ViewChild(MatSort, { static: true }) matSort: MatSort;
 
+  chart: any;
   keys: any;
   errors: any;
+  testsFile: any;
+  nPages: number;
+  nWebsites: number;
+  inTagsPage: boolean;
+  graphData: any;
+  dataSource: MatTableDataSource<ErrorData>;
+  dataSourcePerElement: MatTableDataSource<CorrectionData>;
+  displayColumnsWithoutWebsites = [
+    'level',
+    'element',
+    'description',
+    'scs',
+    'fps',
+    'pages',
+    'pagesPercentage',
+    'elems',
+    'quartiles'
+  ];
+  displayColumns = [
+    'level',
+    'element',
+    'description',
+    'scs',
+    'fps',
+    'websites',
+    'pages',
+    'pagesPercentage',
+    'elems',
+    'quartiles'
+  ];
+  existingElemGroups: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private translate: TranslateService
   ) {
-    this.errors = {};
+    this.testsFile = tests;
+    this.errors = this.data.errors;
+    this.nPages = this.data?.pagesLength || this.data?.website?.pages?.length;
+    this.nWebsites = this.data?.tagEntity?.websites?.length || 0;
+    
+    this.inTagsPage = this.data.inTagsPage;
+    
+    this.existingElemGroups = [];
 
-    const keys = _.keys(this.elemStats);
-    const size = _.size(keys);
+    this.graphData = [];
+    const tableData: ErrorData[] = [];
 
-    for (const p of this.data.pages) {
-      const perrors = JSON.parse(atob(p.Errors));
+    _.forEach(this.data?.website?.tot || this.data?.tagEntity?.tot, (v, k) => {
+      if (v['result'] === 'failed') {
+        let key = k;
+        let elem = v['elem'];
+        let n_pages = v['n_pages'];
+        let result = v['result'];
 
-      for (let i = 0 ; i < size ; i++) {
-        const k = keys[i];
-        if (k === 'a' || k === 'hx') {
-          if (!perrors[k]) {
-            if (_.includes(_.keys(this.errors), k)) {
-              this.errors[k]['n_elems']++;
-              this.errors[k]['n_pages']++;
-            } else {
-              this.errors[k] = { n_elems: 1, n_pages: 1 };
-            }
-          }
-        } else {
-          if (perrors[k]) {
-            let n = 0;
-            if (k === 'langNo' || k === 'langCodeNo' || k === 'langExtra' || k === 'titleNo') {
-              n = 1;
-            } else {
-              n = parseInt(perrors[k]);
-            }
-            if (_.includes(_.keys(this.errors), k)) {
-              this.errors[k]['n_elems'] += n;
-              this.errors[k]['n_pages']++;
-            } else {
-              this.errors[k] = { n_elems: n, n_pages: 1 };
-            }
-          }
+        let quartiles = calculateQuartiles(this.data, k);
+        if (!_.includes(this.existingElemGroups, this.elemGroups[v['elem']])) {
+          this.existingElemGroups.push(this.elemGroups[v['elem']]);
         }
+        // description, element name
+        let translations: string[] = ["TEST_RESULTS." + k, "TEST_ELEMENTS." + elem];
+        tableData.push(this.addToTableData(k, v, translations, quartiles));
+        this.graphData.push({key, elem, n_pages, result});
       }
-    }
-
-    const errors = _.map(this.errors, (v, k) => {
-      return {
-        'key': k,
-        'n_elems': this.errors[k]['n_elems'],
-        'n_pages': this.errors[k]['n_pages']
-      };
     });
-    this.errors = _.slice(_.orderBy(errors, 'n_elems', 'desc'), 0, 10);
+
+    this.graphData.sort(function (a, b) {
+      return b.n_pages === a.n_pages ? a.key.localeCompare(b.key) : b.n_pages - a.n_pages;
+    });
+
+    // because we only want the top 10
+    this.graphData = _.slice(this.graphData, 0, 10);
+    this.dataSource = new MatTableDataSource(tableData);
+
   }
 
   ngOnInit(): void {
-    const translations = _.map(this.errors, k => {
-      return 'ELEMS.' + k['key'];
+    this.dataSource.sort = this.matSort;
+    const translations = this.graphData.map((key: any) => {
+      return 'TEST_RESULTS.' + key['key'];
     });
     translations.push('DIALOGS.errors.common_errors');
     translations.push('DIALOGS.errors.tests_label');
@@ -83,33 +139,48 @@ export class ErrorDistributionDialogComponent implements OnInit {
     this.translate.get(translations).subscribe((res: any) => {
 
       const label = res['DIALOGS.errors.common_errors'];
-      const tests_label = res['DIALOGS.errors.tests_label'];
-      const situations_label = res['DIALOGS.errors.situations_label'];
+      const testsLabel = res['DIALOGS.errors.tests_label'];
+      const situationsLabel = res['DIALOGS.errors.situations_label'];
       delete res['DIALOGS.errors.common_errors'];
       delete res['DIALOGS.errors.tests_label'];
-      delete res['DIALOGS.errors.situations_label']
+      delete res['DIALOGS.errors.situations_label'];
 
-      const labels = _.map(_.values(res), s => {
-        s = _.replace(s, new RegExp('<code>', 'g'), '"');
-        s = _.replace(s, new RegExp('</code>', 'g'), '"');
+      const labels = Object.values(res).map((s: string) => {
+        s = s.replace(new RegExp('<code>', 'g'), '"');
+        s = s.replace(new RegExp('</code>', 'g'), '"');
+        s = s.length > 100 ? String(s).substr(0, 97) + '...' : s;
         return this.formatLabel(s, 50);
       });
 
-      const values = _.map(this.errors, 'n_pages');
+      const labelsTooltips = Object.values(res).map((s: string) => {
+        s = s.replace(new RegExp('<code>', 'g'), '"');
+        s = s.replace(new RegExp('</code>', 'g'), '"');
+        return s;
+      });
+
+      const values = this.graphData.map((error: any) => error.n_pages);
 
       this.chart = new Chart(this.chartErrors.nativeElement, {
         type: 'horizontalBar',
         data: {
-          labels: labels,
+          labels,
           datasets: [
             {
-              label: label,
+              label,
               data: values,
               backgroundColor: 'red'
             }
           ]
         },
         options: {
+          tooltips: {
+            callbacks: {
+              // to make the title appear entirely
+              title: function(tooltipItem, data){
+                return labelsTooltips[tooltipItem[0]['index']];
+              }
+            }
+          },
           scales: {
             xAxes: [{
               display: true,
@@ -122,20 +193,31 @@ export class ErrorDistributionDialogComponent implements OnInit {
               },
               scaleLabel: {
                 display: true,
-                labelString: situations_label
+                labelString: situationsLabel
               }
             }],
             yAxes: [{
               display: true,
               scaleLabel: {
                 display: true,
-                labelString: tests_label
+                labelString: testsLabel
+              },
+              ticks: {
+                autoSkip: false
               }
             }]
           }
         }
       });
     });
+  }
+
+  applyFilter(filterValue: string) {
+    if(filterValue === null){
+      this.dataSource.filter = '';
+    } else {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
   }
 
   private calculateMax(max: number): number {
@@ -148,7 +230,7 @@ export class ErrorDistributionDialogComponent implements OnInit {
     const words = str.split(' ');
     let temp = '';
 
-    words.forEach(function(item, index) {
+    words.forEach((item: any, index: number) => {
       if (temp.length > 0) {
         const concat = temp + ' ' + item;
 
@@ -180,4 +262,128 @@ export class ErrorDistributionDialogComponent implements OnInit {
 
     return sections;
   }
+
+  private addToTableData(key: string, tot: any, translations: string[], quartiles: any): ErrorData {
+    let descr, elemName;
+    this.translate.get(translations, {value: tot['n_pages'] }).subscribe((res: any) => {
+      descr = res['TEST_RESULTS.' + key].replace('<mark>', '').replace('</mark>', '').replace('<code>', '').replace('</code>', '');
+      elemName = res['TEST_ELEMENTS.' + tot['elem']];
+    });
+
+    const scs = tests[key]['scs'].split(',').map(scs => scs.trim()) || [tests[key]['scs'].trim()];
+    const fps = new Array<string>();
+
+    for (const sc of scs || []) {
+      for (const clause in users || {}) {
+        if (users[clause]['WCAG 2.1'] === sc) {
+          const types = users[clause]['Benefits'];
+          for (const type of types.split(' ') || []) {
+            if (!fps.includes(type)) {
+              fps.push(type);
+            }
+          }
+        }
+      }
+    }
+
+    return {
+      key: key,
+      level: (tests[key]['level']).toUpperCase(),
+      elem: tot['elem'],
+      element: elemName,
+      description: descr,
+      scs: tests[key]['scs'],
+      fps: fps.join(', '),
+      websites: tot['n_websites'],
+      pages: tot['n_pages'],
+      pagesPercentage: (tot['n_pages'] / this.nPages * 100).toFixed(1),
+      elems: tot['result'] === 'passed' ? -1 : tot['n_times'],
+      quartiles: quartiles,
+      elemGroup: this.elemGroups[tot['elem']]
+    };
+  }
+}
+
+function calculateQuartiles(d: any, test: any): Array<any> {
+  const data = d?.website?.getErrorOccurrencesByPage(test) || d?.tagEntity?.getErrorOccurrenceByWebsite(test);
+
+  const values = _.without(data, undefined).sort((a, b) => a - b);
+
+  let q1, q2, q3, q4;
+
+  q1 = values[Math.round(0.25 * (values.length + 1)) - 1];
+
+  if (values.length % 2 === 0) {
+    q2 = (values[(values.length / 2) - 1] + values[(values.length / 2)]) / 2;
+  } else {
+    q2 = values[(values.length + 1) / 2];
+  }
+
+  q3 = values[Math.round(0.75 * (values.length + 1)) - 1];
+  q4 = values[values.length - 1];
+
+  const tmp = {
+    q1: new Array<number>(),
+    q2: new Array<number>(),
+    q3: new Array<number>(),
+    q4: new Array<number>()
+  };
+
+  let q;
+  for (const v of values) {
+    if (v <= q1) {
+      q = 'q1';
+    } else {
+      if (v <= q2) {
+        q = 'q2';
+      } else {
+        if (v <= q3) {
+          q = 'q3';
+        } else {
+          q = 'q4';
+        }
+      }
+    }
+
+    tmp[q].push(v);
+  }
+
+  const final = new Array<any>();
+
+  for (const k in tmp) {
+    if (k) {
+      const v = tmp[k];
+      const sum = _.size(v);
+
+      if (sum > 0) {
+        const test = {
+          tot: sum,
+          por: Math.round((sum * 100) / values.length),
+          int: {
+            lower: v[0],
+            upper: v[sum - 1]
+          }
+        };
+
+        final.push(_.clone(test));
+      }
+    }
+  }
+  return final;
+}
+
+export interface ErrorData {
+  key: string;
+  level: string;
+  elem: string;
+  element: string;
+  description: string;
+  scs: string;
+  fps: string;
+  websites: number;
+  pages: number;
+  pagesPercentage: string;
+  elems: number;
+  quartiles: any;
+  elemGroup: string;
 }

@@ -39,7 +39,7 @@
   </mat-card-actions>
 </mat-card>
 <br>
-<app-website-statistics *ngIf="!loading && !error && !errorNoActiveDomains && user === 'admin' && pages.length > 0" [pages]="pages"></app-website-statistics>
+<app-website-statistics *ngIf="!loading && !error && !errorNoActiveDomains && user === 'admin' && pages.length > 0" [pages]="pages" [data]="websiteObject"></app-website-statistics>
 <app-top-five-errors *ngIf="!loading && !error && pages.length > 0" [data]="websiteObject.errors"></app-top-five-errors>
 <app-top-five-best-practices *ngIf="!loading && !error && pages.length > 0" [data]="websiteObject.success"></app-top-five-best-practices>
 <br>

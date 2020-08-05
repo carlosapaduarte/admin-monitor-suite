@@ -5,3 +5,8 @@
 th, td {
   padding: 0.5em;
 }
+
+.mat-green{
+  background-color: darkolivegreen;
+  color: white;
+}

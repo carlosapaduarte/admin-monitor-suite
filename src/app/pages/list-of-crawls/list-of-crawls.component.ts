@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -10,6 +10,7 @@ import {DeleteService} from '../../services/delete.service';
 import {AddCrawlerPagesDialogComponent} from '../../dialogs/add-crawler-pages-dialog/add-crawler-pages-dialog.component';
 import {SelectionModel} from '@angular/cdk/collections';
 import {CrawlerConfigDialogComponent} from '../../dialogs/crawler-config-dialog/crawler-config-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-of-crawls',
@@ -43,7 +44,7 @@ export class ListOfCrawlsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private dialog: MatDialog,
-              private activatedRoute: ActivatedRoute,
+              private translate: TranslateService,
               private deleteService: DeleteService,
               private get: GetService,
               private router: Router) {
@@ -64,10 +65,31 @@ export class ListOfCrawlsComponent implements OnInit {
           this.dataSource = new MatTableDataSource(crawls);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
+
+          const paginatorIntl = new MatPaginatorIntl();
+          paginatorIntl.itemsPerPageLabel = this.translate.instant('ITEMS_PER_PAGE_LABEL');
+          paginatorIntl.nextPageLabel = this.translate.instant('NEXT_PAGE_LABEL');
+          paginatorIntl.previousPageLabel = this.translate.instant('PREVIOUS_PAGE_LABEL');
+          paginatorIntl.firstPageLabel = this.translate.instant('FIRST_PAGE_LABEL');
+          paginatorIntl.lastPageLabel = this.translate.instant('LAST_PAGE_LABEL');
+          paginatorIntl.getRangeLabel = this.getRangeLabel.bind(this);
+
+          this.dataSource.paginator._intl = paginatorIntl;
         } else {
           this.error = true;
         }
       });
+  }
+
+  private getRangeLabel(page: number, pageSize: number, length: number): string {
+    if (length === 0 || pageSize === 0) {
+        return this.translate.instant('RANGE_PAGE_LABEL_1', { length });
+    }
+    length = Math.max(length, 0);
+    const startIndex = page * pageSize;
+    // If the start index exceeds the list length, do not try and fix the end index to the end.
+    const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+    return this.translate.instant('RANGE_PAGE_LABEL_2', { startIndex: startIndex + 1, endIndex, length });
   }
 
   applyFilter(filterValue: string): void {

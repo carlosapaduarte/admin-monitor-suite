@@ -1,0 +1,92 @@
+<mat-card class="mat-typography" *ngIf="!loading && !error">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>{{ "STATISTICS.title" | translate }}</h1>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <h2>{{ "STATISTICS.subtitle" | translate }}</h2>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content fxLayout="column">
+    <div fxLayout.gt-sm="row" fxLayout="column" fxLayoutAlign="space-around center">
+      <div>
+        <ngx-gauge
+          [type]="'semi'"
+          [thick]="'10'"
+          [value]="score | toFixed"
+          [label]="'STATISTICS.gauge.label' | translate"
+          [min]="0"
+          [max]="10"
+          [duration]="2000"
+          [thresholds]="thresholdConfig">
+        </ngx-gauge>
+      </div>
+      <div>
+        <mat-list>
+          <mat-list-item>
+            <span><strong>{{ "STATISTICS.websites" | translate }}:</strong> {{ nWebsites }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span><strong>{{ "STATISTICS.pages" | translate }}:</strong> {{ nPages }}</span>
+          </mat-list-item>
+          <mat-list-item *ngIf="nPages && nWebsites">
+            <span><strong>{{ "STATISTICS.average_page" | translate }}:</strong> {{ nPages / nWebsites | toFixed: {places: 0} }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span><strong>{{ "STATISTICS.newest_page_updated2" | translate }}:</strong> {{ newest_page | date }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <span><strong>{{ "STATISTICS.oldest_page_updated2" | translate }}:</strong> {{ oldest_page | date }}</span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div>
+        <table border="1" frame="void" rules="rows">
+          <tr>
+            <td scope="row">{{ "STATISTICS.websites_with_errors" | translate }}</td>
+            <td>{{ websitesWithErrors }}</td>
+            <td>{{ websitesWithErrorsPercentage }}</td>
+          </tr>
+          <tr>
+            <td scope="row">{{ "STATISTICS.websites_without_errors" | translate }}</td>
+            <td>{{ websitesWithoutErrors }}</td>
+            <td>{{ websitesWithoutErrorsPercentage }}</td>
+          </tr>
+          <tr>
+            <td scope="row">{{ "STATISTICS.pages_without_errors_a" | translate }}</td>
+            <td>{{ websitesWithoutErrorsA }}</td>
+            <td>{{ websitesWithoutErrorsAPercentage }}</td>
+          </tr>
+          <tr>
+            <td scope="row">{{ "STATISTICS.pages_without_errors_a_aa" | translate }}</td>
+            <td>{{ websitesWithoutErrorsAA }}</td>
+            <td>{{ websitesWithoutErrorsAAPercentage }}</td>
+          </tr>
+          <tr>
+            <td scope="row">{{ "STATISTICS.pages_without_errors_a_aa_aaa" | translate }}</td>
+            <td>{{ websitesWithoutErrorsAAA }}</td>
+            <td>{{ websitesWithoutErrorsAAAPercentage }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+    <button mat-flat-button color="primary" (click)="openScoreDistributionDialog()">
+      {{ "STATISTICS.score_distribution" | translate }}
+    </button>
+    <span fxFlex="1"></span>
+    <button mat-flat-button color="green" ngClass.lt-sm='mobile-button' (click)="openCorrectionDistributionDialog()">
+      {{ "STATISTICS.correction_distribution" | translate }}
+    </button>
+    <span fxFlex="1"></span>
+    <button mat-flat-button color="warn" (click)="openErrorDistributionDialog()">
+      {{ "STATISTICS.error_distribution" | translate }}
+    </button>
+  </mat-card-actions>
+</mat-card>
+<app-top-five-errors [data]="tagEntity.errors"></app-top-five-errors>
+<app-top-five-best-practices [data]="tagEntity.success"></app-top-five-best-practices>
+<br *ngIf="!loading && !error">
+<app-accessibility-plot *ngIf="!loading && !error" [data]="tagEntity.getAllWebsiteScores()"></app-accessibility-plot>
+<app-loading *ngIf="loading"></app-loading>

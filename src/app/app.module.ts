@@ -98,6 +98,9 @@ import { EvaluationErrorDialogComponent } from './dialogs/evaluation-error-dialo
 import { TopFiveErrorsComponent } from './global/top-five-errors/top-five-errors.component';
 import { TopFiveBestPracticesComponent } from './global/top-five-best-practices/top-five-best-practices.component';
 import { AccessibilityPlotComponent } from './global/accessibility-plot/accessibility-plot.component';
+import { CorrectionDistributionDialogComponent } from './dialogs/correction-distribution-dialog/correction-distribution-dialog.component';
+import { EntityStatisticsComponent } from './pages/entity/entity-statistics/entity-statistics.component';
+import { TagStatisticsComponent } from './pages/tag/tag-statistics/tag-statistics.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [NoAuthGuard] },
@@ -218,7 +221,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     EvaluationErrorDialogComponent,
     TopFiveErrorsComponent,
     TopFiveBestPracticesComponent,
-    AccessibilityPlotComponent
+    AccessibilityPlotComponent,
+    CorrectionDistributionDialogComponent,
+    EntityStatisticsComponent,
+    TagStatisticsComponent
   ],
   imports: [
     BrowserModule,
